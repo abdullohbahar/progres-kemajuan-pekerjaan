@@ -66,7 +66,7 @@
                             <!--end:Menu link-->
                         </div>
                         <div data-kt-menu-trigger="click"
-                            class="menu-item menu-accordion {{ $active == 'cv-consultant' ? 'hover show' : '' }}">
+                            class="menu-item menu-accordion {{ $active == 'cv-consultant' || 'supervising-consultant' ? 'hover show' : '' }}">
                             <!--begin:Menu link-->
                             <span class="menu-link">
                                 <span class="menu-icon">
@@ -78,7 +78,7 @@
                             </span>
                             <!--end:Menu link-->
                             <!--begin:Menu sub-->
-                            <div class="menu-sub menu-sub-accordion {{ $active == 'cv-consultant' ? 'show' : 'open-menu-sub' }}"
+                            <div class="menu-sub menu-sub-accordion {{ $active == 'cv-consultant' || 'supervising-consultant' ? 'show' : 'open-menu-sub' }}"
                                 kt-hidden-height="167">
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
@@ -96,7 +96,8 @@
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link" href="../../demo1/dist/pages/social/activity.html">
+                                    <a class="menu-link {{ $active == 'supervising-consultant' ? 'active' : '' }}"
+                                        href="{{ route('supervising-consultant.index') }}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>

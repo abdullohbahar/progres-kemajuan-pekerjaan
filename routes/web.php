@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CvConsultantController;
+use App\Http\Controllers\Admin\SupervisingConsultantController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,5 +21,6 @@ Route::get('/', function () {
 
 
 Route::prefix('admin')->group(function () {
-    Route::resource('cv-consultant', CvConsultantController::class);
+    Route::resource('cv-consultant', CvConsultantController::class)->only(['index', 'store', 'destroy', 'update']);
+    Route::resource('supervising-consultant', SupervisingConsultantController::class)->only(['index', 'store', 'destroy', 'update']);
 });
