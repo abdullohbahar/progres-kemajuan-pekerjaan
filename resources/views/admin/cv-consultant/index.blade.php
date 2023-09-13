@@ -51,12 +51,11 @@
                         <div class="card">
                             <div class="card-header border-0 pt-5">
                                 <h3></h3>
-                                <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-trigger="hover" data-bs-original-title="Click to add a user"
-                                    data-kt-initialized="1">
-                                    <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#kt_modal_invite_friends">
-                                        <i class="ki-duotone ki-plus fs-2"></i>Tambah CV Konsultan</a>
+                                <div class="card-toolbar">
+                                    <button data-bs-toggle="modal" data-bs-target="#kt_modal_1"
+                                        class="btn btn-sm btn-primary">
+                                        <i class="ki-duotone ki-plus fs-2"></i>Tambah CV Konsultan
+                                    </button>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -66,6 +65,7 @@
                                         <tr class="fw-bold fs-6 text-gray-800 px-7">
                                             <th>#</th>
                                             <th>Nama</th>
+                                            <th>Alamat</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -82,9 +82,50 @@
         <!--end::Content-->
     </div>
     <!--end::Content wrapper-->
+
+    {{-- add konsultan modal --}}
+    <div class="modal fade" tabindex="-1" id="kt_modal_1">
+        <div class="modal-dialog">
+            <form action="">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Tambah Data CV Konsultan</h3>
+
+                        <!--begin::Close-->
+                        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
+                            aria-label="Close">
+                            <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                        <!--end::Close-->
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group mb-3">
+                                    <label class="form-label" for="name">Nama CV</label>
+                                    <input type="text" name="name" id="name" class="form-control" required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="form-label" for="address">Alamat</label>
+                                    <textarea name="address" id="address" cols="20" rows="5" class="form-control" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Tambah</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 @endsection
 
 @push('addons-js')
+    {{-- show datatable data --}}
     <script>
         $("#kt_datatable_dom_positioning").DataTable({
             searchDelay: 500,
@@ -108,13 +149,21 @@
                 "<'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>" +
                 ">",
             columns: [{
+                    orderable: false,
                     data: null,
                     name: null,
                 },
                 {
-                    width: "50%",
+                    orderable: true,
+                    width: "auto",
                     data: "name",
                     name: "name",
+                },
+                {
+                    orderable: false,
+                    width: "auto",
+                    data: "address",
+                    name: "address",
                 },
                 {
                     data: "id",
@@ -122,17 +171,6 @@
                 }
             ],
             columnDefs: [{
-                    targets: -1,
-                    searchable: false,
-                    orderable: false,
-                    className: 'text-left',
-                    width: "25%",
-                    render: function(data, type, row) {
-                        return `<a href="#" class="btn btn-sm btn-bg-warning my-1">Ubah</a>
-                            <a href="#" class="btn btn-sm btn-bg-danger my-1">Hapus</a>`;
-                    },
-                },
-                {
                     targets: 0,
                     data: null,
                     searchable: false,
@@ -141,6 +179,17 @@
                     className: "text-left border-bottom",
                     render: (data, type, row, meta) => {
                         return meta.row + meta.settings._iDisplayStart + 1;
+                    },
+                },
+                {
+                    targets: -1,
+                    searchable: false,
+                    orderable: false,
+                    className: 'text-left',
+                    width: "15%",
+                    render: function(data, type, row) {
+                        return `<a href="#" class="btn btn-sm btn-bg-warning my-1">Ubah</a>
+                            <a href="#" class="btn btn-sm btn-bg-danger my-1">Hapus</a>`;
                     },
                 },
             ]

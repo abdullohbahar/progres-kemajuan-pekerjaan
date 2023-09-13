@@ -10,6 +10,8 @@ use DataTables;
 
 class CvConsultantController extends Controller
 {
+    private $active = 'cv-consultant';
+
     /**
      * Display a listing of the resource.
      *
@@ -17,16 +19,17 @@ class CvConsultantController extends Controller
      */
     public function index(Request $request)
     {
+
         if ($request->ajax()) {
 
-            $query = CvConsultant::orderBy('name', 'asc');
+            $query = CvConsultant::orderBy('name', 'asc')->get();
 
             // return $query;
             return Datatables::of($query)->make();
         }
 
         $data = [
-            'active' => 'cv-consultant'
+            'active' => $this->active,
         ];
 
         return view('admin.cv-consultant.index', $data);
@@ -39,7 +42,11 @@ class CvConsultantController extends Controller
      */
     public function create()
     {
-        //
+        $data = [
+            'active' => $this->active,
+        ];
+
+        return view('admin.cv-consultant.create', $data);
     }
 
     /**
