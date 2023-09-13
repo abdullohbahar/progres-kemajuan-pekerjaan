@@ -5,8 +5,10 @@
     <div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
         <!--begin::Logo image-->
         <a href="../../demo1/dist/index.html">
-            <img alt="Logo" src="assets/media/logos/default-dark.svg" class="h-25px app-sidebar-logo-default" />
-            <img alt="Logo" src="assets/media/logos/default-small.svg" class="h-20px app-sidebar-logo-minimize" />
+            <img alt="Logo" src="{{ asset('./assets/media/logos/default-dark.svg') }}"
+                class="h-25px app-sidebar-logo-default" />
+            <img alt="Logo" src="{{ asset('assets/media/logos/default-small.svg') }}"
+                class="h-20px app-sidebar-logo-minimize" />
         </a>
 
         <div id="kt_app_sidebar_toggle"
@@ -39,7 +41,7 @@
                         <!--begin:Menu link-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link active" href="../../demo1/dist/apps/calendar.html">
+                            <a class="menu-link" href="../../demo1/dist/apps/calendar.html">
                                 <span class="menu-icon">
                                     <i class="ki-duotone ki-element-11 fs-2">
                                         <span class="path1"></span>
@@ -63,7 +65,8 @@
                             </a>
                             <!--end:Menu link-->
                         </div>
-                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                        <div data-kt-menu-trigger="click"
+                            class="menu-item menu-accordion {{ $active == 'cv-consultant' ? 'hover show' : '' }}">
                             <!--begin:Menu link-->
                             <span class="menu-link">
                                 <span class="menu-icon">
@@ -75,12 +78,13 @@
                             </span>
                             <!--end:Menu link-->
                             <!--begin:Menu sub-->
-                            <div class="menu-sub menu-sub-accordion" kt-hidden-height="167"
-                                style="display: none; overflow: hidden;">
+                            <div class="menu-sub menu-sub-accordion {{ $active == 'cv-consultant' ? 'show' : 'open-menu-sub' }}"
+                                kt-hidden-height="167">
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link" href="../../demo1/dist/pages/social/feeds.html">
+                                    <a class="menu-link {{ $active == 'cv-consultant' ? 'active' : '' }}"
+                                        href="{{ route('cv-consultant.index') }}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
