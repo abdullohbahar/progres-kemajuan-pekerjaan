@@ -21,7 +21,7 @@
                             <div class="form-group mb-3">
                                 <label class="form-label" for="name">Nama Perusahaan</label>
                                 <input type="text" name="name" id="name" value="{{ old('name') }}"
-                                    class="form-control @error('name') is-invalid @enderror">
+                                    class="form-control @error('name') is-invalid @enderror" required>
                                 @error('name')
                                     <div id="validationServerUsernameFeedback" class="invalid-feedback text-capitalize">
                                         {{ $message }}
@@ -32,7 +32,7 @@
                                 <label class="form-label" for="phone_number">Nomor HP</label>
                                 <input type="text" name="phone_number" id="phone_number"
                                     value="{{ old('phone_number') }}"
-                                    class="form-control @error('phone_number') is-invalid @enderror">
+                                    class="form-control @error('phone_number') is-invalid @enderror" required>
                                 @error('phone_number')
                                     <div id="validationServerUsernameFeedback" class="invalid-feedback text-capitalize">
                                         {{ $message }}
@@ -42,7 +42,7 @@
                             <div class="form-group mb-3">
                                 <label class="form-label" for="address">Alamat Perusahaan</label>
                                 <textarea name="address" id="address" cols="20" rows="5"
-                                    class="form-control @error('address') is-invalid @enderror"">{{ old('address') }}</textarea>
+                                    class="form-control @error('address') is-invalid @enderror" required>{{ old('address') }}</textarea>
                                 @error('address')
                                     <div id="validationServerUsernameFeedback" class="invalid-feedback text-capitalize">
                                         {{ $message }}

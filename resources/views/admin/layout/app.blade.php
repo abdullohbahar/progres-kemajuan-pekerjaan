@@ -158,7 +158,7 @@ License: For each use you must have a valid license purchased only from above li
     <script src="assets/plugins/global/plugins.bundle.js"></script>
 
     {{-- Show Modal when session has errors --}}
-    {{-- @if (session()->has('errors'))
+    @if (session()->has('errors'))
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 // Temukan button berdasarkan ID
@@ -168,7 +168,7 @@ License: For each use you must have a valid license purchased only from above li
                 btnModal.click();
             });
         </script>
-    @endif --}}
+    @endif
 
     @if (session()->has('success'))
         <script>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\CvConsultant;
 use App\Models\SupervisingConsultant;
 use Illuminate\Http\Request;
 use DataTables;
@@ -30,8 +31,11 @@ class SupervisingConsultantController extends Controller
                 ->make();
         }
 
+        $cvConsultants = CvConsultant::get();
+
         $data = [
-            'active' => $this->active
+            'active' => $this->active,
+            'cvConsultants' => $cvConsultants
         ];
 
         return view('admin.supervising-consultant.index', $data);
@@ -53,9 +57,23 @@ class SupervisingConsultantController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, SupervisingConsultant $supervisingConsultant)
     {
-        //
+        $validateData = $request->validate([
+            'name' => 'required',
+            'phone_number' => 'required',
+            'cv_consultant_id' => 'required',
+            'position' => 'required',
+        ], [
+            'name.required' => 'nama konsultan pengawas harus diisi',
+            'phone_number.required' => 'Nomor hp pengawas harus diisi',
+            'cv_consultant_id.required' => 'Perusahaan pengawas harus diisi',
+            'position.required' => 'Jabatan pengawas harus diisi',
+        ]);
+
+        $supervisingConsultant->create($validateData);
+
+        return redirect()->back()->with('success', 'Berhasil Menambah Data Pengawas Lapangan');
     }
 
     /**
