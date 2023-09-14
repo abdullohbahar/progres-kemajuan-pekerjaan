@@ -73,25 +73,19 @@ class CvConsultantController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(CvConsultant $cvConsultant)
     {
-        //
+        $data = [
+            'active' => $this->active,
+            'data' => $cvConsultant,
+        ];
+
+        return view('admin.cv-consultant.edit', $data);
     }
 
     /**
@@ -101,9 +95,29 @@ class CvConsultantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, CvConsultant $cvConsultant)
     {
-        //
+        $validateData = $request->validate([
+            'name' => 'required',
+            'phone_number' => 'required',
+            'address' => 'required',
+        ], [
+            'name.required' => 'Nama Perusahaan Harus Diisi',
+            'phone_number.required' => 'Nomor HP Harus Diisi',
+            'address.required' => 'Alamat Perusahaan Harus Diisi',
+        ]);
+
+        if ($cvConsultant->name != $request->name) {
+            $request->validate([
+                'name' => 'unique:cv_consultants'
+            ], [
+                'name.unique' => 'Nama Perusahaan sudah dipakai'
+            ]);
+        }
+
+        $cvConsultant->update($validateData);
+
+        return to_route('cv-consultant.index')->with('success', 'Berhasi mengubah data CV Konsultan');
     }
 
     /**

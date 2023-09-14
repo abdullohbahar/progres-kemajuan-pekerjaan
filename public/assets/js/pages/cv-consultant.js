@@ -72,7 +72,7 @@ $("#kt_datatable_dom_positioning").DataTable({
             orderable: false,
             className: "text-left",
             render: function (data, type, row) {
-                return `<a href="#" class="btn btn-sm btn-bg-warning my-1 text-white" data-name="${row.name}" data-id="${row.id}">Ubah</a>
+                return `<a href="/admin/cv-consultant/${row.id}/edit" class="btn btn-sm btn-bg-warning my-1 text-white">Ubah</a>
                             <a href="#" class="btn btn-sm btn-bg-danger my-1 text-white" data-name="${row.name}" data-id="${row.id}" id="delete">Hapus</a>`;
             },
         },
@@ -110,4 +110,16 @@ $("body").on("click", "#delete", function () {
             });
         }
     });
+});
+
+$("body").on("click", "#btn-edit", function () {
+    var id = $(this).data("id");
+    var name = $(this).data("name");
+    var phone_number = $(this).data("phone_number");
+    var address = $(this).data("address");
+
+    $("#editForm").attr("action", "/admin/cv-consultant/" + id);
+    $(".edit-name").val(name);
+    $(".edit-phone_number").val(phone_number);
+    $(".edit-address").val(address);
 });
