@@ -4,7 +4,7 @@
         <form action="">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">Tambah Data Konsultan Pengawas</h3>
+                    <h3 class="modal-title">Tambah Data Rekanan</h3>
 
                     <!--begin::Close-->
                     <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
@@ -18,7 +18,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group mb-3">
-                                <label class="form-label" for="name">Nama Konsultan Pengawas</label>
+                                <label class="form-label" for="name">Nama Rekanan</label>
                                 <input type="text" name="name" id="name" class="form-control" required>
                             </div>
                             <div class="form-group mb-3">

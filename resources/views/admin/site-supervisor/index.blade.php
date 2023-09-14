@@ -1,7 +1,7 @@
 @extends('admin.layout.app')
 
 @section('title')
-    Data Rekanan (Penyedia Jasa)
+    Data Pengawas Lapangan
 @endsection
 
 @push('addons-css')
@@ -17,7 +17,7 @@
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <!--begin::Title-->
                     <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                        Data Rekanan (Penyedia Jasa)</h1>
+                        Data Pengawas Lapangan</h1>
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
@@ -32,7 +32,7 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">Data Rekanan (Penyedia Jasa)</li>
+                        <li class="breadcrumb-item text-muted">Data Pengawas Lapangan</li>
                         <!--end::Item-->
                     </ul>
                     <!--end::Breadcrumb-->
@@ -54,7 +54,7 @@
                                 <div class="card-toolbar">
                                     <button data-bs-toggle="modal" data-bs-target="#kt_modal_1"
                                         class="btn btn-sm btn-primary">
-                                        <i class="ki-duotone ki-plus fs-2"></i>Tambah Rekanan (Penyedia Jasa)
+                                        <i class="ki-duotone ki-plus fs-2"></i>Tambah Pengawas Lapangan
                                     </button>
                                 </div>
                             </div>
@@ -66,7 +66,7 @@
                                             <th>#</th>
                                             <th>Nama</th>
                                             <th>Nomor HP</th>
-                                            <th>Nama CV</th>
+                                            <th>NIP</th>
                                             <th>Jabatan</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -84,7 +84,7 @@
         <!--end::Content-->
     </div>
     <!--end::Content wrapper-->
-    @include('admin.partner.components.modal-add-partner')
+    @include('admin.site-supervisor.components.modal-add-site-supervisor')
 @endsection
 
 @push('addons-js')
@@ -128,8 +128,8 @@
                 },
                 {
                     orderable: true,
-                    data: "cv_id",
-                    name: "cv_id",
+                    data: "nip",
+                    name: "nip",
                 },
                 {
                     orderable: true,

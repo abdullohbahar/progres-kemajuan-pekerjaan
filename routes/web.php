@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CvConsultantController;
 use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\PartnerController;
+use App\Http\Controllers\Admin\SiteSupervisorController;
 use App\Http\Controllers\Admin\SupervisingConsultantController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,4 +23,5 @@ Route::prefix('admin')->group(function () {
     Route::resource('cv-consultant', CvConsultantController::class)->only(['index', 'store', 'destroy', 'update']);
     Route::resource('supervising-consultant', SupervisingConsultantController::class)->only(['index', 'store', 'destroy', 'update']);
     Route::resource('partner', PartnerController::class)->only(['index']);
+    Route::resource('site-supervisor', SiteSupervisorController::class)->only(['index']);
 });
