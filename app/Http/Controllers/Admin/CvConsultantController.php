@@ -18,13 +18,13 @@ class CvConsultantController extends Controller
      */
     public function index(Request $request)
     {
-
         if ($request->ajax()) {
 
             $query = CvConsultant::orderBy('name', 'asc')->get();
 
             // return $query;
-            return Datatables::of($query)->make();
+            return Datatables::of($query)
+                ->make();
         }
 
         $data = [
@@ -32,21 +32,6 @@ class CvConsultantController extends Controller
         ];
 
         return view('admin.cv-consultant.index', $data);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-        $data = [
-            'active' => $this->active,
-        ];
-
-        return view('admin.cv-consultant.create', $data);
     }
 
     /**

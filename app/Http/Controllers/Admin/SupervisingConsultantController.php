@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\SupervisingConsultant;
 use Illuminate\Http\Request;
+use DataTables;
 
 class SupervisingConsultantController extends Controller
 {
@@ -13,8 +15,21 @@ class SupervisingConsultantController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->ajax()) {
+
+            $query = SupervisingConsultant::with('cvConsultant')->orderBy('name', 'asc')->get();
+
+            // return $query;
+            return Datatables::of($query)
+                ->addColumn('cv', function ($item) {
+                    return $item->cvConsultant?->name;
+                })
+                ->rawColumns(['cv'])
+                ->make();
+        }
+
         $data = [
             'active' => $this->active
         ];

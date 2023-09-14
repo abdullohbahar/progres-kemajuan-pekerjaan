@@ -6,18 +6,19 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CvConsultant extends Model
+class SupervisingConsultant extends Model
 {
     use HasFactory, HasUuids;
 
     protected $fillable = [
         'name',
         'phone_number',
-        'address'
+        'cv_consultant_id',
+        'position',
     ];
 
-    public function supervisingConsultants()
+    public function cvConsultant()
     {
-        return $this->hasMany(SupervisingConsultant::class);
+        return $this->belongsTo(CvConsultant::class);
     }
 }
