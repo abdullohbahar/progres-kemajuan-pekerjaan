@@ -69,7 +69,7 @@ class CvConsultantController extends Controller
 
         $cvConsultant->create($validateData);
 
-        return redirect()->back()->with('success', 'Berhasil menambah data Cv Konsultan');
+        return redirect()->back()->with('success', 'Berhasil menambah data CV Konsultan');
     }
 
     /**
@@ -112,8 +112,20 @@ class CvConsultantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(CvConsultant $cvConsultant)
     {
-        //
+        $delete = $cvConsultant->delete();
+
+        if ($delete) {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Berhasil menghapus data CV Konsultan'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Gagal menghapus data CV Konsultan'
+            ]);
+        }
     }
 }
