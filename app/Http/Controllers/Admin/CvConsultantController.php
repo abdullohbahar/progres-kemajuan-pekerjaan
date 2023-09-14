@@ -41,6 +41,7 @@ class CvConsultantController extends Controller
      */
     public function create()
     {
+
         $data = [
             'active' => $this->active,
         ];
