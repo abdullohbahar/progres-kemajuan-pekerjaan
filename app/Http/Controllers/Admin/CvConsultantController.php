@@ -54,9 +54,22 @@ class CvConsultantController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, CvConsultant $cvConsultant)
     {
-        //
+        $validateData = $request->validate([
+            'name' => 'required|unique:cv_consultants',
+            'phone_number' => 'required',
+            'address' => 'required',
+        ], [
+            'name.required' => 'Nama Perusahaan Harus Diisi',
+            'name.unique' => 'Nama Perusahaan Sudah dipakai',
+            'phone_number.required' => 'Nomor HP Harus Diisi',
+            'address.required' => 'Alamat Perusahaan Harus Diisi',
+        ]);
+
+        $cvConsultant->create($validateData);
+
+        return redirect()->back()->with('success', 'Berhasil menambah data Cv Konsultan');
     }
 
     /**

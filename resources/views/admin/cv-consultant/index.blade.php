@@ -52,7 +52,7 @@
                             <div class="card-header border-0 pt-5">
                                 <h3></h3>
                                 <div class="card-toolbar">
-                                    <button data-bs-toggle="modal" data-bs-target="#kt_modal_1"
+                                    <button data-bs-toggle="modal" id="btn-modal" data-bs-target="#kt_modal_1"
                                         class="btn btn-sm btn-primary">
                                         <i class="ki-duotone ki-plus fs-2"></i>Tambah CV Konsultan
                                     </button>

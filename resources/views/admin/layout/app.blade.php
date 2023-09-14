@@ -29,6 +29,8 @@ License: For each use you must have a valid license purchased only from above li
     <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
     <link href="{{ asset('./assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+
 
     <style>
         .open-menu-sub {
@@ -151,16 +153,43 @@ License: For each use you must have a valid license purchased only from above li
     <script src="https://cdn.amcharts.com/lib/5/geodata/worldTimeZoneAreasLow.js"></script>
     <script src="{{ asset('./assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
     <!--end::Vendors Javascript-->
-    <!--begin::Custom Javascript(used for this page only)-->
-    <script src="{{ asset('./assets/js/widgets.bundle.js') }}"></script>
-    <script src="{{ asset('./assets/js/custom/widgets.js') }}"></script>
-    <script src="{{ asset('./assets/js/custom/apps/chat/chat.js') }}"></script>
-    <script src="{{ asset('./assets/js/custom/utilities/modals/upgrade-plan.js') }}"></script>
-    <script src="{{ asset('./assets/js/custom/utilities/modals/create-app.js') }}"></script>
-    <script src="{{ asset('./assets/js/custom/utilities/modals/new-target.js') }}"></script>
-    <script src="{{ asset('./assets/js/custom/utilities/modals/users-search.js') }}"></script>
-    <!--end::Custom Javascript-->
     <!--end::Javascript-->
+    <script src="assets/plugins/global/plugins.bundle.js"></script>
+
+    {{-- Show Modal when session has errors --}}
+    @if (session()->has('errors'))
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // Temukan button berdasarkan ID
+                var btnModal = document.getElementById("btn-modal");
+
+                // Otomatis klik button setelah halaman web dimuat
+                btnModal.click();
+            });
+        </script>
+    @endif
+
+    @if (session()->has('success'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: 'success',
+                title: '{{ session('success') }}'
+            })
+        </script>
+    @endif
+
     @stack('addons-js')
 </body>
 <!--end::Body-->
