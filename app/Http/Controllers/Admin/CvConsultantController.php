@@ -7,7 +7,6 @@ use App\Models\CvConsultant;
 use Illuminate\Http\Request;
 use DataTables;
 
-
 class CvConsultantController extends Controller
 {
     private $active = 'cv-consultant';

@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('cv_consultants', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('phone_number');
             $table->text('address');
             $table->timestamps();
         });

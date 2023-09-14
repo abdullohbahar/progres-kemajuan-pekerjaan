@@ -41,7 +41,8 @@
                         <!--begin:Menu link-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link" href="../../demo1/dist/apps/calendar.html">
+                            <a class="menu-link {{ $active == 'dashboard' ? 'active' : '' }}"
+                                href="{{ route('dashboard.index') }}">
                                 <span class="menu-icon">
                                     <i class="ki-duotone ki-element-11 fs-2">
                                         <span class="path1"></span>

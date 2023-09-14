@@ -186,10 +186,10 @@
                     searchable: false,
                     orderable: false,
                     className: 'text-left',
-                    width: "15%",
+                    width: "20%",
                     render: function(data, type, row) {
-                        return `<a href="#" class="btn btn-sm btn-bg-warning my-1">Ubah</a>
-                            <a href="#" class="btn btn-sm btn-bg-danger my-1">Hapus</a>`;
+                        return `<a href="#" class="btn btn-sm btn-bg-warning my-1 text-white">Ubah</a>
+                            <a href="#" class="btn btn-sm btn-bg-danger my-1 text-white">Hapus</a>`;
                     },
                 },
             ]

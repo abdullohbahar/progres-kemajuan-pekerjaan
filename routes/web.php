@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CvConsultantController;
+use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\SupervisingConsultantController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,12 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('admin.dashboard.index');
-});
-
-
 Route::prefix('admin')->group(function () {
+    Route::resource('dashboard', DashboardAdminController::class)->only(['index']);
     Route::resource('cv-consultant', CvConsultantController::class)->only(['index', 'store', 'destroy', 'update']);
     Route::resource('supervising-consultant', SupervisingConsultantController::class)->only(['index', 'store', 'destroy', 'update']);
 });
