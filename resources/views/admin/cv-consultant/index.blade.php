@@ -85,7 +85,6 @@
     <!--end::Content wrapper-->
 
     @include('admin.cv-consultant.components.modal-add-consultant')
-    @include('admin.cv-consultant.components.modal-edit-consultant')
 @endsection
 
 @push('addons-js')

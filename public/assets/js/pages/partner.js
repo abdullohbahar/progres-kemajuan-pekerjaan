@@ -40,18 +40,23 @@ $("#kt_datatable_dom_positioning").DataTable({
             name: "name",
         },
         {
-            orderable: true,
+            orderable: false,
             data: "phone_number",
             name: "phone_number",
         },
         {
-            orderable: false,
-            data: "address",
-            name: "address",
+            orderable: true,
+            data: "cv",
+            name: "cv",
         },
         {
-            data: null,
-            name: null,
+            orderable: true,
+            data: "position",
+            name: "position",
+        },
+        {
+            data: "id",
+            name: "id",
         },
     ],
     columnDefs: [
@@ -66,13 +71,12 @@ $("#kt_datatable_dom_positioning").DataTable({
             },
         },
         {
-            data: null,
             targets: -1,
             searchable: false,
             orderable: false,
             className: "text-left",
             render: function (data, type, row) {
-                return `<a href="/admin/cv-consultant/${row.id}/edit" class="btn btn-sm btn-bg-warning my-1 text-white">Ubah</a>
+                return `<a href="/admin/partner/${row.id}/edit" class="btn btn-sm btn-bg-warning my-1 text-white">Ubah</a>
                             <a href="#" class="btn btn-sm btn-bg-danger my-1 text-white" data-name="${row.name}" data-id="${row.id}" id="delete">Hapus</a>`;
             },
         },
@@ -94,7 +98,7 @@ $("body").on("click", "#delete", function () {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: "/admin/cv-consultant/" + id,
+                url: "/admin/partner/" + id,
                 dataType: "json",
                 type: "DELETE",
                 success: function (response) {

@@ -89,7 +89,7 @@ $("body").on("click", "#delete", function () {
     var name = $(this).data("name");
 
     Swal.fire({
-        title: `Apakah Anda Ingin Menghapus Perusahaan ${name}?`,
+        title: `Apakah Anda Ingin Menghapus ${name}?`,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
