@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tasks', function (Blueprint $table) {
+        Schema::create('task_reports', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->text('activity_name');
             $table->text('task_name');
@@ -28,6 +28,7 @@ return new class extends Migration
             $table->foreignUuid('site_supervisor_id_2')->nullable()->constrained('site_supervisors')->nullOnDelete(); // id pengawas lapangan 2
             $table->foreignUuid('acting_commitment_marker_id')->nullable()->constrained('acting_commitment_markers')->nullOnDelete(); // id PPK
             $table->enum('status', ['Aktif', 'SP 1', 'SCM 1', 'SCM 2', 'SCM 3']);
+            $table->integer('execution_time');
             $table->timestamps();
         });
     }
@@ -39,6 +40,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('task_reports');
     }
 };

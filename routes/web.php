@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\SiteSupervisorController;
 use App\Http\Controllers\Admin\SupervisingConsultantController;
+use App\Http\Controllers\Admin\TaskReportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,4 +27,5 @@ Route::prefix('admin')->group(function () {
     Route::resource('partner', PartnerController::class)->only(['index', 'store', 'destroy', 'update', 'edit']);
     Route::resource('site-supervisor', SiteSupervisorController::class)->only(['index', 'store', 'destroy', 'update', 'edit']);
     Route::resource('acting-commitment-marker', ActingCommitmentMarkerController::class)->only(['index', 'store', 'destroy', 'update', 'edit']);
+    Route::resource('task-report', TaskReportController::class)->only(['index', 'store', 'destroy', 'update', 'edit', 'create']);
 });

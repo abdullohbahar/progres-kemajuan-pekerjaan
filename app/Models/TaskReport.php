@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Task extends Model
+class TaskReport extends Model
 {
     use HasFactory, HasUuids;
 
@@ -14,7 +14,7 @@ class Task extends Model
         'activity_name',
         'task_name',
         'location',
-        'fiscal_year', // tahun
+        'fiscal_year', // tahun anggaran
         'spk_number',
         'spk_date',
         'contract_value',
@@ -24,5 +24,6 @@ class Task extends Model
         'site_supervisor_id_2', // id pengawas lapangan 2
         'acting_commitment_marker_id', // id ppk
         'status',
+        'execution_time'
     ];
 }
