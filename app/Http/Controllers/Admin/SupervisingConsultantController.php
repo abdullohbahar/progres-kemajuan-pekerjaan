@@ -77,25 +77,22 @@ class SupervisingConsultantController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(SupervisingConsultant $supervisingConsultant)
     {
-        //
+        $cvConsultants = CvConsultant::get();
+
+        $data = [
+            'active' => $this->active,
+            'data' => $supervisingConsultant,
+            'cvConsultants' => $cvConsultants
+        ];
+
+        return view('admin.supervising-consultant.edit', $data);
     }
 
     /**
@@ -105,9 +102,23 @@ class SupervisingConsultantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, SupervisingConsultant $supervisingConsultant)
     {
-        //
+        $validateData = $request->validate([
+            'name' => 'required',
+            'phone_number' => 'required',
+            'cv_consultant_id' => 'required',
+            'position' => 'required',
+        ], [
+            'name.required' => 'nama konsultan pengawas harus diisi',
+            'phone_number.required' => 'Nomor hp pengawas harus diisi',
+            'cv_consultant_id.required' => 'Perusahaan pengawas harus diisi',
+            'position.required' => 'Jabatan pengawas harus diisi',
+        ]);
+
+        $supervisingConsultant->update($validateData);
+
+        return to_route('supervising-consultant.index')->with('success', 'Berhasi mengubah data Konsultan Pengawas');
     }
 
     /**
@@ -116,8 +127,20 @@ class SupervisingConsultantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(SupervisingConsultant $supervisingConsultant)
     {
-        //
+        $delete = $supervisingConsultant->delete();
+
+        if ($delete) {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Berhasil Menghapus Data Konsultan Pengawas'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Gagal Menghapus Data Konsultan Pengawas'
+            ]);
+        }
     }
 }

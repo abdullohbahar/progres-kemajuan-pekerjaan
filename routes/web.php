@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admin')->group(function () {
     Route::resource('dashboard', DashboardAdminController::class)->only(['index']);
     Route::resource('cv-consultant', CvConsultantController::class)->only(['index', 'store', 'destroy', 'update', 'edit']);
-    Route::resource('supervising-consultant', SupervisingConsultantController::class)->only(['index', 'store', 'destroy', 'update']);
+    Route::resource('supervising-consultant', SupervisingConsultantController::class)->only(['index', 'store', 'destroy', 'update', 'edit']);
     Route::resource('partner', PartnerController::class)->only(['index']);
     Route::resource('site-supervisor', SiteSupervisorController::class)->only(['index']);
     Route::resource('ppk', ActingCommitmentMarkerController::class)->only(['index']);
