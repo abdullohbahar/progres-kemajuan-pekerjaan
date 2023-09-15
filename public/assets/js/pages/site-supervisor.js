@@ -76,7 +76,7 @@ $("#kt_datatable_dom_positioning").DataTable({
             orderable: false,
             className: "text-left",
             render: function (data, type, row) {
-                return `<a href="/admin/partner/${row.id}/edit" class="btn btn-sm btn-bg-warning my-1 text-white">Ubah</a>
+                return `<a href="/admin/site-supervisor/${row.id}/edit" class="btn btn-sm btn-bg-warning my-1 text-white">Ubah</a>
                             <a href="#" class="btn btn-sm btn-bg-danger my-1 text-white" data-name="${row.name}" data-id="${row.id}" id="delete">Hapus</a>`;
             },
         },
@@ -98,7 +98,7 @@ $("body").on("click", "#delete", function () {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: "/admin/partner/" + id,
+                url: "/admin/site-supervisor/" + id,
                 dataType: "json",
                 type: "DELETE",
                 success: function (response) {
