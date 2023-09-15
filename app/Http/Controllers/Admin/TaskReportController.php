@@ -82,6 +82,18 @@ class TaskReportController extends Controller
         return to_route('task-report.index')->with('success', 'Berhasil Menambah Pekerjaan');
     }
 
+    public function show(TaskReport $taskReport)
+    {
+        $data = [
+            'active' => $this->active,
+            'taskReport' => $taskReport
+                ->with(['supervisingConsultant', 'siteSupervisorFirst', 'siteSupervisorSecond', 'partner', 'actingCommitmentMarker'])
+                ->firstOrFail()
+        ];
+
+        return view('admin.task-report.show', $data);
+    }
+
     public function destroy(TaskReport $taskReport)
     {
         $delete = $taskReport->delete();

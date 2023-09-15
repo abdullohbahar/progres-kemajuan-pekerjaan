@@ -28,6 +28,36 @@ class TaskReport extends Model
         'execution_time'
     ];
 
+    // Konsultan Pengawas
+    public function supervisingConsultant()
+    {
+        return $this->belongsTo(SupervisingConsultant::class);
+    }
+
+    // Rekanan
+    public function partner()
+    {
+        return $this->belongsTo(Partner::class);
+    }
+
+    // Pengawas Lapangan
+    public function siteSupervisorFirst()
+    {
+        return $this->belongsTo(SiteSupervisor::class, 'site_supervisor_id_1', 'id');
+    }
+
+    // Pengawas Lapangan
+    public function siteSupervisorSecond()
+    {
+        return $this->belongsTo(SiteSupervisor::class, 'site_supervisor_id_2', 'id');
+    }
+
+    // PPK
+    public function actingCommitmentMarker()
+    {
+        return $this->belongsTo(ActingCommitmentMarker::class);
+    }
+
     public function getSpkDateAttribute($value)
     {
         return Carbon::parse($value)->format('d-m-Y');
