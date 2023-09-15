@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\ActingCommitmentMarker;
 use App\Models\CvConsultant;
 use App\Models\Partner;
 use App\Models\SiteSupervisor;
@@ -23,6 +24,7 @@ class DatabaseSeeder extends Seeder
         SupervisingConsultant::factory(5)->create();
         Partner::factory(5)->create();
         SiteSupervisor::factory(5)->create();
+        ActingCommitmentMarker::factory(5)->create();
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
