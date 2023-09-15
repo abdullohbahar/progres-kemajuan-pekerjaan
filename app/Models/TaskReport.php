@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,4 +27,9 @@ class TaskReport extends Model
         'status',
         'execution_time'
     ];
+
+    public function getSpkDateAttribute($value)
+    {
+        return Carbon::parse($value)->format('d-m-Y');
+    }
 }

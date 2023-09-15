@@ -65,7 +65,8 @@
                                                 <label class="form-label" for="name">Nama Kegiatan</label>
                                                 <input type="text" name="activity_name" id="name"
                                                     value="{{ old('activity_name') }}"
-                                                    class="form-control @error('activity_name') is-invalid @enderror" required>
+                                                    class="form-control @error('activity_name') is-invalid @enderror"
+                                                    required>
                                                 @error('activity_name')
                                                     <div id="validationServerUsernameFeedback"
                                                         class="invalid-feedback text-capitalize">
@@ -137,7 +138,8 @@
                                                     Kalender)</label>
                                                 <input type="number" name="execution_time" placeholder="misal: 40"
                                                     id="name" value="{{ old('execution_time') }}"
-                                                    class="form-control @error('execution_time') is-invalid @enderror" required>
+                                                    class="form-control @error('execution_time') is-invalid @enderror"
+                                                    required>
                                                 @error('execution_time')
                                                     <div id="validationServerUsernameFeedback"
                                                         class="invalid-feedback text-capitalize">
@@ -151,7 +153,8 @@
                                                 <label class="form-label" for="name">Nilai Kontrak</label>
                                                 <input type="text" name="contract_value" id="name"
                                                     value="{{ old('contract_value') }}"
-                                                    class="form-control @error('contract_value') is-invalid @enderror" required>
+                                                    class="form-control @error('contract_value') is-invalid @enderror"
+                                                    required>
                                                 @error('contract_value')
                                                     <div id="validationServerUsernameFeedback"
                                                         class="invalid-feedback text-capitalize">
@@ -166,8 +169,9 @@
                                                     Pengawas</label>
                                                 <select name="supervising_consultant_id" id="supervising_consultant_id"
                                                     value="{{ old('supervising_consultant_id') }}"
-                                                    class="form-select form-select-solid @error('supervising_consultant_id') is-invalid @enderror" required
-                                                    data-control="select2" data-placeholder="Pilih Konsultan Pengawas">
+                                                    class="form-select form-select-solid @error('supervising_consultant_id') is-invalid @enderror"
+                                                    required data-control="select2"
+                                                    data-placeholder="Pilih Konsultan Pengawas">
                                                     <option value="">-- Pilih CV --</option>
                                                     @foreach ($supervisingConsultants as $supervisingConsultant)
                                                         <option value="{{ $supervisingConsultant->id }}"
@@ -188,8 +192,8 @@
                                                 <label class="form-label" for="partner_id">Rekanan</label>
                                                 <select name="partner_id" id="partner_id"
                                                     value="{{ old('partner_id') }}"
-                                                    class="form-select form-select-solid @error('partner_id') is-invalid @enderror" required
-                                                    data-control="select2" data-placeholder="Pilih Rekanan">
+                                                    class="form-select form-select-solid @error('partner_id') is-invalid @enderror"
+                                                    required data-control="select2" data-placeholder="Pilih Rekanan">
                                                     <option value="">-- Pilih CV --</option>
                                                     @foreach ($partners as $partner)
                                                         <option value="{{ $partner->id }}"
@@ -211,8 +215,9 @@
                                                     1</label>
                                                 <select name="site_supervisor_id_1" id="site_supervisor_id_1"
                                                     value="{{ old('site_supervisor_id_1') }}"
-                                                    class="form-select form-select-solid @error('site_supervisor_id_1') is-invalid @enderror" required
-                                                    data-control="select2" data-placeholder="Pilih Pengawas Lapangan 1">
+                                                    class="form-select form-select-solid @error('site_supervisor_id_1') is-invalid @enderror"
+                                                    required data-control="select2"
+                                                    data-placeholder="Pilih Pengawas Lapangan 1">
                                                     <option value="">-- Pilih CV --</option>
                                                     @foreach ($siteSupervisors as $siteSupervisor)
                                                         <option value="{{ $siteSupervisor->id }}"
@@ -234,8 +239,9 @@
                                                     2</label>
                                                 <select name="site_supervisor_id_2" id="site_supervisor_id_2"
                                                     value="{{ old('site_supervisor_id_2') }}"
-                                                    class="form-select form-select-solid @error('site_supervisor_id_2') is-invalid @enderror" required
-                                                    data-control="select2" data-placeholder="Pilih Pengawas Lapangan 2">
+                                                    class="form-select form-select-solid @error('site_supervisor_id_2') is-invalid @enderror"
+                                                    required data-control="select2"
+                                                    data-placeholder="Pilih Pengawas Lapangan 2">
                                                     <option value="">-- Pilih CV --</option>
                                                     @foreach ($siteSupervisors as $siteSupervisor)
                                                         <option value="{{ $siteSupervisor->id }}"
@@ -257,8 +263,8 @@
                                                 <select name="acting_commitment_marker_id"
                                                     id="acting_commitment_marker_id"
                                                     value="{{ old('acting_commitment_marker_id') }}"
-                                                    class="form-select form-select-solid @error('acting_commitment_marker_id') is-invalid @enderror" required
-                                                    data-control="select2" data-placeholder="Pilih PPK">
+                                                    class="form-select form-select-solid @error('acting_commitment_marker_id') is-invalid @enderror"
+                                                    required data-control="select2" data-placeholder="Pilih PPK">
                                                     <option value="">-- Pilih CV --</option>
                                                     @foreach ($actingCommitmentMarkers as $actingCommitmentMarker)
                                                         <option value="{{ $actingCommitmentMarker->id }}"

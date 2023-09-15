@@ -19,7 +19,7 @@ class TaskReportController extends Controller
     {
         if ($request->ajax()) {
 
-            $query = TaskReport::orderBy('fiscal_year', 'desc')->get();
+            $query = TaskReport::orderBy('created_at', 'desc')->get();
 
             // return $query;
             return Datatables::of($query)->make();
@@ -45,7 +45,7 @@ class TaskReportController extends Controller
         return view('admin.task-report.create', $data);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, TaskReport $taskReport)
     {
         $validateData = $request->validate([
             'activity_name' => 'required',
@@ -76,5 +76,26 @@ class TaskReportController extends Controller
             'acting_commitment_marker_id.required' => 'PPK harus diisi', // id ppk
             'status.required' => 'status harus diisi',
         ]);
+
+        $taskReport->create($validateData);
+
+        return to_route('task-report.index')->with('success', 'Berhasil Menambah Pekerjaan');
+    }
+
+    public function destroy(TaskReport $taskReport)
+    {
+        $delete = $taskReport->delete();
+
+        if ($delete) {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Berhasil Menghapus Laporan'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Gagal Menghapus Laporan',
+            ]);
+        }
     }
 }
