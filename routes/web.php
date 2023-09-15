@@ -25,5 +25,5 @@ Route::prefix('admin')->group(function () {
     Route::resource('supervising-consultant', SupervisingConsultantController::class)->only(['index', 'store', 'destroy', 'update', 'edit']);
     Route::resource('partner', PartnerController::class)->only(['index', 'store', 'destroy', 'update', 'edit']);
     Route::resource('site-supervisor', SiteSupervisorController::class)->only(['index', 'store', 'destroy', 'update', 'edit']);
-    Route::resource('ppk', ActingCommitmentMarkerController::class)->only(['index', 'store', 'destroy', 'update', 'edit']);
+    Route::resource('acting-commitment-marker', ActingCommitmentMarkerController::class)->only(['index', 'store', 'destroy', 'update', 'edit']);
 });

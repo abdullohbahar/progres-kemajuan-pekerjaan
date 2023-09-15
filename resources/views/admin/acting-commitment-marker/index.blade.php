@@ -53,7 +53,7 @@
                                 <h3></h3>
                                 <div class="card-toolbar">
                                     <button data-bs-toggle="modal" data-bs-target="#kt_modal_1"
-                                        class="btn btn-sm btn-primary">
+                                        class="btn btn-sm btn-primary" id="btn-modal">
                                         <i class="ki-duotone ki-plus fs-2"></i>Tambah PPK
                                     </button>
                                 </div>
@@ -88,80 +88,5 @@
 @endsection
 
 @push('addons-js')
-    {{-- show datatable data --}}
-    <script>
-        $("#kt_datatable_dom_positioning").DataTable({
-            searchDelay: 500,
-            processing: true,
-            serverSide: true,
-            ajax: {
-                url: "{!! url()->current() !!}",
-            },
-            "language": {
-                "lengthMenu": "Show _MENU_",
-            },
-            "dom": "<'row'" +
-                "<'col-sm-6 d-flex align-items-center justify-conten-start'l>" +
-                "<'col-sm-6 d-flex align-items-center justify-content-end'f>" +
-                ">" +
-
-                "<'table-responsive'tr>" +
-
-                "<'row'" +
-                "<'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>" +
-                "<'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>" +
-                ">",
-            columns: [{
-                    orderable: false,
-                    data: null,
-                    name: null,
-                },
-                {
-                    orderable: true,
-                    data: "name",
-                    name: "name",
-                },
-                {
-                    orderable: false,
-                    data: "address",
-                    name: "address",
-                },
-                {
-                    orderable: true,
-                    data: "nip",
-                    name: "nip",
-                },
-                {
-                    orderable: true,
-                    data: "position",
-                    name: "position",
-                },
-                {
-                    data: "id",
-                    name: "id",
-                }
-            ],
-            columnDefs: [{
-                    targets: 0,
-                    data: null,
-                    searchable: false,
-                    orderable: false,
-                    className: "text-left border-bottom",
-                    render: (data, type, row, meta) => {
-                        return meta.row + meta.settings._iDisplayStart + 1;
-                    },
-                },
-                {
-                    targets: -1,
-                    searchable: false,
-                    orderable: false,
-                    className: 'text-left',
-                    render: function(data, type, row) {
-                        return `<a href="#" class="btn btn-sm btn-bg-warning my-1 text-white">Ubah</a>
-                            <a href="#" class="btn btn-sm btn-bg-danger my-1 text-white">Hapus</a>`;
-                    },
-                },
-            ]
-        });
-    </script>
+    <script src="{{ asset('./assets/js/pages/acting-commitment-marker.js') }}"></script>
 @endpush

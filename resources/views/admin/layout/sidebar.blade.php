@@ -137,7 +137,7 @@
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
                                     <a class="menu-link {{ $active == 'ppk' ? 'active' : '' }}"
-                                        href="{{ route('ppk.index') }}">
+                                        href="{{ route('acting-commitment-marker.index') }}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>

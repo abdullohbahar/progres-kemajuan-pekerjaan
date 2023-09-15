@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SiteSupervisor;
 use Illuminate\Http\Request;
 use DataTables;
+use Exception;
 
 class SiteSupervisorController extends Controller
 {
@@ -89,7 +90,7 @@ class SiteSupervisorController extends Controller
         } else {
             return response()->json([
                 'status' => 400,
-                'message' => 'Gagal Menghapus Data Pengawas Lapangan'
+                'message' => 'Gagal Menghapus Data Pengawas Lapangan',
             ]);
         }
     }
