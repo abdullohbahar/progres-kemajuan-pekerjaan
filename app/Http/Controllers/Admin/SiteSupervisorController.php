@@ -28,4 +28,23 @@ class SiteSupervisorController extends Controller
 
         return view('admin.site-supervisor.index', $data);
     }
+
+    public function store(Request $request, SiteSupervisor $siteSupervisor)
+    {
+        $validateData = $request->validate([
+            'name' => 'required',
+            'phone_number' => 'required',
+            'nip' => 'required',
+            'position' => 'required',
+        ], [
+            'name.required' => 'nama konsultan harus diisi',
+            'phone_number.required' => 'Nomor hp harus diisi',
+            'nip.required' => 'NIP harus diisi',
+            'position.required' => 'Jabatan harus diisi',
+        ]);
+
+        $siteSupervisor->create($validateData);
+
+        return redirect()->back()->with('success', 'Berhasil Menambah Data Pengawas Lapangan');
+    }
 }

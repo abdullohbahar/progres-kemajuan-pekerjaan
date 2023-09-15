@@ -45,10 +45,10 @@ class PartnerController extends Controller
             'cv_consultant_id' => 'required',
             'position' => 'required',
         ], [
-            'name.required' => 'nama konsultan pengawas harus diisi',
-            'phone_number.required' => 'Nomor hp pengawas harus diisi',
-            'cv_consultant_id.required' => 'Perusahaan pengawas harus diisi',
-            'position.required' => 'Jabatan pengawas harus diisi',
+            'name.required' => 'nama harus diisi',
+            'phone_number.required' => 'Nomor hp harus diisi',
+            'cv_consultant_id.required' => 'Perusahaan harus diisi',
+            'position.required' => 'Jabatan harus diisi',
         ]);
 
         $partner->create($validateData);
@@ -77,10 +77,10 @@ class PartnerController extends Controller
             'cv_consultant_id' => 'required',
             'position' => 'required',
         ], [
-            'name.required' => 'nama konsultan pengawas harus diisi',
-            'phone_number.required' => 'Nomor hp pengawas harus diisi',
-            'cv_consultant_id.required' => 'Perusahaan pengawas harus diisi',
-            'position.required' => 'Jabatan pengawas harus diisi',
+            'name.required' => 'nama harus diisi',
+            'phone_number.required' => 'Nomor hp harus diisi',
+            'cv_consultant_id.required' => 'Perusahaan harus diisi',
+            'position.required' => 'Jabatan harus diisi',
         ]);
 
         $partner->update($validateData);
