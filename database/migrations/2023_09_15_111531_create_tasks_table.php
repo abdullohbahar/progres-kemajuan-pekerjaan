@@ -1,0 +1,44 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('tasks', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->text('activity_name');
+            $table->text('task_name');
+            $table->string('location')->default('Kabupaten Bantul');
+            $table->year('fiscal_year');
+            $table->text('spk_number');
+            $table->date('spk_date');
+            $table->bigInteger('contract_value')->unsigned();
+            $table->foreignUuid('supervising_consultant_id')->nullable()->constrained('supervising_consultants')->nullOnDelete();
+            $table->foreignUuid('partner_id')->nullable()->constrained('partners')->nullOnDelete();
+            $table->foreignUuid('site_supervisor_id_1')->nullable()->constrained('site_supervisors')->nullOnDelete();
+            $table->foreignUuid('site_supervisor_id_2')->nullable()->constrained('site_supervisors')->nullOnDelete();
+            $table->foreignUuid('acting_commitment_marker_id')->nullable()->constrained('acting_commitment_markers')->nullOnDelete();
+            $table->enum('status', ['Aktif', 'SP 1', 'SCM 1', 'SCM 2', 'SCM 3']);
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('tasks');
+    }
+};

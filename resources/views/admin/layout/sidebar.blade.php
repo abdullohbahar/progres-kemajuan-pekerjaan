@@ -62,7 +62,7 @@
                                 <span class="menu-icon">
                                     <i class="fas fa-list"></i>
                                 </span>
-                                <span class="menu-title">Laporan</span>
+                                <span class="menu-title">Laporan Kegiatan</span>
                             </a>
                             <!--end:Menu link-->
                         </div>
