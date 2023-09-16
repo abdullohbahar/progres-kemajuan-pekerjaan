@@ -139,6 +139,19 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="card mt-5">
+                            <div class="card-header border-0 pt-5">
+                                <h2>Macam Pekerjaan</h2>
+                                <div class="card-toolbaler">
+                                    <a href="{{ route('kind.of.work', $taskReport->id) }}"
+                                        class="btn btn-primary btn-sm">Tambah Macam Pekerjaan</a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
