@@ -159,22 +159,30 @@
                                         <div class="card-header pt-5">
                                             <h1>{{ $key + 1 }}. {{ $kindOfWork->name }}</h1>
                                             <div class="card-toolbar">
-                                                <button class="btn btn-sm btn-info"
-                                                    style="margin-right: 5px">detail</button>
-                                                <button class="btn btn-sm btn-success" style="margin-right: 5px">Kelola
-                                                    Kemajuan Pekerjaan</button>
-                                                <button class="btn btn-sm btn-primary" style="margin-right: 5px">Kelola
-                                                    Pekerjaan</button>
-                                                <button class="btn btn-sm btn-warning"
-                                                    style="margin-right: 5px">Ubah</button>
+                                                <a href="#" class="btn btn-sm btn-info"
+                                                    style="margin-right: 5px">detail</a>
+                                                <a href="{{ route('kind.of.work.edit', $kindOfWork->id) }}"
+                                                    class="btn btn-sm btn-warning" style="margin-right: 5px">Ubah</a>
                                             </div>
                                         </div>
                                         <div class="card-body">
                                             @foreach ($kindOfWork->kindOfWorkDetails as $key => $detail)
                                                 <div class="mt-4" style="margin-left:50px">
-                                                    <h3>{{ $key + 1 }}. {{ $detail->name }}</h3>
-                                                    <p>Keterangan:</p>
-                                                    <p>{!! $detail->information !!}</p>
+                                                    <div class="row">
+                                                        <div class="col-sm-12 col-md-8">
+                                                            <h3>{{ $key + 1 }}. {{ $detail->name }}</h3>
+                                                            <p>Keterangan:</p>
+                                                            <p>{!! $detail->information !!}</p>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-4 text-end">
+                                                            <button class="btn btn-sm btn-primary"
+                                                                style="margin-right: 5px">Kelola
+                                                                Pekerjaan</button>
+                                                            <button class="btn btn-sm btn-success"
+                                                                style="margin-right: 5px">Kelola
+                                                                Kemajuan Pekerjaan</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <hr>
                                             @endforeach

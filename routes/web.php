@@ -39,5 +39,7 @@ Route::prefix('admin')->group(function () {
     Route::prefix('task-report')->group(function () {
         Route::get('/kind-of-work/{taskId}', [KindOfWorkController::class, 'create'])->name('kind.of.work');
         Route::post('/kind-of-work', [KindOfWorkController::class, 'store'])->name('kind.of.work.store');
+        Route::get('/kind-of-work/{id}/edit', [KindOfWorkController::class, 'edit'])->name('kind.of.work.edit');
+        Route::put('/kind-of-work/{id}/update', [KindOfWorkController::class, 'update'])->name('kind.of.work.update');
     });
 });

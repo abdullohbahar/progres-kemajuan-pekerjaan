@@ -1,7 +1,7 @@
 @extends('admin.layout.app')
 
 @section('title')
-    Tambah Macam Pekerjaan
+    Ubah Macam Pekerjaan
 @endsection
 
 @push('addons-css')
@@ -17,7 +17,7 @@
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <!--begin::Title-->
                     <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                        Tambah Macam Pekerjaan</h1>
+                        Ubah Macam Pekerjaan</h1>
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
@@ -32,7 +32,7 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">Tambah Macam Pekerjaan</li>
+                        <li class="breadcrumb-item text-muted">Ubah Macam Pekerjaan</li>
                         <!--end::Item-->
                     </ul>
                     <!--end::Breadcrumb-->
@@ -46,9 +46,10 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <!--begin::Content container-->
             <div id="kt_app_content_container" class="app-container container-fluid">
-                <form action="{{ route('kind.of.work.store') }}" method="POST">
+                <form action="{{ route('kind.of.work.update', $kindOfWork->id) }}" method="POST">
                     @csrf
-                    <input type="hidden" name="task_id" id="" value="{{ $task_id }}">
+                    @method('PUT')
+                    <input type="hidden" name="kind_of_work_id" value="{{ $kindOfWork->id }}">
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
@@ -63,11 +64,11 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group mb-3">
-                                                <label class="form-label" for="name">Nama Pekerjaan</label>
-                                                <input type="text" name="name" id="name"
-                                                    value="{{ old('name') }}"
-                                                    class="form-control @error('name') is-invalid @enderror">
-                                                @error('name')
+                                                <label class="form-label" for="work_name">Nama Pekerjaan</label>
+                                                <input type="text" name="work_name" id="work_name"
+                                                    value="{{ old('work_name', $kindOfWork->name) }}"
+                                                    class="form-control @error('work_name') is-invalid @enderror">
+                                                @error('work_name')
                                                     <div id="validationServerUsernameFeedback"
                                                         class="invalid-feedback text-capitalize">
                                                         {{ $message }}
@@ -79,12 +80,12 @@
                                                     <div class="row mt-5 justify-content-end">
                                                         <div class="col-8">
                                                             <div class="form-group mb-3">
-                                                                <label class="form-label" for="sub_name">Sub
+                                                                <label class="form-label" for="name">Sub
                                                                     Pekerjaan</label>
-                                                                <input type="text" name="sub_name" id="sub_name"
-                                                                    value="{{ old('sub_name') }}"
-                                                                    class="form-control @error('sub_name') is-invalid @enderror">
-                                                                @error('sub_name')
+                                                                <input type="text" name="name" id="name"
+                                                                    value="{{ old('name') }}"
+                                                                    class="form-control @error('name') is-invalid @enderror">
+                                                                @error('name')
                                                                     <div id="validationServerUsernameFeedback"
                                                                         class="invalid-feedback text-capitalize">
                                                                         {{ $message }}
@@ -92,7 +93,10 @@
                                                                 @enderror
                                                             </div>
                                                         </div>
-                                                        <div class="col-3"></div>
+                                                        <div class="col-3">
+                                                            <input type="hidden" name="id" value=""
+                                                                id="">
+                                                        </div>
                                                         <div class="col-8">
                                                             <div class="form-group mb-3">
                                                                 <label class="form-label"
@@ -148,7 +152,9 @@
     <script src="{{ asset('./assets/plugins/custom/formrepeater/formrepeater.bundle.js') }}"></script>
 
     <script>
-        $('#multiple_name').repeater({
+        var dataFromDatabase = @json($kindOfWork->kindOfWorkDetails);
+
+        var repeater = $('#multiple_name').repeater({
             initEmpty: false,
 
             defaultValues: {
@@ -163,7 +169,11 @@
                 if (confirm('Apakah Anda yakin ingin menghapus elemen ini?')) {
                     $(this).slideUp(deleteElement);
                 }
-            }
+            },
         });
+
+
+        // Mengatur data dalam daftar
+        repeater.setList(dataFromDatabase);
     </script>
 @endpush
