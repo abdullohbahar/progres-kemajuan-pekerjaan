@@ -21,4 +21,9 @@ class KindOfWorkDetail extends Model
         'mc_unit',
         'mc_unit_price',
     ];
+
+    public function kindOfWork()
+    {
+        return $this->hasMany(KindOfWork::class, 'kind_of_work_id', 'id');
+    }
 }

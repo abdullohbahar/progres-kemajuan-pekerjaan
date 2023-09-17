@@ -14,4 +14,9 @@ class KindOfWork extends Model
         'task_id',
         'name',
     ];
+
+    public function kindOfWorkDetails()
+    {
+        return $this->hasMany(KindOfWorkDetail::class, 'kind_of_work_id', 'id');
+    }
 }

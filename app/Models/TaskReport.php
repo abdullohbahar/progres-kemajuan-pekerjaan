@@ -58,6 +58,12 @@ class TaskReport extends Model
         return $this->belongsTo(ActingCommitmentMarker::class);
     }
 
+    // macam pekerjaan
+    public function kindOfWork()
+    {
+        return $this->hasMany(KindOfWork::class, 'task_id', 'id');
+    }
+
     public function getSpkDateAttribute($value)
     {
         return Carbon::parse($value)->format('d-m-Y');

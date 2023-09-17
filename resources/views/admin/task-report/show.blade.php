@@ -143,13 +143,39 @@
                         <div class="card mt-5">
                             <div class="card-header border-0 pt-5">
                                 <h2>Macam Pekerjaan</h2>
-                                <div class="card-toolbaler">
+                                <div class="card-toolbar">
                                     <a href="{{ route('kind.of.work', $taskReport->id) }}"
                                         class="btn btn-primary btn-sm">Tambah Macam Pekerjaan</a>
                                 </div>
                             </div>
                             <div class="card-body">
-
+                                @foreach ($taskReport->kindOfWork as $key => $kindOfWork)
+                                    <div class="card mt-5" style="background-color: rgba(242, 242, 242, 0.667)">
+                                        <div class="card-header pt-5">
+                                            <h1>{{ $key + 1 }}. {{ $kindOfWork->name }}</h1>
+                                            <div class="card-toolbar">
+                                                <button class="btn btn-sm btn-info"
+                                                    style="margin-right: 5px">detail</button>
+                                                <button class="btn btn-sm btn-success" style="margin-right: 5px">Kelola
+                                                    Kemajuan Pekerjaan</button>
+                                                <button class="btn btn-sm btn-primary" style="margin-right: 5px">Kelola
+                                                    Pekerjaan</button>
+                                                <button class="btn btn-sm btn-warning"
+                                                    style="margin-right: 5px">Ubah</button>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            @foreach ($kindOfWork->kindOfWorkDetails as $key => $detail)
+                                                <div class="mt-4" style="margin-left:50px">
+                                                    <h3>{{ $key + 1 }}. {{ $detail->name }}</h3>
+                                                    <p>Keterangan:</p>
+                                                    <p>{!! $detail->information !!}</p>
+                                                </div>
+                                                <hr>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>

@@ -87,8 +87,6 @@ class TaskReportController extends Controller
         $data = [
             'active' => $this->active,
             'taskReport' => $taskReport
-                ->with(['supervisingConsultant', 'siteSupervisorFirst', 'siteSupervisorSecond', 'partner', 'actingCommitmentMarker'])
-                ->firstOrFail()
         ];
 
         return view('admin.task-report.show', $data);

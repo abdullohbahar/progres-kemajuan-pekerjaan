@@ -33,6 +33,7 @@ class KindOfWorkController extends Controller
 
             // save name to kind of work (macam pekerjaan)
             $kindOfWork = KindOfWork::create([
+                'task_id' => $request->task_id,
                 'name' => $request->name
             ]);
 
@@ -46,8 +47,12 @@ class KindOfWorkController extends Controller
             }
 
             DB::commit();
+
+            return to_route('task-report.show', $request->task_id)->with('success', 'Berhasil Menambahkan Macam Pekerjaan');
         } catch (Exception $e) {
             DB::rollBack();
+
+            return to_route('kind.of.work')->with('failed', 'Gagal Menambahkan Macam Pekerjaan');
         }
     }
 }
