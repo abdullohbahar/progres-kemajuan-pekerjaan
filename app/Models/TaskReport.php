@@ -68,4 +68,9 @@ class TaskReport extends Model
     {
         return Carbon::parse($value)->format('d-m-Y');
     }
+
+    public function getContractValueAttribute($value)
+    {
+        return number_format($value, 0, ',', '.');
+    }
 }

@@ -92,7 +92,7 @@
                                             </tr>
                                             <tr>
                                                 <td><b>Nilai Kontrak</b></td>
-                                                <td class="vertically-centered">: {{ $taskReport->contract_value }}</td>
+                                                <td class="vertically-centered">: Rp {{ $taskReport->contract_value }}</td>
                                             </tr>
                                             <tr>
                                                 <td><b>Waktu Pelaksanaan</b></td>

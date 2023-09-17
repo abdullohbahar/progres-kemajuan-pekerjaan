@@ -91,9 +91,9 @@
                                         </div>
                                         <div class="col-sm-12 col-md-6">
                                             <div class="form-group mb-3">
-                                                <label class="form-label" for="name">Tahun Anggaran</label>
+                                                <label class="form-label" for="fiscal_year">Tahun Anggaran</label>
                                                 <input type="number" min="1900" max="9999" name="fiscal_year"
-                                                    id="name" value="{{ old('fiscal_year') }}"
+                                                    id="fiscal_year" value="{{ old('fiscal_year') }}"
                                                     class="form-control @error('fiscal_year') is-invalid @enderror" required
                                                     maxlength="4">
                                                 @error('fiscal_year')
@@ -150,8 +150,8 @@
                                         </div>
                                         <div class="col-sm-12 col-md-6">
                                             <div class="form-group mb-3">
-                                                <label class="form-label" for="name">Nilai Kontrak</label>
-                                                <input type="text" name="contract_value" id="name"
+                                                <label class="form-label" for="contract_value">Nilai Kontrak</label>
+                                                <input type="text" name="contract_value" id="contract_value"
                                                     value="{{ old('contract_value') }}"
                                                     class="form-control @error('contract_value') is-invalid @enderror"
                                                     required>
@@ -324,4 +324,5 @@
 @endsection
 
 @push('addons-js')
+    <script src="{{ asset('./assets/js/pages/format-rupiah.js') }}"></script>
 @endpush

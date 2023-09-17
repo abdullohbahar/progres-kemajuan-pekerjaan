@@ -157,9 +157,9 @@
                                         </div>
                                         <div class="col-sm-12 col-md-6">
                                             <div class="form-group mb-3">
-                                                <label class="form-label" for="name">Nilai Kontrak</label>
-                                                <input type="text" name="contract_value" id="name"
-                                                    value="{{ old('contract_value', $taskReport->contract_value) }}"
+                                                <label class="form-label" for="contract_value">Nilai Kontrak</label>
+                                                <input type="text" name="contract_value" id="contract_value"
+                                                    value="Rp {{ old('contract_value', $taskReport->contract_value) }}"
                                                     class="form-control @error('contract_value') is-invalid @enderror"
                                                     required>
                                                 @error('contract_value')
@@ -336,4 +336,5 @@
 @endsection
 
 @push('addons-js')
+    <script src="{{ asset('./assets/js/pages/format-rupiah.js') }}"></script>
 @endpush
