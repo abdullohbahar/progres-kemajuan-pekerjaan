@@ -1,7 +1,7 @@
 @extends('admin.layout.app')
 
 @section('title')
-    Tambah Pekerjaan
+    Ubah Pekerjaan
 @endsection
 
 @push('addons-css')
@@ -17,7 +17,7 @@
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <!--begin::Title-->
                     <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                        Tambah Pekerjaan</h1>
+                        Ubah Pekerjaan</h1>
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
@@ -32,7 +32,7 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">Tambah Pekerjaan</li>
+                        <li class="breadcrumb-item text-muted">Ubah Pekerjaan</li>
                         <!--end::Item-->
                     </ul>
                     <!--end::Breadcrumb-->
@@ -46,8 +46,9 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <!--begin::Content container-->
             <div id="kt_app_content_container" class="app-container container-fluid">
-                <form action="{{ route('task-report.store') }}" method="POST">
+                <form action="{{ route('task-report.update', $taskReport->id) }}" method="POST">
                     @csrf
+                    @method('PUT')
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
@@ -64,7 +65,7 @@
                                             <div class="form-group mb-3">
                                                 <label class="form-label" for="name">Nama Kegiatan</label>
                                                 <input type="text" name="activity_name" id="name"
-                                                    value="{{ old('activity_name') }}"
+                                                    value="{{ old('activity_name', $taskReport->activity_name) }}"
                                                     class="form-control @error('activity_name') is-invalid @enderror"
                                                     required>
                                                 @error('activity_name')
@@ -79,7 +80,7 @@
                                             <div class="form-group mb-3">
                                                 <label class="form-label" for="name">Nama Pekerjaan</label>
                                                 <input type="text" name="task_name" id="name"
-                                                    value="{{ old('task_name') }}"
+                                                    value="{{ old('task_name', $taskReport->task_name) }}"
                                                     class="form-control @error('task_name') is-invalid @enderror" required>
                                                 @error('task_name')
                                                     <div id="validationServerUsernameFeedback"
@@ -93,7 +94,8 @@
                                             <div class="form-group mb-3">
                                                 <label class="form-label" for="name">Tahun Anggaran</label>
                                                 <input type="number" min="1900" max="9999" name="fiscal_year"
-                                                    id="name" value="{{ old('fiscal_year') }}"
+                                                    id="name"
+                                                    value="{{ old('fiscal_year', $taskReport->fiscal_year) }}"
                                                     class="form-control @error('fiscal_year') is-invalid @enderror" required
                                                     maxlength="4">
                                                 @error('fiscal_year')
@@ -108,8 +110,9 @@
                                             <div class="form-group mb-3">
                                                 <label class="form-label" for="name">No. SPK</label>
                                                 <input type="text" name="spk_number" id="name"
-                                                    value="{{ old('spk_number') }}"
-                                                    class="form-control @error('spk_number') is-invalid @enderror" required>
+                                                    value="{{ old('spk_number', $taskReport->spk_number) }}"
+                                                    class="form-control @error('spk_number', $taskReport->spk_number) is-invalid @enderror"
+                                                    required>
                                                 @error('spk_number')
                                                     <div id="validationServerUsernameFeedback"
                                                         class="invalid-feedback text-capitalize">
@@ -120,9 +123,12 @@
                                         </div>
                                         <div class="col-sm-12 col-md-6">
                                             <div class="form-group mb-3">
+                                                @php
+                                                    $spkDate = \Carbon\Carbon::parse($taskReport->spk_date)->format('Y-m-d');
+                                                @endphp
                                                 <label class="form-label" for="name">Tanggal SPK</label>
                                                 <input type="date" name="spk_date" id="name"
-                                                    value="{{ old('spk_date') }}"
+                                                    value="{{ old('spk_date', $spkDate) }}"
                                                     class="form-control @error('spk_date') is-invalid @enderror" required>
                                                 @error('spk_date')
                                                     <div id="validationServerUsernameFeedback"
@@ -137,7 +143,8 @@
                                                 <label class="form-label" for="name">Waktu Pelaksanan (Hari
                                                     Kalender)</label>
                                                 <input type="number" name="execution_time" placeholder="misal: 40"
-                                                    id="name" value="{{ old('execution_time') }}"
+                                                    id="name"
+                                                    value="{{ old('execution_time', $taskReport->execution_time) }}"
                                                     class="form-control @error('execution_time') is-invalid @enderror"
                                                     required>
                                                 @error('execution_time')
@@ -152,7 +159,7 @@
                                             <div class="form-group mb-3">
                                                 <label class="form-label" for="name">Nilai Kontrak</label>
                                                 <input type="text" name="contract_value" id="name"
-                                                    value="{{ old('contract_value') }}"
+                                                    value="{{ old('contract_value', $taskReport->contract_value) }}"
                                                     class="form-control @error('contract_value') is-invalid @enderror"
                                                     required>
                                                 @error('contract_value')
@@ -175,7 +182,7 @@
                                                     <option value="">-- Pilih CV --</option>
                                                     @foreach ($supervisingConsultants as $supervisingConsultant)
                                                         <option value="{{ $supervisingConsultant->id }}"
-                                                            {{ old('supervising_consultant_id') == $supervisingConsultant->id ? 'selected' : '' }}>
+                                                            {{ old('supervising_consultant_id', $taskReport->supervising_consultant_id) == $supervisingConsultant->id ? 'selected' : '' }}>
                                                             {{ $supervisingConsultant->name }}</option>
                                                     @endforeach
                                                 </select>
@@ -197,7 +204,7 @@
                                                     <option value="">-- Pilih Rekanan --</option>
                                                     @foreach ($partners as $partner)
                                                         <option value="{{ $partner->id }}"
-                                                            {{ old('partner_id') == $partner->id ? 'selected' : '' }}>
+                                                            {{ old('partner_id', $taskReport->partner_id) == $partner->id ? 'selected' : '' }}>
                                                             {{ $partner->name }}</option>
                                                     @endforeach
                                                 </select>
@@ -221,7 +228,7 @@
                                                     <option value="">-- Pilih CV --</option>
                                                     @foreach ($siteSupervisors as $siteSupervisor)
                                                         <option value="{{ $siteSupervisor->id }}"
-                                                            {{ old('site_supervisor_id_1') == $siteSupervisor->id ? 'selected' : '' }}>
+                                                            {{ old('site_supervisor_id_1', $taskReport->site_supervisor_id_1) == $siteSupervisor->id ? 'selected' : '' }}>
                                                             {{ $siteSupervisor->name }}</option>
                                                     @endforeach
                                                 </select>
@@ -245,7 +252,7 @@
                                                     <option value="">-- Pilih CV --</option>
                                                     @foreach ($siteSupervisors as $siteSupervisor)
                                                         <option value="{{ $siteSupervisor->id }}"
-                                                            {{ old('site_supervisor_id_2') == $siteSupervisor->id ? 'selected' : '' }}>
+                                                            {{ old('site_supervisor_id_2', $taskReport->site_supervisor_id_2) == $siteSupervisor->id ? 'selected' : '' }}>
                                                             {{ $siteSupervisor->name }}</option>
                                                     @endforeach
                                                 </select>
@@ -268,7 +275,7 @@
                                                     <option value="">-- Pilih CV --</option>
                                                     @foreach ($actingCommitmentMarkers as $actingCommitmentMarker)
                                                         <option value="{{ $actingCommitmentMarker->id }}"
-                                                            {{ old('acting_commitment_marker_id') == $actingCommitmentMarker->id ? 'selected' : '' }}>
+                                                            {{ old('acting_commitment_marker_id', $taskReport->acting_commitment_marker_id) == $actingCommitmentMarker->id ? 'selected' : '' }}>
                                                             {{ $actingCommitmentMarker->name }}</option>
                                                     @endforeach
                                                 </select>
@@ -288,15 +295,20 @@
                                                     id="status">
                                                     <option value="">-- Pilih Status --</option>
                                                     <option value="Aktif"
-                                                        {{ old('status') == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                                                        {{ old('status', $taskReport->status) == 'Aktif' ? 'selected' : '' }}>
+                                                        Aktif</option>
                                                     <option value="SP 1"
-                                                        {{ old('status') == 'SP 1' ? 'selected' : '' }}>SP 1</option>
+                                                        {{ old('status', $taskReport->status) == 'SP 1' ? 'selected' : '' }}>
+                                                        SP 1</option>
                                                     <option value="SCM 1"
-                                                        {{ old('status') == 'SCM 1' ? 'selected' : '' }}>SCM 1</option>
+                                                        {{ old('status', $taskReport->status) == 'SCM 1' ? 'selected' : '' }}>
+                                                        SCM 1</option>
                                                     <option value="SCM 2"
-                                                        {{ old('status') == 'SCM 2' ? 'selected' : '' }}>SCM 2</option>
+                                                        {{ old('status', $taskReport->status) == 'SCM 2' ? 'selected' : '' }}>
+                                                        SCM 2</option>
                                                     <option value="SCM 3"
-                                                        {{ old('status') == 'SCM 3' ? 'selected' : '' }}>SCM 3</option>
+                                                        {{ old('status', $taskReport->status) == 'SCM 3' ? 'selected' : '' }}>
+                                                        SCM 3</option>
                                                 </select>
                                                 @error('status')
                                                     <div id="validationServerUsernameFeedback"
@@ -307,7 +319,7 @@
                                             </div>
                                         </div>
                                         <div class="col-12 d-grid mt-2">
-                                            <button type="submit" class="btn btn-success">Simpan</button>
+                                            <button type="submit" class="btn btn-success">Ubah</button>
                                         </div>
                                     </div>
                                 </div>

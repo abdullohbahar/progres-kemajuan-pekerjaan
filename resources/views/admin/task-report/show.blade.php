@@ -64,6 +64,11 @@
                                         <i class="fas fa-arrow-left"></i> Kembali
                                     </a>
                                 </div>
+                                <div class="card-toolbar">
+                                    <a href="{{ route('task-report.edit', $taskReport->id) }}"
+                                        class="btn btn-sm btn-warning"> Ubah
+                                    </a>
+                                </div>
                             </div>
                             <div class="card-body" style="font-size: 14px">
                                 <div class="row">

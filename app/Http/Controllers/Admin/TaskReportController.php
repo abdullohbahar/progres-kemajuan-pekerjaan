@@ -92,6 +92,57 @@ class TaskReportController extends Controller
         return view('admin.task-report.show', $data);
     }
 
+    public function edit(TaskReport $taskReport)
+    {
+        $data = [
+            'active' => $this->active,
+            'taskReport' => $taskReport,
+            'supervisingConsultants' => SupervisingConsultant::get(),
+            'partners' => Partner::get(),
+            'siteSupervisors' => SiteSupervisor::get(),
+            'actingCommitmentMarkers' => ActingCommitmentMarker::get(),
+        ];
+
+        return view('admin.task-report.edit', $data);
+    }
+
+    public function update(Request $request, TaskReport $taskReport)
+    {
+        $validateData = $request->validate([
+            'activity_name' => 'required',
+            'task_name' => 'required',
+            'fiscal_year' => 'required',
+            'spk_number' => 'required',
+            'spk_date' => 'required',
+            'execution_time' => 'required',
+            'contract_value' => 'required',
+            'supervising_consultant_id' => 'required',
+            'partner_id' => 'required',
+            'site_supervisor_id_1' => 'required',
+            'site_supervisor_id_2' => 'required',
+            'acting_commitment_marker_id' => 'required',
+            'status' => 'required',
+        ], [
+            'activity_name.required' => 'nama kegiatan harus diisi',
+            'task_name.required' => 'nama pekerjaan harus diisi',
+            'fiscal_year.required' => 'tahun anggaran harus diisi', // tahun anggaran
+            'spk_number.required' => 'nomor SPK harus diisi',
+            'spk_date.required' => 'tanggal SPK harus diisi',
+            'execution_time.required' => 'Waktu Pelaksanaan harus diisi',
+            'contract_value.required' => 'Nilai kontrak harus diisi',
+            'supervising_consultant_id.required' => 'konsultan pengawas harus diisi', // id konsultan pengawas
+            'partner_id.required' => 'rekanan harus diisi', // id rekanan
+            'site_supervisor_id_1.required' => 'pengawas lapangan 1 harus diisi', // id pengawas lapangan 1
+            'site_supervisor_id_2.required' => 'pengawas lapangan 2 harus diisi', // id pengawas lapangan 2
+            'acting_commitment_marker_id.required' => 'PPK harus diisi', // id ppk
+            'status.required' => 'status harus diisi',
+        ]);
+
+        $taskReport->update($validateData);
+
+        return to_route('task-report.show', $taskReport)->with('success', 'Berhasil Mengubah Pekerjaan');
+    }
+
     public function destroy(TaskReport $taskReport)
     {
         $delete = $taskReport->delete();
