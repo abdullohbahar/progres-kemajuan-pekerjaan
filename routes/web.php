@@ -45,4 +45,5 @@ Route::prefix('admin')->group(function () {
 
     Route::get('manage-work/{id}', [KindOfWorkController::class, 'manageWork'])->name('manage.work');
     Route::put('update-manage-work/{id}', [KindOfWorkController::class, 'updateManageWork'])->name('manage.work.update');
+    Route::get('manage-work-progress/{id}', [KindOfWorkController::class, 'manageWorkProgress'])->name('manage.work.progress');
 });

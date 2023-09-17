@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use Exception;
+use Carbon\Carbon;
+use App\Models\Schedule;
+use App\Models\KindOfWork;
 use App\Models\TaskReport;
 use Illuminate\Http\Request;
+use App\Models\KindOfWorkDetail;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\KindOfWork;
-use App\Models\KindOfWorkDetail;
 
 class KindOfWorkController extends Controller
 {
@@ -150,5 +152,42 @@ class KindOfWorkController extends Controller
         ]);
 
         return to_route('task-report.show', $task_id->kindOfWork->task_id)->with('success', 'Berhasil');
+    }
+
+    // kelola kemajuan pekerjaan
+    public function manageWorkProgress($id)
+    {
+        // menghitung hari per minggu
+        $start_date = '2023-06-08';
+        $jumlah_hari = 40;
+        $dates = [];
+
+        // Menginisialisasi tanggal awal
+        $current_date = $start_date;
+
+        for ($i = 0; $i < $jumlah_hari; $i++) {
+            $dates[] = date('d', strtotime($current_date));
+
+            // Menambahkan 1 hari ke tanggal saat ini
+            $current_date = date('Y-m-d', strtotime($current_date . " + 1 day"));
+        }
+
+        // Memecah array ke dalam grup-grup 7 hari
+        $groupedDates = array_chunk($dates, 7);
+
+        foreach ($groupedDates as $key => $week) {
+            dump('Minggu ke - ' . $key + 1 . ' | ' . reset($week) . ' - ' . end($week));
+        }
+
+        dd($groupedDates);
+
+        // $schedules = Schedule::with('kindOfWorkDetail')->findorfail($id);
+
+        $data = [
+            'active' => $this->active,
+            // 'schedules' => $schedules,
+        ];
+
+        return view('admin.kind-of-work.manage-work-progress', $data);
     }
 }

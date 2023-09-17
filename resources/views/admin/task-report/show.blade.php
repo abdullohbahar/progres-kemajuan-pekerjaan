@@ -183,9 +183,10 @@
                                                                         Pekerjaan</a>
                                                                 </div>
                                                                 <div class="col-6 d-grid">
-                                                                    <button class="btn btn-sm btn-success my-5"
+                                                                    <a href="{{ route('manage.work.progress', $detail->id) }}"
+                                                                        class="btn btn-sm btn-success my-5"
                                                                         style="margin-right: 5px">Kelola
-                                                                        Kemajuan Pekerjaan</button>
+                                                                        Kemajuan Pekerjaan</a>
                                                                 </div>
                                                             </div>
                                                         </div>

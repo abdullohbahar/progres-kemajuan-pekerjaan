@@ -26,4 +26,9 @@ class KindOfWorkDetail extends Model
     {
         return $this->belongsTo(KindOfWork::class);
     }
+
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
 }
