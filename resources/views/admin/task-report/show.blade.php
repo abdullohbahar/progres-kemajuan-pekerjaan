@@ -165,9 +165,9 @@
                                                     class="btn btn-sm btn-warning" style="margin-right: 5px">Ubah</a>
                                             </div>
                                         </div>
-                                        <div class="card-body">
+                                        <div class="card-body" style="padding-left:70px !important">
                                             @foreach ($kindOfWork->kindOfWorkDetails as $key => $detail)
-                                                <div class="mt-4" style="margin-left:50px">
+                                                <div class="mt-4">
                                                     <div class="row">
                                                         <div class="col-sm-12 col-md-8">
                                                             <h3>{{ $key + 1 }}. {{ $detail->name }}</h3>
@@ -175,13 +175,122 @@
                                                             <p>{!! $detail->information !!}</p>
                                                         </div>
                                                         <div class="col-sm-12 col-md-4 text-end">
-                                                            <a href="{{ route('manage.work', $detail->id) }}"
-                                                                class="btn btn-sm btn-primary"
-                                                                style="margin-right: 5px">Kelola
-                                                                Pekerjaan</a>
-                                                            <button class="btn btn-sm btn-success"
-                                                                style="margin-right: 5px">Kelola
-                                                                Kemajuan Pekerjaan</button>
+                                                            <div class="row">
+                                                                <div class="col-6 d-grid">
+                                                                    <a href="{{ route('manage.work', $detail->id) }}"
+                                                                        class="btn btn-sm btn-primary my-5"
+                                                                        style="margin-right: 5px">Kelola
+                                                                        Pekerjaan</a>
+                                                                </div>
+                                                                <div class="col-6 d-grid">
+                                                                    <button class="btn btn-sm btn-success my-5"
+                                                                        style="margin-right: 5px">Kelola
+                                                                        Kemajuan Pekerjaan</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="accordion" id="kt_accordion_{{ $key }}">
+                                                                <div class="accordion-item">
+                                                                    <h2 class="accordion-header"
+                                                                        id="kt_accordion_{{ $key }}_header_{{ $key }}">
+                                                                        <button
+                                                                            class="accordion-button fs-4 fw-semibold collapsed"
+                                                                            type="button" data-bs-toggle="collapse"
+                                                                            data-bs-target="#kt_accordion_{{ $key }}_body_{{ $key }}"
+                                                                            aria-expanded="false"
+                                                                            aria-controls="kt_accordion_{{ $key }}_body_{{ $key }}">
+                                                                            Harga Kontrak
+                                                                        </button>
+                                                                    </h2>
+                                                                    <div id="kt_accordion_{{ $key }}_body_{{ $key }}"
+                                                                        class="accordion-collapse collapse"
+                                                                        aria-labelledby="kt_accordion_{{ $key }}_header_{{ $key }}"
+                                                                        data-bs-parent="#kt_accordion_{{ $key }}">
+                                                                        <div class="accordion-body">
+                                                                            <table>
+                                                                                <tr>
+                                                                                    <td>Volume</td>
+                                                                                    <td>: {{ $detail->contract_volume }}
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Satuan</td>
+                                                                                    <td>: {{ $detail->contract_unit }}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Harga Satuan (Rp)</td>
+                                                                                    <td>: Rp
+                                                                                        {{ number_format($detail->contract_unit_price, 0, ',', '.') }}
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Jumlah Harga (Rp)</td>
+                                                                                    <td>:
+                                                                                        @php
+                                                                                            $contractUnitPrice = $detail->contract_unit_price * $detail->contract_volume;
+                                                                                        @endphp
+                                                                                        Rp
+                                                                                        {{ number_format($contractUnitPrice, 0, ',', '.') }}
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 mt-5">
+                                                            <div class="accordion"
+                                                                id="kt_accordion_{{ $key }}_mc">
+                                                                <div class="accordion-item">
+                                                                    <h2 class="accordion-header"
+                                                                        id="kt_accordion_{{ $key }}_mc_header_{{ $key }}_mc">
+                                                                        <button
+                                                                            class="accordion-button fs-4 fw-semibold collapsed"
+                                                                            type="button" data-bs-toggle="collapse"
+                                                                            data-bs-target="#kt_accordion_{{ $key }}_mc_body_{{ $key }}_mc"
+                                                                            aria-expanded="false"
+                                                                            aria-controls="kt_accordion_{{ $key }}_mc_body_{{ $key }}_mc">
+                                                                            MC-0
+                                                                        </button>
+                                                                    </h2>
+                                                                    <div id="kt_accordion_{{ $key }}_mc_body_{{ $key }}_mc"
+                                                                        class="accordion-collapse collapse"
+                                                                        aria-labelledby="kt_accordion_{{ $key }}_mc_header_{{ $key }}_mc"
+                                                                        data-bs-parent="#kt_accordion_{{ $key }}_mc">
+                                                                        <div class="accordion-body">
+                                                                            <table>
+                                                                                <tr>
+                                                                                    <td>Volume</td>
+                                                                                    <td>: {{ $detail->mc_volume }}
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Satuan</td>
+                                                                                    <td>: {{ $detail->mc_unit }}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Harga Satuan (Rp)</td>
+                                                                                    <td>: Rp
+                                                                                        {{ number_format($detail->mc_unit_price, 0, ',', '.') }}
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Jumlah Harga (Rp)</td>
+                                                                                    <td>:
+                                                                                        @php
+                                                                                            $mcUnitPrice = $detail->mc_unit_price * $detail->mc_volume;
+                                                                                        @endphp
+                                                                                        Rp
+                                                                                        {{ number_format($mcUnitPrice, 0, ',', '.') }}
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
