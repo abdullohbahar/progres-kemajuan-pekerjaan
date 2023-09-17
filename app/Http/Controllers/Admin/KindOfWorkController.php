@@ -112,6 +112,7 @@ class KindOfWorkController extends Controller
         }
     }
 
+    // manage work = kind of work detail
     public function manageWork($id)
     {
         $kindOfWorkDetail = KindOfWorkDetail::with('kindOfWork')->findorfail($id);
@@ -122,5 +123,32 @@ class KindOfWorkController extends Controller
         ];
 
         return view('admin.kind-of-work.manage-work', $data);
+    }
+
+    // update manage work = kind of work detail update
+    public function updateManageWork(Request $request, $id)
+    {
+        // get task id
+        $task_id = KindOfWorkDetail::with('kindOfWork')->findOrFail($id);
+
+        // Mengambil angka saja dari jumlah
+        // Menampung karakter yang ingin dihapus
+        $removeChar = ['R', 'p', '.', ',', ' '];
+
+        // Menghapus karakter sesuai dengan array yang ada di $removeChar
+        $contractUnitPrice = str_replace($removeChar, "", $request->contract_unit_price);
+        $mcUnitPrice = str_replace($removeChar, "", $request->mc_unit_price);
+
+        // update kind of work
+        KindOfWorkDetail::where('id', $id)->update([
+            'contract_volume' => $request->contract_volume,
+            'contract_unit' => $request->contract_unit,
+            'contract_unit_price' => $contractUnitPrice,
+            'mc_volume' => $request->mc_volume,
+            'mc_unit' => $request->mc_unit,
+            'mc_unit_price' => $mcUnitPrice
+        ]);
+
+        return to_route('task-report.show', $task_id->kindOfWork->task_id)->with('success', 'Berhasil');
     }
 }
