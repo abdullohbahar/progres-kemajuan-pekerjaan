@@ -24,6 +24,6 @@ class KindOfWorkDetail extends Model
 
     public function kindOfWork()
     {
-        return $this->hasMany(KindOfWork::class, 'kind_of_work_id', 'id');
+        return $this->belongsTo(KindOfWork::class);
     }
 }

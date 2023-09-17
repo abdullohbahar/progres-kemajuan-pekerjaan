@@ -111,4 +111,16 @@ class KindOfWorkController extends Controller
             return to_route('task-report.show', $kindOfWork->task_id)->with('failed', 'Gagal Mengubah Macam Pekerjaan');
         }
     }
+
+    public function manageWork($id)
+    {
+        $kindOfWorkDetail = KindOfWorkDetail::with('kindOfWork')->findorfail($id);
+
+        $data = [
+            'active' => $this->active,
+            'kindOfWorkDetail' => $kindOfWorkDetail,
+        ];
+
+        return view('admin.kind-of-work.manage-work', $data);
+    }
 }

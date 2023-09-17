@@ -55,7 +55,8 @@
                             <div class="card">
                                 <div class="card-header border-0 pt-5">
                                     <div class="card-toolbar">
-                                        <a href="{{ route('task-report.index') }}" class="btn btn-sm btn-primary">
+                                        <a href="{{ route('task-report.show', $kindOfWork->task_id) }}"
+                                            class="btn btn-sm btn-primary">
                                             <i class="fas fa-arrow-left"></i> Kembali
                                         </a>
                                     </div>

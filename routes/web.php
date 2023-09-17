@@ -42,4 +42,6 @@ Route::prefix('admin')->group(function () {
         Route::get('/kind-of-work/{id}/edit', [KindOfWorkController::class, 'edit'])->name('kind.of.work.edit');
         Route::put('/kind-of-work/{id}/update', [KindOfWorkController::class, 'update'])->name('kind.of.work.update');
     });
+
+    Route::get('manage-work/{id}', [KindOfWorkController::class, 'manageWork'])->name('manage.work');
 });

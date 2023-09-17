@@ -175,9 +175,10 @@
                                                             <p>{!! $detail->information !!}</p>
                                                         </div>
                                                         <div class="col-sm-12 col-md-4 text-end">
-                                                            <button class="btn btn-sm btn-primary"
+                                                            <a href="{{ route('manage.work', $detail->id) }}"
+                                                                class="btn btn-sm btn-primary"
                                                                 style="margin-right: 5px">Kelola
-                                                                Pekerjaan</button>
+                                                                Pekerjaan</a>
                                                             <button class="btn btn-sm btn-success"
                                                                 style="margin-right: 5px">Kelola
                                                                 Kemajuan Pekerjaan</button>
