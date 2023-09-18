@@ -90,7 +90,7 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">Data CV Konsultan</span>
+                                        <span class="menu-title">CV Konsultan</span>
                                     </a>
                                     <!--end:Menu link-->
                                 </div>
@@ -103,7 +103,7 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">Data Konsultan Pengawas</span>
+                                        <span class="menu-title">Konsultan Pengawas</span>
                                     </a>
                                     <!--end:Menu link-->
                                 </div>
@@ -116,7 +116,7 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">Data Rekanan (Penyedia Jasa)</span>
+                                        <span class="menu-title">Rekanan (Penyedia Jasa)</span>
                                     </a>
                                     <!--end:Menu link-->
                                 </div>
@@ -129,7 +129,7 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">Data Pengawas Lapangan</span>
+                                        <span class="menu-title">Pengawas Lapangan</span>
                                     </a>
                                     <!--end:Menu link-->
                                 </div>
@@ -142,7 +142,20 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">Data PPK</span>
+                                        <span class="menu-title">PPK</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link {{ $active == 'unit' ? 'active' : '' }}"
+                                        href="{{ route('unit.index') }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Unit</span>
                                     </a>
                                     <!--end:Menu link-->
                                 </div>

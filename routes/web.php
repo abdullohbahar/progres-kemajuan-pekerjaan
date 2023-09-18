@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\SiteSupervisorController;
 use App\Http\Controllers\Admin\SupervisingConsultantController;
 use App\Http\Controllers\Admin\TaskReportController;
+use App\Http\Controllers\Admin\UnitController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,6 +36,8 @@ Route::prefix('admin')->group(function () {
     Route::resource('acting-commitment-marker', ActingCommitmentMarkerController::class)->only(['index', 'store', 'destroy', 'update', 'edit']);
 
     Route::resource('task-report', TaskReportController::class)->only(['index', 'store', 'destroy', 'update', 'edit', 'create', 'show']);
+
+    Route::resource('unit', UnitController::class)->only(['index', 'store', 'destroy']);
 
     Route::prefix('task-report')->group(function () {
         Route::get('/kind-of-work/{taskId}', [KindOfWorkController::class, 'create'])->name('kind.of.work');

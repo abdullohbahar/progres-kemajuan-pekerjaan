@@ -24,6 +24,7 @@ return new class extends Migration
             $table->text('mc_volume')->nullable(); // volume mc
             $table->text('mc_unit')->nullable(); // unit mc
             $table->text('mc_unit_price')->nullable(); // harga satuan mc
+            $table->text('work_value')->nullable(); // nilai pekerjaan mc
             $table->timestamps();
         });
     }
