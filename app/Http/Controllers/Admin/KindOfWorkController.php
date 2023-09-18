@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\KindOfWorkDetail;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Unit;
 
 class KindOfWorkController extends Controller
 {
@@ -117,11 +118,13 @@ class KindOfWorkController extends Controller
     // manage work = kind of work detail
     public function manageWork($id)
     {
+        $units = Unit::orderBy('unit', 'asc')->get();
         $kindOfWorkDetail = KindOfWorkDetail::with('kindOfWork')->findorfail($id);
 
         $data = [
             'active' => $this->active,
             'kindOfWorkDetail' => $kindOfWorkDetail,
+            'units' => $units
         ];
 
         return view('admin.kind-of-work.manage-work', $data);

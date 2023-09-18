@@ -81,10 +81,16 @@
                                         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mt-3">
                                             <div class="form-group">
                                                 <label class="form-label" for="contract_unit">Satuan</label>
-                                                <input type="text" name="contract_unit"
-                                                    class="form-control @error('contract_unit') is-invalid @enderror"
-                                                    value="{{ old('contract_unit', $kindOfWorkDetail->contract_unit) }}"
-                                                    id="contract_unit">
+                                                <select class="form-control @error('contract_unit') is-invalid @enderror"
+                                                    name="contract_unit" id="contract_unit" required>
+                                                    <option value="">-- Pilih Unit --</option>
+                                                    @foreach ($units as $unit)
+                                                        <option value="{{ $unit->unit }}"
+                                                            {{ old('contract_unt', $kindOfWorkDetail->contract_unit) == $unit->unit ? 'selected' : '' }}>
+                                                            {{ $unit->unit }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                                 @error('contract_unit')
                                                     <div id="validationServerUsernameFeedback"
                                                         class="invalid-feedback text-capitalize">
@@ -153,10 +159,16 @@
                                         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mt-3">
                                             <div class="form-group">
                                                 <label class="form-label" for="mc_unit">Satuan</label>
-                                                <input type="text" name="mc_unit"
-                                                    class="form-control @error('mc_unit') is-invalid @enderror"
-                                                    value="{{ old('mc_unit', $kindOfWorkDetail->mc_unit) }}"
-                                                    id="mc_unit">
+                                                <select class="form-control @error('mc_unit') is-invalid @enderror"
+                                                    name="mc_unit" id="mc_unit" required>
+                                                    <option value="">-- Pilih Unit --</option>
+                                                    @foreach ($units as $unit)
+                                                        <option value="{{ $unit->unit }}"
+                                                            {{ old('contract_unt', $kindOfWorkDetail->mc_unit) == $unit->unit ? 'selected' : '' }}>
+                                                            {{ $unit->unit }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                                 @error('mc_unit')
                                                     <div id="validationServerUsernameFeedback"
                                                         class="invalid-feedback text-capitalize">
