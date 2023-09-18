@@ -52,7 +52,7 @@
                             <div class="card-header border-0">
                                 <div class="py-5">
                                     <h1>Kelola Kemajuan Pekerjaan</h1>
-                                    <h6>Nama Pekerjaan</h6>
+                                    <h3>{{ $kindOfWorkDetail->name }}</h3>
                                 </div>
                             </div>
                             <form action="#" method="POST">
@@ -64,33 +64,61 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="mc_unit">Satuan</label>
                                             </div>
-                                            <input type="text" class="form-control" name="mc_unit" id="mc_unit">
+                                            <input type="text" class="form-control"
+                                                value="{{ $kindOfWorkDetail->mc_unit }}" name="mc_unit" id="mc_unit"
+                                                disabled>
                                         </div>
                                         <div class="col-sm-12 col-md-6 mt-4">
                                             <div class="form-group">
                                                 <label class="form-label" for="mc_volume">Volume</label>
                                             </div>
-                                            <input type="text" class="form-control" name="mc_volume" id="mc_volume">
+                                            <input type="text" class="form-control"
+                                                value="{{ $kindOfWorkDetail->mc_volume }}" name="mc_volume" id="mc_volume"
+                                                disabled>
                                         </div>
                                         <div class="col-sm-12 col-md-6 mt-4">
                                             <div class="form-group">
                                                 <label class="form-label" for="mc_unit_price">Jumlah Satuan Harga
                                                     (Rp)</label>
                                             </div>
-                                            <input type="text" class="form-control" name="mc_unit_price"
-                                                id="mc_unit_price">
+                                            <input type="text" class="form-control"
+                                                value="Rp {{ number_format($kindOfWorkDetail->mc_unit_price, 0, ',', '.') }}"
+                                                name="mc_unit_price" id="mc_unit_price" disabled>
                                         </div>
                                         <div class="col-sm-12 col-md-6 mt-4">
+                                            @php
+                                                $totalPrice = $kindOfWorkDetail->mc_unit_price * $kindOfWorkDetail->mc_volume;
+                                                $totalPriceRupiah = number_format($totalPrice, 0, ',', '.');
+                                            @endphp
                                             <div class="form-group">
                                                 <label class="form-label" for="total_price">Total Harga (Rp)</label>
                                             </div>
-                                            <input type="text" class="form-control" id="total_price">
+                                            <input type="text" class="form-control" value="Rp {{ $totalPriceRupiah }}"
+                                                id="total_price" disabled>
                                         </div>
                                         <div class="col-sm-12 col-md-6 mt-4">
                                             <div class="form-group">
-                                                <label class="form-label" for="work_value">Niali Pekerjaan</label>
+                                                <label class="form-label" for="work_value">Nilai Pekerjaan</label>
                                             </div>
-                                            <input type="text" class="form-control" id="work_value">
+                                            <input type="text" class="form-control" id="work_value" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-5">
+                                        <h2>Waktu Pengerjaan</h2>
+                                        @foreach ($groupedDates as $key => $groupDate)
+                                            <div class="col-sm-12 col-md-6 mt-4">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="work_value">Minggu ke -
+                                                        {{ $key + 1 }} (Tanggal :
+                                                        {{ reset($groupDate) . '-' . end($groupDate) }})</label>
+                                                </div>
+                                                <input type="text" class="form-control" id="work_value">
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 d-grid">
+                                            <button type="submit" class="btn btn-success mt-5">Simpan</button>
                                         </div>
                                     </div>
                                 </div>

@@ -19,4 +19,9 @@ class KindOfWork extends Model
     {
         return $this->hasMany(KindOfWorkDetail::class);
     }
+
+    public function task()
+    {
+        return $this->belongsTo(TaskReport::class);
+    }
 }

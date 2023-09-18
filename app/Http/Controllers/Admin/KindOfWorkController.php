@@ -157,15 +157,21 @@ class KindOfWorkController extends Controller
     // kelola kemajuan pekerjaan
     public function manageWorkProgress($id)
     {
+        $kindOfWorkDetail = KindOfWorkDetail::with('kindOfWork')->findorfail($id);
+
+        $spkDate = $kindOfWorkDetail->kindOfWork->task->spk_date;
+        $execution_time = $kindOfWorkDetail->kindOfWork->task->execution_time;
+
+        // menampilkan form berdasarkan jumlah minggu
         // menghitung hari per minggu
-        $start_date = '2023-06-08';
-        $jumlah_hari = 40;
+        $start_date = Carbon::parse($spkDate)->format('Y-m-d');
+        $executionTime = $execution_time;
         $dates = [];
 
         // Menginisialisasi tanggal awal
         $current_date = $start_date;
 
-        for ($i = 0; $i < $jumlah_hari; $i++) {
+        for ($i = 0; $i < $executionTime; $i++) {
             $dates[] = date('d', strtotime($current_date));
 
             // Menambahkan 1 hari ke tanggal saat ini
@@ -175,17 +181,10 @@ class KindOfWorkController extends Controller
         // Memecah array ke dalam grup-grup 7 hari
         $groupedDates = array_chunk($dates, 7);
 
-        foreach ($groupedDates as $key => $week) {
-            dump('Minggu ke - ' . $key + 1 . ' | ' . reset($week) . ' - ' . end($week));
-        }
-
-        dd($groupedDates);
-
-        // $schedules = Schedule::with('kindOfWorkDetail')->findorfail($id);
-
         $data = [
             'active' => $this->active,
-            // 'schedules' => $schedules,
+            'groupedDates' => $groupedDates,
+            'kindOfWorkDetail' => $kindOfWorkDetail,
         ];
 
         return view('admin.kind-of-work.manage-work-progress', $data);
