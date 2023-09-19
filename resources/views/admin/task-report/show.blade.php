@@ -287,6 +287,11 @@
                                                                                         {{ number_format($mcUnitPrice, 0, ',', '.') }}
                                                                                     </td>
                                                                                 </tr>
+                                                                                <tr>
+                                                                                    <td>Nilai Pekerjaan</td>
+                                                                                    <td>:{{ $detail->work_value }}
+                                                                                    </td>
+                                                                                </tr>
                                                                             </table>
                                                                         </div>
                                                                     </div>

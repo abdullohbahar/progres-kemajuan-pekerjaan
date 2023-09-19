@@ -77,6 +77,13 @@ class TaskReportController extends Controller
             'status.required' => 'status harus diisi',
         ]);
 
+        // Mengambil angka saja dari contract value
+        // Menampung karakter yang ingin dihapus
+        $removeChar = ['R', 'p', '.', ',', ' '];
+
+        // Menghapus karakter sesuai dengan array yang ada di $removeChar
+        $validateData['contract_value'] = str_replace($removeChar, "", $request->contract_value);
+
         $taskReport->create($validateData);
 
         return to_route('task-report.index')->with('success', 'Berhasil Menambah Pekerjaan');

@@ -54,6 +54,9 @@
                                     <h1>{{ $kindOfWorkDetail->kindOfWork->name }}</h1>
                                     <h6>{{ $kindOfWorkDetail->name }}</h6>
                                 </div>
+                                <div class="header-toolbar">
+                                    <h1>Nilai Kontrak : Rp {{ $kindOfWorkDetail->kindOfWork->task->contract_value }}</h1>
+                                </div>
                             </div>
                             <form action="{{ route('manage.work.update', $kindOfWorkDetail->id) }}" method="POST">
                                 @csrf
@@ -118,14 +121,14 @@
                                             <div class="form-group">
                                                 {{-- menghitung total harga kontrak --}}
                                                 @php
-                                                    $contractTotalPrice = $kindOfWorkDetail->contract_unit_price ?? (0 * $kindOfWorkDetail->contract_volume ?? 0);
+                                                    $contractTotalPrice = ($kindOfWorkDetail->contract_unit_price ?? 0) * ($kindOfWorkDetail->contract_volume ?? 0);
                                                     $contractTotalPriceRupiah = 'Rp ' . number_format($contractTotalPrice, 0, ',', '.');
                                                 @endphp
                                                 <label class="form-label" for="contract_total_price">Total Harga</label>
                                                 <input type="text" name="contract_total_price"
                                                     class="form-control @error('contract_total_price') is-invalid @enderror"
                                                     value="{{ old('contract_total_price', $contractTotalPriceRupiah) }}"
-                                                    id="contract_total_price">
+                                                    id="contract_total_price" readonly>
                                                 @error('contract_total_price')
                                                     <div id="validationServerUsernameFeedback"
                                                         class="invalid-feedback text-capitalize">
@@ -195,20 +198,31 @@
                                         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mt-3">
                                             <div class="form-group">
                                                 @php
-                                                    $mcTotalPrice = $kindOfWorkDetail->mc_unit_price ?? (0 * $kindOfWorkDetail->mc_volume ?? 0);
+                                                    $mcTotalPrice = ($kindOfWorkDetail->mc_unit_price ?? 0) * ($kindOfWorkDetail->mc_volume ?? 0);
                                                     $mcTotalPriceRupiah = 'Rp ' . number_format($mcTotalPrice, 0, ',', '.');
                                                 @endphp
                                                 <label class="form-label" for="mc_total_price">Total Harga</label>
                                                 <input type="text" name="mc_total_price"
                                                     class="form-control @error('mc_total_price') is-invalid @enderror"
                                                     value="{{ old('mc_total_price', $mcTotalPriceRupiah) }}"
-                                                    id="mc_total_price">
+                                                    id="mc_total_price" readonly>
                                                 @error('mc_total_price')
                                                     <div id="validationServerUsernameFeedback"
                                                         class="invalid-feedback text-capitalize">
                                                         {{ $message }}
                                                     </div>
                                                 @enderror
+                                            </div>
+                                        </div>
+                                        {{-- hidden contract Value --}}
+                                        <input type="text" hidden id="contractValue"
+                                            value="{{ $kindOfWorkDetail->kindOfWork->task->contract_value }}">
+                                        {{-- End --}}
+                                        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mt-3">
+                                            <div class="form-group">
+                                                <label class="form-label">Nilai Pekerjaan</label>
+                                                <input type="text" class="form-control" name="work_value"
+                                                    value="{{ $kindOfWorkDetail->work_value }}" id="workValue" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -233,4 +247,40 @@
 @push('addons-js')
     <script src="{{ asset('./assets/js/pages/contract-price.js') }}"></script>
     <script src="{{ asset('./assets/js/pages/mc-price.js') }}"></script>
+
+    <script>
+        // Ambil elemen input
+        var contractValueInput = document.getElementById("contractValue");
+        var mcTotalPriceInput = document.getElementById("mc_total_price");
+        var mcUnitPriceInput = document.getElementById("mc_unit_price");
+        var mcVolumeInput = document.getElementById("mc_volume");
+        var workValueInput = document.getElementById("workValue");
+
+        // Fungsi untuk menghapus karakter "Rp" dan titik-titik, lalu menghitung persentase
+        function calculatePercentage() {
+            var contractValueStr = contractValueInput.value;
+            var mcTotalPriceStr = mcTotalPriceInput.value;
+
+            // Hapus karakter "Rp" dan titik-titik
+            var contractValueClean = parseFloat(contractValueStr.replace(/[^\d]/g, ''));
+            var mcTotalPriceClean = parseFloat(mcTotalPriceStr.replace(/[^\d]/g, ''));
+
+            // Lakukan perhitungan persentase
+            if (!isNaN(contractValueClean) && !isNaN(mcTotalPriceClean)) {
+                var percentage = (mcTotalPriceClean / contractValueClean) * 100;
+
+                // Tampilkan hasil perhitungan di dalam input workValue
+                workValueInput.value = percentage.toFixed(3) + "%";
+            }
+        }
+
+        // Fungsi ini akan dijalankan saat dokumen telah dimuat
+        window.addEventListener("load", function() {
+            calculatePercentage();
+        });
+
+        // Tambahkan event listener ke mcUnitPriceInput
+        mcUnitPriceInput.addEventListener("keyup", calculatePercentage);
+        mcVolumeInput.addEventListener("keyup", calculatePercentage);
+    </script>
 @endpush

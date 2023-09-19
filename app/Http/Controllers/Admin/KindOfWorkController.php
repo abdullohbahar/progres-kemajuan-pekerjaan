@@ -151,7 +151,8 @@ class KindOfWorkController extends Controller
             'contract_unit_price' => $contractUnitPrice,
             'mc_volume' => $request->mc_volume,
             'mc_unit' => $request->mc_unit,
-            'mc_unit_price' => $mcUnitPrice
+            'mc_unit_price' => $mcUnitPrice,
+            'work_value' => $request->work_value,
         ]);
 
         return to_route('task-report.show', $task_id->kindOfWork->task_id)->with('success', 'Berhasil');
