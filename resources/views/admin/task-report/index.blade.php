@@ -63,10 +63,11 @@
                                     <thead>
                                         <tr class="fw-bold fs-6 text-gray-800 px-7">
                                             <th>#</th>
-                                            <th>Nama Kegiatan</th>
-                                            <th>Nama Pekerjaan</th>
+                                            <th style="width: 20%">Nama Kegiatan</th>
+                                            <th style="width: 20%">Nama Pekerjaan</th>
                                             <th>Tahun Anggaran</th>
                                             <th>Tanggal SPK</th>
+                                            <th>Status</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>

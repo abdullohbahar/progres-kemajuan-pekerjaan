@@ -172,7 +172,7 @@
                                                     class="form-select form-select-solid @error('supervising_consultant_id') is-invalid @enderror"
                                                     required data-control="select2"
                                                     data-placeholder="Pilih Konsultan Pengawas">
-                                                    <option value="">-- Pilih CV --</option>
+                                                    <option value="">-- Pilih Konsultan Pengawas --</option>
                                                     @foreach ($supervisingConsultants as $supervisingConsultant)
                                                         <option value="{{ $supervisingConsultant->id }}"
                                                             {{ old('supervising_consultant_id') == $supervisingConsultant->id ? 'selected' : '' }}>
@@ -218,7 +218,8 @@
                                                     class="form-select form-select-solid @error('site_supervisor_id_1') is-invalid @enderror"
                                                     required data-control="select2"
                                                     data-placeholder="Pilih Pengawas Lapangan 1">
-                                                    <option value="">-- Pilih CV --</option>
+                                                    <option value="">-- Pilih Pengawas Lapangan Pengawas 1 --
+                                                    </option>
                                                     @foreach ($siteSupervisors as $siteSupervisor)
                                                         <option value="{{ $siteSupervisor->id }}"
                                                             {{ old('site_supervisor_id_1') == $siteSupervisor->id ? 'selected' : '' }}>
@@ -242,7 +243,8 @@
                                                     class="form-select form-select-solid @error('site_supervisor_id_2') is-invalid @enderror"
                                                     required data-control="select2"
                                                     data-placeholder="Pilih Pengawas Lapangan 2">
-                                                    <option value="">-- Pilih CV --</option>
+                                                    <option value="">-- Pilih Pengawas Lapangan Pengawas 2 --
+                                                    </option>
                                                     @foreach ($siteSupervisors as $siteSupervisor)
                                                         <option value="{{ $siteSupervisor->id }}"
                                                             {{ old('site_supervisor_id_2') == $siteSupervisor->id ? 'selected' : '' }}>
@@ -250,6 +252,31 @@
                                                     @endforeach
                                                 </select>
                                                 @error('site_supervisor_id_2')
+                                                    <div id="validationServerUsernameFeedback"
+                                                        class="invalid-feedback text-capitalize">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label class="form-label" for="site_supervisor_id_2">Pengawas Lapangan
+                                                    3</label>
+                                                <select name="site_supervisor_id_3" id="site_supervisor_id_3"
+                                                    value="{{ old('site_supervisor_id_3') }}"
+                                                    class="form-select form-select-solid @error('site_supervisor_id_3') is-invalid @enderror"
+                                                    required data-control="select2"
+                                                    data-placeholder="Pilih Pengawas Lapangan 3">
+                                                    <option value="">-- Pilih Pengawas Lapangan Pengawas 3 --
+                                                    </option>
+                                                    @foreach ($siteSupervisors as $siteSupervisor)
+                                                        <option value="{{ $siteSupervisor->id }}"
+                                                            {{ old('site_supervisor_id_3') == $siteSupervisor->id ? 'selected' : '' }}>
+                                                            {{ $siteSupervisor->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('site_supervisor_id_3')
                                                     <div id="validationServerUsernameFeedback"
                                                         class="invalid-feedback text-capitalize">
                                                         {{ $message }}
@@ -280,7 +307,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-sm-12 col-md-6">
+                                        {{-- <div class="col-sm-12 col-md-6">
                                             <div class="form-group mb-3">
                                                 <label class="form-label" for="status">Status</label>
                                                 <select name="status"
@@ -305,7 +332,7 @@
                                                     </div>
                                                 @enderror
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <div class="col-12 d-grid mt-2">
                                             <button type="submit" class="btn btn-success">Simpan</button>
                                         </div>

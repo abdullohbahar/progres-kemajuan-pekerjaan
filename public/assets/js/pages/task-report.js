@@ -63,6 +63,11 @@ var KTDatatablesServerSide = (function () {
                     name: "spk_date",
                 },
                 {
+                    orderable: true,
+                    data: "status",
+                    name: "status",
+                },
+                {
                     data: "id",
                     name: "id",
                 },
@@ -76,6 +81,54 @@ var KTDatatablesServerSide = (function () {
                     className: "text-left border-bottom",
                     render: (data, type, row, meta) => {
                         return meta.row + meta.settings._iDisplayStart + 1;
+                    },
+                },
+                {
+                    targets: 4,
+                    searchable: true,
+                    orderable: true,
+                    render: function (data) {
+                        var spkDate = new Date(data);
+
+                        var formatter = new Intl.DateTimeFormat("id-ID", {
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                        });
+                        var formatTanggal = formatter
+                            .format(spkDate)
+                            .replace(/\//g, "-");
+
+                        return formatTanggal;
+                    },
+                },
+                {
+                    targets: -2,
+                    searchable: true,
+                    orderable: true,
+                    render: function (data, type, row) {
+                        if (data == "Aktif") {
+                            const dateNow = new Date().getTime();
+                            const dateSpk = new Date(row.spk_date).getTime();
+
+                            console.log(dateSpk < dateNow);
+
+                            console.log(dateNow);
+                            console.log(dateSpk);
+                            console.log(row);
+
+                            if (dateNow < dateSpk) {
+                                return `<span class="badge badge-secondary">Belum Aktif</span>`;
+                            }
+
+                            var color = "success";
+                        } else if (data == "SP 1" || data == "SCM 1") {
+                            var color = "warning";
+                        } else if (data == "SCM 2" || data == "SCM 3") {
+                            var color = "danger";
+                        }
+
+                        return `<span class="badge badge-${color}">${data}</span>`;
                     },
                 },
                 {

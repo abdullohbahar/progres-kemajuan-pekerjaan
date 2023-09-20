@@ -26,8 +26,9 @@ return new class extends Migration
             $table->foreignUuid('partner_id')->nullable()->constrained('partners')->nullOnDelete(); // id rekanan
             $table->foreignUuid('site_supervisor_id_1')->nullable()->constrained('site_supervisors')->nullOnDelete(); // id pengawas lapangan 1
             $table->foreignUuid('site_supervisor_id_2')->nullable()->constrained('site_supervisors')->nullOnDelete(); // id pengawas lapangan 2
+            $table->foreignUuid('site_supervisor_id_3')->nullable()->constrained('site_supervisors')->nullOnDelete(); // id pengawas lapangan 3
             $table->foreignUuid('acting_commitment_marker_id')->nullable()->constrained('acting_commitment_markers')->nullOnDelete(); // id PPK
-            $table->enum('status', ['Aktif', 'SP 1', 'SCM 1', 'SCM 2', 'SCM 3']);
+            $table->enum('status', ['Aktif', 'SP 1', 'SCM 1', 'SCM 2', 'SCM 3'])->default('Aktif');
             $table->integer('execution_time');
             $table->timestamps();
         });

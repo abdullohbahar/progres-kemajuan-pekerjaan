@@ -23,6 +23,7 @@ class TaskReport extends Model
         'partner_id', // id rekanan
         'site_supervisor_id_1', // id pengawas lapangan 1
         'site_supervisor_id_2', // id pengawas lapangan 2
+        'site_supervisor_id_3', // id pengawas lapangan 3
         'acting_commitment_marker_id', // id ppk
         'status',
         'execution_time'
@@ -64,10 +65,10 @@ class TaskReport extends Model
         return $this->hasMany(KindOfWork::class, 'task_id', 'id');
     }
 
-    public function getSpkDateAttribute($value)
-    {
-        return Carbon::parse($value)->format('d-m-Y');
-    }
+    // public function getSpkDateAttribute($value)
+    // {
+    //     return Carbon::parse($value)->format('d-m-Y');
+    // }
 
     public function getContractValueAttribute($value)
     {

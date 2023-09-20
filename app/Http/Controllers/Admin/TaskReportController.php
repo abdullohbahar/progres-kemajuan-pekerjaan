@@ -59,8 +59,8 @@ class TaskReportController extends Controller
             'partner_id' => 'required',
             'site_supervisor_id_1' => 'required',
             'site_supervisor_id_2' => 'required',
+            'site_supervisor_id_3' => 'required',
             'acting_commitment_marker_id' => 'required',
-            'status' => 'required',
         ], [
             'activity_name.required' => 'nama kegiatan harus diisi',
             'task_name.required' => 'nama pekerjaan harus diisi',
@@ -73,8 +73,8 @@ class TaskReportController extends Controller
             'partner_id.required' => 'rekanan harus diisi', // id rekanan
             'site_supervisor_id_1.required' => 'pengawas lapangan 1 harus diisi', // id pengawas lapangan 1
             'site_supervisor_id_2.required' => 'pengawas lapangan 2 harus diisi', // id pengawas lapangan 2
+            'site_supervisor_id_3.required' => 'pengawas lapangan 3 harus diisi', // id pengawas lapangan 2
             'acting_commitment_marker_id.required' => 'PPK harus diisi', // id ppk
-            'status.required' => 'status harus diisi',
         ]);
 
         // Mengambil angka saja dari contract value
@@ -83,6 +83,7 @@ class TaskReportController extends Controller
 
         // Menghapus karakter sesuai dengan array yang ada di $removeChar
         $validateData['contract_value'] = str_replace($removeChar, "", $request->contract_value);
+        $validateData['status'] = 'Aktif';
 
         $taskReport->create($validateData);
 
@@ -144,6 +145,13 @@ class TaskReportController extends Controller
             'acting_commitment_marker_id.required' => 'PPK harus diisi', // id ppk
             'status.required' => 'status harus diisi',
         ]);
+
+        // Mengambil angka saja dari contract value
+        // Menampung karakter yang ingin dihapus
+        $removeChar = ['R', 'p', '.', ',', ' '];
+
+        // Menghapus karakter sesuai dengan array yang ada di $removeChar
+        $validateData['contract_value'] = str_replace($removeChar, "", $request->contract_value);
 
         $taskReport->update($validateData);
 
