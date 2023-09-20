@@ -90,7 +90,7 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">CV Konsultan</span>
+                                        <span class="menu-title">CV</span>
                                     </a>
                                     <!--end:Menu link-->
                                 </div>

@@ -14,11 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->uuid('id')->primary();
+            $table->string('username');
             $table->string('password');
+            $table->enum('role', ['Supervising Consultant', 'Partner', 'Site Supervisor', 'Acting Commitment Marker']); // konsultan pengawas, rekanan (penyedia jasa), pengawas lapangan, PPK
             $table->rememberToken();
             $table->timestamps();
         });

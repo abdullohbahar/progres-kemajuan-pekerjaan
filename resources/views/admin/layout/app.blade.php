@@ -181,6 +181,18 @@ License: For each use you must have a valid license purchased only from above li
         </script>
     @endif
 
+    @if (session()->has('failed'))
+        <script>
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: '{{ session('failed') }}',
+                showConfirmButton: false,
+                timer: 1500,
+            });
+        </script>
+    @endif
+
     @stack('addons-js')
 </body>
 <!--end::Body-->

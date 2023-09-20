@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('phone_number');
             $table->foreignUuid('cv_consultant_id')->nullable()->constrained('cv_consultants')->nullOnDelete();
             $table->string('position');
+            $table->foreignUuid('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });
     }
