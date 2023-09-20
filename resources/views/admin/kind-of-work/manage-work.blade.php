@@ -104,10 +104,17 @@
                                         </div>
                                         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mt-3">
                                             <div class="form-group">
+                                                @php
+                                                    if ($kindOfWorkDetail->contract_unit_price != 0) {
+                                                        $contractUnitPrice = 'Rp ' . number_format($kindOfWorkDetail->contract_unit_price, 0, ',', '.');
+                                                    } else {
+                                                        $contractUnitPrice = '';
+                                                    }
+                                                @endphp
                                                 <label class="form-label" for="contract_unit_price">Harga Satuan</label>
                                                 <input type="text" name="contract_unit_price"
                                                     class="form-control @error('contract_unit_price') is-invalid @enderror"
-                                                    value="{{ old('contract_unit_price', 'Rp ' . number_format($kindOfWorkDetail->contract_unit_price, 0, ',', '.')) }}"
+                                                    value="{{ old('contract_unit_price', $contractUnitPrice) }}"
                                                     id="contract_unit_price">
                                                 @error('contract_unit_price')
                                                     <div id="validationServerUsernameFeedback"
@@ -122,7 +129,11 @@
                                                 {{-- menghitung total harga kontrak --}}
                                                 @php
                                                     $contractTotalPrice = ($kindOfWorkDetail->contract_unit_price ?? 0) * ($kindOfWorkDetail->contract_volume ?? 0);
-                                                    $contractTotalPriceRupiah = 'Rp ' . number_format($contractTotalPrice, 0, ',', '.');
+                                                    if ($contractTotalPrice != 0) {
+                                                        $contractTotalPriceRupiah = 'Rp ' . number_format($contractTotalPrice, 0, ',', '.');
+                                                    } else {
+                                                        $contractTotalPriceRupiah = '';
+                                                    }
                                                 @endphp
                                                 <label class="form-label" for="contract_total_price">Total Harga</label>
                                                 <input type="text" name="contract_total_price"
@@ -182,11 +193,17 @@
                                         </div>
                                         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mt-3">
                                             <div class="form-group">
+                                                @php
+                                                    if ($kindOfWorkDetail->mc_unit_price != 0) {
+                                                        $mcUnitPrice = 'Rp ' . number_format($kindOfWorkDetail->mc_unit_price, 0, ',', '.');
+                                                    } else {
+                                                        $mcUnitPrice = '';
+                                                    }
+                                                @endphp
                                                 <label class="form-label" for="mc_unit_price">Harga Satuan</label>
                                                 <input type="text" name="mc_unit_price"
                                                     class="form-control @error('mc_unit_price') is-invalid @enderror"
-                                                    value="{{ old('mc_unit_price', 'Rp ' . number_format($kindOfWorkDetail->mc_unit_price, 0, ',', '.')) }}"
-                                                    id="mc_unit_price">
+                                                    value="{{ old('mc_unit_price', $mcUnitPrice) }}" id="mc_unit_price">
                                                 @error('mc_unit_price')
                                                     <div id="validationServerUsernameFeedback"
                                                         class="invalid-feedback text-capitalize">
@@ -199,7 +216,11 @@
                                             <div class="form-group">
                                                 @php
                                                     $mcTotalPrice = ($kindOfWorkDetail->mc_unit_price ?? 0) * ($kindOfWorkDetail->mc_volume ?? 0);
-                                                    $mcTotalPriceRupiah = 'Rp ' . number_format($mcTotalPrice, 0, ',', '.');
+                                                    if ($mcTotalPrice != 0) {
+                                                        $mcTotalPriceRupiah = 'Rp ' . number_format($mcTotalPrice, 0, ',', '.');
+                                                    } else {
+                                                        $mcTotalPriceRupiah = '';
+                                                    }
                                                 @endphp
                                                 <label class="form-label" for="mc_total_price">Total Harga</label>
                                                 <input type="text" name="mc_total_price"
