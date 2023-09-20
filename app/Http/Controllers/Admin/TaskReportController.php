@@ -92,9 +92,21 @@ class TaskReportController extends Controller
 
     public function show(TaskReport $taskReport)
     {
+        // Melakukan pengecekan apakah status sudah aktif atau belum
+
+        $dateSpk = strtotime($taskReport->spk_date);
+        $dateNow = strtotime(now());
+
+        if ($dateNow < $dateSpk) {
+            $status = 'inactive';
+        } else {
+            $status = 'active';
+        }
+
         $data = [
             'active' => $this->active,
-            'taskReport' => $taskReport
+            'taskReport' => $taskReport,
+            'status' => $status
         ];
 
         return view('admin.task-report.show', $data);

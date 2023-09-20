@@ -182,12 +182,21 @@
                                                                         style="margin-right: 5px">Kelola
                                                                         Pekerjaan</a>
                                                                 </div>
-                                                                <div class="col-6 d-grid">
-                                                                    <a href="{{ route('manage.work.progress', $detail->id) }}"
-                                                                        class="btn btn-sm btn-success my-5"
-                                                                        style="margin-right: 5px">Kelola
-                                                                        Kemajuan Pekerjaan</a>
-                                                                </div>
+                                                                @if ($status == 'active')
+                                                                    <div class="col-6 d-grid">
+                                                                        <a href="{{ route('manage.work.progress', $detail->id) }}"
+                                                                            class="btn btn-sm btn-success my-5"
+                                                                            style="margin-right: 5px">Kelola
+                                                                            Kemajuan Pekerjaan</a>
+                                                                    </div>
+                                                                @else
+                                                                    <div class="col-6 d-grid">
+                                                                        <button class="btn btn-sm btn-success my-5"
+                                                                            style="margin-right: 5px" id="warning">Kelola
+                                                                            Kemajuan
+                                                                            Pekerjaan</button>
+                                                                    </div>
+                                                                @endif
                                                             </div>
                                                         </div>
                                                         <div class="col-12">
@@ -319,4 +328,15 @@
 
 @push('addons-js')
     <script src="{{ asset('./assets/js/pages/task-report.js') }}"></script>
+
+    {{-- warning alert --}}
+    <script>
+        $("body").on("click", "#warning", function() {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oops...',
+                text: 'Anda belum bisa menambahkan data!',
+            })
+        })
+    </script>
 @endpush

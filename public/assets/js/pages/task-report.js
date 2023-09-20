@@ -118,7 +118,7 @@ var KTDatatablesServerSide = (function () {
                             console.log(row);
 
                             if (dateNow < dateSpk) {
-                                return `<span class="badge badge-secondary">Belum Aktif</span>`;
+                                return `<span class="badge badge-secondary">Belum Mulai</span>`;
                             }
 
                             var color = "success";
