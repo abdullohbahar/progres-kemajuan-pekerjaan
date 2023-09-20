@@ -88,10 +88,6 @@ class SiteSupervisorController extends Controller
 
             return redirect()->back()->with('failed', 'Gagal Menambah Data Pengawas Lapangan');
         }
-
-        // $siteSupervisor->create($validateData);
-
-        // return redirect()->back()->with('success', 'Berhasil Menambah Data Pengawas Lapangan');
     }
 
     public function edit(SiteSupervisor $siteSupervisor)

@@ -68,6 +68,7 @@
                                             <th>Nomor HP</th>
                                             <th>NIP</th>
                                             <th>Jabatan</th>
+                                            <th>Username</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
