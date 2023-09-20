@@ -5,7 +5,7 @@
             @csrf
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">Tambah Data Konsultan Pengawas</h3>
+                    <h3 class="modal-title">Tambah Data Partner</h3>
 
                     <!--begin::Close-->
                     <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
@@ -19,7 +19,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group mb-3">
-                                <label class="form-label" for="name">Nama Konsultan Pengawas</label>
+                                <label class="form-label" for="name">Nama</label>
                                 <input type="text" name="name" id="name" value="{{ old('name') }}"
                                     class="form-control @error('name') is-invalid @enderror" required>
                                 @error('name')
@@ -64,6 +64,27 @@
                                 <input type="text" name="position" id="position" value="{{ old('position') }}"
                                     class="form-control @error('position') is-invalid @enderror" required>
                                 @error('position')
+                                    <div id="validationServerUsernameFeedback" class="invalid-feedback text-capitalize">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label" for="username">Username</label>
+                                <input type="text" name="username" id="username" value="{{ old('username') }}"
+                                    class="form-control @error('username') is-invalid @enderror" required>
+                                @error('username')
+                                    <div id="validationServerUsernameFeedback" class="invalid-feedback text-capitalize">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label" for="username">Password</label>
+                                <input type="password" name="password" id="password"
+                                    class="form-control @error('password') is-invalid @enderror"
+                                    autocomplete="new-password" required>
+                                @error('password')
                                     <div id="validationServerUsernameFeedback" class="invalid-feedback text-capitalize">
                                         {{ $message }}
                                     </div>

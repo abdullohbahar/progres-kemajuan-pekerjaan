@@ -120,6 +120,30 @@
                                                     </div>
                                                 @enderror
                                             </div>
+                                            <div class="form-group mb-3">
+                                                <label class="form-label" for="username">Username</label>
+                                                <input type="text" name="username" id="username"
+                                                    value="{{ old('username', $data->user?->username) }}"
+                                                    class="form-control @error('username') is-invalid @enderror" required>
+                                                @error('username')
+                                                    <div id="validationServerUsernameFeedback"
+                                                        class="invalid-feedback text-capitalize">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="form-label" for="username">Password</label>
+                                                <input type="password" name="password" id="password"
+                                                    class="form-control @error('password') is-invalid @enderror"
+                                                    autocomplete="new-password">
+                                                @error('password')
+                                                    <div id="validationServerUsernameFeedback"
+                                                        class="invalid-feedback text-capitalize">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
                                         </div>
                                         <div class="col-12 d-grid mt-2">
                                             <button type="submit" class="btn btn-success">Simpan</button>

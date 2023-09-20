@@ -15,10 +15,16 @@ class Partner extends Model
         'phone_number',
         'cv_consultant_id',
         'position',
+        'user_id',
     ];
 
     public function cvConsultant()
     {
         return $this->belongsTo(CvConsultant::class);
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 }

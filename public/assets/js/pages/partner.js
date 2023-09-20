@@ -55,6 +55,11 @@ $("#kt_datatable_dom_positioning").DataTable({
             name: "position",
         },
         {
+            orderable: true,
+            data: "username",
+            name: "username",
+        },
+        {
             data: "id",
             name: "id",
         },
