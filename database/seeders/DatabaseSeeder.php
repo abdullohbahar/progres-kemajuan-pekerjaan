@@ -9,6 +9,7 @@ use App\Models\CvConsultant;
 use App\Models\Partner;
 use App\Models\SiteSupervisor;
 use App\Models\SupervisingConsultant;
+use App\Models\Unit;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
         Partner::factory(5)->create();
         SiteSupervisor::factory(5)->create();
         ActingCommitmentMarker::factory(5)->create();
+        Unit::factory(5)->create();
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

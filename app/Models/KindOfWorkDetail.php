@@ -17,9 +17,12 @@ class KindOfWorkDetail extends Model
         'contract_volume',
         'contract_unit',
         'contract_unit_price',
+        'total_contract_price',
         'mc_volume',
         'mc_unit',
         'mc_unit_price',
+        'total_mc_price',
+        'work_value',
     ];
 
     public function kindOfWork()

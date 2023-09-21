@@ -29,7 +29,7 @@ $("#contract_unit_price").on("keyup", function () {
 document.addEventListener("DOMContentLoaded", function () {
     var contractUnitPriceInput = document.getElementById("contract_unit_price");
     var volumeInput = document.getElementById("contract_volume");
-    var totalPriceInput = document.getElementById("contract_total_price");
+    var totalPriceInput = document.getElementById("total_contract_price");
 
     // Fungsi untuk menghapus format Rupiah dan mengembalikan angka
     function extractNumber(value) {

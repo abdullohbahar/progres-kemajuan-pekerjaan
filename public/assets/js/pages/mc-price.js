@@ -29,7 +29,7 @@ $("#mc_unit_price").on("keyup", function () {
 document.addEventListener("DOMContentLoaded", function () {
     var mcUnitPriceInput = document.getElementById("mc_unit_price");
     var volumeInput = document.getElementById("mc_volume");
-    var totalPriceInput = document.getElementById("mc_total_price");
+    var totalPriceInput = document.getElementById("total_mc_price");
 
     // Fungsi untuk menghapus format Rupiah dan mengembalikan angka
     function extractNumber(value) {
