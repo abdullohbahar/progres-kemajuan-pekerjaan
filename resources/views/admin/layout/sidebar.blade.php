@@ -2,13 +2,19 @@
     data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="225px"
     data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_sidebar_mobile_toggle">
     <!--begin::Logo-->
-    <div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
+    <div class="app-sidebar-logo px-6 justify-content-center" id="kt_app_sidebar_logo">
         <!--begin::Logo image-->
         <a href="../../demo1/dist/index.html">
-            <img alt="Logo" src="{{ asset('./assets/media/logos/default-dark.svg') }}"
-                class="h-25px app-sidebar-logo-default" />
-            <img alt="Logo" src="{{ asset('assets/media/logos/default-small.svg') }}"
-                class="h-20px app-sidebar-logo-minimize" />
+            <img alt="Logo" src="{{ asset('./assets/media/logos/pemkab.png') }}" class="app-sidebar-logo-default"
+                style="height: 70px !important" />
+            <img alt="Logo" src="{{ asset('./assets/media/logos/pupr.png') }}" class="app-sidebar-logo-default"
+                style="height: 70px !important" />
+            {{-- <img alt="Logo" src="{{ asset('./assets/media/logos/pemkab.png') }}" class="app-sidebar-logo-minimize"
+                style="height: 20px !important" />
+            <img alt="Logo" src="{{ asset('./assets/media/logos/pupr.png') }}" class="app-sidebar-logo-minimize"
+                style="height: 20px !important" /> --}}
+            {{-- <img alt="Logo" src="{{ asset('assets/media/logos/default-small.svg') }}"
+                class="h-20px app-sidebar-logo-minimize" /> --}}
         </a>
 
         <div id="kt_app_sidebar_toggle"

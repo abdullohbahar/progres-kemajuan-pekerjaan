@@ -176,21 +176,27 @@
                                                         </div>
                                                         <div class="col-sm-12 col-md-4 text-end">
                                                             <div class="row">
-                                                                <div class="col-6 d-grid">
+                                                                <div class="col-4 d-grid">
                                                                     <a href="{{ route('manage.work', $detail->id) }}"
                                                                         class="btn btn-sm btn-primary my-5"
                                                                         style="margin-right: 5px">Kelola
                                                                         Pekerjaan</a>
                                                                 </div>
+                                                                <div class="col-4 d-grid">
+                                                                    <a href="{{ route('create.time.schedule', $detail->id) }}"
+                                                                        class="btn btn-sm btn-info my-5"
+                                                                        style="margin-right: 5px">Kelola
+                                                                        Time Schedule</a>
+                                                                </div>
                                                                 @if ($status == 'active')
-                                                                    <div class="col-6 d-grid">
+                                                                    <div class="col-4 d-grid">
                                                                         <a href="{{ route('manage.work.progress', $detail->id) }}"
                                                                             class="btn btn-sm btn-success my-5"
                                                                             style="margin-right: 5px">Kelola
                                                                             Kemajuan Pekerjaan</a>
                                                                     </div>
                                                                 @else
-                                                                    <div class="col-6 d-grid">
+                                                                    <div class="col-4 d-grid">
                                                                         <button class="btn btn-sm btn-success my-5"
                                                                             style="margin-right: 5px" id="warning">Kelola
                                                                             Kemajuan
