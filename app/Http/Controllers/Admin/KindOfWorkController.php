@@ -120,11 +120,13 @@ class KindOfWorkController extends Controller
     {
         $units = Unit::orderBy('unit', 'asc')->get();
         $kindOfWorkDetail = KindOfWorkDetail::with('kindOfWork')->findorfail($id);
+        $totalMcPrice = KindOfWorkDetail::sum('total_mc_price');
 
         $data = [
             'active' => $this->active,
             'kindOfWorkDetail' => $kindOfWorkDetail,
-            'units' => $units
+            'units' => $units,
+            'totalMcPrice' => $totalMcPrice,
         ];
 
         return view('admin.kind-of-work.manage-work', $data);
