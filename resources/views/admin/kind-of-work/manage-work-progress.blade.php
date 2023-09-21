@@ -55,7 +55,7 @@
                                     <h3>{{ $kindOfWorkDetail->name }}</h3>
                                 </div>
                             </div>
-                            <form action="#" method="POST">
+                            <form action="{{ route('update.work.progress', $kindOfWorkDetail->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
                                 <div class="card-body">
@@ -110,14 +110,20 @@
                                                 $date = reset($groupDate) . '-' . end($groupDate);
                                                 $data = $kindOfWorkDetail->timeSchedules->where('date', $date)->first();
                                             @endphp
-                                            <div class="col-sm-12 col-md-6 mt-4">
+                                            <div class="col-sm-12 col-md-6 mt-5 pt-4">
                                                 <div class="form-group">
                                                     <label class="form-label" for="work_value">Minggu ke -
-                                                        {{ $key + 1 }} (Tanggal :
+                                                        {{ $key += 1 }} (Tanggal :
                                                         {{ $date }}) | Progress di Time Schedule :
                                                         {{ $data->progress ?? '-' }}</label>
                                                 </div>
-                                                <input type="text" class="form-control" id="work_value">
+                                                <input type="text" name="date[]" hidden
+                                                    value="{{ $kindOfWorkDetail->date ?? $date }}" class="form-control">
+                                                <input type="text" name="week[]" hidden
+                                                    value="{{ $kindOfWorkDetail->week ?? $key }}" class="form-control">
+                                                <input type="text" name="progress[]"
+                                                    value="{{ $kindOfWorkDetail->progress ?? '' }}" class="form-control"
+                                                    id="progress">
                                             </div>
                                         @endforeach
                                     </div>
@@ -140,6 +146,4 @@
 @endsection
 
 @push('addons-js')
-    <script src="{{ asset('./assets/js/pages/contract-price.js') }}"></script>
-    <script src="{{ asset('./assets/js/pages/mc-price.js') }}"></script>
 @endpush

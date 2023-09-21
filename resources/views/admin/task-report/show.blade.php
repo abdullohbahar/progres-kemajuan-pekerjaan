@@ -325,7 +325,7 @@
                                                                             data-bs-target="#kt_accordion_{{ $key }}_time_schedule_body_{{ $key }}_time_schedule"
                                                                             aria-expanded="false"
                                                                             aria-controls="kt_accordion_{{ $key }}_time_schedule_body_{{ $key }}_time_schedule">
-                                                                            Time Schedule
+                                                                            Time Schedule & Progress Mingguan
                                                                         </button>
                                                                     </h2>
                                                                     <div id="kt_accordion_{{ $key }}_time_schedule_body_{{ $key }}_time_schedule"
@@ -337,10 +337,12 @@
                                                                                 <tr>
                                                                                     <th>Minggu Ke</th>
                                                                                     <th>Tanggal</th>
-                                                                                    <th>Progress</td>
+                                                                                    <th>Progress Time Schedule</td>
+                                                                                    <th>Progress Mingguan</td>
+                                                                                    <th>Foto</td>
                                                                                 </tr>
                                                                                 <tbody>
-                                                                                    @foreach ($detail->timeSchedules as $timeSchedule)
+                                                                                    @foreach ($detail->timeSchedules as $key => $timeSchedule)
                                                                                         <tr>
                                                                                             <td>
                                                                                                 {{ $timeSchedule->week }}
@@ -348,6 +350,18 @@
                                                                                             <td>{{ $timeSchedule->date }}
                                                                                             </td>
                                                                                             <td>{{ $timeSchedule->progress }}
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                {{ $detail->schedules[$key]->progress }}
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <a href="javascript:void(0);"
+                                                                                                    type="button"
+                                                                                                    id="uploadPicture"
+                                                                                                    data-date="{{ $timeSchedule->date }}">Upload
+                                                                                                    Foto</a> |
+                                                                                                <a href="javascript:;">Lihat
+                                                                                                    Foto</a>
                                                                                             </td>
                                                                                         </tr>
                                                                                     @endforeach
@@ -375,6 +389,34 @@
         <!--end::Content-->
     </div>
     <!--end::Content wrapper-->
+
+    {{-- modal upload photo --}}
+    <div class="modal fade" tabindex="-1" id="modalUploadPicture">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Upload Foto (Max: 3 Foto)</h3>
+
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
+                        aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                    <!--end::Close-->
+                </div>
+
+                <div class="modal-body">
+                    <input type="text" name="date" hidden id="datePicture">
+                    <input type="file" name="picture[]" multiple class="form-control" id="">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('addons-js')
@@ -388,6 +430,17 @@
                 title: 'Oops...',
                 text: 'Anda belum bisa menambahkan data!',
             })
+        })
+    </script>
+
+    <script>
+        var myModal = new bootstrap.Modal(document.getElementById('modalUploadPicture'), {})
+
+        $("body").on("click", "#uploadPicture", function() {
+            var date = $(this).data("date")
+            $("#datePicture").val(date);
+
+            myModal.show()
         })
     </script>
 @endpush

@@ -199,4 +199,34 @@ class KindOfWorkController extends Controller
 
         return view('admin.kind-of-work.manage-work-progress', $data);
     }
+
+
+    public function updateProgress(Request $request, $kindOfWorkDetailId)
+    {
+        $schedule = Schedule::where('kind_of_work_detail_id', $kindOfWorkDetailId)->get();
+
+        if ($schedule->count() <= 0) {
+            foreach ($request->week as $key => $week) {
+                Schedule::create([
+                    'kind_of_work_detail_id' => $kindOfWorkDetailId,
+                    'week' => $request->week[$key],
+                    'date' => $request->date[$key],
+                    'progress' => $request->progress[$key] ?? '',
+                ]);
+            }
+        } else {
+            foreach ($request->week as $key => $week) {
+                Schedule::where('kind_of_work_detail_id', $kindOfWorkDetailId)
+                    ->where('week', $request->week[$key])
+                    ->update([
+                        'progress' => $request->progress[$key] ?? '',
+                    ]);
+            }
+        }
+
+        // get task report id
+        $taskReportID = KindOfWorkDetail::where('id', $kindOfWorkDetailId)->first();
+
+        return to_route('task-report.show', $taskReportID->kindOfWork->task_id)->with('success', 'Berhasil Menambah Progress Pekerjaan');
+    }
 }
