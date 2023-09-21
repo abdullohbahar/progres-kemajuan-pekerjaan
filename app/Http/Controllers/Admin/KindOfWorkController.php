@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\KindOfWorkDetail;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\ProgressPicture;
 use App\Models\Unit;
 
 class KindOfWorkController extends Controller
@@ -228,5 +229,26 @@ class KindOfWorkController extends Controller
         $taskReportID = KindOfWorkDetail::where('id', $kindOfWorkDetailId)->first();
 
         return to_route('task-report.show', $taskReportID->kindOfWork->task_id)->with('success', 'Berhasil Menambah Progress Pekerjaan');
+    }
+
+    public function uploadProgressPicture(Request $request)
+    {
+        // folder menyimpan picture
+        $destinationPath = 'Progress Picture/' . $request->date . '/';
+
+        // penamaan picture yang disimpan
+        $picture = $request->picture->getClientOriginalName();
+
+        // menyimpan picture ke destinasi dengan nama yang telah ditentukan
+        $request->picture->move($destinationPath, $picture);
+
+        $picture = $destinationPath . $picture;
+
+        ProgressPicture::create([
+            'schedule_id' => $request->id,
+            'picture' => $picture
+        ]);
+
+        return redirect()->back()->with('success', 'Berhasil Menambah Foto');
     }
 }

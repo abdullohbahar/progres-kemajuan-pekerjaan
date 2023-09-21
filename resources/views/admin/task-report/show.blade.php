@@ -358,7 +358,8 @@
                                                                                                 <a href="javascript:void(0);"
                                                                                                     type="button"
                                                                                                     id="uploadPicture"
-                                                                                                    data-date="{{ $timeSchedule->date }}">Upload
+                                                                                                    data-date="{{ $timeSchedule->date }}"
+                                                                                                    data-scheduleid="{{ $detail->schedules[$key]->id }}">Upload
                                                                                                     Foto</a> |
                                                                                                 <a href="javascript:;">Lihat
                                                                                                     Foto</a>
@@ -392,35 +393,41 @@
 
     {{-- modal upload photo --}}
     <div class="modal fade" tabindex="-1" id="modalUploadPicture">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Upload Foto (Max: 3 Foto)</h3>
+        <form action="{{ route('upload.progress.picture') }}" enctype="multipart/form-data" method="POST">
+            @csrf
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Upload Foto (Max: 3 Foto)</h3>
 
-                    <!--begin::Close-->
-                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
-                        aria-label="Close">
-                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                        <!--begin::Close-->
+                        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
+                            aria-label="Close">
+                            <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span
+                                    class="path2"></span></i>
+                        </div>
+                        <!--end::Close-->
                     </div>
-                    <!--end::Close-->
-                </div>
 
-                <div class="modal-body">
-                    <input type="text" name="date" hidden id="datePicture">
-                    <input type="file" name="picture[]" multiple class="form-control" id="">
-                </div>
+                    <div class="modal-body">
+                        <input type="text" name="date" hidden id="datePicture">
+                        <input type="text" name="id" hidden id="scheduleid">
+                        <input type="file" name="picture" class="form-control" id="">
+                    </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 @endsection
 
 @push('addons-js')
     <script src="{{ asset('./assets/js/pages/task-report.js') }}"></script>
+    <script src="{{ asset('./assets/js/pages/upload-progress-picture.js') }}"></script>
 
     {{-- warning alert --}}
     <script>
@@ -430,17 +437,6 @@
                 title: 'Oops...',
                 text: 'Anda belum bisa menambahkan data!',
             })
-        })
-    </script>
-
-    <script>
-        var myModal = new bootstrap.Modal(document.getElementById('modalUploadPicture'), {})
-
-        $("body").on("click", "#uploadPicture", function() {
-            var date = $(this).data("date")
-            $("#datePicture").val(date);
-
-            myModal.show()
         })
     </script>
 @endpush
