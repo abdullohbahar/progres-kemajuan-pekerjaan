@@ -30,12 +30,25 @@ $("body").on("click", "#seePicture", function () {
 
             const data = await response.json(); // Mengambil data JSON dari respons
 
-            data.datas.forEach((item, index) => {
-                index += 1;
-                $("#pict" + index).attr("src", url + "/" + item.picture);
-            });
+            if (data.datas.length > 0) {
+                data.datas.forEach((item, index) => {
+                    index += 1;
+                    // $("#pict" + index).attr("src", url + "/" + item.picture);
 
-            console.log(data.count);
+                    var img = `
+                    <div class="col-sm-12 col-md-4">
+                        <img src="${url}/${item.picture}" id="pict${index}" class="img-thumbnail mx-1 w-50" alt="">
+                    </div>
+                    `;
+
+                    $(".appendImage").append(img);
+                });
+            } else {
+                var html = `<h1>Belum Ada Foto</h1>`;
+                $(".appendImage").append(html);
+            }
+
+            console.log(data.datas.length);
 
             modalSeePicture.show();
         } catch (error) {

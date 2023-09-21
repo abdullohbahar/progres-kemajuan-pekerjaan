@@ -428,7 +428,7 @@
 
     {{-- modal see photo --}}
     <div class="modal fade" tabindex="-1" id="modalSeePicture">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title">Foto</h3>
@@ -442,9 +442,8 @@
                 </div>
 
                 <div class="modal-body">
-                    <img id="pict1" src="http://127.0.0.1:8000/Progress%20Picture/08-14/pemkab.png" alt="">
-                    <img id="pict2" src="http://127.0.0.1:8000/Progress%20Picture/22-28/custom-1.png" alt="">
-                    <img id="pict3" alt="">
+                    <div class="row appendImage">
+                    </div>
                 </div>
 
                 <div class="modal-footer">
