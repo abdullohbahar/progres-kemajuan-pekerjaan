@@ -313,6 +313,51 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="col-12 mt-5">
+                                                            <div class="accordion"
+                                                                id="kt_accordion_{{ $key }}_time_schedule">
+                                                                <div class="accordion-item">
+                                                                    <h2 class="accordion-header"
+                                                                        id="kt_accordion_{{ $key }}_time_schedule_header_{{ $key }}_time_schedule">
+                                                                        <button
+                                                                            class="accordion-button fs-4 fw-semibold collapsed"
+                                                                            type="button" data-bs-toggle="collapse"
+                                                                            data-bs-target="#kt_accordion_{{ $key }}_time_schedule_body_{{ $key }}_time_schedule"
+                                                                            aria-expanded="false"
+                                                                            aria-controls="kt_accordion_{{ $key }}_time_schedule_body_{{ $key }}_time_schedule">
+                                                                            Time Schedule
+                                                                        </button>
+                                                                    </h2>
+                                                                    <div id="kt_accordion_{{ $key }}_time_schedule_body_{{ $key }}_time_schedule"
+                                                                        class="accordion-collapse collapse"
+                                                                        aria-labelledby="kt_accordion_{{ $key }}_time_schedule_header_{{ $key }}_time_schedule"
+                                                                        data-bs-parent="#kt_accordion_{{ $key }}_time_schedule">
+                                                                        <div class="accordion-body">
+                                                                            <table class="table table-bordered">
+                                                                                <tr>
+                                                                                    <th>Minggu Ke</th>
+                                                                                    <th>Tanggal</th>
+                                                                                    <th>Progress</td>
+                                                                                </tr>
+                                                                                <tbody>
+                                                                                    @foreach ($detail->timeSchedules as $timeSchedule)
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                {{ $timeSchedule->week }}
+                                                                                            </td>
+                                                                                            <td>{{ $timeSchedule->date }}
+                                                                                            </td>
+                                                                                            <td>{{ $timeSchedule->progress }}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    @endforeach
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <hr>
