@@ -361,7 +361,9 @@
                                                                                                     data-date="{{ $timeSchedule->date }}"
                                                                                                     data-scheduleid="{{ $detail->schedules[$key]->id }}">Upload
                                                                                                     Foto</a> |
-                                                                                                <a href="javascript:;">Lihat
+                                                                                                <a href="javascript:;"
+                                                                                                    id="seePicture"
+                                                                                                    data-scheduleid="{{ $detail->schedules[$key]->id }}">Lihat
                                                                                                     Foto</a>
                                                                                             </td>
                                                                                         </tr>
@@ -422,6 +424,35 @@
                 </div>
             </div>
         </form>
+    </div>
+
+    {{-- modal see photo --}}
+    <div class="modal fade" tabindex="-1" id="modalSeePicture">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Foto</h3>
+
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
+                        aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                    <!--end::Close-->
+                </div>
+
+                <div class="modal-body">
+                    <img id="pict1" src="http://127.0.0.1:8000/Progress%20Picture/08-14/pemkab.png" alt="">
+                    <img id="pict2" src="http://127.0.0.1:8000/Progress%20Picture/22-28/custom-1.png" alt="">
+                    <img id="pict3" alt="">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 

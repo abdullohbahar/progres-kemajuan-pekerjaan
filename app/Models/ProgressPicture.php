@@ -14,8 +14,8 @@ class ProgressPicture extends Model
         'picture'
     ];
 
-    public function kindOfWorkDetail()
+    public function schedule()
     {
-        return $this->belongsTo(KindOfWorkDetail::class);
+        return $this->belongsTo(Schedule::class);
     }
 }

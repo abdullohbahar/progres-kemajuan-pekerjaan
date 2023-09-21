@@ -12,6 +12,7 @@ use App\Models\KindOfWorkDetail;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\ProgressPicture;
+use App\Models\TimeSchedule;
 use App\Models\Unit;
 
 class KindOfWorkController extends Controller
@@ -250,5 +251,14 @@ class KindOfWorkController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Berhasil Menambah Foto');
+    }
+
+    public function getProgressPictures($id)
+    {
+        $pictures = ProgressPicture::where('schedule_id', $id)->get();
+
+        return response()->json([
+            'datas' => $pictures
+        ]);
     }
 }

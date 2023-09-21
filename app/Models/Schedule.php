@@ -20,4 +20,9 @@ class Schedule extends Model
     {
         return $this->belongsTo(KindOfWorkDetail::class);
     }
+
+    public function progressPictures()
+    {
+        return $this->hasMany(ProgressPicture::class);
+    }
 }
