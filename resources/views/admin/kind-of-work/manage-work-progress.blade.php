@@ -106,11 +106,16 @@
                                     <div class="row mt-5">
                                         <h2>Waktu Pengerjaan</h2>
                                         @foreach ($groupedDates as $key => $groupDate)
+                                            @php
+                                                $date = reset($groupDate) . '-' . end($groupDate);
+                                                $data = $kindOfWorkDetail->timeSchedules->where('date', $date)->first();
+                                            @endphp
                                             <div class="col-sm-12 col-md-6 mt-4">
                                                 <div class="form-group">
                                                     <label class="form-label" for="work_value">Minggu ke -
                                                         {{ $key + 1 }} (Tanggal :
-                                                        {{ reset($groupDate) . '-' . end($groupDate) }})</label>
+                                                        {{ $date }}) | Progress di Time Schedule :
+                                                        {{ $data->progress ?? '-' }}</label>
                                                 </div>
                                                 <input type="text" class="form-control" id="work_value">
                                             </div>

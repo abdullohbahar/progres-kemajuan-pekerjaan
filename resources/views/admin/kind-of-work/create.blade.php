@@ -83,7 +83,8 @@
                                                                     Pekerjaan</label>
                                                                 <input type="text" name="sub_name" id="sub_name"
                                                                     value="{{ old('sub_name') }}"
-                                                                    class="form-control @error('sub_name') is-invalid @enderror">
+                                                                    class="form-control @error('sub_name') is-invalid @enderror"
+                                                                    required>
                                                                 @error('sub_name')
                                                                     <div id="validationServerUsernameFeedback"
                                                                         class="invalid-feedback text-capitalize">

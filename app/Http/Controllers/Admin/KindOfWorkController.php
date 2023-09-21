@@ -55,7 +55,7 @@ class KindOfWorkController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
 
-            return to_route('kind.of.work')->with('failed', 'Gagal Menambahkan Macam Pekerjaan');
+            return to_route('task-report.show', $request->task_id)->with('success', 'Gagal Menambahkan Macam Pekerjaan');
         }
     }
 
