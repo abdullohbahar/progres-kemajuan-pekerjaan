@@ -30,6 +30,8 @@ $("body").on("click", "#seePicture", function () {
 
             const data = await response.json(); // Mengambil data JSON dari respons
 
+            $(".appendImage").empty();
+
             if (data.datas.length > 0) {
                 data.datas.forEach((item, index) => {
                     index += 1;
@@ -37,7 +39,7 @@ $("body").on("click", "#seePicture", function () {
 
                     var img = `
                     <div class="col-sm-12 col-md-4">
-                        <img src="${url}/${item.picture}" id="pict${index}" class="img-thumbnail mx-1 w-50" alt="">
+                        <img src="${url}/${item.picture}" id="pict${index}" class="img-thumbnail mx-1 w-100" alt="">
                     </div>
                     `;
 
