@@ -208,7 +208,7 @@ class KindOfWorkController extends Controller
         $current_date = $start_date;
 
         for ($i = 0; $i < $executionTime; $i++) {
-            $dates[] = date('d', strtotime($current_date));
+            $dates[] = date('d-m-Y', strtotime($current_date));
 
             // Menambahkan 1 hari ke tanggal saat ini
             $current_date = date('Y-m-d', strtotime($current_date . " + 1 day"));

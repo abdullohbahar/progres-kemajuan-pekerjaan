@@ -5,6 +5,15 @@
 @endsection
 
 @push('addons-css')
+    <style>
+        input[readonly] {
+            color: var(--bs-gray-500);
+            background-color: var(--bs-gray-200);
+            border-color: var(--bs-gray-300);
+            opacity: 1;
+            cursor: not-allowed;
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -115,9 +124,23 @@
                                         <h2>Waktu Pengerjaan</h2>
                                         @foreach ($groupedDates as $key => $groupDate)
                                             @php
-                                                $date = reset($groupDate) . '-' . end($groupDate);
+                                                $date = \Carbon\Carbon::parse(reset($groupDate))->format('d') . '-' . \Carbon\Carbon::parse(end($groupDate))->format('d');
                                                 $data = $kindOfWorkDetail->timeSchedules->where('date', $date)->first();
                                                 $schedule = $kindOfWorkDetail->schedules->where('date', $date)->first();
+                                                
+                                                foreach ($groupDate as $progressDate) {
+                                                    $progressDate = strtotime($progressDate);
+                                                    $dateNow = strtotime(date('d-m-Y'));
+                                                    // dump("progress date: $progressDate | date now: $dateNow");
+                                                    // dump($progressDate > $dateNow);
+                                                
+                                                    if ($progressDate > $dateNow) {
+                                                        $disabled = '';
+                                                    } else {
+                                                        $disabled = 'readonly';
+                                                    }
+                                                }
+                                                
                                             @endphp
                                             <div class="col-sm-12 col-md-6 mt-5 pt-4">
                                                 <div class="form-group">
@@ -133,7 +156,7 @@
                                                 <input type="text" name="progress[]"
                                                     value="{{ $schedule->progress ?? 0 }}%"
                                                     class="form-control progress-value" data-key="{{ $key }}"
-                                                    id="progress">
+                                                    {{ $disabled }} id="progress">
                                                 <div style="color: red" class="warning{{ $key }}">
                                                 </div>
                                             </div>
