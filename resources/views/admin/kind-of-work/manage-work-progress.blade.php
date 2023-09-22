@@ -64,7 +64,8 @@
                                     <h3>{{ $kindOfWorkDetail->name }}</h3>
                                 </div>
                             </div>
-                            <form action="{{ route('update.work.progress', $kindOfWorkDetail->id) }}" method="POST">
+                            <form action="{{ route('update.work.progress', $kindOfWorkDetail->id) }}" method="POST"
+                                id="myForm">
                                 @csrf
                                 @method('PUT')
                                 <div class="card-body">
@@ -112,13 +113,6 @@
                                             <input type="text" class="form-control" id="work_value"
                                                 value="{{ $kindOfWorkDetail->work_value }}%" disabled>
                                         </div>
-                                        <div class="col-sm-12 col-md-6 mt-4">
-                                            <div class="form-group">
-                                                <label class="form-label" for="remaining">Sisa Nilai Pekerjaan</label>
-                                            </div>
-                                            <input type="text" class="form-control" id="remaining"
-                                                value="{{ $kindOfWorkDetail->work_value }}%" disabled>
-                                        </div>
                                     </div>
                                     <div class="row mt-5">
                                         <h2>Waktu Pengerjaan</h2>
@@ -131,8 +125,6 @@
                                                 foreach ($groupDate as $progressDate) {
                                                     $progressDate = strtotime($progressDate);
                                                     $dateNow = strtotime(date('d-m-Y'));
-                                                    // dump("progress date: $progressDate | date now: $dateNow");
-                                                    // dump($progressDate > $dateNow);
                                                 
                                                     if ($progressDate > $dateNow) {
                                                         $disabled = '';
