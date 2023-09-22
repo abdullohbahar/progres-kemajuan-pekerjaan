@@ -56,4 +56,8 @@ Route::prefix('admin')->group(function () {
 
     Route::get('create-time-schedule/{kindOfWorkDetailId}', [TimeScheduleController::class, 'create'])->name('create.time.schedule');
     Route::put('update-time-schedule/{kindOfWorkDetailId}', [TimeScheduleController::class, 'update'])->name('update.time.schedule');
+
+
+    // additional url
+    Route::get('count-percentage/{id}/{kindOfWorkID}', [KindOfWorkController::class, 'countPercentage']);
 });

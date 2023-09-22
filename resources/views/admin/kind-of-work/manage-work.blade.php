@@ -53,9 +53,12 @@
                                 <div>
                                     <h1>{{ $kindOfWorkDetail->kindOfWork->name }}</h1>
                                     <h6>{{ $kindOfWorkDetail->name }}</h6>
+                                    <input type="hidden" id="idDetail" value="{{ $kindOfWorkDetail->id }}">
+                                    <input type="hidden" id="kindOfWorkID"
+                                        value="{{ $kindOfWorkDetail->kind_of_work_id }}">
                                 </div>
                                 <div class="header-toolbar">
-                                    <h1>Total Harga : Rp </h1>
+                                    {{-- <h1>Total Harga : Rp {{ number_format($mcAllPrice, 0, ',', '.') }}</h1> --}}
                                 </div>
                             </div>
                             <form action="{{ route('manage.work.update', $kindOfWorkDetail->id) }}" method="POST">
@@ -150,6 +153,8 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                {{-- harga mc --}}
                                 <div class="card-body">
                                     <div class="row">
                                         <h1>Harga MC</h1>
@@ -235,10 +240,6 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        {{-- hidden contract Value --}}
-                                        <input type="text" hidden id="contractValue"
-                                            value="{{ $kindOfWorkDetail->kindOfWork->task->contract_value }}">
-                                        {{-- End --}}
                                         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mt-3">
                                             <div class="form-group">
                                                 <label class="form-label">Nilai Pekerjaan</label>
@@ -268,30 +269,43 @@
 @push('addons-js')
     <script src="{{ asset('./assets/js/pages/contract-price.js') }}"></script>
     <script src="{{ asset('./assets/js/pages/mc-price.js') }}"></script>
+    <script src="{{ asset('./assets/js/pages/count-percentage.js') }}"></script>
 
-    <script>
+    {{-- <script>
         // Ambil elemen input
-        var contractValueInput = document.getElementById("contractValue");
+        var mcTotalValueInput = document.getElementById("mcTotalValue");
         var mcTotalPriceInput = document.getElementById("total_mc_price");
         var mcUnitPriceInput = document.getElementById("mc_unit_price");
         var mcVolumeInput = document.getElementById("mc_volume");
         var workValueInput = document.getElementById("workValue");
 
+        var mcAllValue = document.getElementById("mcAllValue")
+
         // Fungsi untuk menghapus karakter "Rp" dan titik-titik, lalu menghitung persentase
         function calculatePercentage() {
-            var contractValueStr = contractValueInput.value;
-            var mcTotalPriceStr = mcTotalPriceInput.value;
+            mcTotalValueInput.value = ""
 
-            // Hapus karakter "Rp" dan titik-titik
-            var contractValueClean = parseFloat(contractValueStr.replace(/[^\d]/g, ''));
+            var mcAllValueStr = mcAllValue.value;
+            var mcAllValueClean = parseFloat(mcAllValueStr.replace(/[^\d]/g, ''));
+
+            var mcTotalPriceStr = mcTotalPriceInput.value;
             var mcTotalPriceClean = parseFloat(mcTotalPriceStr.replace(/[^\d]/g, ''));
 
+            // menghitung seluruh total harga dengan harga sekarang
+            mcTotalValueInput.value = mcAllValueClean + mcTotalPriceClean
+
+            var mcTotalValueStr = mcTotalValueInput.value;
+            var mcTotalValueClean = parseFloat(mcTotalValueStr.replace(/[^\d]/g, ''));
+
+            console.log(mcTotalValueClean)
+            console.log(mcTotalPriceClean)
+
             // Lakukan perhitungan persentase
-            if (!isNaN(contractValueClean) && !isNaN(mcTotalPriceClean)) {
-                var percentage = (mcTotalPriceClean / contractValueClean) * 100;
+            if (!isNaN(mcTotalValueClean) && !isNaN(mcTotalPriceClean)) {
+                var percentage = (mcTotalPriceClean / mcTotalValueClean) * 100;
 
                 // Tampilkan hasil perhitungan di dalam input workValue
-                workValueInput.value = percentage.toFixed(3) + "%";
+                workValueInput.value = percentage.toFixed(2) + "%";
             }
         }
 
@@ -303,5 +317,5 @@
         // Tambahkan event listener ke mcUnitPriceInput
         mcUnitPriceInput.addEventListener("keyup", calculatePercentage);
         mcVolumeInput.addEventListener("keyup", calculatePercentage);
-    </script>
+    </script> --}}
 @endpush

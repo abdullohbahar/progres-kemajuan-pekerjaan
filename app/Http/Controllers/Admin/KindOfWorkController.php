@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ProgressPicture;
 use App\Models\TimeSchedule;
 use App\Models\Unit;
+use Illuminate\Console\View\Components\Task;
 
 class KindOfWorkController extends Controller
 {
@@ -122,13 +123,11 @@ class KindOfWorkController extends Controller
     {
         $units = Unit::orderBy('unit', 'asc')->get();
         $kindOfWorkDetail = KindOfWorkDetail::with('kindOfWork')->findorfail($id);
-        $totalMcPrice = KindOfWorkDetail::sum('total_mc_price');
 
         $data = [
             'active' => $this->active,
             'kindOfWorkDetail' => $kindOfWorkDetail,
             'units' => $units,
-            'totalMcPrice' => $totalMcPrice,
         ];
 
         return view('admin.kind-of-work.manage-work', $data);
@@ -162,6 +161,31 @@ class KindOfWorkController extends Controller
             'total_mc_price' => $mcTotalPrice,
             'work_value' => $request->work_value,
         ]);
+
+        // lakukan update persen pada semua data
+        $taskId = KindOfWorkDetail::with(['kindOfWork'])->where('id', $id)->first()->kindOfWork->task;
+
+        $taskReport = TaskReport::where('id', $taskId->id)->first()->kindOfWork;
+
+        $sumTotalMcPrice = 0;
+
+        foreach ($taskReport as $tr) {
+            $kindOfWorkDetail = $tr->kindOfWorkDetails->first();
+
+            $sumTotalMcPrice += $kindOfWorkDetail->total_mc_price;
+        }
+
+        $percentage = [];
+
+        foreach ($taskReport as $tr) {
+            $kindOfWorkDetail = $tr->kindOfWorkDetails->first();
+
+            $percentage = ($kindOfWorkDetail->total_mc_price / $sumTotalMcPrice) * 100;
+
+            $kindOfWorkDetail->update([
+                'work_value' => number_format($percentage, 2)
+            ]);
+        }
 
         return to_route('task-report.show', $task_id->kindOfWork->task_id)->with('success', 'Berhasil');
     }
@@ -259,6 +283,27 @@ class KindOfWorkController extends Controller
 
         return response()->json([
             'datas' => $pictures
+        ]);
+    }
+
+    public function countPercentage($id, $kindOfWorkID)
+    {
+        $taskId = KindOfWorkDetail::with(['kindOfWork'])->where('id', $id)->first()->kindOfWork->task;
+
+        $taskReport = TaskReport::where('id', $taskId->id)->first()->kindOfWork;
+
+        $totalMcPrice = 0;
+
+        foreach ($taskReport as $tr) {
+            $kindOfWorkDetail = $tr->kindOfWorkDetails->first();
+
+            if ($kindOfWorkDetail->id != $id) {
+                $totalMcPrice += $kindOfWorkDetail->total_mc_price;
+            }
+        }
+
+        return response()->json([
+            'allMcPrice' => $totalMcPrice,
         ]);
     }
 }

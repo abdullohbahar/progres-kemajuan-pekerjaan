@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", function () {
         var contractUnitPrice = extractNumber(contractUnitPriceInput.value);
         var volume = parseFloat(volumeInput.value) || 0;
         var totalHarga = contractUnitPrice * volume;
-        console.log(totalHarga);
         totalPriceInput.value = formatRupiah(totalHarga); // Menampilkan total harga dengan dua desimal
     }
 

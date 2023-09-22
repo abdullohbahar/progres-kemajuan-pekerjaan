@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", function () {
         var mcUnitPrice = extractNumber(mcUnitPriceInput.value);
         var volume = parseFloat(volumeInput.value) || 0;
         var totalHarga = mcUnitPrice * volume;
-        console.log(totalHarga);
         totalPriceInput.value = formatRupiah(totalHarga); // Menampilkan total harga dengan dua desimal
     }
 
