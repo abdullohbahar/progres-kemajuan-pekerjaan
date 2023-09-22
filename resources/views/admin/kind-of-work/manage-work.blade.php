@@ -244,7 +244,7 @@
                                             <div class="form-group">
                                                 <label class="form-label">Nilai Pekerjaan</label>
                                                 <input type="text" class="form-control" name="work_value"
-                                                    value="{{ $kindOfWorkDetail->work_value }}" id="workValue" readonly>
+                                                    value="{{ $kindOfWorkDetail->work_value }}%" id="workValue" readonly>
                                             </div>
                                         </div>
                                     </div>

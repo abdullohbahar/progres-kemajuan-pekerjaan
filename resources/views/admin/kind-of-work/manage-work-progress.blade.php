@@ -100,7 +100,15 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="work_value">Nilai Pekerjaan</label>
                                             </div>
-                                            <input type="text" class="form-control" id="work_value" disabled>
+                                            <input type="text" class="form-control" id="work_value"
+                                                value="{{ $kindOfWorkDetail->work_value }}%" disabled>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 mt-4">
+                                            <div class="form-group">
+                                                <label class="form-label" for="remaining">Sisa Nilai Pekerjaan</label>
+                                            </div>
+                                            <input type="text" class="form-control" id="remaining"
+                                                value="{{ $kindOfWorkDetail->work_value }}%" disabled>
                                         </div>
                                     </div>
                                     <div class="row mt-5">
@@ -109,6 +117,7 @@
                                             @php
                                                 $date = reset($groupDate) . '-' . end($groupDate);
                                                 $data = $kindOfWorkDetail->timeSchedules->where('date', $date)->first();
+                                                $schedule = $kindOfWorkDetail->schedules->where('date', $date)->first();
                                             @endphp
                                             <div class="col-sm-12 col-md-6 mt-5 pt-4">
                                                 <div class="form-group">
@@ -122,14 +131,17 @@
                                                 <input type="text" name="week[]" hidden
                                                     value="{{ $kindOfWorkDetail->week ?? $key }}" class="form-control">
                                                 <input type="text" name="progress[]"
-                                                    value="{{ $kindOfWorkDetail->progress ?? '' }}" class="form-control"
+                                                    value="{{ $schedule->progress ?? 0 }}%"
+                                                    class="form-control progress-value" data-key="{{ $key }}"
                                                     id="progress">
+                                                <div style="color: red" class="warning{{ $key }}">
+                                                </div>
                                             </div>
                                         @endforeach
                                     </div>
                                     <div class="row">
                                         <div class="col-12 d-grid">
-                                            <button type="submit" class="btn btn-success mt-5">Simpan</button>
+                                            <button type="submit" class="btn btn-success mt-5 btn-submit">Simpan</button>
                                         </div>
                                     </div>
                                 </div>
@@ -146,4 +158,5 @@
 @endsection
 
 @push('addons-js')
+    <script src="{{ asset('./assets/js/pages/count-remaining-work-value.js') }}"></script>
 @endpush

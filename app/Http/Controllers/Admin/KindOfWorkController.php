@@ -233,19 +233,23 @@ class KindOfWorkController extends Controller
 
         if ($schedule->count() <= 0) {
             foreach ($request->week as $key => $week) {
+                $progress = str_replace('%', '', $request->progress[$key]);
+
                 Schedule::create([
                     'kind_of_work_detail_id' => $kindOfWorkDetailId,
                     'week' => $request->week[$key],
                     'date' => $request->date[$key],
-                    'progress' => $request->progress[$key] ?? '',
+                    'progress' => $progress,
                 ]);
             }
         } else {
             foreach ($request->week as $key => $week) {
+                $progress = str_replace('%', '', $request->progress[$key]);
+
                 Schedule::where('kind_of_work_detail_id', $kindOfWorkDetailId)
                     ->where('week', $request->week[$key])
                     ->update([
-                        'progress' => $request->progress[$key] ?? '',
+                        'progress' => $progress,
                     ]);
             }
         }
