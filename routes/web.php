@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\SupervisingConsultantController;
 use App\Http\Controllers\Admin\TaskReportController;
 use App\Http\Controllers\Admin\TimeScheduleController;
 use App\Http\Controllers\Admin\UnitController;
+use App\Http\Controllers\SupervisingConsultant\DashboardSupervisingConsultantController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -60,4 +61,9 @@ Route::prefix('admin')->group(function () {
 
     // additional url
     Route::get('count-percentage/{id}/{kindOfWorkID}', [KindOfWorkController::class, 'countPercentage']);
+});
+
+Route::prefix('konsultan-pengawas')->group(function () {
+    Route::get('dashboard', [DashboardSupervisingConsultantController::class, 'index'])->name('supervising.consultant.dashboard');
+    Route::get('task-report', [TaskReportController::class, 'index'])->name('supervising.consultant.task.report');
 });
