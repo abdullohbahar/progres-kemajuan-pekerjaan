@@ -17,7 +17,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('username');
             $table->string('password');
-            $table->enum('role', ['Supervising Consultant', 'Partner', 'Site Supervisor', 'Acting Commitment Marker']); // konsultan pengawas, rekanan (penyedia jasa), pengawas lapangan, PPK
+            $table->enum('role', ['Supervising Consultant', 'Partner', 'Site Supervisor', 'Acting Commitment Marker', 'Admin']); // konsultan pengawas, rekanan (penyedia jasa), pengawas lapangan, PPK
             $table->rememberToken();
             $table->timestamps();
         });

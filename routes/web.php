@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\SupervisingConsultantController;
 use App\Http\Controllers\Admin\TaskReportController;
 use App\Http\Controllers\Admin\TimeScheduleController;
 use App\Http\Controllers\Admin\UnitController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\SupervisingConsultant\DashboardSupervisingConsultantController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/', [AuthController::class, 'index']);
+Route::post('/auth', [AuthController::class, 'authenticate'])->name('auth');
+
 
 Route::prefix('admin')->group(function () {
     Route::resource('dashboard', DashboardAdminController::class)->only(['index']);
