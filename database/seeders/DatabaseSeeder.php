@@ -28,7 +28,8 @@ class DatabaseSeeder extends Seeder
         SiteSupervisor::factory(5)->create();
         ActingCommitmentMarker::factory(5)->create();
         Unit::factory(5)->create();
-        User::factory()->create();
+        // User::factory()->create();
+        $this->call(UserSeeder::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

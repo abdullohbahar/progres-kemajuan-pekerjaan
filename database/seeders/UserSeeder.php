@@ -1,23 +1,21 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Seeders;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
+use App\Models\User;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
- */
-class UserFactory extends Factory
+class UserSeeder extends Seeder
 {
     /**
-     * Define the model's default state.
+     * Run the database seeds.
      *
-     * @return array<string, mixed>
+     * @return void
      */
-    public function definition()
+    public function run()
     {
-        $data = [
+        $users = [
             [
                 'username' => 'admin',
                 'role' => 'Admin',
@@ -45,6 +43,8 @@ class UserFactory extends Factory
             ],
         ];
 
-        return $data;
+        foreach ($users as $user) {
+            User::create($user);
+        }
     }
 }
