@@ -5,6 +5,15 @@ $.ajaxSetup({
 });
 
 var currentUrl = window.location.href;
+var role = $("#role").val();
+
+if (role == "Admin") {
+    var hidden = "";
+    var url = "/admin/task-report/";
+} else {
+    var hidden = "d-none";
+    var url = "/konsultan-pengawas/task-report/";
+}
 
 // show datatable data
 
@@ -161,7 +170,7 @@ var KTDatatablesServerSide = (function () {
 
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="/admin/task-report/${row.id}" class="menu-link px-3">
+                                    <a href="${url}${row.id}" class="menu-link px-3">
                                         Detail
                                     </a>
                                 </div>
@@ -169,7 +178,7 @@ var KTDatatablesServerSide = (function () {
 
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="/admin/task-report/${row.id}/edit" class="menu-link px-3">
+                                    <a href="${url}${row.id}/edit" class="menu-link px-3 ${hidden}">
                                         Ubah
                                     </a>
                                 </div>
@@ -177,7 +186,7 @@ var KTDatatablesServerSide = (function () {
 
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="#" class="menu-link px-3" data-name="${row.activity_name}" data-id="${row.id}" id="delete">
+                                    <a href="#" class="menu-link px-3 ${hidden}" data-name="${row.activity_name}" data-id="${row.id}" id="delete">
                                         Hapus
                                     </a>
                                 </div>

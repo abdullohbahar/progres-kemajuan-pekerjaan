@@ -90,8 +90,9 @@ class TaskReportController extends Controller
         return to_route('task-report.index')->with('success', 'Berhasil Menambah Pekerjaan');
     }
 
-    public function show(TaskReport $taskReport)
+    public function show($id)
     {
+        $taskReport = TaskReport::where('id', $id)->firstOrfail();
         // Melakukan pengecekan apakah status sudah aktif atau belum
 
         $dateSpk = strtotime($taskReport->spk_date);

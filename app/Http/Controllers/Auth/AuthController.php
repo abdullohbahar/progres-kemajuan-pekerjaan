@@ -31,16 +31,16 @@ class AuthController extends Controller
                     return redirect()->route('dashboard.index');
                     break;
                 case 'Supervising Consultant':
-                    return redirect()->route('admin.donasi.dashboard');
+                    return redirect()->route('supervising.consultant.dashboard');
                     break;
                 case 'Partner':
-                    return redirect()->route('admin.lksa.dashboard');
+                    return redirect()->route('partner.dashboard');
                     break;
                 case 'Site Supervisor':
-                    return redirect()->route('admin.keuangan.dashboard');
+                    return redirect()->route('site.supervisor.dashboard');
                     break;
                 case 'Acting Commitment Marker':
-                    return redirect()->route('admin.keuangan.dashboard');
+                    return redirect()->route('acting.commitment.marker.dashboard');
                     break;
                 default:
                     return redirect()->back()->with('message', 'Username atau password salah');

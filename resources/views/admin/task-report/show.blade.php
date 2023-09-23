@@ -64,11 +64,13 @@
                                         <i class="fas fa-arrow-left"></i> Kembali
                                     </a>
                                 </div>
-                                <div class="card-toolbar">
-                                    <a href="{{ route('task-report.edit', $taskReport->id) }}"
-                                        class="btn btn-sm btn-warning"> Ubah
-                                    </a>
-                                </div>
+                                @if (auth()->user()->role == 'Admin')
+                                    <div class="card-toolbar">
+                                        <a href="{{ route('task-report.edit', $taskReport->id) }}"
+                                            class="btn btn-sm btn-warning"> Ubah
+                                        </a>
+                                    </div>
+                                @endif
                             </div>
                             <div class="card-body" style="font-size: 14px">
                                 <div class="row">
@@ -149,8 +151,10 @@
                             <div class="card-header border-0 pt-5">
                                 <h2>Macam Pekerjaan</h2>
                                 <div class="card-toolbar">
-                                    <a href="{{ route('kind.of.work', $taskReport->id) }}"
-                                        class="btn btn-primary btn-sm">Tambah Macam Pekerjaan</a>
+                                    @if (auth()->user()->role == 'Admin')
+                                        <a href="{{ route('kind.of.work', $taskReport->id) }}"
+                                            class="btn btn-primary btn-sm">Tambah Macam Pekerjaan</a>
+                                    @endif
                                 </div>
                             </div>
                             <div class="card-body">
@@ -161,8 +165,10 @@
                                             <div class="card-toolbar">
                                                 <a href="#" class="btn btn-sm btn-info"
                                                     style="margin-right: 5px">detail</a>
-                                                <a href="{{ route('kind.of.work.edit', $kindOfWork->id) }}"
-                                                    class="btn btn-sm btn-warning" style="margin-right: 5px">Ubah</a>
+                                                @if (auth()->user()->role == 'Admin')
+                                                    <a href="{{ route('kind.of.work.edit', $kindOfWork->id) }}"
+                                                        class="btn btn-sm btn-warning" style="margin-right: 5px">Ubah</a>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="card-body" style="padding-left:70px !important">
@@ -175,33 +181,39 @@
                                                             <p>{!! $detail->information !!}</p>
                                                         </div>
                                                         <div class="col-sm-12 col-md-4 text-end">
-                                                            <div class="row">
-                                                                <div class="col-4 d-grid">
-                                                                    <a href="{{ route('manage.work', $detail->id) }}"
-                                                                        class="btn btn-sm btn-primary my-5"
-                                                                        style="margin-right: 5px">Kelola
-                                                                        Pekerjaan</a>
-                                                                </div>
-                                                                <div class="col-4 d-grid">
-                                                                    <a href="{{ route('create.time.schedule', $detail->id) }}"
-                                                                        class="btn btn-sm btn-info my-5"
-                                                                        style="margin-right: 5px">Kelola
-                                                                        Time Schedule</a>
-                                                                </div>
-                                                                @if ($status == 'active')
+                                                            <div class="row justify-content-end">
+                                                                @if (auth()->user()->role == 'Admin')
                                                                     <div class="col-4 d-grid">
-                                                                        <a href="{{ route('manage.work.progress', $detail->id) }}"
-                                                                            class="btn btn-sm btn-success my-5"
+                                                                        <a href="{{ route('manage.work', $detail->id) }}"
+                                                                            class="btn btn-sm btn-primary my-5"
                                                                             style="margin-right: 5px">Kelola
-                                                                            Kemajuan Pekerjaan</a>
+                                                                            Pekerjaan</a>
                                                                     </div>
-                                                                @else
+                                                                @endif
+                                                                @if (auth()->user()->role == 'Supervising Consultant')
                                                                     <div class="col-4 d-grid">
-                                                                        <button class="btn btn-sm btn-success my-5"
-                                                                            style="margin-right: 5px" id="warning">Kelola
-                                                                            Kemajuan
-                                                                            Pekerjaan</button>
+                                                                        <a href="{{ route('create.time.schedule', $detail->id) }}"
+                                                                            class="btn btn-sm btn-info my-5"
+                                                                            style="margin-right: 5px">Kelola
+                                                                            Time Schedule</a>
                                                                     </div>
+
+                                                                    @if ($status == 'active')
+                                                                        <div class="col-4 d-grid">
+                                                                            <a href="{{ route('manage.work.progress', $detail->id) }}"
+                                                                                class="btn btn-sm btn-success my-5"
+                                                                                style="margin-right: 5px">Kelola
+                                                                                Kemajuan Pekerjaan</a>
+                                                                        </div>
+                                                                    @else
+                                                                        <div class="col-4 d-grid">
+                                                                            <button class="btn btn-sm btn-success my-5"
+                                                                                style="margin-right: 5px"
+                                                                                id="warning">Kelola
+                                                                                Kemajuan
+                                                                                Pekerjaan</button>
+                                                                        </div>
+                                                                    @endif
                                                                 @endif
                                                             </div>
                                                         </div>
@@ -268,7 +280,7 @@
                                                                             data-bs-target="#kt_accordion_{{ $key }}_mc_body_{{ $key }}_mc"
                                                                             aria-expanded="false"
                                                                             aria-controls="kt_accordion_{{ $key }}_mc_body_{{ $key }}_mc">
-                                                                            MC-0
+                                                                            MC
                                                                         </button>
                                                                     </h2>
                                                                     <div id="kt_accordion_{{ $key }}_mc_body_{{ $key }}_mc"
@@ -304,7 +316,7 @@
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>Nilai Pekerjaan</td>
-                                                                                    <td>:{{ $detail->work_value }}
+                                                                                    <td>: {{ $detail->work_value }}%
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>

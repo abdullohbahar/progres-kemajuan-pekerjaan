@@ -51,11 +51,13 @@
                         <div class="card">
                             <div class="card-header border-0 pt-5">
                                 <h3></h3>
-                                <div class="card-toolbar">
-                                    <a href="{{ route('task-report.create') }}" class="btn btn-sm btn-primary">
-                                        <i class="ki-duotone ki-plus fs-2"></i>Tambah Pekerjaan
-                                    </a>
-                                </div>
+                                @if (auth()->user()->role == 'Admin')
+                                    <div class="card-toolbar">
+                                        <a href="{{ route('task-report.create') }}" class="btn btn-sm btn-primary">
+                                            <i class="ki-duotone ki-plus fs-2"></i>Tambah Pekerjaan
+                                        </a>
+                                    </div>
+                                @endif
                             </div>
                             <div class="card-body">
                                 <table id="kt_datatable_dom_positioning"
@@ -84,6 +86,8 @@
         <!--end::Content-->
     </div>
     <!--end::Content wrapper-->
+
+    <input type="text" value="{{ auth()->user()->role }}" hidden id="role">
 @endsection
 
 @push('addons-js')

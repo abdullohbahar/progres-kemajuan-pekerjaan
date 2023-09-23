@@ -151,12 +151,14 @@ class KindOfWorkController extends Controller
         // Mengambil angka saja dari jumlah
         // Menampung karakter yang ingin dihapus
         $removeChar = ['R', 'p', '.', ',', ' '];
+        $removePercent = ['%'];
 
         // Menghapus karakter sesuai dengan array yang ada di $removeChar
         $contractUnitPrice = str_replace($removeChar, "", $request->contract_unit_price);
         $contractTotalPrice = str_replace($removeChar, "", $request->total_contract_price);
         $mcUnitPrice = str_replace($removeChar, "", $request->mc_unit_price);
         $mcTotalPrice = str_replace($removeChar, "", $request->total_mc_price);
+        $workValue = str_replace($removePercent, "", $request->work_value);
 
         // update kind of work
         KindOfWorkDetail::where('id', $id)->update([
@@ -168,20 +170,16 @@ class KindOfWorkController extends Controller
             'mc_unit' => $request->mc_unit,
             'mc_unit_price' => $mcUnitPrice,
             'total_mc_price' => $mcTotalPrice,
-            'work_value' => $request->work_value,
+            'work_value' => $workValue,
         ]);
 
         // lakukan update persen pada semua data
         $taskId = KindOfWorkDetail::with(['kindOfWork'])->where('id', $id)->first()->kindOfWork->task;
 
-        $taskReport = TaskReport::where('id', $taskId->id)->first()->kindOfWork;
-
-        $sumTotalMcPrice = 0;
+        $taskReport = TaskReport::with('kindOfWork')->where('id', $taskId->id)->first()->kindOfWork;
 
         foreach ($taskReport as $tr) {
-            $kindOfWorkDetail = $tr->kindOfWorkDetails->first();
-
-            $sumTotalMcPrice += $kindOfWorkDetail->total_mc_price;
+            $sumTotalMcPrice = $tr->kindOfWorkDetails->sum('total_mc_price');
         }
 
         $percentage = [];

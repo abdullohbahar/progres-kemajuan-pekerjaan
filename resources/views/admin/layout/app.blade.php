@@ -82,7 +82,11 @@ License: For each use you must have a valid license purchased only from above li
             <!--begin::Wrapper-->
             <div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
                 <!--begin::Sidebar-->
-                @include('admin.layout.sidebar')
+                @if (auth()->user()->role == 'Admin')
+                    @include('admin.layout.sidebar')
+                @elseif(auth()->user()->role == 'Supervising Consultant')
+                    @include('supervising_consultant.layout.sidebar')
+                @endif
                 <!--end::Sidebar-->
                 <!--begin::Main-->
                 <div class="app-main flex-column flex-row-fluid" id="kt_app_main">

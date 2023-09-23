@@ -72,4 +72,5 @@ Route::prefix('admin')->group(function () {
 Route::prefix('konsultan-pengawas')->group(function () {
     Route::get('dashboard', [DashboardSupervisingConsultantController::class, 'index'])->name('supervising.consultant.dashboard');
     Route::get('task-report', [TaskReportController::class, 'index'])->name('supervising.consultant.task.report');
+    Route::get('task-report/{id}', [TaskReportController::class, 'show'])->name('supervising.consultant.task.report.show');
 });
