@@ -64,11 +64,13 @@ class KindOfWorkController extends Controller
 
     public function edit($id)
     {
-        $kindOfWork = KindOfWork::where('id', $id)->firstorfail();
+        $kindOfWork = KindOfWork::with('task')->where('id', $id)->firstorfail();
+        $expired = now() <= $kindOfWork->task->spk_date;
 
         $data = [
             'active' => $this->active,
             'kindOfWork' => $kindOfWork,
+            'expired' => $expired
         ];
 
         return view('admin.kind-of-work.edit', $data);
@@ -103,6 +105,13 @@ class KindOfWorkController extends Controller
                         'name' => $request->multiple_name[$key]['name'],
                         'information' => $request->multiple_name[$key]['information'],
                     ]);
+                }
+            }
+
+            // jika ada item yang terhapus maka lakukan hapus di database
+            if ($request->has('deletedItem')) {
+                foreach ($request->deletedItem as $deleted) {
+                    KindOfWorkDetail::where('id', $deleted)->delete();
                 }
             }
 

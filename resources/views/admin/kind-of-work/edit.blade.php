@@ -77,7 +77,8 @@
                                                 @enderror
                                             </div>
                                             <div data-repeater-list="multiple_name">
-                                                <div data-repeater-item>
+                                                <div data-repeater-item
+                                                    data-deletable="{{ now() <= $kindOfWork->task->spk_date ? 'true' : 'false' }}">
                                                     <div class="row mt-5 justify-content-end">
                                                         <div class="col-8">
                                                             <div class="form-group mb-3">
@@ -96,7 +97,7 @@
                                                         </div>
                                                         <div class="col-3">
                                                             <input type="hidden" name="id" value=""
-                                                                id="">
+                                                                id="id">
                                                         </div>
                                                         <div class="col-8">
                                                             <div class="form-group mb-3">
@@ -113,15 +114,20 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-3">
+                                                            {{-- @if (now() <= $kindOfWork->task->spk_date) --}}
                                                             <div class="form-group">
-                                                                <label class="form-label">Hapus</label>
+                                                                <label class="form-label"></label>
                                                                 <div class="d-grid">
-                                                                    <a href="javascript:;" data-repeater-delete
-                                                                        class="btn btn-danger">Hapus</a>
+                                                                    <button type="button" href="javascript:;"
+                                                                        data-repeater-delete class="btn btn-danger mt-3"
+                                                                        id="dButton" name="dButton"
+                                                                        value="Hapus">Hapus</button>
                                                                 </div>
                                                             </div>
+                                                            {{-- @endif --}}
                                                         </div>
                                                     </div>
+                                                    <hr>
                                                 </div>
                                             </div>
                                         </div>
@@ -135,10 +141,13 @@
                                     </div>
                                 </div>
                                 <div class="card-footer d-grid">
-                                    <button class="btn btn-success"> Simpan Pekerjaan</button>
+                                    <button type="submit" class="btn btn-success"> Simpan Pekerjaan</button>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    {{-- deleted item --}}
+                    <div id="listDeletedItem">
                     </div>
                 </form>
             </div>
@@ -147,6 +156,8 @@
         <!--end::Content-->
     </div>
     <!--end::Content wrapper-->
+
+    <input type="text" hidden value="{{ $expired }}" id="expired">
 @endsection
 
 @push('addons-js')
@@ -155,26 +166,62 @@
     <script>
         var dataFromDatabase = @json($kindOfWork->kindOfWorkDetails);
 
+
         var repeater = $('#multiple_name').repeater({
             initEmpty: false,
-
-            defaultValues: {
-                'text-input': 'foo'
-            },
 
             show: function() {
                 $(this).slideDown();
             },
 
             hide: function(deleteElement) {
-                if (confirm('Apakah Anda yakin ingin menghapus elemen ini?')) {
-                    $(this).slideUp(deleteElement);
-                }
-            },
-        });
+                // Temukan elemen form yang berada dalam elemen data-repeater-item yang sesuai
+                var formElement = $(this).closest('[data-repeater-item]').find(
+                    'input[id="id"]');
 
+                // Ambil nilai dari elemen input form
+                var nilaiInput = formElement.val();
+
+                // alert konfirmasi
+                Swal.fire({
+                    title: 'Apakah anda yakin?',
+                    html: "Data yang sudah dihapus tidak bisa dikembalikan! <br> Data akan benar-benar terhapus ketika anda telah klik <b> Simpan Pekerjaan </b>",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Hapus!',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire(
+                            'Berhasil',
+                            '',
+                            'success'
+                        )
+                        $(this).slideUp(deleteElement);
+                        // Lakukan sesuatu dengan nilai input yang Anda dapatkan
+                        console.log('Nilai input yang dihapus:', nilaiInput);
+
+                        $("#listDeletedItem").append(`
+                            <input type="text" name="deletedItem[]" hidden value=${nilaiInput}>
+                        `)
+                    }
+                })
+            },
+
+            isFirstItemUndeletable: true,
+        });
 
         // Mengatur data dalam daftar
         repeater.setList(dataFromDatabase);
+
+        var expired = $("#expired").val()
+
+        if (!expired) {
+            for (var i = 0; i < dataFromDatabase.length; i++) {
+                $('button[name="multiple_name[' + i + '][dButton]"]').css('display', 'none');
+            }
+        }
     </script>
 @endpush
