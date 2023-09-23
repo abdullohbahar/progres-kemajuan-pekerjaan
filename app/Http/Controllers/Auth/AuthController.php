@@ -30,13 +30,16 @@ class AuthController extends Controller
                 case 'Admin':
                     return redirect()->route('dashboard.index');
                     break;
-                case 'Admin Donasi':
+                case 'Supervising Consultant':
                     return redirect()->route('admin.donasi.dashboard');
                     break;
-                case 'Admin LKSA':
+                case 'Partner':
                     return redirect()->route('admin.lksa.dashboard');
                     break;
-                case 'Admin Keuangan':
+                case 'Site Supervisor':
+                    return redirect()->route('admin.keuangan.dashboard');
+                    break;
+                case 'Acting Commitment Marker':
                     return redirect()->route('admin.keuangan.dashboard');
                     break;
                 default:
@@ -47,5 +50,16 @@ class AuthController extends Controller
         return redirect()->back()->with([
             'message' =>  'Username atau password salah',
         ]);
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/')->with('success', 'Logout Successfully');
     }
 }
