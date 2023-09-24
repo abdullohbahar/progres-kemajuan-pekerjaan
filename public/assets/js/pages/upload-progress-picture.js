@@ -23,7 +23,7 @@ $("body").on("click", "#seePicture", function () {
     // Fungsi async untuk mengirim permintaan AJAX
     async function fetchData() {
         try {
-            const response = await fetch("/admin/get-progress-picture/" + id); // Ganti URL dengan URL yang sesuai
+            const response = await fetch("/get-progress-picture/" + id);
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }

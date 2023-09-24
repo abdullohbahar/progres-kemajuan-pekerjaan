@@ -59,7 +59,6 @@ Route::prefix('')->group(function () {
     Route::get('manage-work-progress/{id}', [KindOfWorkController::class, 'manageWorkProgress'])->name('manage.work.progress');
     Route::put('update-progress/{id}', [KindOfWorkController::class, 'updateProgress'])->name('update.work.progress');
     Route::post('upload-progress-picture', [KindOfWorkController::class, 'uploadProgressPicture'])->name('upload.progress.picture');
-    Route::get('get-progress-picture/{id}', [KindOfWorkController::class, 'getProgressPictures'])->name('get.progress.picture');
 
     Route::get('create-time-schedule/{kindOfWorkDetailId}', [TimeScheduleController::class, 'create'])->name('create.time.schedule');
     Route::put('update-time-schedule/{kindOfWorkDetailId}', [TimeScheduleController::class, 'update'])->name('update.time.schedule');
@@ -77,3 +76,4 @@ Route::prefix('konsultan-pengawas')->group(function () {
 
 
 Route::get('report/{id}', [TaskReportController::class, 'report'])->name('report');
+Route::get('get-progress-picture/{id}', [KindOfWorkController::class, 'getProgressPictures'])->name('get.progress.picture');
