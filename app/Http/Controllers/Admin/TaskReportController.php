@@ -10,6 +10,7 @@ use App\Models\SupervisingConsultant;
 use App\Models\TaskReport;
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class TaskReportController extends Controller
 {
@@ -19,7 +20,24 @@ class TaskReportController extends Controller
     {
         if ($request->ajax()) {
 
-            $query = TaskReport::orderBy('created_at', 'desc')->get();
+            $user = Auth::user();
+
+            if ($user->role == 'Supervising Consultant') {
+                $id = SupervisingConsultant::where('user_id', Auth::user()->id)->first()->id;
+            } else if ($user->role == 'Partner') {
+                $id = Partner::where('user_id', Auth::user()->id)->first()->id;
+            } else if ($user->role == 'Admin') {
+                $id = '';
+            }
+
+            $query = TaskReport::orderBy('created_at', 'desc')
+                ->when($user->role == 'Supervising Consultant', function ($query) use ($id) {
+                    $query->where('supervising_consultant_id', $id);
+                })
+                ->when($user->role == 'Partner', function ($query) use ($id) {
+                    $query->where('partner_id', $id);
+                })
+                ->get();
 
             // return $query;
             return Datatables::of($query)->make();

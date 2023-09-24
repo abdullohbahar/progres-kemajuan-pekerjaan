@@ -12,7 +12,7 @@ if (role == "Admin") {
     var url = "/admin/task-report/";
 } else {
     var hidden = "d-none";
-    var url = "/konsultan-pengawas/task-report/";
+    var url = "/task-report/";
 }
 
 // show datatable data

@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\TaskReportController;
 use App\Http\Controllers\Admin\TimeScheduleController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Partner\DashboardPartnerController;
 use App\Http\Controllers\SupervisingConsultant\DashboardSupervisingConsultantController;
 use Illuminate\Support\Facades\Route;
 
@@ -70,9 +71,14 @@ Route::prefix('')->group(function () {
 
 Route::prefix('konsultan-pengawas')->group(function () {
     Route::get('dashboard', [DashboardSupervisingConsultantController::class, 'index'])->name('supervising.consultant.dashboard');
-    Route::get('task-report', [TaskReportController::class, 'index'])->name('supervising.consultant.task.report');
-    Route::get('task-report/{id}', [TaskReportController::class, 'show'])->name('supervising.consultant.task.report.show');
 });
+
+Route::prefix('rekanan')->group(function () {
+    Route::get('dashboard', [DashboardPartnerController::class, 'index'])->name('partner.dashboard');
+});
+
+Route::get('task-report', [TaskReportController::class, 'index'])->name('task.report');
+Route::get('task-report/{id}', [TaskReportController::class, 'show'])->name('task.report.show');
 
 
 Route::get('report/{id}', [TaskReportController::class, 'report'])->name('report');
