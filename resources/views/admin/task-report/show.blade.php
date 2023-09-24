@@ -70,12 +70,12 @@
                                             class="btn btn-sm btn-warning"> Ubah
                                         </a>
                                     </div>
-                                    @endif
-                                    <div class="card-toolbar">
-                                        <a href="{{ route('report', $taskReport->id) }}"
-                                            class="btn btn-sm btn-warning"> Lihat Laporan
-                                        </a>
-                                    </div>
+                                @endif
+                                <div class="card-toolbar">
+                                    <a href="{{ route('report', $taskReport->id) }}" class="btn btn-sm btn-warning"> Lihat
+                                        Laporan
+                                    </a>
+                                </div>
                             </div>
                             <div class="card-body" style="font-size: 14px">
                                 <div class="row">
@@ -340,7 +340,7 @@
                                                                             data-bs-target="#kt_accordion_{{ $key }}_time_schedule_body_{{ $key }}_time_schedule"
                                                                             aria-expanded="false"
                                                                             aria-controls="kt_accordion_{{ $key }}_time_schedule_body_{{ $key }}_time_schedule">
-                                                                            Time Schedule & Progress Mingguan
+                                                                            Time Schedule
                                                                         </button>
                                                                     </h2>
                                                                     <div id="kt_accordion_{{ $key }}_time_schedule_body_{{ $key }}_time_schedule"
@@ -353,8 +353,6 @@
                                                                                     <th>Minggu Ke</th>
                                                                                     <th>Tanggal</th>
                                                                                     <th>Progress Time Schedule</td>
-                                                                                    <th>Progress Mingguan</td>
-                                                                                    <th>Foto</td>
                                                                                 </tr>
                                                                                 <tbody>
                                                                                     @foreach ($detail->timeSchedules as $key => $timeSchedule)
@@ -366,21 +364,6 @@
                                                                                             </td>
                                                                                             <td>{{ $timeSchedule->progress }}
                                                                                             </td>
-                                                                                            <td>
-                                                                                                {{ $detail->schedules[$key]->progress }}
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <a href="javascript:void(0);"
-                                                                                                    type="button"
-                                                                                                    id="uploadPicture"
-                                                                                                    data-date="{{ $timeSchedule->date }}"
-                                                                                                    data-scheduleid="{{ $detail->schedules[$key]->id }}">Upload
-                                                                                                    Foto</a> |
-                                                                                                <a href="javascript:;"
-                                                                                                    id="seePicture"
-                                                                                                    data-scheduleid="{{ $detail->schedules[$key]->id }}">Lihat
-                                                                                                    Foto</a>
-                                                                                            </td>
                                                                                         </tr>
                                                                                     @endforeach
                                                                                 </tbody>
@@ -390,21 +373,89 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                            @endforeach
+                                                        <div class="col-12 mt-5">
+                                                            <div class="accordion"
+                                                                id="kt_accordion_{{ $key }}_weekly_progress">
+                                                                <div class="accordion-item">
+                                                                    <h2 class="accordion-header"
+                                                                        id="kt_accordion_{{ $key }}_weekly_progress_header_{{ $key }}_weekly_progress">
+                                                                        <button
+                                                                            class="accordion-button fs-4 fw-semibold collapsed"
+                                                                            type="button" data-bs-toggle="collapse"
+                                                                            data-bs-target="#kt_accordion_{{ $key }}_weekly_progress_body_{{ $key }}_weekly_progress"
+                                                                            aria-expanded="false"
+                                                                            aria-controls="kt_accordion_{{ $key }}_weekly_progress_body_{{ $key }}_weekly_progress">
+                                                                            Progress Mingguan
+                                                                        </button>
+                                                                    </h2>
+                                                                    <div id="kt_accordion_{{ $key }}_weekly_progress_body_{{ $key }}_weekly_progress"
+                                                                        class="accordion-collapse collapse"
+                                                                        aria-labelledby="kt_accordion_{{ $key }}_weekly_progress_header_{{ $key }}_weekly_progress"
+                                                                        data-bs-parent="#kt_accordion_{{ $key }}_weekly_progress">
+                                                                        <div class="accordion-body">
+                                                                            <table class="table table-bordered">
+                                                                                <tr>
+                                                                                    <th>Minggu Ke</th>
+                                                                                    <th>Tanggal</th>
+                                                                                    <th>Progress Mingguan</td>
+                                                                                        @if (auth()->user()->role != 'Admin')
+                                                                                    <th>Aksi</td>
+                                            @endif
+                                            <th>Foto</td>
+                                                </tr>
+                                                <tbody>
+                                                    @foreach ($detail->timeSchedules as $key => $timeSchedule)
+                                                        <tr>
+                                                            <td>
+                                                                {{ $timeSchedule->week }}
+                                                            </td>
+                                                            <td>{{ $timeSchedule->date }}
+                                                            </td>
+                                                            <td>
+                                                                {{ $detail->schedules[$key]->progress }}
+                                                            </td>
+                                                            @if (auth()->user()->role != 'Admin')
+                                                                <td>
+                                                                    @if ($detail->schedules[$key]->progress != 0)
+                                                                        <button class="btn btn-success btn-sm">Setujui
+                                                                            Pekerjaan</button>
+                                                                    @endif
+                                                                </td>
+                                                            @endif
+                                                            <td>
+                                                                <a href="javascript:void(0);" type="button"
+                                                                    id="uploadPicture"
+                                                                    data-date="{{ $timeSchedule->date }}"
+                                                                    data-scheduleid="{{ $detail->schedules[$key]->id }}">Upload
+                                                                    Foto</a> |
+                                                                <a href="javascript:;" id="seePicture"
+                                                                    data-scheduleid="{{ $detail->schedules[$key]->id }}">Lihat
+                                                                    Foto</a>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                                </table>
                                         </div>
                                     </div>
-                                @endforeach
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!--end::Content container-->
+            <hr>
+            @endforeach
         </div>
-        <!--end::Content-->
+    </div>
+    @endforeach
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!--end::Content container-->
+    </div>
+    <!--end::Content-->
     </div>
     <!--end::Content wrapper-->
 
