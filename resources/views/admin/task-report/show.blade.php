@@ -398,7 +398,7 @@
                                                                                     <th>Minggu Ke</th>
                                                                                     <th>Tanggal</th>
                                                                                     <th>Progress Mingguan</td>
-                                                                                        @if (auth()->user()->role != 'Admin')
+                                                                                        @if (auth()->user()->role == 'Partner')
                                                                                     <th>Aksi</td>
                                             @endif
                                             <th>Foto</td>
@@ -414,7 +414,7 @@
                                                             <td>
                                                                 {{ $detail->schedules[$key]->progress }}
                                                             </td>
-                                                            @if (auth()->user()->role != 'Admin')
+                                                            @if (auth()->user()->role == 'Partner')
                                                                 <td>
                                                                     @if ($detail->schedules[$key]->progress != 0)
                                                                         <button class="btn btn-success btn-sm">Setujui

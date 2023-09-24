@@ -11,10 +11,13 @@ use Illuminate\Http\Request;
 use App\Models\KindOfWorkDetail;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\SendMessageController;
+use App\Models\Partner;
 use App\Models\ProgressPicture;
 use App\Models\TimeSchedule;
 use App\Models\Unit;
 use Illuminate\Console\View\Components\Task;
+use Illuminate\Support\Facades\Auth;
 
 class KindOfWorkController extends Controller
 {
@@ -236,6 +239,14 @@ class KindOfWorkController extends Controller
 
     public function updateProgress(Request $request, $kindOfWorkDetailId)
     {
+        // lakukan role user
+        $role = Auth::user()->role;
+
+        if ($role == 'Supervising Consultant') {
+            $sendMessage = new SendMessageController();
+            $sendMessage->sendMessageToPartner($kindOfWorkDetailId);
+        }
+
         $schedule = Schedule::where('kind_of_work_detail_id', $kindOfWorkDetailId)->get();
 
         if ($schedule->count() <= 0) {
