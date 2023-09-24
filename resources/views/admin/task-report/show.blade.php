@@ -172,280 +172,307 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="card-body" style="padding-left:70px !important">
-                                            @foreach ($kindOfWork->kindOfWorkDetails as $key => $detail)
-                                                <div class="mt-4">
-                                                    <div class="row">
-                                                        <div class="col-sm-12 col-md-8">
-                                                            <h3>{{ $key + 1 }}. {{ $detail->name }}</h3>
-                                                            <p>Keterangan:</p>
-                                                            <p>{!! $detail->information !!}</p>
-                                                        </div>
-                                                        <div class="col-sm-12 col-md-4 text-end">
-                                                            <div class="row justify-content-end">
-                                                                @if (auth()->user()->role == 'Admin')
-                                                                    <div class="col-sm-12 col-md-6 col-lg-4 d-grid">
-                                                                        <a href="{{ route('manage.work', $detail->id) }}"
-                                                                            class="btn btn-sm btn-primary my-5"
-                                                                            style="margin-right: 5px">Kelola
-                                                                            Pekerjaan</a>
-                                                                    </div>
-                                                                @endif
-                                                                @if (auth()->user()->role == 'Supervising Consultant')
-                                                                    <div class="col-sm-12 col-md-6 col-lg-4 d-grid">
-                                                                        <a href="{{ route('create.time.schedule', $detail->id) }}"
-                                                                            class="btn btn-sm btn-info my-5"
-                                                                            style="margin-right: 5px">Kelola
-                                                                            Time Schedule</a>
-                                                                    </div>
+                                        <div class="card-body">
+                                            <div class="row justify-content-end p-0" style="padding-left: 30px !important">
+                                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                    @foreach ($kindOfWork->kindOfWorkDetails as $key => $detail)
+                                                        <div class="mt-4">
+                                                            <div class="row">
+                                                                <div class="col-sm-12 col-md-8">
+                                                                    <h3>{{ $key + 1 }}. {{ $detail->name }}</h3>
+                                                                    <p>Keterangan:</p>
+                                                                    <p>{!! $detail->information !!}</p>
+                                                                </div>
+                                                                <div class="col-sm-12 col-md-4 text-end">
+                                                                    <div class="row justify-content-end">
+                                                                        @if (auth()->user()->role == 'Admin')
+                                                                            <div class="col-sm-12 col-md-6 col-lg-4 d-grid">
+                                                                                <a href="{{ route('manage.work', $detail->id) }}"
+                                                                                    class="btn btn-sm btn-primary my-5"
+                                                                                    style="margin-right: 5px">Kelola
+                                                                                    Pekerjaan</a>
+                                                                            </div>
+                                                                        @endif
+                                                                        @if (auth()->user()->role == 'Supervising Consultant')
+                                                                            <div class="col-sm-12 col-md-6 col-lg-4 d-grid">
+                                                                                <a href="{{ route('create.time.schedule', $detail->id) }}"
+                                                                                    class="btn btn-sm btn-info my-5"
+                                                                                    style="margin-right: 5px">Kelola
+                                                                                    Time Schedule</a>
+                                                                            </div>
 
-                                                                    @if ($status == 'active')
-                                                                        <div class="col-sm-12 col-md-6 col-lg-4 d-grid">
-                                                                            <a href="{{ route('manage.work.progress', $detail->id) }}"
-                                                                                class="btn btn-sm btn-success my-5"
-                                                                                style="margin-right: 5px">Kelola
-                                                                                Kemajuan Pekerjaan</a>
-                                                                        </div>
-                                                                    @else
-                                                                        <div class="col-sm-12 col-md-6 col-lg-4 d-grid">
-                                                                            <button class="btn btn-sm btn-success my-5"
-                                                                                style="margin-right: 5px"
-                                                                                id="warning">Kelola
-                                                                                Kemajuan
-                                                                                Pekerjaan</button>
-                                                                        </div>
-                                                                    @endif
-                                                                @endif
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="accordion" id="kt_accordion_{{ $key }}">
-                                                                <div class="accordion-item">
-                                                                    <h2 class="accordion-header"
-                                                                        id="kt_accordion_{{ $key }}_header_{{ $key }}">
-                                                                        <button
-                                                                            class="accordion-button fs-4 fw-semibold collapsed"
-                                                                            type="button" data-bs-toggle="collapse"
-                                                                            data-bs-target="#kt_accordion_{{ $key }}_body_{{ $key }}"
-                                                                            aria-expanded="false"
-                                                                            aria-controls="kt_accordion_{{ $key }}_body_{{ $key }}">
-                                                                            Harga Kontrak
-                                                                        </button>
-                                                                    </h2>
-                                                                    <div id="kt_accordion_{{ $key }}_body_{{ $key }}"
-                                                                        class="accordion-collapse collapse"
-                                                                        aria-labelledby="kt_accordion_{{ $key }}_header_{{ $key }}"
-                                                                        data-bs-parent="#kt_accordion_{{ $key }}">
-                                                                        <div class="accordion-body">
-                                                                            <table>
-                                                                                <tr>
-                                                                                    <td>Volume</td>
-                                                                                    <td>: {{ $detail->contract_volume }}
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>Satuan</td>
-                                                                                    <td>: {{ $detail->contract_unit }}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>Harga Satuan (Rp)</td>
-                                                                                    <td>: Rp
-                                                                                        {{ number_format($detail->contract_unit_price, 0, ',', '.') }}
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>Jumlah Harga (Rp)</td>
-                                                                                    <td>:
-                                                                                        @php
-                                                                                            $contractUnitPrice = $detail->contract_unit_price * $detail->contract_volume;
-                                                                                        @endphp
-                                                                                        Rp
-                                                                                        {{ number_format($contractUnitPrice, 0, ',', '.') }}
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </table>
-                                                                        </div>
+                                                                            @if ($status == 'active')
+                                                                                <div
+                                                                                    class="col-sm-12 col-md-6 col-lg-4 d-grid">
+                                                                                    <a href="{{ route('manage.work.progress', $detail->id) }}"
+                                                                                        class="btn btn-sm btn-success my-5"
+                                                                                        style="margin-right: 5px">Kelola
+                                                                                        Kemajuan Pekerjaan</a>
+                                                                                </div>
+                                                                            @else
+                                                                                <div
+                                                                                    class="col-sm-12 col-md-6 col-lg-4 d-grid">
+                                                                                    <button
+                                                                                        class="btn btn-sm btn-success my-5"
+                                                                                        style="margin-right: 5px"
+                                                                                        id="warning">Kelola
+                                                                                        Kemajuan
+                                                                                        Pekerjaan</button>
+                                                                                </div>
+                                                                            @endif
+                                                                        @endif
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12 mt-5">
-                                                            <div class="accordion"
-                                                                id="kt_accordion_{{ $key }}_mc">
-                                                                <div class="accordion-item">
-                                                                    <h2 class="accordion-header"
-                                                                        id="kt_accordion_{{ $key }}_mc_header_{{ $key }}_mc">
-                                                                        <button
-                                                                            class="accordion-button fs-4 fw-semibold collapsed"
-                                                                            type="button" data-bs-toggle="collapse"
-                                                                            data-bs-target="#kt_accordion_{{ $key }}_mc_body_{{ $key }}_mc"
-                                                                            aria-expanded="false"
-                                                                            aria-controls="kt_accordion_{{ $key }}_mc_body_{{ $key }}_mc">
-                                                                            MC
-                                                                        </button>
-                                                                    </h2>
-                                                                    <div id="kt_accordion_{{ $key }}_mc_body_{{ $key }}_mc"
-                                                                        class="accordion-collapse collapse"
-                                                                        aria-labelledby="kt_accordion_{{ $key }}_mc_header_{{ $key }}_mc"
-                                                                        data-bs-parent="#kt_accordion_{{ $key }}_mc">
-                                                                        <div class="accordion-body">
-                                                                            <table>
-                                                                                <tr>
-                                                                                    <td>Volume</td>
-                                                                                    <td>: {{ $detail->mc_volume }}
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>Satuan</td>
-                                                                                    <td>: {{ $detail->mc_unit }}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>Harga Satuan (Rp)</td>
-                                                                                    <td>: Rp
-                                                                                        {{ number_format($detail->mc_unit_price, 0, ',', '.') }}
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>Jumlah Harga (Rp)</td>
-                                                                                    <td>:
-                                                                                        @php
-                                                                                            $mcUnitPrice = $detail->mc_unit_price * $detail->mc_volume;
-                                                                                        @endphp
-                                                                                        Rp
-                                                                                        {{ number_format($mcUnitPrice, 0, ',', '.') }}
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>Nilai Pekerjaan</td>
-                                                                                    <td>: {{ $detail->work_value }}%
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </table>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12 mt-5">
-                                                            <div class="accordion"
-                                                                id="kt_accordion_{{ $key }}_time_schedule">
-                                                                <div class="accordion-item">
-                                                                    <h2 class="accordion-header"
-                                                                        id="kt_accordion_{{ $key }}_time_schedule_header_{{ $key }}_time_schedule">
-                                                                        <button
-                                                                            class="accordion-button fs-4 fw-semibold collapsed"
-                                                                            type="button" data-bs-toggle="collapse"
-                                                                            data-bs-target="#kt_accordion_{{ $key }}_time_schedule_body_{{ $key }}_time_schedule"
-                                                                            aria-expanded="false"
-                                                                            aria-controls="kt_accordion_{{ $key }}_time_schedule_body_{{ $key }}_time_schedule">
-                                                                            Time Schedule
-                                                                        </button>
-                                                                    </h2>
-                                                                    <div id="kt_accordion_{{ $key }}_time_schedule_body_{{ $key }}_time_schedule"
-                                                                        class="accordion-collapse collapse"
-                                                                        aria-labelledby="kt_accordion_{{ $key }}_time_schedule_header_{{ $key }}_time_schedule"
-                                                                        data-bs-parent="#kt_accordion_{{ $key }}_time_schedule">
-                                                                        <div class="accordion-body">
-                                                                            <table class="table table-bordered">
-                                                                                <tr>
-                                                                                    <th>Minggu Ke</th>
-                                                                                    <th>Tanggal</th>
-                                                                                    <th>Progress Time Schedule</td>
-                                                                                </tr>
-                                                                                <tbody>
-                                                                                    @foreach ($detail->timeSchedules as $key => $timeSchedule)
+                                                                <div class="col-12">
+                                                                    <div class="accordion"
+                                                                        id="kt_accordion_{{ $key }}">
+                                                                        <div class="accordion-item">
+                                                                            <h2 class="accordion-header"
+                                                                                id="kt_accordion_{{ $key }}_header_{{ $key }}">
+                                                                                <button
+                                                                                    class="accordion-button fs-4 fw-semibold collapsed"
+                                                                                    type="button"
+                                                                                    data-bs-toggle="collapse"
+                                                                                    data-bs-target="#kt_accordion_{{ $key }}_body_{{ $key }}"
+                                                                                    aria-expanded="false"
+                                                                                    aria-controls="kt_accordion_{{ $key }}_body_{{ $key }}">
+                                                                                    Harga Kontrak
+                                                                                </button>
+                                                                            </h2>
+                                                                            <div id="kt_accordion_{{ $key }}_body_{{ $key }}"
+                                                                                class="accordion-collapse collapse"
+                                                                                aria-labelledby="kt_accordion_{{ $key }}_header_{{ $key }}"
+                                                                                data-bs-parent="#kt_accordion_{{ $key }}">
+                                                                                <div class="accordion-body"
+                                                                                    style="overflow-x: scroll">
+                                                                                    <table>
                                                                                         <tr>
-                                                                                            <td>
-                                                                                                {{ $timeSchedule->week }}
-                                                                                            </td>
-                                                                                            <td>{{ $timeSchedule->date }}
-                                                                                            </td>
-                                                                                            <td>{{ $timeSchedule->progress }}
+                                                                                            <td>Volume</td>
+                                                                                            <td>:
+                                                                                                {{ $detail->contract_volume }}
                                                                                             </td>
                                                                                         </tr>
-                                                                                    @endforeach
-                                                                                </tbody>
-                                                                            </table>
+                                                                                        <tr>
+                                                                                            <td>Satuan</td>
+                                                                                            <td>:
+                                                                                                {{ $detail->contract_unit }}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Harga Satuan (Rp)</td>
+                                                                                            <td>: Rp
+                                                                                                {{ number_format($detail->contract_unit_price, 0, ',', '.') }}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Jumlah Harga (Rp)</td>
+                                                                                            <td>:
+                                                                                                @php
+                                                                                                    $contractUnitPrice = $detail->contract_unit_price * $detail->contract_volume;
+                                                                                                @endphp
+                                                                                                Rp
+                                                                                                {{ number_format($contractUnitPrice, 0, ',', '.') }}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12 mt-5">
-                                                            <div class="accordion"
-                                                                id="kt_accordion_{{ $key }}_weekly_progress">
-                                                                <div class="accordion-item">
-                                                                    <h2 class="accordion-header"
-                                                                        id="kt_accordion_{{ $key }}_weekly_progress_header_{{ $key }}_weekly_progress">
-                                                                        <button
-                                                                            class="accordion-button fs-4 fw-semibold collapsed"
-                                                                            type="button" data-bs-toggle="collapse"
-                                                                            data-bs-target="#kt_accordion_{{ $key }}_weekly_progress_body_{{ $key }}_weekly_progress"
-                                                                            aria-expanded="false"
-                                                                            aria-controls="kt_accordion_{{ $key }}_weekly_progress_body_{{ $key }}_weekly_progress">
-                                                                            Progress Mingguan
-                                                                        </button>
-                                                                    </h2>
-                                                                    <div id="kt_accordion_{{ $key }}_weekly_progress_body_{{ $key }}_weekly_progress"
-                                                                        class="accordion-collapse collapse"
-                                                                        aria-labelledby="kt_accordion_{{ $key }}_weekly_progress_header_{{ $key }}_weekly_progress"
-                                                                        data-bs-parent="#kt_accordion_{{ $key }}_weekly_progress">
-                                                                        <div class="accordion-body">
-                                                                            <table class="table table-bordered">
-                                                                                <tr>
-                                                                                    <th>Minggu Ke</th>
-                                                                                    <th>Tanggal</th>
-                                                                                    <th>Progress Mingguan</td>
-                                                                                        @if (auth()->user()->role == 'Partner')
-                                                                                    <th>Aksi</td>
-                                            @endif
-                                            <th>Foto</td>
-                                                </tr>
-                                                <tbody>
-                                                    @foreach ($detail->timeSchedules as $key => $timeSchedule)
-                                                        <tr>
-                                                            <td>
-                                                                {{ $timeSchedule->week }}
-                                                            </td>
-                                                            <td>{{ $timeSchedule->date }}
-                                                            </td>
-                                                            <td>
-                                                                {{ $detail->schedules[$key]->progress }}%
-                                                            </td>
-                                                            @if (auth()->user()->role == 'Partner')
-                                                                <td>
-                                                                    @if ($detail->schedules[$key]->progress != 0)
-                                                                        <button class="btn btn-success btn-sm">Setujui
-                                                                            Pekerjaan</button>
-                                                                    @endif
-                                                                </td>
-                                                            @endif
-                                                            <td>
-                                                                <a href="javascript:void(0);" type="button"
-                                                                    id="uploadPicture"
-                                                                    data-date="{{ $timeSchedule->date }}"
-                                                                    data-scheduleid="{{ $detail->schedules[$key]->id }}">Upload
-                                                                    Foto</a> |
-                                                                <a href="javascript:;" id="seePicture"
-                                                                    data-scheduleid="{{ $detail->schedules[$key]->id }}">Lihat
-                                                                    Foto</a>
-                                                            </td>
+                                                                <div class="col-12 mt-5">
+                                                                    <div class="accordion"
+                                                                        id="kt_accordion_{{ $key }}_mc">
+                                                                        <div class="accordion-item">
+                                                                            <h2 class="accordion-header"
+                                                                                id="kt_accordion_{{ $key }}_mc_header_{{ $key }}_mc">
+                                                                                <button
+                                                                                    class="accordion-button fs-4 fw-semibold collapsed"
+                                                                                    type="button"
+                                                                                    data-bs-toggle="collapse"
+                                                                                    data-bs-target="#kt_accordion_{{ $key }}_mc_body_{{ $key }}_mc"
+                                                                                    aria-expanded="false"
+                                                                                    aria-controls="kt_accordion_{{ $key }}_mc_body_{{ $key }}_mc">
+                                                                                    MC
+                                                                                </button>
+                                                                            </h2>
+                                                                            <div id="kt_accordion_{{ $key }}_mc_body_{{ $key }}_mc"
+                                                                                class="accordion-collapse collapse"
+                                                                                aria-labelledby="kt_accordion_{{ $key }}_mc_header_{{ $key }}_mc"
+                                                                                data-bs-parent="#kt_accordion_{{ $key }}_mc">
+                                                                                <div class="accordion-body"
+                                                                                    style="overflow-x: scroll">
+                                                                                    <table>
+                                                                                        <tr>
+                                                                                            <td>Volume</td>
+                                                                                            <td>: {{ $detail->mc_volume }}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Satuan</td>
+                                                                                            <td>: {{ $detail->mc_unit }}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Harga Satuan (Rp)</td>
+                                                                                            <td>: Rp
+                                                                                                {{ number_format($detail->mc_unit_price, 0, ',', '.') }}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Jumlah Harga (Rp)</td>
+                                                                                            <td>:
+                                                                                                @php
+                                                                                                    $mcUnitPrice = $detail->mc_unit_price * $detail->mc_volume;
+                                                                                                @endphp
+                                                                                                Rp
+                                                                                                {{ number_format($mcUnitPrice, 0, ',', '.') }}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Nilai Pekerjaan</td>
+                                                                                            <td>:
+                                                                                                {{ $detail->work_value }}%
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12 mt-5">
+                                                                    <div class="accordion"
+                                                                        id="kt_accordion_{{ $key }}_time_schedule">
+                                                                        <div class="accordion-item">
+                                                                            <h2 class="accordion-header"
+                                                                                id="kt_accordion_{{ $key }}_time_schedule_header_{{ $key }}_time_schedule">
+                                                                                <button
+                                                                                    class="accordion-button fs-4 fw-semibold collapsed"
+                                                                                    type="button"
+                                                                                    data-bs-toggle="collapse"
+                                                                                    data-bs-target="#kt_accordion_{{ $key }}_time_schedule_body_{{ $key }}_time_schedule"
+                                                                                    aria-expanded="false"
+                                                                                    aria-controls="kt_accordion_{{ $key }}_time_schedule_body_{{ $key }}_time_schedule">
+                                                                                    Time Schedule
+                                                                                </button>
+                                                                            </h2>
+                                                                            <div id="kt_accordion_{{ $key }}_time_schedule_body_{{ $key }}_time_schedule"
+                                                                                class="accordion-collapse collapse"
+                                                                                aria-labelledby="kt_accordion_{{ $key }}_time_schedule_header_{{ $key }}_time_schedule"
+                                                                                data-bs-parent="#kt_accordion_{{ $key }}_time_schedule">
+                                                                                <div class="accordion-body"
+                                                                                    style="overflow-x: scroll">
+                                                                                    <table class="table table-bordered">
+                                                                                        <tr>
+                                                                                            <th>Minggu Ke</th>
+                                                                                            <th>Tanggal</th>
+                                                                                            <th>Progress Time Schedule</td>
+                                                                                        </tr>
+                                                                                        <tbody>
+                                                                                            @foreach ($detail->timeSchedules as $key => $timeSchedule)
+                                                                                                <tr>
+                                                                                                    <td>
+                                                                                                        {{ $timeSchedule->week }}
+                                                                                                    </td>
+                                                                                                    <td>{{ $timeSchedule->date }}
+                                                                                                    </td>
+                                                                                                    <td>{{ $timeSchedule->progress }}
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            @endforeach
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12 mt-5">
+                                                                    <div class="accordion"
+                                                                        id="kt_accordion_{{ $key }}_weekly_progress">
+                                                                        <div class="accordion-item">
+                                                                            <h2 class="accordion-header"
+                                                                                id="kt_accordion_{{ $key }}_weekly_progress_header_{{ $key }}_weekly_progress">
+                                                                                <button
+                                                                                    class="accordion-button fs-4 fw-semibold collapsed"
+                                                                                    type="button"
+                                                                                    data-bs-toggle="collapse"
+                                                                                    data-bs-target="#kt_accordion_{{ $key }}_weekly_progress_body_{{ $key }}_weekly_progress"
+                                                                                    aria-expanded="false"
+                                                                                    aria-controls="kt_accordion_{{ $key }}_weekly_progress_body_{{ $key }}_weekly_progress">
+                                                                                    Progress Mingguan
+                                                                                </button>
+                                                                            </h2>
+                                                                            <div id="kt_accordion_{{ $key }}_weekly_progress_body_{{ $key }}_weekly_progress"
+                                                                                class="accordion-collapse collapse"
+                                                                                aria-labelledby="kt_accordion_{{ $key }}_weekly_progress_header_{{ $key }}_weekly_progress"
+                                                                                data-bs-parent="#kt_accordion_{{ $key }}_weekly_progress">
+                                                                                <div class="accordion-body"
+                                                                                    style="overflow-x: scroll">
+                                                                                    <table class="table table-bordered">
+                                                                                        <tr>
+                                                                                            <th>Minggu Ke</th>
+                                                                                            <th>Tanggal</th>
+                                                                                            <th>Progress Mingguan</td>
+                                                                                                @if (auth()->user()->role == 'Partner')
+                                                                                            <th>Aksi</td>
+                                                    @endif
+                                                    <th>Foto</td>
                                                         </tr>
-                                                    @endforeach
-                                                </tbody>
-                                                </table>
+                                                        <tbody>
+                                                            @foreach ($detail->timeSchedules as $key => $timeSchedule)
+                                                                <tr>
+                                                                    <td>
+                                                                        {{ $timeSchedule->week }}
+                                                                    </td>
+                                                                    <td>{{ $timeSchedule->date }}
+                                                                    </td>
+                                                                    <td>
+                                                                        {{ $detail->schedules[$key]->progress }}%
+                                                                    </td>
+                                                                    @if (auth()->user()->role == 'Partner')
+                                                                        <td class="d-grid gap-2">
+                                                                            @if ($detail->schedules[$key]->progress != 0)
+                                                                                <button
+                                                                                    class="btn btn-success btn-sm d-grid">Setujui
+                                                                                </button>
+                                                                                <button
+                                                                                    class="btn btn-danger btn-sm d-grid">Tolak
+                                                                                </button>
+                                                                            @endif
+                                                                        </td>
+                                                                    @endif
+                                                                    <td>
+                                                                        @if (auth()->user()->role == 'Site Supervisor')
+                                                                            <a href="javascript:void(0);" type="button"
+                                                                                id="uploadPicture"
+                                                                                data-date="{{ $timeSchedule->date }}"
+                                                                                data-scheduleid="{{ $detail->schedules[$key]->id }}">Upload
+                                                                                Foto</a> |
+                                                                        @endif
+                                                                        <a href="javascript:;" id="seePicture"
+                                                                            data-scheduleid="{{ $detail->schedules[$key]->id }}">Lihat
+                                                                            Foto</a>
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                        </table>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                             </div>
                         </div>
                     </div>
+                    <hr>
+                    @endforeach
                 </div>
             </div>
-            <hr>
             @endforeach
         </div>
     </div>
-    @endforeach
     </div>
     </div>
     </div>

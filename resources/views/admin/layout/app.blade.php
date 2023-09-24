@@ -84,8 +84,10 @@ License: For each use you must have a valid license purchased only from above li
                 <!--begin::Sidebar-->
                 @if (auth()->user()->role == 'Admin')
                     @include('admin.layout.sidebar')
-                @elseif(auth()->user()->role == 'Supervising Consultant' || auth()->user()->role == 'Partner')
+                @elseif(auth()->user()->role == 'Supervising Consultant')
                     @include('supervising_consultant.layout.sidebar')
+                @elseif(auth()->user()->role == 'Partner')
+                    @include('partner.layout.sidebar')
                 @endif
                 <!--end::Sidebar-->
                 <!--begin::Main-->
