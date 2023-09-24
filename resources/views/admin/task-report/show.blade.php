@@ -64,15 +64,13 @@
                                         <i class="fas fa-arrow-left"></i> Kembali
                                     </a>
                                 </div>
-                                @if (auth()->user()->role == 'Admin')
-                                    <div class="card-toolbar">
+                                <div class="card-toolbar">
+                                    @if (auth()->user()->role == 'Admin')
                                         <a href="{{ route('task-report.edit', $taskReport->id) }}"
                                             class="btn btn-sm btn-warning"> Ubah
                                         </a>
-                                    </div>
-                                @endif
-                                <div class="card-toolbar">
-                                    <a href="{{ route('report', $taskReport->id) }}" class="btn btn-sm btn-warning"> Lihat
+                                    @endif
+                                    <a href="{{ route('report', $taskReport->id) }}" class="btn btn-sm btn-info mx-2"> Lihat
                                         Laporan
                                     </a>
                                 </div>
@@ -412,7 +410,7 @@
                                                             <td>{{ $timeSchedule->date }}
                                                             </td>
                                                             <td>
-                                                                {{ $detail->schedules[$key]->progress }}
+                                                                {{ $detail->schedules[$key]->progress }}%
                                                             </td>
                                                             @if (auth()->user()->role == 'Partner')
                                                                 <td>

@@ -1,4 +1,4 @@
-@extends('supervising_consultant.layout.app')
+@extends('partner.layout.app')
 
 @section('title')
     Dashboard

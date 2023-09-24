@@ -9,7 +9,7 @@ $("#mc_unit_price, #mc_volume").on("keyup", function () {
         var kindOfWorkID = $("#kindOfWorkID").val();
 
         $.ajax({
-            url: `/admin/count-percentage/${id}/${kindOfWorkID}`,
+            url: `/count-percentage/${id}/${kindOfWorkID}`,
             method: "GET",
             success: function (response) {
                 var mcTotalPriceClean = parseFloat(

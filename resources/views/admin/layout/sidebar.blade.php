@@ -65,7 +65,7 @@
                         <div class="menu-item">
                             <!--begin:Menu link-->
                             <a class="menu-link {{ $active == 'task-report' ? 'active' : '' }}"
-                                href="{{ route('task-report.index') }}">
+                                href="{{ route('task.report') }}">
                                 <span class="menu-icon">
                                     <i class="fas fa-list"></i>
                                 </span>

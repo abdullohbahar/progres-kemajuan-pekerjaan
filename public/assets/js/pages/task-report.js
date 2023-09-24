@@ -9,7 +9,7 @@ var role = $("#role").val();
 
 if (role == "Admin") {
     var hidden = "";
-    var url = "/admin/task-report/";
+    var url = "/task-report/";
 } else {
     var hidden = "d-none";
     var url = "/task-report/";
@@ -235,7 +235,7 @@ $("body").on("click", "#delete", function () {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: "/admin/task-report/" + id,
+                url: "/task-report/" + id,
                 dataType: "json",
                 type: "DELETE",
                 success: function (response) {

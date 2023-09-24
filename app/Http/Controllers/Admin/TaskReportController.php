@@ -105,7 +105,7 @@ class TaskReportController extends Controller
 
         $taskReport->create($validateData);
 
-        return to_route('task-report.index')->with('success', 'Berhasil Menambah Pekerjaan');
+        return to_route('task.report')->with('success', 'Berhasil Menambah Pekerjaan');
     }
 
     public function show($id)

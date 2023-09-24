@@ -239,14 +239,6 @@ class KindOfWorkController extends Controller
 
     public function updateProgress(Request $request, $kindOfWorkDetailId)
     {
-        // lakukan role user
-        $role = Auth::user()->role;
-
-        if ($role == 'Supervising Consultant') {
-            $sendMessage = new SendMessageController();
-            $sendMessage->sendMessageToPartner($kindOfWorkDetailId);
-        }
-
         $schedule = Schedule::where('kind_of_work_detail_id', $kindOfWorkDetailId)->get();
 
         if ($schedule->count() <= 0) {
@@ -274,6 +266,14 @@ class KindOfWorkController extends Controller
 
         // get task report id
         $taskReportID = KindOfWorkDetail::where('id', $kindOfWorkDetailId)->first();
+
+        // lakukan role user
+        $role = Auth::user()->role;
+
+        if ($role == 'Supervising Consultant') {
+            $sendMessage = new SendMessageController();
+            $sendMessage->sendMessageToPartner($kindOfWorkDetailId);
+        }
 
         return to_route('task-report.show', $taskReportID->kindOfWork->task_id)->with('success', 'Berhasil Menambah Progress Pekerjaan');
     }
