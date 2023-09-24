@@ -187,4 +187,21 @@ class TaskReportController extends Controller
             ]);
         }
     }
+
+    public function report($id)
+    {
+        $taskReport = TaskReport::with('kindOfWork')->findorfail($id);
+
+        $kindOfWorkDetails = $taskReport->kindOfWork->first()->kindOfWorkDetails;
+
+        $schedules = $kindOfWorkDetails->first()->schedules;
+
+        $data = [
+            'taskReport' => $taskReport,
+            'schedules' => $schedules,
+            'kindOfWorkDetails' => $kindOfWorkDetails,
+        ];
+
+        return view('admin.task-report.report', $data);
+    }
 }

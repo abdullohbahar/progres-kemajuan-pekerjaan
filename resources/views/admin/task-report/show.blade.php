@@ -70,7 +70,12 @@
                                             class="btn btn-sm btn-warning"> Ubah
                                         </a>
                                     </div>
-                                @endif
+                                    @endif
+                                    <div class="card-toolbar">
+                                        <a href="{{ route('report', $taskReport->id) }}"
+                                            class="btn btn-sm btn-warning"> Lihat Laporan
+                                        </a>
+                                    </div>
                             </div>
                             <div class="card-body" style="font-size: 14px">
                                 <div class="row">
@@ -163,8 +168,6 @@
                                         <div class="card-header pt-5">
                                             <h1>{{ $key + 1 }}. {{ $kindOfWork->name }}</h1>
                                             <div class="card-toolbar">
-                                                <a href="#" class="btn btn-sm btn-info"
-                                                    style="margin-right: 5px">detail</a>
                                                 @if (auth()->user()->role == 'Admin')
                                                     <a href="{{ route('kind.of.work.edit', $kindOfWork->id) }}"
                                                         class="btn btn-sm btn-warning" style="margin-right: 5px">Ubah</a>
@@ -183,7 +186,7 @@
                                                         <div class="col-sm-12 col-md-4 text-end">
                                                             <div class="row justify-content-end">
                                                                 @if (auth()->user()->role == 'Admin')
-                                                                    <div class="col-4 d-grid">
+                                                                    <div class="col-sm-12 col-md-6 col-lg-4 d-grid">
                                                                         <a href="{{ route('manage.work', $detail->id) }}"
                                                                             class="btn btn-sm btn-primary my-5"
                                                                             style="margin-right: 5px">Kelola
@@ -191,7 +194,7 @@
                                                                     </div>
                                                                 @endif
                                                                 @if (auth()->user()->role == 'Supervising Consultant')
-                                                                    <div class="col-4 d-grid">
+                                                                    <div class="col-sm-12 col-md-6 col-lg-4 d-grid">
                                                                         <a href="{{ route('create.time.schedule', $detail->id) }}"
                                                                             class="btn btn-sm btn-info my-5"
                                                                             style="margin-right: 5px">Kelola
@@ -199,14 +202,14 @@
                                                                     </div>
 
                                                                     @if ($status == 'active')
-                                                                        <div class="col-4 d-grid">
+                                                                        <div class="col-sm-12 col-md-6 col-lg-4 d-grid">
                                                                             <a href="{{ route('manage.work.progress', $detail->id) }}"
                                                                                 class="btn btn-sm btn-success my-5"
                                                                                 style="margin-right: 5px">Kelola
                                                                                 Kemajuan Pekerjaan</a>
                                                                         </div>
                                                                     @else
-                                                                        <div class="col-4 d-grid">
+                                                                        <div class="col-sm-12 col-md-6 col-lg-4 d-grid">
                                                                             <button class="btn btn-sm btn-success my-5"
                                                                                 style="margin-right: 5px"
                                                                                 id="warning">Kelola

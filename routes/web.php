@@ -30,7 +30,7 @@ Route::post('/auth', [AuthController::class, 'authenticate'])->name('auth');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 
-Route::prefix('admin')->group(function () {
+Route::prefix('')->group(function () {
     Route::resource('dashboard', DashboardAdminController::class)->only(['index']);
 
     Route::resource('cv-consultant', CvConsultantController::class)->only(['index', 'store', 'destroy', 'update', 'edit']);
@@ -74,3 +74,6 @@ Route::prefix('konsultan-pengawas')->group(function () {
     Route::get('task-report', [TaskReportController::class, 'index'])->name('supervising.consultant.task.report');
     Route::get('task-report/{id}', [TaskReportController::class, 'show'])->name('supervising.consultant.task.report.show');
 });
+
+
+Route::get('report/{id}', [TaskReportController::class, 'report'])->name('report');
