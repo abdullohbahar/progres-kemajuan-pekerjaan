@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\SupervisingConsultant;
 
 use Carbon\Carbon;
+use App\Models\TimeSchedule;
 use Illuminate\Http\Request;
 use App\Models\KindOfWorkDetail;
 use App\Http\Controllers\Controller;
-use App\Models\TimeSchedule;
 
-class TimeScheduleController extends Controller
+class TimeScheduleSupervisingConsultantController extends Controller
 {
     private $active = 'task-report';
 
@@ -44,7 +44,7 @@ class TimeScheduleController extends Controller
             'kindOfWorkDetail' => $kindOfWorkDetail,
         ];
 
-        return view('admin.time-schedule.create', $data);
+        return view('supervising_consultant.time-schedule.create', $data);
     }
 
     public function update(Request $request, $kindOfWorkDetailId)
@@ -73,6 +73,6 @@ class TimeScheduleController extends Controller
         // get task report id
         $taskReportID = KindOfWorkDetail::where('id', $kindOfWorkDetailId)->first();
 
-        return to_route('task-report.show', $taskReportID->kindOfWork->task_id)->with('success', 'Berhasil Menambah Time Schedule');
+        return to_route('show.task.report.supervising.consultant', $taskReportID->kindOfWork->task_id)->with('success', 'Berhasil Menambah Time Schedule');
     }
 }

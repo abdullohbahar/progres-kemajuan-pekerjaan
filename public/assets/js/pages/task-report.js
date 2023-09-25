@@ -10,6 +10,9 @@ var role = $("#role").val();
 if (role == "Admin") {
     var hidden = "";
     var url = "/task-report/";
+} else if (role == "Supervising Consultant") {
+    var hidden = "d-none";
+    var url = "/konsultan-pengawas/task-report/";
 } else {
     var hidden = "d-none";
     var url = "/task-report/";
