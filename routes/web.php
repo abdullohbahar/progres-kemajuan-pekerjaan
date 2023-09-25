@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\SupervisingConsultantController;
 use App\Http\Controllers\Admin\TaskReportController;
 use App\Http\Controllers\Admin\TimeScheduleController;
 use App\Http\Controllers\Admin\UnitController;
+use App\Http\Controllers\AgreementController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Partner\DashboardPartnerController;
 use App\Http\Controllers\SupervisingConsultant\DashboardSupervisingConsultantController;
@@ -78,6 +79,8 @@ Route::prefix('rekanan')->group(function () {
 Route::get('task-report', [TaskReportController::class, 'index'])->name('task.report');
 Route::get('task-report/{id}', [TaskReportController::class, 'show'])->name('task.report.show');
 
-
 Route::get('report/{id}', [TaskReportController::class, 'report'])->name('report');
 Route::get('get-progress-picture/{id}', [KindOfWorkController::class, 'getProgressPictures'])->name('get.progress.picture');
+
+// agreement
+Route::post('agree/{scheduleID}', [AgreementController::class, 'agree'])->name('agree');
