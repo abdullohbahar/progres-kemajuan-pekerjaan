@@ -48,7 +48,7 @@
                         <div class="menu-item">
                             <!--begin:Menu link-->
                             <a class="menu-link {{ $active == 'dashboard' ? 'active' : '' }}"
-                                href="{{ route('dashboard.index') }}">
+                                href="{{ route('dashboard.admin') }}">
                                 <span class="menu-icon">
                                     <i class="ki-duotone ki-element-11 fs-2">
                                         <span class="path1"></span>
@@ -65,7 +65,7 @@
                         <div class="menu-item">
                             <!--begin:Menu link-->
                             <a class="menu-link {{ $active == 'task-report' ? 'active' : '' }}"
-                                href="{{ route('task.report') }}">
+                                href="{{ route('task.report.admin') }}">
                                 <span class="menu-icon">
                                     <i class="fas fa-list"></i>
                                 </span>

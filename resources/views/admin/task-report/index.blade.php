@@ -53,7 +53,7 @@
                                 <h3></h3>
                                 @if (auth()->user()->role == 'Admin')
                                     <div class="card-toolbar">
-                                        <a href="{{ route('task-report.create') }}" class="btn btn-sm btn-primary">
+                                        <a href="{{ route('create.task.report.admin') }}" class="btn btn-sm btn-primary">
                                             <i class="ki-duotone ki-plus fs-2"></i>Tambah Pekerjaan
                                         </a>
                                     </div>

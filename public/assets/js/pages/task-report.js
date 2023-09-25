@@ -178,7 +178,7 @@ var KTDatatablesServerSide = (function () {
 
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="${url}${row.id}/edit" class="menu-link px-3 ${hidden}">
+                                    <a href="/admin/edit-task-report/${row.id}" class="menu-link px-3 ${hidden}">
                                         Ubah
                                     </a>
                                 </div>
@@ -235,7 +235,7 @@ $("body").on("click", "#delete", function () {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: "/task-report/" + id,
+                url: "/admin/destroy-task-report/" + id,
                 dataType: "json",
                 type: "DELETE",
                 success: function (response) {

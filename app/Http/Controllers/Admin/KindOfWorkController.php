@@ -57,11 +57,11 @@ class KindOfWorkController extends Controller
 
             DB::commit();
 
-            return to_route('task-report.show', $request->task_id)->with('success', 'Berhasil Menambahkan Macam Pekerjaan');
+            return to_route('show.task.report.admin', $request->task_id)->with('success', 'Berhasil Menambahkan Macam Pekerjaan');
         } catch (Exception $e) {
             DB::rollBack();
 
-            return to_route('task-report.show', $request->task_id)->with('success', 'Gagal Menambahkan Macam Pekerjaan');
+            return to_route('show.task.report.admin', $request->task_id)->with('success', 'Gagal Menambahkan Macam Pekerjaan');
         }
     }
 
@@ -120,13 +120,13 @@ class KindOfWorkController extends Controller
 
             DB::commit();
 
-            return to_route('task-report.show', $kindOfWork->task_id)->with('success', 'Berhasil Mengubah Macam Pekerjaan');
+            return to_route('show.task.report.admin', $kindOfWork->task_id)->with('success', 'Berhasil Mengubah Macam Pekerjaan');
         } catch (Exception $e) {
             DB::rollBack();
 
             dd($e);
 
-            return to_route('task-report.show', $kindOfWork->task_id)->with('failed', 'Gagal Mengubah Macam Pekerjaan');
+            return to_route('show.task.report.admin', $kindOfWork->task_id)->with('failed', 'Gagal Mengubah Macam Pekerjaan');
         }
     }
 
@@ -197,7 +197,7 @@ class KindOfWorkController extends Controller
             ]);
         }
 
-        return to_route('task-report.show', $task_id->kindOfWork->task_id)->with('success', 'Berhasil');
+        return to_route('show.task.report.admin', $task_id->kindOfWork->task_id)->with('success', 'Berhasil');
     }
 
     // kelola kemajuan pekerjaan
@@ -275,7 +275,7 @@ class KindOfWorkController extends Controller
             $sendMessage->sendMessageToPartner($kindOfWorkDetailId);
         }
 
-        return to_route('task-report.show', $taskReportID->kindOfWork->task_id)->with('success', 'Berhasil Menambah Progress Pekerjaan');
+        return to_route('show.task.report.admin', $taskReportID->kindOfWork->task_id)->with('success', 'Berhasil Menambah Progress Pekerjaan');
     }
 
     public function uploadProgressPicture(Request $request)
@@ -308,7 +308,7 @@ class KindOfWorkController extends Controller
         ]);
     }
 
-    public function countPercentage($id, $kindOfWorkID)
+    public function countPercentage($id)
     {
         $taskId = KindOfWorkDetail::with(['kindOfWork'])->where('id', $id)->first()->kindOfWork->task;
 
@@ -316,8 +316,12 @@ class KindOfWorkController extends Controller
 
         $totalMcPrice = 0;
 
-        foreach ($taskReport as $tr) {
+        $data = [];
+
+        foreach ($taskReport as $key => $tr) {
             $kindOfWorkDetail = $tr->kindOfWorkDetails->first();
+
+            $data[$key] = $kindOfWorkDetail;
 
             if ($kindOfWorkDetail->id != $id) {
                 $totalMcPrice += $kindOfWorkDetail->total_mc_price;

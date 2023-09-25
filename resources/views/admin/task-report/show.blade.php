@@ -66,7 +66,7 @@
                                 </div>
                                 <div class="card-toolbar">
                                     @if (auth()->user()->role == 'Admin')
-                                        <a href="{{ route('task-report.edit', $taskReport->id) }}"
+                                        <a href="{{ route('edit.task.report.admin', $taskReport->id) }}"
                                             class="btn btn-sm btn-warning"> Ubah
                                         </a>
                                     @endif
