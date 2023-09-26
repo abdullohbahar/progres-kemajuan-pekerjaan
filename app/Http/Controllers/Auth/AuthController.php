@@ -28,7 +28,7 @@ class AuthController extends Controller
 
             switch (Auth::user()->role) {
                 case 'Admin':
-                    return redirect()->route('dashboard.index');
+                    return redirect()->route('dashboard.admin');
                     break;
                 case 'Supervising Consultant':
                     return redirect()->route('supervising.consultant.dashboard');
