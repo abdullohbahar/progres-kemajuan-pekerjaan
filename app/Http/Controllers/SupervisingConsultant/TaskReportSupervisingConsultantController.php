@@ -31,7 +31,7 @@ class TaskReportSupervisingConsultantController extends Controller
             'active' => $this->active,
         ];
 
-        return view('admin.task-report.index', $data);
+        return view('supervising_consultant.task-report.index', $data);
     }
 
     public function show($id)

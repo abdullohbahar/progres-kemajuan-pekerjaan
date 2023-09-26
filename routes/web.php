@@ -15,6 +15,7 @@ use App\Http\Controllers\Partner\DashboardPartnerController;
 use App\Http\Controllers\SupervisingConsultant\DashboardSupervisingConsultantController;
 use App\Http\Controllers\SupervisingConsultant\TaskReportSupervisingConsultantController;
 use App\Http\Controllers\SupervisingConsultant\TimeScheduleSupervisingConsultantController;
+use App\Http\Controllers\SupervisingConsultant\WeeklyReportSupervisingConsultantController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -74,9 +75,8 @@ Route::prefix('konsultan-pengawas')->group(function () {
 
     Route::get('manage-work/{id}', [KindOfWorkController::class, 'manageWork'])->name('manage.work');
     Route::put('update-manage-work/{id}', [KindOfWorkController::class, 'updateManageWork'])->name('manage.work.update');
-    Route::get('manage-work-progress/{id}', [KindOfWorkController::class, 'manageWorkProgress'])->name('manage.work.progress');
-
-    Route::put('update-progress/{id}', [KindOfWorkController::class, 'updateProgress'])->name('update.work.progress');
+    Route::get('manage-work-progress/{id}', [WeeklyReportSupervisingConsultantController::class, 'manageWeeklyProgress'])->name('manage.work.progress');
+    Route::put('update-progress/{id}', [WeeklyReportSupervisingConsultantController::class, 'updateProgress'])->name('update.work.progress');
     Route::post('upload-progress-picture', [KindOfWorkController::class, 'uploadProgressPicture'])->name('upload.progress.picture');
 
     // Task Report Konsultan Pengawas

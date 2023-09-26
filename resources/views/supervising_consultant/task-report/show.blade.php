@@ -411,69 +411,53 @@
                                                                                             <th>Minggu Ke</th>
                                                                                             <th>Tanggal</th>
                                                                                             <th>Progress Mingguan</td>
-                                                                                                @if (auth()->user()->role == 'Partner')
-                                                                                            <th>Aksi</td>
-                                                    @endif
-                                                    <th>Foto</td>
-                                                        </tr>
-                                                        <tbody>
-                                                            @foreach ($detail->timeSchedules as $key => $timeSchedule)
-                                                                <tr>
-                                                                    <td>
-                                                                        {{ $timeSchedule->week }}
-                                                                    </td>
-                                                                    <td>{{ $timeSchedule->date }}
-                                                                    </td>
-                                                                    <td>
-                                                                        {{ $detail->schedules[$key]->progress }}%
-                                                                    </td>
-                                                                    @if (auth()->user()->role == 'Partner')
-                                                                        <td class="d-grid gap-2">
-                                                                            @if ($detail->schedules[$key]->progress != 0)
-                                                                                <button id="agreeBtn"
-                                                                                    class="btn btn-success btn-sm d-grid"
-                                                                                    data-scheduleid="{{ $detail->schedules[$key]->id }}">Setujui
-                                                                                </button>
-                                                                                <button
-                                                                                    class="btn btn-danger btn-sm d-grid">Tolak
-                                                                                </button>
-                                                                            @endif
-                                                                        </td>
-                                                                    @endif
-                                                                    <td>
-                                                                        @if (auth()->user()->role == 'Site Supervisor')
-                                                                            <a href="javascript:void(0);" type="button"
-                                                                                id="uploadPicture"
-                                                                                data-date="{{ $timeSchedule->date }}"
-                                                                                data-scheduleid="{{ $detail->schedules[$key]->id }}">Upload
-                                                                                Foto</a> |
-                                                                        @endif
-                                                                        <a href="javascript:;" id="seePicture"
-                                                                            data-scheduleid="{{ $detail->schedules[$key]->id }}">Lihat
-                                                                            Foto</a>
-                                                                    </td>
-                                                                </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                        </table>
+                                                                                            <th>Foto</td>
+                                                                                        </tr>
+                                                                                        <tbody>
+                                                                                            @foreach ($detail->timeSchedules as $key => $timeSchedule)
+                                                                                                <tr>
+                                                                                                    <td>
+                                                                                                        {{ $timeSchedule->week }}
+                                                                                                    </td>
+                                                                                                    <td>{{ $timeSchedule->date }}
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        {{ $detail->schedules[$key]->progress }}%
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <a href="javascript:void(0);"
+                                                                                                            type="button"
+                                                                                                            id="uploadPicture"
+                                                                                                            data-date="{{ $timeSchedule->date }}"
+                                                                                                            data-scheduleid="{{ $detail->schedules[$key]->id }}">Upload
+                                                                                                            Foto</a> |
+                                                                                                        <a href="javascript:;"
+                                                                                                            id="seePicture"
+                                                                                                            data-scheduleid="{{ $detail->schedules[$key]->id }}">Lihat
+                                                                                                            Foto</a>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            @endforeach
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                    @endforeach
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
-                    <hr>
-                    @endforeach
                 </div>
             </div>
-            @endforeach
         </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
     </div>
     <!--end::Content container-->
     </div>
