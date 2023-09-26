@@ -66,7 +66,8 @@
                                     </a>
                                 </div>
                                 <div class="card-toolbar">
-                                    <a href="{{ route('report', $taskReport->id) }}" class="btn btn-sm btn-info mx-2"> Lihat
+                                    <a href="{{ route('report', $taskReport->id) }}" target="_blank"
+                                        class="btn btn-sm btn-info mx-2"> Lihat
                                         Laporan
                                     </a>
                                 </div>

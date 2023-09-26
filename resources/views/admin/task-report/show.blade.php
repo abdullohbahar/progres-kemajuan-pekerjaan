@@ -70,7 +70,8 @@
                                             class="btn btn-sm btn-warning"> Ubah
                                         </a>
                                     @endif
-                                    <a href="{{ route('report', $taskReport->id) }}" class="btn btn-sm btn-info mx-2"> Lihat
+                                    <a href="{{ route('report', $taskReport->id) }}" target="_blank"
+                                        class="btn btn-sm btn-info mx-2"> Lihat
                                         Laporan
                                     </a>
                                 </div>
@@ -154,10 +155,16 @@
                             <div class="card-header border-0 pt-5">
                                 <h2>Macam Pekerjaan</h2>
                                 <div class="card-toolbar">
-                                    @if (auth()->user()->role == 'Admin')
-                                        <a href="{{ route('kind.of.work', $taskReport->id) }}"
-                                            class="btn btn-primary btn-sm">Tambah Macam Pekerjaan</a>
-                                    @endif
+                                    <div class="row justify-content-center">
+                                        <div class="col-sm-12 col-md-6 my-1">
+                                            <button type="button" data-bs-toggle="modal" data-bs-target="#modalMcHistory"
+                                                class="btn btn-info btn-sm">Riwayat Perubahan MC</button>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 my-1">
+                                            <a href="{{ route('kind.of.work', $taskReport->id) }}"
+                                                class="btn btn-primary btn-sm">Tambah Macam Pekerjaan</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -465,6 +472,7 @@
 
     @include('admin.task-report.components.photo-modal')
     @include('admin.task-report.components.agreement-modal')
+    @include('admin.task-report.components.mc-history-modal')
 @endsection
 
 @push('addons-js')
