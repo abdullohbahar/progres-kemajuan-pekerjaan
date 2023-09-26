@@ -13,6 +13,9 @@ if (role == "Admin") {
 } else if (role == "Supervising Consultant") {
     var hidden = "d-none";
     var url = "/konsultan-pengawas/task-report/";
+} else if (role == "Partner") {
+    var hidden = "d-none";
+    var url = "/rekanan/task-report/";
 } else {
     var hidden = "d-none";
     var url = "/task-report/";

@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\AgreementController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Partner\DashboardPartnerController;
+use App\Http\Controllers\Partner\TaskReportPartnerController;
 use App\Http\Controllers\SupervisingConsultant\DashboardSupervisingConsultantController;
 use App\Http\Controllers\SupervisingConsultant\TaskReportSupervisingConsultantController;
 use App\Http\Controllers\SupervisingConsultant\TimeScheduleSupervisingConsultantController;
@@ -82,12 +83,16 @@ Route::prefix('konsultan-pengawas')->group(function () {
     // Task Report Konsultan Pengawas
 });
 
-// additional url
-Route::get('count-percentage/{id}', [KindOfWorkController::class, 'countPercentage']);
 
+// Rekanan
 Route::prefix('rekanan')->group(function () {
     Route::get('dashboard', [DashboardPartnerController::class, 'index'])->name('partner.dashboard');
+    Route::get('task-report', [TaskReportPartnerController::class, 'index'])->name('task.report.partner');
+    Route::get('task-report/{id}', [TaskReportPartnerController::class, 'show'])->name('show.task.report.partner');
 });
+
+// additional url
+Route::get('count-percentage/{id}', [KindOfWorkController::class, 'countPercentage']);
 
 Route::get('report/{id}', [TaskReportAdminController::class, 'report'])->name('report');
 Route::get('get-progress-picture/{id}', [KindOfWorkController::class, 'getProgressPictures'])->name('get.progress.picture');
