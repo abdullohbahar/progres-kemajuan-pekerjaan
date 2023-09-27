@@ -431,21 +431,21 @@
                                                                                             <th>Foto</td>
                                                                                         </tr>
                                                                                         <tbody>
-                                                                                            @foreach ($detail->timeSchedules as $key => $timeSchedule)
+                                                                                            @foreach ($detail->schedules as $schedule)
                                                                                                 <tr>
                                                                                                     <td>
-                                                                                                        {{ $timeSchedule->week }}
+                                                                                                        {{ $schedule->week }}
                                                                                                     </td>
-                                                                                                    <td>{{ $timeSchedule->date }}
+                                                                                                    <td>{{ $schedule->date }}
                                                                                                     </td>
                                                                                                     <td>
-                                                                                                        {{ $detail->schedules[$key]->progress }}%
+                                                                                                        {{ $schedule->progress }}%
                                                                                                     </td>
                                                                                                     <td>
                                                                                                         <a href="javascript:void(0);"
                                                                                                             type="button"
                                                                                                             id="uploadPicture"
-                                                                                                            data-date="{{ $timeSchedule->date }}"
+                                                                                                            data-date="{{ $schedule->date }}"
                                                                                                             data-scheduleid="{{ $detail->schedules[$key]->id }}">Upload
                                                                                                             Foto</a> |
                                                                                                         <a href="javascript:;"
