@@ -1,4 +1,4 @@
-@extends('partner.layout.app')
+@extends('supervising_consultant.layout.app')
 
 @section('title')
     Dashboard
@@ -49,8 +49,119 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-body">
-                                <h1>Hello</h1>
+                            <div class="card-header pt-5">
+                                <h1>Pekerjaan Berjalan</h1>
+                            </div>
+                            <div class="card-body" style="overflow-y: visible">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped gy-7 gs-7">
+                                        <thead>
+                                            <tr class="fw-semibold fs-6 text-gray-800 border-bottom-2 border-gray-200">
+                                                <th style="width: 30%">Nama Kegiatan</th>
+                                                <th style="width: 30%">Nama Pekerjaan</th>
+                                                <th>Tahun Anggaran</th>
+                                                <th>Tanggal SPK</th>
+                                                <th>Status</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                @foreach ($activeWorks as $activeWork)
+                                                    <td>{{ $activeWork->activity_name }}</td>
+                                                    <td>{{ $activeWork->task_name }}</td>
+                                                    <td>{{ $activeWork->fiscal_year }}</td>
+                                                    <td>{{ $activeWork->spk_date }}</td>
+                                                    <td><span class="badge badge-success">{{ $activeWork->status }}</span>
+                                                    </td>
+                                                    <td><a href="{{ route('show.task.report.supervising.consultant', $activeWork->id) }}"
+                                                            class="btn btn-info btn-sm">Detail Pekerjaan
+                                                        </a></td>
+                                                @endforeach
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 50px">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header pt-5">
+                                <h1>Pekerjaan Belum Berjalan</h1>
+                            </div>
+                            <div class="card-body" style="overflow-y: visible">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped gy-7 gs-7">
+                                        <thead>
+                                            <tr class="fw-semibold fs-6 text-gray-800 border-bottom-2 border-gray-200">
+                                                <th style="width: 30%">Nama Kegiatan</th>
+                                                <th style="width: 30%">Nama Pekerjaan</th>
+                                                <th>Tahun Anggaran</th>
+                                                <th>Tanggal SPK</th>
+                                                <th>Status</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                @foreach ($inactiveWorks as $inactiveWork)
+                                                    <td>{{ $inactiveWork->activity_name }}</td>
+                                                    <td>{{ $inactiveWork->task_name }}</td>
+                                                    <td>{{ $inactiveWork->fiscal_year }}</td>
+                                                    <td>{{ $inactiveWork->spk_date }}</td>
+                                                    <td><span class="badge badge-secondary">Belum Aktif</span>
+                                                    </td>
+                                                    <td><a href="{{ route('show.task.report.supervising.consultant', $inactiveWork->id) }}"
+                                                            class="btn btn-info btn-sm">Detail Pekerjaan
+                                                        </a></td>
+                                                @endforeach
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 50px">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header pt-5">
+                                <h1>Pekerjaan Yang Mendapat SP</h1>
+                            </div>
+                            <div class="card-body" style="overflow-y: visible">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped gy-7 gs-7">
+                                        <thead>
+                                            <tr class="fw-semibold fs-6 text-gray-800 border-bottom-2 border-gray-200">
+                                                <th style="width: 30%">Nama Kegiatan</th>
+                                                <th style="width: 30%">Nama Pekerjaan</th>
+                                                <th>Tahun Anggaran</th>
+                                                <th>Tanggal SPK</th>
+                                                <th>Status</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                @foreach ($spWorks as $spWork)
+                                                    <td>{{ $spWork->activity_name }}</td>
+                                                    <td>{{ $spWork->task_name }}</td>
+                                                    <td>{{ $spWork->fiscal_year }}</td>
+                                                    <td>{{ $spWork->spk_date }}</td>
+                                                    <td><span class="badge badge-warning">{{ $spWork->status }}</span>
+                                                    </td>
+                                                    <td><a href="{{ route('show.task.report.supervising.consultant', $spWork->id) }}"
+                                                            class="btn btn-info btn-sm">Detail Pekerjaan
+                                                        </a></td>
+                                                @endforeach
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
