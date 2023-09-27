@@ -11,8 +11,14 @@ class TimeScheduleHistory extends Model
 
     protected $fillable = [
         'kind_of_work_detail_id',
+        'task_report_id',
         'week',
         'from',
         'to',
     ];
+
+    public function kindOfWorkDetail()
+    {
+        return $this->belongsTo(KindOfWorkDetail::class);
+    }
 }

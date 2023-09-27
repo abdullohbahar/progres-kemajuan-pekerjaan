@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\SupervisingConsultant;
+use App\Models\TimeScheduleHistory;
 use DataTables;
 
 class TaskReportSupervisingConsultantController extends Controller
@@ -38,6 +39,7 @@ class TaskReportSupervisingConsultantController extends Controller
     {
         $taskReport = TaskReport::where('id', $id)->firstOrfail();
         // Melakukan pengecekan apakah status sudah aktif atau belum
+        $timeScheduleHistories = TimeScheduleHistory::where('task_report_id', $id)->get();
 
         $dateSpk = strtotime($taskReport->spk_date);
         $dateNow = strtotime(now());
@@ -51,7 +53,8 @@ class TaskReportSupervisingConsultantController extends Controller
         $data = [
             'active' => $this->active,
             'taskReport' => $taskReport,
-            'status' => $status
+            'status' => $status,
+            'timeScheduleHistories' => $timeScheduleHistories
         ];
 
         return view('supervising_consultant.task-report.show', $data);

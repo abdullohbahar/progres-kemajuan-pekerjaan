@@ -24,13 +24,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Papan Nama Proyek, Uk. 80 x 120 cm</td>
-                            <td>1</td>
-                            <td>10%</td>
-                            <td>20%</td>
-                            <td>21 Juni 2023</td>
-                        </tr>
+                        @foreach ($timeScheduleHistories as $history)
+                            <tr>
+                                <td>{{ $history->kindOfWorkDetail->name }}</td>
+                                <td>{{ $history->week }}</td>
+                                <td>{{ $history->from }}</td>
+                                <td>{{ $history->to }}</td>
+                                <td>{{ \Carbon\Carbon::parse($history->created_at)->format('d-m-Y') }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

@@ -65,9 +65,16 @@ class TimeScheduleSupervisingConsultantController extends Controller
             foreach ($request->week as $key => $week) {
                 // melakukan pengecekan apakah data yang lama sama dengan data yang baru,
                 // jika tidak sama maka simpan data lama ke histroy
+                // Get Task Report ID
+                $taskReportID = KindOfWorkDetail::with('kindOfWork')
+                    ->where('id', $kindOfWorkDetailId)
+                    ->first()
+                    ->kindOfWork->task_id;
+
                 if ($request->oldProgress[$key] != $request->progress[$key]) {
                     TimeScheduleHistory::create([
                         'kind_of_work_detail_id' => $kindOfWorkDetailId,
+                        'task_report_id' => $taskReportID,
                         'week' => $request->week[$key],
                         'from' => $request->oldProgress[$key],
                         'to' => $request->progress[$key]
