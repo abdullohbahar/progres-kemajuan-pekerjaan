@@ -7,6 +7,7 @@ use App\Models\TimeSchedule;
 use Illuminate\Http\Request;
 use App\Models\KindOfWorkDetail;
 use App\Http\Controllers\Controller;
+use App\Models\TimeScheduleHistory;
 
 class TimeScheduleSupervisingConsultantController extends Controller
 {
@@ -62,6 +63,18 @@ class TimeScheduleSupervisingConsultantController extends Controller
             }
         } else {
             foreach ($request->week as $key => $week) {
+                // melakukan pengecekan apakah data yang lama sama dengan data yang baru,
+                // jika tidak sama maka simpan data lama ke histroy
+                if ($request->oldProgress[$key] != $request->progress[$key]) {
+                    TimeScheduleHistory::create([
+                        'kind_of_work_detail_id' => $kindOfWorkDetailId,
+                        'week' => $request->week[$key],
+                        'from' => $request->oldProgress[$key],
+                        'to' => $request->progress[$key]
+                    ]);
+                }
+
+                // Simpan data terbaru ke database
                 TimeSchedule::where('kind_of_work_detail_id', $kindOfWorkDetailId)
                     ->where('week', $request->week[$key])
                     ->update([

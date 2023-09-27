@@ -82,6 +82,20 @@
                                                 <input type="text" name="progress[]" value="{{ $data->progress ?? '' }}"
                                                     class="form-control" id="work_value">
                                             </div>
+
+
+                                            {{-- old value --}}
+                                            <div class="form-group mt-5">
+                                                <label class="form-label" for="work_value">OLD Minggu ke -
+                                                    {{ $key += 1 }} (Tanggal :
+                                                    {{ $date }})</label>
+                                            </div>
+                                            <input type="text" name="oldDate[]" hidden value="{{ $data->date ?? $date }}"
+                                                class="form-control">
+                                            <input type="text" name="oldWeek[]" hidden value="{{ $data->week ?? $key }}"
+                                                class="form-control">
+                                            <input type="text" name="oldProgress[]" value="{{ $data->progress ?? '' }}"
+                                                class="form-control">
                                         @endforeach
                                     </div>
                                     <div class="row">
