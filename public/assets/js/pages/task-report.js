@@ -9,7 +9,13 @@ var role = $("#role").val();
 
 if (role == "Admin") {
     var hidden = "";
-    var url = "/task-report/";
+    var url = "/admin/task-report/";
+} else if (role == "Supervising Consultant") {
+    var hidden = "d-none";
+    var url = "/konsultan-pengawas/task-report/";
+} else if (role == "Partner") {
+    var hidden = "d-none";
+    var url = "/rekanan/task-report/";
 } else {
     var hidden = "d-none";
     var url = "/task-report/";
@@ -178,7 +184,7 @@ var KTDatatablesServerSide = (function () {
 
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="${url}${row.id}/edit" class="menu-link px-3 ${hidden}">
+                                    <a href="/admin/edit-task-report/${row.id}" class="menu-link px-3 ${hidden}">
                                         Ubah
                                     </a>
                                 </div>
@@ -235,7 +241,7 @@ $("body").on("click", "#delete", function () {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: "/task-report/" + id,
+                url: "/admin/destroy-task-report/" + id,
                 dataType: "json",
                 type: "DELETE",
                 success: function (response) {

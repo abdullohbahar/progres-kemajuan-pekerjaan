@@ -46,7 +46,7 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <!--begin::Content container-->
             <div id="kt_app_content_container" class="app-container container-fluid">
-                <form action="{{ route('task-report.update', $taskReport->id) }}" method="POST">
+                <form action="{{ route('update.task.report.admin', $taskReport->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="row">

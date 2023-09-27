@@ -1,20 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\SupervisingConsultant;
 
 use Carbon\Carbon;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 use App\Models\KindOfWorkDetail;
 use App\Http\Controllers\Controller;
-use App\Models\TimeSchedule;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\SendMessageController;
 
-class TimeScheduleController extends Controller
+class WeeklyReportSupervisingConsultantController extends Controller
 {
     private $active = 'task-report';
 
-    public function create($kindOfWorkDetailId)
+    // kelola kemajuan pekerjaan
+    public function manageWeeklyProgress($id)
     {
-        $kindOfWorkDetail = KindOfWorkDetail::with(['kindOfWork', 'timeSchedules'])->findorfail($kindOfWorkDetailId);
+        $kindOfWorkDetail = KindOfWorkDetail::with('kindOfWork')->findorfail($id);
 
         $spkDate = $kindOfWorkDetail->kindOfWork->task->spk_date;
         $execution_time = $kindOfWorkDetail->kindOfWork->task->execution_time;
@@ -29,7 +32,7 @@ class TimeScheduleController extends Controller
         $current_date = $start_date;
 
         for ($i = 0; $i < $executionTime; $i++) {
-            $dates[] = date('d', strtotime($current_date));
+            $dates[] = date('d-m-Y', strtotime($current_date));
 
             // Menambahkan 1 hari ke tanggal saat ini
             $current_date = date('Y-m-d', strtotime($current_date . " + 1 day"));
@@ -44,28 +47,33 @@ class TimeScheduleController extends Controller
             'kindOfWorkDetail' => $kindOfWorkDetail,
         ];
 
-        return view('admin.time-schedule.create', $data);
+        return view('supervising_consultant.weekly-progress.manage-work-progress', $data);
     }
 
-    public function update(Request $request, $kindOfWorkDetailId)
-    {
-        $timeSchedule = TimeSchedule::where('kind_of_work_detail_id', $kindOfWorkDetailId)->get();
 
-        if ($timeSchedule->count() <= 0) {
+    public function updateProgress(Request $request, $kindOfWorkDetailId)
+    {
+        $schedule = Schedule::where('kind_of_work_detail_id', $kindOfWorkDetailId)->get();
+
+        if ($schedule->count() <= 0) {
             foreach ($request->week as $key => $week) {
-                TimeSchedule::create([
+                $progress = str_replace('%', '', $request->progress[$key]);
+
+                Schedule::create([
                     'kind_of_work_detail_id' => $kindOfWorkDetailId,
                     'week' => $request->week[$key],
                     'date' => $request->date[$key],
-                    'progress' => $request->progress[$key] ?? '',
+                    'progress' => $progress,
                 ]);
             }
         } else {
             foreach ($request->week as $key => $week) {
-                TimeSchedule::where('kind_of_work_detail_id', $kindOfWorkDetailId)
+                $progress = str_replace('%', '', $request->progress[$key]);
+
+                Schedule::where('kind_of_work_detail_id', $kindOfWorkDetailId)
                     ->where('week', $request->week[$key])
                     ->update([
-                        'progress' => $request->progress[$key] ?? '',
+                        'progress' => $progress,
                     ]);
             }
         }
@@ -73,6 +81,14 @@ class TimeScheduleController extends Controller
         // get task report id
         $taskReportID = KindOfWorkDetail::where('id', $kindOfWorkDetailId)->first();
 
-        return to_route('task-report.show', $taskReportID->kindOfWork->task_id)->with('success', 'Berhasil Menambah Time Schedule');
+        // lakukan role user
+        $role = Auth::user()->role;
+
+        // if ($role == 'Supervising Consultant') {
+        //     $sendMessage = new SendMessageController();
+        //     $sendMessage->sendMessageToPartner($kindOfWorkDetailId);
+        // }
+
+        return to_route('show.task.report.supervising.consultant', $taskReportID->kindOfWork->task_id)->with('success', 'Berhasil Menambah Progress Pekerjaan');
     }
 }

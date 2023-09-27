@@ -1,4 +1,4 @@
-@extends('admin.layout.app')
+@extends('partner.layout.app')
 
 @section('title')
     Laporan Pekerjaan

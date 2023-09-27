@@ -65,6 +65,11 @@ class TaskReport extends Model
         return $this->hasMany(KindOfWork::class, 'task_id', 'id');
     }
 
+    public function timeScheduleHistory()
+    {
+        return $this->hasMany(TimeScheduleHistory::class);
+    }
+
     // public function getSpkDateAttribute($value)
     // {
     //     return Carbon::parse($value)->format('d-m-Y');

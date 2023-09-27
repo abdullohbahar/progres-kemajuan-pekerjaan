@@ -46,14 +46,14 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <!--begin::Content container-->
             <div id="kt_app_content_container" class="app-container container-fluid">
-                <form action="{{ route('task-report.store') }}" method="POST">
+                <form action="{{ route('store.task.report.admin') }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header border-0 pt-5">
                                     <div class="card-toolbar">
-                                        <a href="{{ route('task.report') }}" class="btn btn-sm btn-primary">
+                                        <a href="{{ route('task.report.admin') }}" class="btn btn-sm btn-primary">
                                             <i class="fas fa-arrow-left"></i> Kembali
                                         </a>
                                     </div>

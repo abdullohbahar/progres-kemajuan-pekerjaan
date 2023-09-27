@@ -10,9 +10,8 @@ use App\Models\SupervisingConsultant;
 use App\Models\TaskReport;
 use Illuminate\Http\Request;
 use DataTables;
-use Illuminate\Support\Facades\Auth;
 
-class TaskReportController extends Controller
+class TaskReportAdminController extends Controller
 {
     private $active = 'task-report';
 
@@ -20,23 +19,7 @@ class TaskReportController extends Controller
     {
         if ($request->ajax()) {
 
-            $user = Auth::user();
-
-            if ($user->role == 'Supervising Consultant') {
-                $id = SupervisingConsultant::where('user_id', Auth::user()->id)->first()->id;
-            } else if ($user->role == 'Partner') {
-                $id = Partner::where('user_id', Auth::user()->id)->first()->id;
-            } else if ($user->role == 'Admin') {
-                $id = '';
-            }
-
             $query = TaskReport::orderBy('created_at', 'desc')
-                ->when($user->role == 'Supervising Consultant', function ($query) use ($id) {
-                    $query->where('supervising_consultant_id', $id);
-                })
-                ->when($user->role == 'Partner', function ($query) use ($id) {
-                    $query->where('partner_id', $id);
-                })
                 ->get();
 
             // return $query;
@@ -131,8 +114,9 @@ class TaskReportController extends Controller
         return view('admin.task-report.show', $data);
     }
 
-    public function edit(TaskReport $taskReport)
+    public function edit($id)
     {
+        $taskReport = TaskReport::findorfail($id);
         $data = [
             'active' => $this->active,
             'taskReport' => $taskReport,
@@ -145,8 +129,9 @@ class TaskReportController extends Controller
         return view('admin.task-report.edit', $data);
     }
 
-    public function update(Request $request, TaskReport $taskReport)
+    public function update(Request $request, $id)
     {
+
         $validateData = $request->validate([
             'activity_name' => 'required',
             'task_name' => 'required',
@@ -184,14 +169,14 @@ class TaskReportController extends Controller
         // Menghapus karakter sesuai dengan array yang ada di $removeChar
         $validateData['contract_value'] = str_replace($removeChar, "", $request->contract_value);
 
-        $taskReport->update($validateData);
+        TaskReport::where('id', $id)->update($validateData);
 
-        return to_route('task-report.show', $taskReport)->with('success', 'Berhasil Mengubah Pekerjaan');
+        return to_route('show.task.report.admin', $id)->with('success', 'Berhasil Mengubah Pekerjaan');
     }
 
-    public function destroy(TaskReport $taskReport)
+    public function destroy($id)
     {
-        $delete = $taskReport->delete();
+        $delete = TaskReport::where('id', $id)->delete();
 
         if ($delete) {
             return response()->json([

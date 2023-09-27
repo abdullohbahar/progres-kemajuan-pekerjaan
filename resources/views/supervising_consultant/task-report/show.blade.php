@@ -1,4 +1,4 @@
-@extends('admin.layout.app')
+@extends('supervising_consultant.layout.app')
 
 @section('title')
     Detail Laporan Pekerjaan
@@ -60,16 +60,12 @@
                         <div class="card">
                             <div class="card-header border-0 pt-5">
                                 <div class="card-toolbar">
-                                    <a href="{{ route('task.report.admin') }}" class="btn btn-sm btn-primary">
+                                    <a href="{{ route('task.report.supervising.consultant') }}"
+                                        class="btn btn-sm btn-primary">
                                         <i class="fas fa-arrow-left"></i> Kembali
                                     </a>
                                 </div>
                                 <div class="card-toolbar">
-                                    @if (auth()->user()->role == 'Admin')
-                                        <a href="{{ route('edit.task.report.admin', $taskReport->id) }}"
-                                            class="btn btn-sm btn-warning"> Ubah
-                                        </a>
-                                    @endif
                                     <a href="{{ route('report', $taskReport->id) }}" target="_blank"
                                         class="btn btn-sm btn-info mx-2"> Lihat
                                         Laporan
@@ -155,25 +151,25 @@
                             <div class="card-header border-0 pt-5">
                                 <h2>Macam Pekerjaan</h2>
                                 <div class="card-toolbar">
-                                    <div class="row justify-content-center">
-                                        <div class="col-sm-12 col-md-6 my-1">
-                                            <div class="dropdown">
-                                                <button class="btn btn-info dropdown-toggle" type="button"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                    Riwayat MC
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#"
-                                                            href="#">MC-10</a></li>
-                                                    <li><a class="dropdown-item" href="#">MC-20</a></li>
-                                                    <li><a class="dropdown-item" href="#">MC-30</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12 col-md-6 my-1">
-                                            <a href="{{ route('kind.of.work', $taskReport->id) }}"
-                                                class="btn btn-primary btn-sm">Tambah Macam Pekerjaan</a>
-                                        </div>
+                                    @if (auth()->user()->role == 'Admin')
+                                        <a href="{{ route('kind.of.work', $taskReport->id) }}"
+                                            class="btn btn-primary btn-sm">Tambah Macam Pekerjaan</a>
+                                    @endif
+                                    <button class="btn btn-primary btn-sm mx-2" data-bs-toggle="modal"
+                                        data-bs-target="#modalTimeScheduleHistory">
+                                        Riwayat Perubahan Time Schedule
+                                    </button>
+                                    <div class="dropdown">
+                                        <button class="btn btn-info btn-sm dropdown-toggle" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            Riwayat MC
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#"
+                                                    href="#">MC-10</a></li>
+                                            <li><a class="dropdown-item" href="#">MC-20</a></li>
+                                            <li><a class="dropdown-item" href="#">MC-30</a></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -211,8 +207,7 @@
                                                                             </div>
                                                                         @endif
                                                                         @if (auth()->user()->role == 'Supervising Consultant')
-                                                                            <div
-                                                                                class="col-sm-12 col-md-6 col-lg-4 d-grid">
+                                                                            <div class="col-sm-12 col-md-6 col-lg-4 d-grid">
                                                                                 <a href="{{ route('create.time.schedule', $detail->id) }}"
                                                                                     class="btn btn-sm btn-info my-5"
                                                                                     style="margin-right: 5px">Kelola
@@ -490,6 +485,7 @@
     @include('admin.task-report.components.photo-modal')
     @include('admin.task-report.components.agreement-modal')
     @include('admin.task-report.components.mc-history-modal')
+    @include('supervising_consultant.task-report.components.time-schedule-history-modal')
 @endsection
 
 @push('addons-js')
