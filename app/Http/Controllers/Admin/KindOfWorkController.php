@@ -163,6 +163,8 @@ class KindOfWorkController extends Controller
         $mcTotalPrice = str_replace($removeChar, "", $request->total_mc_price);
         $workValue = str_replace($removePercent, "", $request->work_value);
 
+        // dd($workValue);
+
         // update kind of work
         KindOfWorkDetail::where('id', $id)->update([
             'contract_volume' => $request->contract_volume,
@@ -176,19 +178,53 @@ class KindOfWorkController extends Controller
             'work_value' => $workValue,
         ]);
 
-        // lakukan update persen pada semua data
+        // mengambil task id berdasarkan kind of work detail
         $taskId = KindOfWorkDetail::with(['kindOfWork'])->where('id', $id)->first()->kindOfWork->task;
 
+        // mengambil kind of work berdasarkan task id
         $taskReport = TaskReport::with('kindOfWork')->where('id', $taskId->id)->first()->kindOfWork;
 
-        foreach ($taskReport as $tr) {
-            $sumTotalMcPrice = $tr->kindOfWorkDetails->sum('total_mc_price');
-        }
+        $sumTotalMcPrice = DB::table('kind_of_works')
+            ->join('kind_of_work_details', 'kind_of_work_details.kind_of_work_id', '=', 'kind_of_works.id')
+            ->where('kind_of_works.task_id', $taskId->id)
+            ->groupBy('kind_of_works.id')
+            ->selectRaw('SUM(kind_of_work_details.total_mc_price) as total')
+            ->get()
+            ->sum('total');
 
+        // dd($grandTotal);
+        // $sumTotalMcPrice = 0;
+
+        // // melakukan penjumlahan total price
+        // foreach ($taskReport as $tr) {
+
+        //     $kindOfWorks = $tr->with('kindOfWorkDetails')->where('task_id', $taskId->id)->get();
+
+        //     dump($kindOfWorks->kindOfWorkDetails);
+
+        //     foreach ($kindOfWorks as $key => $kindOfWorkDetail) {
+        //         // dump($kindOfWorkDetail->kindOfWorkDetails);
+
+        //         $prices = $kindOfWorkDetail->kindOfWorkDetails;
+
+
+        //         // dump($prices->sum('total_mc_price'));
+
+        //         foreach ($prices as $key => $price) {
+        //             $sumTotalMcPrice += $price->total_mc_price;
+        //         }
+        //     }
+        // }
+
+        // dd($sumTotalMcPrice);
+
+        // melakukan perhitungan persen
         $percentage = [];
 
         foreach ($taskReport as $tr) {
             $kindOfWorkDetail = $tr->kindOfWorkDetails->first();
+
+            // dd($sumTotalMcPrice);
 
             $percentage = ($kindOfWorkDetail->total_mc_price / $sumTotalMcPrice) * 100;
 
