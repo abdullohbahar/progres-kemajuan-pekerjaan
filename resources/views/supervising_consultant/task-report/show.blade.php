@@ -468,6 +468,8 @@
                                                     @endforeach
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
                                 @endforeach
                             </div>
                         </div>
@@ -477,10 +479,6 @@
         </div>
     </div>
     <!--end::Content container-->
-    </div>
-    <!--end::Content-->
-    </div>
-    <!--end::Content wrapper-->
 
     @include('admin.task-report.components.photo-modal')
     @include('admin.task-report.components.agreement-modal')
