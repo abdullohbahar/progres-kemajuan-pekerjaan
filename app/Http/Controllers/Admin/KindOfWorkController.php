@@ -216,21 +216,18 @@ class KindOfWorkController extends Controller
         //     }
         // }
 
-        // dd($sumTotalMcPrice);
 
         // melakukan perhitungan persen
         $percentage = [];
 
         foreach ($taskReport as $tr) {
-            $kindOfWorkDetail = $tr->kindOfWorkDetails->first();
+            foreach ($tr->kindOfWorkDetails as $kindOfWorkDetail) {
+                $percentage = ($kindOfWorkDetail->total_mc_price / $sumTotalMcPrice) * 100;
 
-            // dd($sumTotalMcPrice);
-
-            $percentage = ($kindOfWorkDetail->total_mc_price / $sumTotalMcPrice) * 100;
-
-            $kindOfWorkDetail->update([
-                'work_value' => number_format($percentage, 2)
-            ]);
+                $kindOfWorkDetail->update([
+                    'work_value' => number_format($percentage, 2)
+                ]);
+            }
         }
 
         return to_route('show.task.report.admin', $task_id->kindOfWork->task_id)->with('success', 'Berhasil');

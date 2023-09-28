@@ -152,6 +152,16 @@
                                                 <div style="color: red" class="warning{{ $key }}">
                                                 </div>
                                             </div>
+
+                                            {{-- old value --}}
+                                            {{-- <input type="text" name="date[]" hidden
+                                                value="{{ $kindOfWorkDetail->date ?? $date }}" class="form-control">
+                                            <input type="text" name="week[]" hidden
+                                                value="{{ $kindOfWorkDetail->week ?? $key }}" class="form-control">
+                                            <input type="text" name="progress[]"
+                                                value="{{ $schedule->progress ?? '' }}"
+                                                class="form-control progress-value" data-key="{{ $key }}"
+                                                {{ $disabled }} id="progress"> --}}
                                         @endforeach
                                     </div>
                                     <div class="row">
