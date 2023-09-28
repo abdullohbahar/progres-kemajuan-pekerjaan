@@ -85,7 +85,7 @@ class TimeScheduleSupervisingConsultantController extends Controller
                 TimeSchedule::where('kind_of_work_detail_id', $kindOfWorkDetailId)
                     ->where('week', $request->week[$key])
                     ->update([
-                        'progress' => $request->progress[$key] ?? '',
+                        'progress' => $request->progress[$key] ?? 0,
                     ]);
             }
         }

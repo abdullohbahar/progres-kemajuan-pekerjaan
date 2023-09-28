@@ -390,7 +390,7 @@
                                                                                                     </td>
                                                                                                     <td>{{ $timeSchedule->date }}
                                                                                                     </td>
-                                                                                                    <td>{{ $timeSchedule->progress }}
+                                                                                                    <td>{{ $timeSchedule->progress }}%
                                                                                                     </td>
                                                                                                 </tr>
                                                                                             @endforeach

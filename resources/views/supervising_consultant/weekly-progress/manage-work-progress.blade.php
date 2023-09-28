@@ -146,7 +146,7 @@
                                                 <input type="text" name="week[]" hidden
                                                     value="{{ $kindOfWorkDetail->week ?? $key }}" class="form-control">
                                                 <input type="text" name="progress[]"
-                                                    value="{{ $schedule->progress ?? 0 }}%"
+                                                    value="{{ $schedule->progress ?? 0 }}"
                                                     class="form-control progress-value" data-key="{{ $key }}"
                                                     {{ $disabled }} id="progress">
                                                 <div style="color: red" class="warning{{ $key }}">

@@ -63,6 +63,7 @@
                                         <h2>Time Schedule</h2>
                                         @foreach ($groupedDates as $key => $groupDate)
                                             {{-- mencari data time schedule --}}
+                                            {{-- {{ dd($groupedDates) }} --}}
                                             @php
                                                 $date = reset($groupDate) . '-' . end($groupDate);
                                                 
@@ -79,7 +80,7 @@
                                                     value="{{ $data->date ?? $date }}" class="form-control">
                                                 <input type="text" name="week[]" hidden
                                                     value="{{ $data->week ?? $key }}" class="form-control">
-                                                <input type="text" name="progress[]" value="{{ $data->progress ?? '' }}"
+                                                <input type="text" name="progress[]" value="{{ $data->progress ?? 0 }}"
                                                     class="form-control" id="work_value">
                                             </div>
 
@@ -90,7 +91,7 @@
                                             <input type="text" name="oldWeek[]" hidden value="{{ $data->week ?? $key }}"
                                                 class="form-control">
                                             <input type="text" name="oldProgress[]" hidden
-                                                value="{{ $data->progress ?? '' }}" class="form-control">
+                                                value="{{ $data->progress ?? 0 }}" class="form-control">
                                         @endforeach
                                     </div>
                                     <div class="row">
