@@ -46,7 +46,6 @@ Route::prefix('admin')->group(function () {
     Route::resource('unit', UnitController::class)->only(['index', 'store', 'destroy']);
 
     // task report
-
     Route::get('task-report', [TaskReportAdminController::class, 'index'])->name('task.report.admin');
     Route::get('task-report/{id}', [TaskReportAdminController::class, 'show'])->name('show.task.report.admin');
     Route::get('create-task-report', [TaskReportAdminController::class, 'create'])->name('create.task.report.admin');
@@ -54,6 +53,8 @@ Route::prefix('admin')->group(function () {
     Route::get('edit-task-report/{id}', [TaskReportAdminController::class, 'edit'])->name('edit.task.report.admin');
     Route::put('update-task-report/{id}', [TaskReportAdminController::class, 'update'])->name('update.task.report.admin');
     Route::delete('destroy-task-report/{id}', [TaskReportAdminController::class, 'destroy'])->name('destroy.task.report.admin');
+
+    Route::get('manage-work/{id}', [KindOfWorkController::class, 'manageWork'])->name('manage.work.admin');
 
     Route::prefix('task-report')->group(function () {
         Route::get('/kind-of-work/{taskId}', [KindOfWorkController::class, 'create'])->name('kind.of.work');
@@ -74,7 +75,6 @@ Route::prefix('konsultan-pengawas')->group(function () {
     Route::get('create-time-schedule/{kindOfWorkDetailId}', [TimeScheduleSupervisingConsultantController::class, 'create'])->name('create.time.schedule');
     Route::put('update-time-schedule/{kindOfWorkDetailId}', [TimeScheduleSupervisingConsultantController::class, 'update'])->name('update.time.schedule');
 
-    Route::get('manage-work/{id}', [KindOfWorkController::class, 'manageWork'])->name('manage.work');
     Route::put('update-manage-work/{id}', [KindOfWorkController::class, 'updateManageWork'])->name('manage.work.update');
     Route::get('manage-work-progress/{id}', [WeeklyReportSupervisingConsultantController::class, 'manageWeeklyProgress'])->name('manage.work.progress');
     Route::put('update-progress/{id}', [WeeklyReportSupervisingConsultantController::class, 'updateProgress'])->name('update.work.progress');

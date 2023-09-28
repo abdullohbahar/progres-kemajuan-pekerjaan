@@ -66,8 +66,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                @foreach ($activeWorks as $activeWork)
+                                            @foreach ($activeWorks as $activeWork)
+                                                <tr>
                                                     <td>{{ $activeWork->activity_name }}</td>
                                                     <td>{{ $activeWork->task_name }}</td>
                                                     <td>{{ $activeWork->fiscal_year }}</td>
@@ -77,8 +77,8 @@
                                                     <td><a href="{{ route('show.task.report.supervising.consultant', $activeWork->id) }}"
                                                             class="btn btn-info btn-sm">Detail Pekerjaan
                                                         </a></td>
-                                                @endforeach
-                                            </tr>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -106,8 +106,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                @foreach ($inactiveWorks as $inactiveWork)
+                                            @foreach ($inactiveWorks as $inactiveWork)
+                                                <tr>
                                                     <td>{{ $inactiveWork->activity_name }}</td>
                                                     <td>{{ $inactiveWork->task_name }}</td>
                                                     <td>{{ $inactiveWork->fiscal_year }}</td>
@@ -117,8 +117,8 @@
                                                     <td><a href="{{ route('show.task.report.supervising.consultant', $inactiveWork->id) }}"
                                                             class="btn btn-info btn-sm">Detail Pekerjaan
                                                         </a></td>
-                                                @endforeach
-                                            </tr>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -146,8 +146,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                @foreach ($spWorks as $spWork)
+                                            @foreach ($spWorks as $spWork)
+                                                <tr>
                                                     <td>{{ $spWork->activity_name }}</td>
                                                     <td>{{ $spWork->task_name }}</td>
                                                     <td>{{ $spWork->fiscal_year }}</td>
@@ -157,8 +157,8 @@
                                                     <td><a href="{{ route('show.task.report.supervising.consultant', $spWork->id) }}"
                                                             class="btn btn-info btn-sm">Detail Pekerjaan
                                                         </a></td>
-                                                @endforeach
-                                            </tr>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
