@@ -165,8 +165,8 @@
                                             Riwayat MC
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#"
-                                                    href="#">MC-10</a></li>
+                                            <li><a class="dropdown-item" data-bs-toggle="modal"
+                                                    data-bs-target="#modalMcHistory">MC-10</a></li>
                                             <li><a class="dropdown-item" href="#">MC-20</a></li>
                                             <li><a class="dropdown-item" href="#">MC-30</a></li>
                                         </ul>
