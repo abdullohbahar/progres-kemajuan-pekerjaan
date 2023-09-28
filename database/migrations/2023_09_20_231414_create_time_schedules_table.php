@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignUuid('kind_of_work_detail_id')->nullable()->constrained('kind_of_work_details')->nullOnDelete(); // id detail pekerjaan
             $table->integer('week');
             $table->string('date');
-            $table->string('progress');
+            $table->string('progress')->default(0);
             $table->timestamps();
         });
     }

@@ -148,32 +148,42 @@
                         </div>
 
                         <div class="card mt-5">
-                            <div class="card-header border-0 pt-5">
-                                <h2>Macam Pekerjaan</h2>
-                                <div class="card-toolbar">
-                                    @if (auth()->user()->role == 'Admin')
-                                        <a href="{{ route('kind.of.work', $taskReport->id) }}"
-                                            class="btn btn-primary btn-sm">Tambah Macam Pekerjaan</a>
-                                    @endif
-                                    <button class="btn btn-primary btn-sm mx-2" data-bs-toggle="modal"
-                                        data-bs-target="#modalTimeScheduleHistory">
-                                        Riwayat Perubahan Time Schedule
-                                    </button>
-                                    <div class="dropdown">
-                                        <button class="btn btn-info btn-sm dropdown-toggle" type="button"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            Riwayat MC
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" data-bs-toggle="modal"
-                                                    data-bs-target="#modalMcHistory">MC-10</a></li>
-                                            <li><a class="dropdown-item" href="#">MC-20</a></li>
-                                            <li><a class="dropdown-item" href="#">MC-30</a></li>
-                                        </ul>
+                            <div class="card-body">
+                                <div class="row justify-content-end">
+                                    <div class="col-sm-12 col-md-12 col-lg-6">
+                                        <h2>Macam Pekerjaan</h2>
+                                    </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-6">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-4">
+                                                <button class="btn btn-primary btn-sm mx-2 my-1" data-bs-toggle="modal"
+                                                    data-bs-target="#modalTimeScheduleHistory" style="width: 100%">
+                                                    Riwayat Perubahan Time Schedule
+                                                </button>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <button class="btn btn-success btn-sm mx-2 my-1" data-bs-toggle="modal"
+                                                    data-bs-target="#modalMcHistory" style="width: 100%">
+                                                    Riwayat <br> Perubahan MC
+                                                </button>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-info btn-sm dropdown-toggle mx-2 my-1"
+                                                        type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                                                        style="width: 100%">
+                                                        Riwayat Perubahan <br> Progress Mingguan
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item">MC-10</a></li>
+                                                        <li><a class="dropdown-item" href="#">MC-20</a></li>
+                                                        <li><a class="dropdown-item" href="#">MC-30</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="card-body">
                                 @foreach ($taskReport->kindOfWork as $key => $kindOfWork)
                                     <div class="card mt-5" style="background-color: rgba(242, 242, 242, 0.667)">
                                         <div class="card-header pt-5">
@@ -199,7 +209,8 @@
                                                                 <div class="col-sm-12 col-md-4 text-end">
                                                                     <div class="row justify-content-end">
                                                                         @if (auth()->user()->role == 'Admin')
-                                                                            <div class="col-sm-12 col-md-6 col-lg-4 d-grid">
+                                                                            <div
+                                                                                class="col-sm-12 col-md-6 col-lg-4 d-grid">
                                                                                 <a href="{{ route('manage.work', $detail->id) }}"
                                                                                     class="btn btn-sm btn-primary my-5"
                                                                                     style="margin-right: 5px">Kelola
@@ -207,7 +218,8 @@
                                                                             </div>
                                                                         @endif
                                                                         @if (auth()->user()->role == 'Supervising Consultant')
-                                                                            <div class="col-sm-12 col-md-6 col-lg-4 d-grid">
+                                                                            <div
+                                                                                class="col-sm-12 col-md-6 col-lg-4 d-grid">
                                                                                 <a href="{{ route('create.time.schedule', $detail->id) }}"
                                                                                     class="btn btn-sm btn-info my-5"
                                                                                     style="margin-right: 5px">Kelola

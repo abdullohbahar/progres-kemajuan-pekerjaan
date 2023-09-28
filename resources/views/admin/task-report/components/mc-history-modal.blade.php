@@ -17,9 +17,9 @@
                     <thead>
                         <tr>
                             <th>Nama Pekerjaan</th>
-                            <th>Volume MC</th>
-                            <th>Unit MC</th>
-                            <th>Harga Satuan MC</th>
+                            <th>Yang Diubah</th>
+                            <th>Dari</th>
+                            <th>Menjadi</th>
                             <th>Tanggal Merubah</th>
                         </tr>
                     </thead>

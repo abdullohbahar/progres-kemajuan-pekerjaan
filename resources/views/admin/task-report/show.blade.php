@@ -152,28 +152,19 @@
                         </div>
 
                         <div class="card mt-5">
-                            <div class="card-header border-0 pt-5">
-                                <h2>Macam Pekerjaan</h2>
+                            <div class="card-header">
+                                <h2 class="mt-5">Macam Pekerjaan</h2>
                                 <div class="card-toolbar">
-                                    <div class="row justify-content-center">
-                                        <div class="col-sm-12 col-md-6 my-1">
-                                            <div class="dropdown">
-                                                <button class="btn btn-info dropdown-toggle" type="button"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                    Riwayat MC
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#"
-                                                            href="#">MC-10</a></li>
-                                                    <li><a class="dropdown-item" href="#">MC-20</a></li>
-                                                    <li><a class="dropdown-item" href="#">MC-30</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12 col-md-6 my-1">
-                                            <a href="{{ route('kind.of.work', $taskReport->id) }}"
-                                                class="btn btn-primary btn-sm">Tambah Macam Pekerjaan</a>
-                                        </div>
+                                    <div class="dropdown">
+                                        <button class="btn btn-info btn-sm dropdown-toggle mx-2 my-1" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            Riwayat Perubahan MC
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item">MC-10</a></li>
+                                            <li><a class="dropdown-item" href="#">MC-20</a></li>
+                                            <li><a class="dropdown-item" href="#">MC-30</a></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
