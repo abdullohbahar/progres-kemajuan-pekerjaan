@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
 use Illuminate\Console\View\Components\Task;
 use App\Http\Controllers\SendMessageController;
+use App\Models\McHistory;
 
 class KindOfWorkController extends Controller
 {
@@ -209,6 +210,63 @@ class KindOfWorkController extends Controller
                 }
             }
 
+            // lakukan perhitungan total mc
+            $taskReport = TaskReport::with('kindOfWork.kindOfWorkDetails.schedules')->where('id', $taskId->id)->first();
+
+            $totalProgress = 0;
+
+            foreach ($taskReport->kindOfWork as $kindOfWork) {
+                foreach ($kindOfWork->kindOfWorkDetails as $kindOfWorkDetail) {
+                    $totalProgress += $kindOfWorkDetail->schedules->sum('progress');
+                }
+            }
+
+            if ($request->oldMcVolume != $request->mc_volume) {
+                McHistory::create([
+                    'task_report_id' => $taskId->id,
+                    'kind_of_work_detail_id' => $id,
+                    'total_mc' => round($this->roundMc($totalProgress)),
+                    'name' => 'Volume',
+                    'from' => $request->oldMcVolume,
+                    'to' => $request->mc_volume,
+                ]);
+            }
+
+            if ($request->oldMcUnit != $request->mc_unit) {
+                McHistory::create([
+                    'task_report_id' => $taskId->id,
+                    'kind_of_work_detail_id' => $id,
+                    'total_mc' => round($this->roundMc($totalProgress)),
+                    'name' => 'Unit',
+                    'from' => $request->oldMcUnit,
+                    'to' => $request->mc_unit,
+                ]);
+            }
+
+            if ($request->oldTotalMcPrice != $request->total_mc_price) {
+                McHistory::create([
+                    'task_report_id' => $taskId->id,
+                    'kind_of_work_detail_id' => $id,
+                    'total_mc' => round($this->roundMc($totalProgress)),
+                    'name' => 'Total Harga',
+                    'from' => $request->oldTotalMcPrice,
+                    'to' => $mcTotalPrice,
+                ]);
+            }
+
+            if ($request->oldWorkValue != $request->work_value) {
+                $kindOfWorkDetail = KindOfWorkDetail::findOrFail($id);
+
+                McHistory::create([
+                    'task_report_id' => $taskId->id,
+                    'kind_of_work_detail_id' => $id,
+                    'total_mc' => round($this->roundMc($totalProgress)),
+                    'name' => 'Nilai Pekerjaan',
+                    'from' => $request->oldWorkValue,
+                    'to' => $kindOfWorkDetail->work_value,
+                ]);
+            }
+
             DB::commit();
 
             return to_route('show.task.report.admin', $task_id->kindOfWork->task_id)->with('success', 'Berhasil');
@@ -274,5 +332,22 @@ class KindOfWorkController extends Controller
         return response()->json([
             'allMcPrice' => $totalMcPrice,
         ]);
+    }
+
+    public function roundMc($mc)
+    {
+        if (is_float($mc) && $mc <= 0.999) {
+            return 0;
+        }
+
+        // Dapatkan digit terakhir dari total MC
+        $lastDigit = $mc % 10;
+
+        // Tentukan total MC pembulatan berdasarkan digit terakhir
+        if ($lastDigit >= 5) {
+            return $mc + (10 - $lastDigit);
+        } else {
+            return $mc - $lastDigit;
+        }
     }
 }
