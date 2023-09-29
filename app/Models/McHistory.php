@@ -13,8 +13,10 @@ class McHistory extends Model
         'task_report_id',
         'kind_of_work_detail_id',
         'total_mc',
-        'name',
-        'from',
-        'to',
+        'mc_volume',
+        'mc_unit',
+        'mc_unit_price',
+        'total_mc_price',
+        'work_value',
     ];
 }

@@ -64,6 +64,8 @@ class KindOfWorkController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
 
+            Bugsnag::notifyException($e);
+
             return to_route('show.task.report.admin', $request->task_id)->with('success', 'Gagal Menambahkan Macam Pekerjaan');
         }
     }
@@ -210,60 +212,27 @@ class KindOfWorkController extends Controller
                 }
             }
 
-            // lakukan perhitungan total mc
-            $taskReport = TaskReport::with('kindOfWork.kindOfWorkDetails.schedules')->where('id', $taskId->id)->first();
+            if ($taskId->spk_date <= now()) {
+                // lakukan perhitungan total mc
+                $taskReport = TaskReport::with('kindOfWork.kindOfWorkDetails.schedules')->where('id', $taskId->id)->first();
 
-            $totalProgress = 0;
+                $totalProgress = 0;
 
-            foreach ($taskReport->kindOfWork as $kindOfWork) {
-                foreach ($kindOfWork->kindOfWorkDetails as $kindOfWorkDetail) {
-                    $totalProgress += $kindOfWorkDetail->schedules->sum('progress');
+                foreach ($taskReport->kindOfWork as $kindOfWork) {
+                    foreach ($kindOfWork->kindOfWorkDetails as $kindOfWorkDetail) {
+                        $totalProgress += $kindOfWorkDetail->schedules->sum('progress');
+                    }
                 }
-            }
-
-            if ($request->oldMcVolume != $request->mc_volume) {
-                McHistory::create([
-                    'task_report_id' => $taskId->id,
-                    'kind_of_work_detail_id' => $id,
-                    'total_mc' => round($this->roundMc($totalProgress)),
-                    'name' => 'Volume',
-                    'from' => $request->oldMcVolume,
-                    'to' => $request->mc_volume,
-                ]);
-            }
-
-            if ($request->oldMcUnit != $request->mc_unit) {
-                McHistory::create([
-                    'task_report_id' => $taskId->id,
-                    'kind_of_work_detail_id' => $id,
-                    'total_mc' => round($this->roundMc($totalProgress)),
-                    'name' => 'Unit',
-                    'from' => $request->oldMcUnit,
-                    'to' => $request->mc_unit,
-                ]);
-            }
-
-            if ($request->oldTotalMcPrice != $request->total_mc_price) {
-                McHistory::create([
-                    'task_report_id' => $taskId->id,
-                    'kind_of_work_detail_id' => $id,
-                    'total_mc' => round($this->roundMc($totalProgress)),
-                    'name' => 'Total Harga',
-                    'from' => $request->oldTotalMcPrice,
-                    'to' => $mcTotalPrice,
-                ]);
-            }
-
-            if ($request->oldWorkValue != $request->work_value) {
-                $kindOfWorkDetail = KindOfWorkDetail::findOrFail($id);
 
                 McHistory::create([
                     'task_report_id' => $taskId->id,
                     'kind_of_work_detail_id' => $id,
                     'total_mc' => round($this->roundMc($totalProgress)),
-                    'name' => 'Nilai Pekerjaan',
-                    'from' => $request->oldWorkValue,
-                    'to' => $kindOfWorkDetail->work_value,
+                    'mc_volume' => $request->oldMcVolume,
+                    'mc_unit' => $request->oldMcUnit,
+                    'mc_unit_price' => $request->oldMcUnitPrice,
+                    'total_mc_price' => $request->oldTotalMcPrice,
+                    'work_value' => $request->oldWorkValue
                 ]);
             }
 

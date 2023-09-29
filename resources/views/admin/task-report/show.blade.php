@@ -155,17 +155,24 @@
                             <div class="card-header">
                                 <h2 class="mt-5">Macam Pekerjaan</h2>
                                 <div class="card-toolbar">
-                                    <div class="dropdown">
-                                        <button class="btn btn-info btn-sm dropdown-toggle mx-2 my-1" type="button"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            Riwayat Perubahan MC
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item">MC-10</a></li>
-                                            <li><a class="dropdown-item" href="#">MC-20</a></li>
-                                            <li><a class="dropdown-item" href="#">MC-30</a></li>
-                                        </ul>
-                                    </div>
+                                    @if (count($totalMcHistories) == 0)
+                                        <button class="btn btn-sm btn-info" type="buttom" id="emptyHistory">Riwayat Perubahan MC</button>
+                                    @else
+                                        <div class="dropdown">
+                                            <button class="btn btn-info btn-sm dropdown-toggle mx-2 my-1" type="button"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                Riwayat Perubahan MC
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                @foreach ($totalMcHistories as $totalMcHistory)
+                                                    <li><a class="dropdown-item" href="#">
+                                                            MC-{{ $totalMcHistory->total_mc }}
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                             <div class="card-body">
@@ -211,8 +218,7 @@
                                                                                 id="kt_accordion_{{ $key }}_header_{{ $key }}">
                                                                                 <button
                                                                                     class="accordion-button fs-4 fw-semibold collapsed"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="collapse"
+                                                                                    type="button" data-bs-toggle="collapse"
                                                                                     data-bs-target="#kt_accordion_{{ $key }}_body_{{ $key }}"
                                                                                     aria-expanded="false"
                                                                                     aria-controls="kt_accordion_{{ $key }}_body_{{ $key }}">
@@ -449,7 +455,6 @@
 
     @include('admin.task-report.components.photo-modal')
     @include('admin.task-report.components.agreement-modal')
-    @include('admin.task-report.components.mc-history-modal')
 @endsection
 
 @push('addons-js')

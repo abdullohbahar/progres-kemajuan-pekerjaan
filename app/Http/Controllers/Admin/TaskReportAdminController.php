@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\ActingCommitmentMarker;
+use DataTables;
 use App\Models\Partner;
-use App\Models\SiteSupervisor;
-use App\Models\SupervisingConsultant;
+use App\Models\McHistory;
 use App\Models\TaskReport;
 use Illuminate\Http\Request;
-use DataTables;
+use App\Models\SiteSupervisor;
+use App\Models\TimeScheduleHistory;
+use App\Http\Controllers\Controller;
+use App\Models\SupervisingConsultant;
+use App\Models\ActingCommitmentMarker;
 
 class TaskReportAdminController extends Controller
 {
@@ -96,6 +98,13 @@ class TaskReportAdminController extends Controller
         $taskReport = TaskReport::where('id', $id)->firstOrfail();
         // Melakukan pengecekan apakah status sudah aktif atau belum
 
+        // mengambil total mc
+        $totalMcHistories = McHistory::where('task_report_id', $id)
+            ->select('total_mc')
+            ->distinct()
+            ->orderBy('total_mc', 'asc')
+            ->get();
+
         $dateSpk = strtotime($taskReport->spk_date);
         $dateNow = strtotime(now());
 
@@ -108,7 +117,8 @@ class TaskReportAdminController extends Controller
         $data = [
             'active' => $this->active,
             'taskReport' => $taskReport,
-            'status' => $status
+            'status' => $status,
+            'totalMcHistories' => $totalMcHistories
         ];
 
         return view('admin.task-report.show', $data);

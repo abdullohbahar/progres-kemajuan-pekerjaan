@@ -255,19 +255,17 @@
                                     </div>
                                 </div>
 
-
                                 {{-- old value --}}
-
-                                <input type="text" name="oldMcVolume" value="{{ $kindOfWorkDetail->mc_volume }}"
+                                <input type="text" name="oldMcVolume" hidden
+                                    value="{{ $kindOfWorkDetail->mc_volume }}" id="">
+                                <input type="text" name="oldMcUnit" hidden value="{{ $kindOfWorkDetail->mc_unit }}"
                                     id="">
-                                <input type="text" name="oldMcUnit" value="{{ $kindOfWorkDetail->mc_unit }}"
-                                    id="">
-                                <input type="text" name="oldMcUnitPrice"
+                                <input type="text" name="oldMcUnitPrice" hidden
                                     value="{{ $kindOfWorkDetail->mc_unit_price }}" id="">
-                                <input type="text" name="oldTotalMcPrice"
+                                <input type="text" name="oldTotalMcPrice" hidden
                                     value="{{ $kindOfWorkDetail->total_mc_price }}" id="">
-                                <input type="text" name="oldWorkValue" value="{{ $kindOfWorkDetail->work_value }}"
-                                    id="">
+                                <input type="text" name="oldWorkValue" hidden
+                                    value="{{ $kindOfWorkDetail->work_value }}" id="">
                             </form>
                         </div>
                     </div>
