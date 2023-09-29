@@ -7,13 +7,10 @@ $("#mc_unit_price, #mc_volume").on("keyup", function () {
     typingTimer = setTimeout(function () {
         var id = $("#idDetail").val();
 
-        console.log(id);
-
         $.ajax({
             url: `/count-percentage/${id}`,
             method: "GET",
             success: function (response) {
-                console.log(response);
                 var mcTotalPriceClean = parseFloat(
                     $("#total_mc_price").val().replace(/[^\d]/g, "")
                 );
@@ -21,6 +18,8 @@ $("#mc_unit_price, #mc_volume").on("keyup", function () {
                 var allMcPrice =
                     parseFloat(mcTotalPriceClean) +
                     parseFloat(response.allMcPrice);
+
+                console.log(allMcPrice);
 
                 // hitung persen
                 if (!isNaN(mcTotalPriceClean)) {

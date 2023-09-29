@@ -282,24 +282,18 @@ class KindOfWorkController extends Controller
     {
         $taskId = KindOfWorkDetail::with(['kindOfWork'])->where('id', $id)->first()->kindOfWork->task;
 
-        $taskReport = TaskReport::where('id', $taskId->id)->first()->kindOfWork;
-
-        $totalMcPrice = 0;
-
-        $data = [];
-
-        foreach ($taskReport as $key => $tr) {
-            $kindOfWorkDetail = $tr->kindOfWorkDetails->first();
-
-            $data[$key] = $kindOfWorkDetail;
-
-            if ($kindOfWorkDetail->id != $id) {
-                $totalMcPrice += $kindOfWorkDetail->total_mc_price;
-            }
-        }
+        // get total price
+        $sumTotalMcPrice = DB::table('kind_of_works')
+            ->join('kind_of_work_details', 'kind_of_work_details.kind_of_work_id', '=', 'kind_of_works.id')
+            ->where('kind_of_works.task_id', $taskId->id)
+            ->where('kind_of_work_details.id', '!=', $id)
+            ->groupBy('kind_of_works.id')
+            ->selectRaw('SUM(kind_of_work_details.total_mc_price) as total')
+            ->get()
+            ->sum('total');
 
         return response()->json([
-            'allMcPrice' => $totalMcPrice,
+            'allMcPrice' => $sumTotalMcPrice,
         ]);
     }
 
