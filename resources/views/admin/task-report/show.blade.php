@@ -156,7 +156,8 @@
                                 <h2 class="mt-5">Macam Pekerjaan</h2>
                                 <div class="card-toolbar">
                                     @if (count($totalMcHistories) == 0)
-                                        <button class="btn btn-sm btn-info" type="buttom" id="emptyHistory">Riwayat Perubahan MC</button>
+                                        <button class="btn btn-sm btn-info" type="buttom" id="emptyHistory">Riwayat
+                                            Perubahan MC</button>
                                     @else
                                         <div class="dropdown">
                                             <button class="btn btn-info btn-sm dropdown-toggle mx-2 my-1" type="button"
@@ -165,7 +166,11 @@
                                             </button>
                                             <ul class="dropdown-menu">
                                                 @foreach ($totalMcHistories as $totalMcHistory)
-                                                    <li><a class="dropdown-item" href="#">
+                                                    <li><a class="dropdown-item" target="_blank"
+                                                            href="{{ route('mc.history', [
+                                                                'taskID' => $taskReport->id,
+                                                                'totalMc' => $totalMcHistory->total_mc,
+                                                            ]) }}">
                                                             MC-{{ $totalMcHistory->total_mc }}
                                                         </a>
                                                     </li>
@@ -218,7 +223,8 @@
                                                                                 id="kt_accordion_{{ $key }}_header_{{ $key }}">
                                                                                 <button
                                                                                     class="accordion-button fs-4 fw-semibold collapsed"
-                                                                                    type="button" data-bs-toggle="collapse"
+                                                                                    type="button"
+                                                                                    data-bs-toggle="collapse"
                                                                                     data-bs-target="#kt_accordion_{{ $key }}_body_{{ $key }}"
                                                                                     aria-expanded="false"
                                                                                     aria-controls="kt_accordion_{{ $key }}_body_{{ $key }}">

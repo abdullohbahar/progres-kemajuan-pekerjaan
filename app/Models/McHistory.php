@@ -19,4 +19,9 @@ class McHistory extends Model
         'total_mc_price',
         'work_value',
     ];
+
+    public function kindOfWorkDetail()
+    {
+        return $this->belongsTo(KindOfWorkDetail::class);
+    }
 }

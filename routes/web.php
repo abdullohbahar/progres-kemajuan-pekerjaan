@@ -14,6 +14,7 @@ use App\Http\Controllers\Partner\DashboardPartnerController;
 use App\Http\Controllers\Partner\TaskReportPartnerController;
 use App\Http\Controllers\Admin\SupervisingConsultantController;
 use App\Http\Controllers\Admin\ActingCommitmentMarkerController;
+use App\Http\Controllers\McHistoryController;
 use App\Http\Controllers\SupervisingConsultant\DashboardSupervisingConsultantController;
 use App\Http\Controllers\SupervisingConsultant\TaskReportSupervisingConsultantController;
 use App\Http\Controllers\SupervisingConsultant\TimeScheduleSupervisingConsultantController;
@@ -99,3 +100,6 @@ Route::get('get-progress-picture/{id}', [KindOfWorkController::class, 'getProgre
 
 // agreement
 Route::post('agree/{scheduleID}', [AgreementController::class, 'agree'])->name('agree');
+
+// history Mc
+Route::get('history-mc/{taskID}/{totalMc}', [McHistoryController::class, 'history'])->name('mc.history');
