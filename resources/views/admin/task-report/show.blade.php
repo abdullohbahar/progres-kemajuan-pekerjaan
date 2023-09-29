@@ -478,4 +478,13 @@
             })
         })
     </script>
+
+    <script>
+        $("body").on("click", "#emptyHistory", function() {
+            Swal.fire({
+                icon: "warning",
+                title: "Belum Ada Riwayat",
+            });
+        });
+    </script>
 @endpush
