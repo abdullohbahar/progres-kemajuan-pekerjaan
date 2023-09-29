@@ -103,3 +103,6 @@ Route::post('agree/{scheduleID}', [AgreementController::class, 'agree'])->name('
 
 // history Mc
 Route::get('history-mc/{taskID}/{totalMc}', [McHistoryController::class, 'history'])->name('mc.history');
+
+// Count Total Progress Before This Week
+Route::get('count-total-progress-before-this-week/{kindOfWorkDetailID}', [KindOfWorkController::class, 'countTotalProgressBeforeThisWeek']);

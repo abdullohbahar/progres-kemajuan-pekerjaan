@@ -61,7 +61,8 @@
                                     {{-- <h1>Total Harga : Rp {{ number_format($mcAllPrice, 0, ',', '.') }}</h1> --}}
                                 </div>
                             </div>
-                            <form action="{{ route('manage.work.update', $kindOfWorkDetail->id) }}" method="POST">
+                            <form action="{{ route('manage.work.update', $kindOfWorkDetail->id) }}" method="POST"
+                                id="myForm">
                                 @csrf
                                 @method('PUT')
                                 <div class="card-body">

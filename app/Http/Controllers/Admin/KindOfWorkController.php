@@ -313,4 +313,53 @@ class KindOfWorkController extends Controller
             return $mc - $lastDigit;
         }
     }
+
+    public function countTotalProgressBeforeThisWeek($kindOfWorkDetailID)
+    {
+        $kindOfWorkDetail = KindOfWorkDetail::with('kindOfWork')->findorfail($kindOfWorkDetailID);
+
+        $spkDate = $kindOfWorkDetail->kindOfWork->task->spk_date;
+        $execution_time = $kindOfWorkDetail->kindOfWork->task->execution_time;
+
+        // menampilkan form berdasarkan jumlah minggu
+        // menghitung hari per minggu
+        $start_date = Carbon::parse($spkDate)->format('Y-m-d');
+        $executionTime = $execution_time;
+        $dates = [];
+
+        // Menginisialisasi tanggal awal
+        $current_date = $start_date;
+
+        for ($i = 0; $i < $executionTime; $i++) {
+            $dates[] = date('d-m-Y', strtotime($current_date));
+
+            // Menambahkan 1 hari ke tanggal saat ini
+            $current_date = date('Y-m-d', strtotime($current_date . " + 1 day"));
+        }
+
+        // Memecah array ke dalam grup-grup 7 hari
+        $groupedDates = array_chunk($dates, 7);
+
+        $dateNow = date('d-m-Y');
+
+        foreach ($groupedDates as $key => $date) {
+            if (in_array($dateNow, $date)) {
+                $weekNow = $key + 1;
+                break;
+            } else {
+                $weekNow = '';
+            }
+        }
+
+        if ($weekNow) {
+            $progress = Schedule::where('kind_of_work_detail_id', $kindOfWorkDetailID)->where('week', '<=', $weekNow)->sum('progress');
+        } else {
+            $progress = 0;
+        }
+
+        return response()->json([
+            'status' => 200,
+            'data' => $progress
+        ]);
+    }
 }
