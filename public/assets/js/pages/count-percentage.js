@@ -1,5 +1,5 @@
 var typingTimer;
-var doneTypingInterval = 1000; // Waktu penundaan dalam milidetik
+var doneTypingInterval = 500; // Waktu penundaan dalam milidetik
 
 $("#mc_unit_price, #mc_volume").on("keyup", function () {
     clearTimeout(typingTimer); // Hapus timer sebelumnya (jika ada)
@@ -7,13 +7,10 @@ $("#mc_unit_price, #mc_volume").on("keyup", function () {
     typingTimer = setTimeout(function () {
         var id = $("#idDetail").val();
 
-        console.log(id);
-
         $.ajax({
             url: `/count-percentage/${id}`,
             method: "GET",
             success: function (response) {
-                console.log(response);
                 var mcTotalPriceClean = parseFloat(
                     $("#total_mc_price").val().replace(/[^\d]/g, "")
                 );
@@ -21,6 +18,8 @@ $("#mc_unit_price, #mc_volume").on("keyup", function () {
                 var allMcPrice =
                     parseFloat(mcTotalPriceClean) +
                     parseFloat(response.allMcPrice);
+
+                console.log(allMcPrice);
 
                 // hitung persen
                 if (!isNaN(mcTotalPriceClean)) {
@@ -32,4 +31,35 @@ $("#mc_unit_price, #mc_volume").on("keyup", function () {
             },
         });
     }, doneTypingInterval);
+});
+
+// menghitung total progress sebelum minggu ini
+$("#myForm").on("submit", function (e) {
+    e.preventDefault();
+
+    var id = $("#idDetail").val();
+
+    $.ajax({
+        url: `/count-total-progress-before-this-week/${id}`,
+        method: "GET",
+        success: function (response) {
+            if (response.status == 200) {
+                console.log(response);
+                // jika respon data != 0 maka lakukan validasi
+                if (response.data != 0) {
+                    var cleanWorkValue = parseFloat(
+                        $("#workValue").val().replace("%", "")
+                    );
+
+                    if (cleanWorkValue > response.data) {
+                        alert(
+                            `Nilai Pekerjaan Tidak Boleh Melebihi Total Progress Yang Ada. Total Progress: ${response.data}%`
+                        );
+                    } else {
+                        $("#myForm")[0].submit();
+                    }
+                }
+            }
+        },
+    });
 });
