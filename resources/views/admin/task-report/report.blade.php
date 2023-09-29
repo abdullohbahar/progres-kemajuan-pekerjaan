@@ -123,9 +123,9 @@
                 <td class="text-center">{{ $schedule->date }}</td>
             @endforeach
         </tr>
-        @foreach ($taskReport->kindOfWork as $kindOfWork)
+        @foreach ($taskReport->kindOfWork as $key => $kindOfWork)
             <tr>
-                <td class="text-center" colspan="2">I</td>
+                <td class="text-center" colspan="2">{{ angkaKeRomawi($key + 1) }}</td>
                 <td class="text-center fw-bolder">{{ $kindOfWork->name }}</td>
             </tr>
             @foreach ($kindOfWork->kindOfWorkDetails as $key => $kindOfWorkDetail)
@@ -154,3 +154,36 @@
 </body>
 
 </html>
+
+
+{{-- Konversi angka biasa ke romawi --}}
+@php
+    function angkaKeRomawi($angka)
+    {
+        $romawi = '';
+        $angkaRomawi = [
+            'M' => 1000,
+            'CM' => 900,
+            'D' => 500,
+            'CD' => 400,
+            'C' => 100,
+            'XC' => 90,
+            'L' => 50,
+            'XL' => 40,
+            'X' => 10,
+            'IX' => 9,
+            'V' => 5,
+            'IV' => 4,
+            'I' => 1,
+        ];
+    
+        foreach ($angkaRomawi as $simbol => $nilai) {
+            while ($angka >= $nilai) {
+                $romawi .= $simbol;
+                $angka -= $nilai;
+            }
+        }
+    
+        return $romawi;
+    }
+@endphp
