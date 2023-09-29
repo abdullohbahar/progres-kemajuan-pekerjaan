@@ -53,9 +53,12 @@
                                 <div class="py-5">
                                     <h1>Kelola Time Schedule</h1>
                                     <h3>{{ $kindOfWorkDetail->name }}</h3>
+                                    <h3>Nilai Pekerjaan: <span id="workValue">{{ $kindOfWorkDetail->work_value }}</span>%
+                                    </h3>
                                 </div>
                             </div>
-                            <form action="{{ route('update.time.schedule', $kindOfWorkDetail->id) }}" method="POST">
+                            <form action="{{ route('update.time.schedule', $kindOfWorkDetail->id) }}" method="POST"
+                                id="myForm">
                                 @csrf
                                 @method('PUT')
                                 <div class="card-body">
@@ -81,7 +84,7 @@
                                                 <input type="text" name="week[]" hidden
                                                     value="{{ $data->week ?? $key }}" class="form-control">
                                                 <input type="text" name="progress[]" value="{{ $data->progress ?? 0 }}"
-                                                    class="form-control" id="work_value">
+                                                    class="form-control progress-value" id="work_value">
                                             </div>
 
 
@@ -113,6 +116,5 @@
 @endsection
 
 @push('addons-js')
-    <script src="{{ asset('./assets/js/pages/contract-price.js') }}"></script>
-    <script src="{{ asset('./assets/js/pages/mc-price.js') }}"></script>
+    <script src="{{ asset('./assets/js/pages/timeschedule.js') }}"></script>
 @endpush

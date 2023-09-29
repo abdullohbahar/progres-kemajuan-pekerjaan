@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('progress_pictures', function (Blueprint $table) {
             $table->id();
             $table->foreignId('schedule_id')->nullable()->constrained('schedules')->nullOnDelete(); // id detail pekerjaan
-            $table->text('picture');
+            $table->text('picture')->nullable();
             $table->timestamps();
         });
     }
