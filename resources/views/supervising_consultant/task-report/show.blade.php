@@ -155,20 +155,29 @@
                                         data-bs-target="#modalTimeScheduleHistory">
                                         Riwayat Perubahan Time Schedule
                                     </button>
-                                    <div class="dropdown">
-                                        <button class="btn btn-info btn-sm dropdown-toggle mx-2 my-1" type="button"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            Riwayat Perubahan MC
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            @foreach ($totalMcHistories as $totalMcHistory)
-                                                <li><a class="dropdown-item" href="#">
-                                                        MC-{{ $totalMcHistory->total_mc }}
-                                                    </a>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
+                                    @if (count($totalMcHistories) == 0)
+                                        <button class="btn btn-sm btn-info" type="buttom" id="emptyHistory">Riwayat
+                                            Perubahan MC</button>
+                                    @else
+                                        <div class="dropdown">
+                                            <button class="btn btn-info btn-sm dropdown-toggle mx-2 my-1" type="button"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                Riwayat Perubahan MC
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                @foreach ($totalMcHistories as $totalMcHistory)
+                                                    <li><a class="dropdown-item" target="_blank"
+                                                            href="{{ route('mc.history', [
+                                                                'taskID' => $taskReport->id,
+                                                                'totalMc' => $totalMcHistory->total_mc,
+                                                            ]) }}">
+                                                            MC-{{ $totalMcHistory->total_mc }}
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                             <div class="card-body">
