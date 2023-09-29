@@ -44,4 +44,9 @@ class KindOfWorkDetail extends Model
     {
         return $this->hasMany(TimeScheduleHistory::class);
     }
+
+    public function mcHistory()
+    {
+        return $this->belongsTo(McHistory::class);
+    }
 }

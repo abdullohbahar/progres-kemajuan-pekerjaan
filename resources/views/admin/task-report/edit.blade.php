@@ -54,7 +54,7 @@
                             <div class="card">
                                 <div class="card-header border-0 pt-5">
                                     <div class="card-toolbar">
-                                        <a href="{{ route('task.report') }}" class="btn btn-sm btn-primary">
+                                        <a href="{{ route('task.report.admin') }}" class="btn btn-sm btn-primary">
                                             <i class="fas fa-arrow-left"></i> Kembali
                                         </a>
                                     </div>
@@ -287,7 +287,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-sm-12 col-md-6">
+                                        {{-- <div class="col-sm-12 col-md-6">
                                             <div class="form-group mb-3">
                                                 <label class="form-label" for="status">Status</label>
                                                 <select name="status"
@@ -317,7 +317,7 @@
                                                     </div>
                                                 @enderror
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <div class="col-12 d-grid mt-2">
                                             <button type="submit" class="btn btn-success">Ubah</button>
                                         </div>

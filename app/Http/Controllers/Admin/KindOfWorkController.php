@@ -4,20 +4,23 @@ namespace App\Http\Controllers\Admin;
 
 use Exception;
 use Carbon\Carbon;
+use App\Models\Unit;
+use RuntimeException;
+use App\Models\Partner;
 use App\Models\Schedule;
 use App\Models\KindOfWork;
 use App\Models\TaskReport;
+use App\Models\TimeSchedule;
 use Illuminate\Http\Request;
+use App\Models\ProgressPicture;
 use App\Models\KindOfWorkDetail;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\SendMessageController;
-use App\Models\Partner;
-use App\Models\ProgressPicture;
-use App\Models\TimeSchedule;
-use App\Models\Unit;
-use Illuminate\Console\View\Components\Task;
 use Illuminate\Support\Facades\Auth;
+use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
+use Illuminate\Console\View\Components\Task;
+use App\Http\Controllers\SendMessageController;
+use App\Models\McHistory;
 
 class KindOfWorkController extends Controller
 {
@@ -60,6 +63,8 @@ class KindOfWorkController extends Controller
             return to_route('show.task.report.admin', $request->task_id)->with('success', 'Berhasil Menambahkan Macam Pekerjaan');
         } catch (Exception $e) {
             DB::rollBack();
+
+            Bugsnag::notifyException($e);
 
             return to_route('show.task.report.admin', $request->task_id)->with('success', 'Gagal Menambahkan Macam Pekerjaan');
         }
@@ -124,7 +129,7 @@ class KindOfWorkController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
 
-            dd($e);
+            Bugsnag::notifyException($e);
 
             return to_route('show.task.report.admin', $kindOfWork->task_id)->with('failed', 'Gagal Mengubah Macam Pekerjaan');
         }
@@ -156,81 +161,91 @@ class KindOfWorkController extends Controller
         $removeChar = ['R', 'p', '.', ',', ' '];
         $removePercent = ['%'];
 
-        // Menghapus karakter sesuai dengan array yang ada di $removeChar
-        $contractUnitPrice = str_replace($removeChar, "", $request->contract_unit_price);
-        $contractTotalPrice = str_replace($removeChar, "", $request->total_contract_price);
-        $mcUnitPrice = str_replace($removeChar, "", $request->mc_unit_price);
-        $mcTotalPrice = str_replace($removeChar, "", $request->total_mc_price);
-        $workValue = str_replace($removePercent, "", $request->work_value);
+        try {
+            DB::beginTransaction();
 
-        // dd($workValue);
+            // Menghapus karakter sesuai dengan array yang ada di $removeChar
+            $contractUnitPrice = str_replace($removeChar, "", $request->contract_unit_price);
+            $contractTotalPrice = str_replace($removeChar, "", $request->total_contract_price);
+            $mcUnitPrice = str_replace($removeChar, "", $request->mc_unit_price);
+            $mcTotalPrice = str_replace($removeChar, "", $request->total_mc_price);
+            $workValue = str_replace($removePercent, "", $request->work_value);
 
-        // update kind of work
-        KindOfWorkDetail::where('id', $id)->update([
-            'contract_volume' => $request->contract_volume,
-            'contract_unit' => $request->contract_unit,
-            'contract_unit_price' => $contractUnitPrice,
-            'total_contract_price' => $contractTotalPrice,
-            'mc_volume' => $request->mc_volume,
-            'mc_unit' => $request->mc_unit,
-            'mc_unit_price' => $mcUnitPrice,
-            'total_mc_price' => $mcTotalPrice,
-            'work_value' => $workValue,
-        ]);
+            // update kind of work
+            KindOfWorkDetail::where('id', $id)->update([
+                'contract_volume' => $request->contract_volume,
+                'contract_unit' => $request->contract_unit,
+                'contract_unit_price' => $contractUnitPrice,
+                'total_contract_price' => $contractTotalPrice,
+                'mc_volume' => $request->mc_volume,
+                'mc_unit' => $request->mc_unit,
+                'mc_unit_price' => $mcUnitPrice,
+                'total_mc_price' => $mcTotalPrice,
+                'work_value' => $workValue,
+            ]);
 
-        // mengambil task id berdasarkan kind of work detail
-        $taskId = KindOfWorkDetail::with(['kindOfWork'])->where('id', $id)->first()->kindOfWork->task;
+            // mengambil task id berdasarkan kind of work detail
+            $taskId = KindOfWorkDetail::with(['kindOfWork'])->where('id', $id)->first()->kindOfWork->task;
 
-        // mengambil kind of work berdasarkan task id
-        $taskReport = TaskReport::with('kindOfWork')->where('id', $taskId->id)->first()->kindOfWork;
+            // mengambil kind of work berdasarkan task id
+            $taskReport = TaskReport::with('kindOfWork')->where('id', $taskId->id)->first()->kindOfWork;
 
-        $sumTotalMcPrice = DB::table('kind_of_works')
-            ->join('kind_of_work_details', 'kind_of_work_details.kind_of_work_id', '=', 'kind_of_works.id')
-            ->where('kind_of_works.task_id', $taskId->id)
-            ->groupBy('kind_of_works.id')
-            ->selectRaw('SUM(kind_of_work_details.total_mc_price) as total')
-            ->get()
-            ->sum('total');
+            // get total price
+            $sumTotalMcPrice = DB::table('kind_of_works')
+                ->join('kind_of_work_details', 'kind_of_work_details.kind_of_work_id', '=', 'kind_of_works.id')
+                ->where('kind_of_works.task_id', $taskId->id)
+                ->groupBy('kind_of_works.id')
+                ->selectRaw('SUM(kind_of_work_details.total_mc_price) as total')
+                ->get()
+                ->sum('total');
 
-        // dd($grandTotal);
-        // $sumTotalMcPrice = 0;
+            // melakukan perhitungan persen
+            $percentage = [];
 
-        // // melakukan penjumlahan total price
-        // foreach ($taskReport as $tr) {
+            foreach ($taskReport as $tr) {
+                foreach ($tr->kindOfWorkDetails as $kindOfWorkDetail) {
+                    $percentage = ($kindOfWorkDetail->total_mc_price / $sumTotalMcPrice) * 100;
 
-        //     $kindOfWorks = $tr->with('kindOfWorkDetails')->where('task_id', $taskId->id)->get();
+                    $kindOfWorkDetail->update([
+                        'work_value' => number_format($percentage, 2)
+                    ]);
+                }
+            }
 
-        //     dump($kindOfWorks->kindOfWorkDetails);
+            if ($taskId->spk_date <= now()) {
+                // lakukan perhitungan total mc
+                $taskReport = TaskReport::with('kindOfWork.kindOfWorkDetails.schedules')->where('id', $taskId->id)->first();
 
-        //     foreach ($kindOfWorks as $key => $kindOfWorkDetail) {
-        //         // dump($kindOfWorkDetail->kindOfWorkDetails);
+                $totalProgress = 0;
 
-        //         $prices = $kindOfWorkDetail->kindOfWorkDetails;
+                foreach ($taskReport->kindOfWork as $kindOfWork) {
+                    foreach ($kindOfWork->kindOfWorkDetails as $kindOfWorkDetail) {
+                        $totalProgress += $kindOfWorkDetail->schedules->sum('progress');
+                    }
+                }
 
-
-        //         // dump($prices->sum('total_mc_price'));
-
-        //         foreach ($prices as $key => $price) {
-        //             $sumTotalMcPrice += $price->total_mc_price;
-        //         }
-        //     }
-        // }
-
-
-        // melakukan perhitungan persen
-        $percentage = [];
-
-        foreach ($taskReport as $tr) {
-            foreach ($tr->kindOfWorkDetails as $kindOfWorkDetail) {
-                $percentage = ($kindOfWorkDetail->total_mc_price / $sumTotalMcPrice) * 100;
-
-                $kindOfWorkDetail->update([
-                    'work_value' => number_format($percentage, 2)
+                McHistory::create([
+                    'task_report_id' => $taskId->id,
+                    'kind_of_work_detail_id' => $id,
+                    'total_mc' => round($this->roundMc($totalProgress)),
+                    'mc_volume' => $request->oldMcVolume,
+                    'mc_unit' => $request->oldMcUnit,
+                    'mc_unit_price' => $request->oldMcUnitPrice,
+                    'total_mc_price' => $request->oldTotalMcPrice,
+                    'work_value' => $request->oldWorkValue
                 ]);
             }
-        }
 
-        return to_route('show.task.report.admin', $task_id->kindOfWork->task_id)->with('success', 'Berhasil');
+            DB::commit();
+
+            return to_route('show.task.report.admin', $task_id->kindOfWork->task_id)->with('success', 'Berhasil');
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            Bugsnag::notifyException($e);
+
+            return to_route('show.task.report.admin', $task_id->kindOfWork->task_id)->with('failed', 'Gagal');
+        }
     }
 
     public function uploadProgressPicture(Request $request)
@@ -286,5 +301,22 @@ class KindOfWorkController extends Controller
         return response()->json([
             'allMcPrice' => $totalMcPrice,
         ]);
+    }
+
+    public function roundMc($mc)
+    {
+        if (is_float($mc) && $mc <= 0.999) {
+            return 0;
+        }
+
+        // Dapatkan digit terakhir dari total MC
+        $lastDigit = $mc % 10;
+
+        // Tentukan total MC pembulatan berdasarkan digit terakhir
+        if ($lastDigit >= 5) {
+            return $mc + (10 - $lastDigit);
+        } else {
+            return $mc - $lastDigit;
+        }
     }
 }

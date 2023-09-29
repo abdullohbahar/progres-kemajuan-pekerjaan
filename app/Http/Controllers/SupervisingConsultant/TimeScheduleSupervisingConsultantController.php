@@ -52,6 +52,7 @@ class TimeScheduleSupervisingConsultantController extends Controller
     {
         $timeSchedule = TimeSchedule::where('kind_of_work_detail_id', $kindOfWorkDetailId)->get();
 
+
         if ($timeSchedule->count() <= 0) {
             foreach ($request->week as $key => $week) {
                 TimeSchedule::create([
@@ -63,23 +64,36 @@ class TimeScheduleSupervisingConsultantController extends Controller
             }
         } else {
             foreach ($request->week as $key => $week) {
-                // melakukan pengecekan apakah data yang lama sama dengan data yang baru,
-                // jika tidak sama maka simpan data lama ke histroy
-                // Get Task Report ID
-                $taskReportID = KindOfWorkDetail::with('kindOfWork')
-                    ->where('id', $kindOfWorkDetailId)
+                // lakukan pengecekan apakah status sudah mulai aktif atau belum
+                $spkDate = TimeSchedule::with('kindOfWorkDetail.kindOfWork.task')
+                    ->where('kind_of_work_detail_id', $kindOfWorkDetailId)
                     ->first()
-                    ->kindOfWork->task_id;
+                    ?->kindOfWorkDetail
+                    ->kindOfWork
+                    ->task
+                    ->spk_date;
 
-                if ($request->oldProgress[$key] != $request->progress[$key]) {
-                    TimeScheduleHistory::create([
-                        'kind_of_work_detail_id' => $kindOfWorkDetailId,
-                        'task_report_id' => $taskReportID,
-                        'week' => $request->week[$key],
-                        'from' => $request->oldProgress[$key],
-                        'to' => $request->progress[$key]
-                    ]);
+                // jika aktif maka simpan perubahan ke history
+                if ($spkDate <= now()) {
+                    // melakukan pengecekan apakah data yang lama sama dengan data yang baru,
+                    // jika tidak sama maka simpan data lama ke histroy
+                    // Get Task Report ID
+                    $taskReportID = KindOfWorkDetail::with('kindOfWork')
+                        ->where('id', $kindOfWorkDetailId)
+                        ->first()
+                        ->kindOfWork->task_id;
+
+                    if ($request->oldProgress[$key] != $request->progress[$key]) {
+                        TimeScheduleHistory::create([
+                            'kind_of_work_detail_id' => $kindOfWorkDetailId,
+                            'task_report_id' => $taskReportID,
+                            'week' => $request->week[$key],
+                            'from' => $request->oldProgress[$key],
+                            'to' => $request->progress[$key]
+                        ]);
+                    }
                 }
+
 
                 // Simpan data terbaru ke database
                 TimeSchedule::where('kind_of_work_detail_id', $kindOfWorkDetailId)

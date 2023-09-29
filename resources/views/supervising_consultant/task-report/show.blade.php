@@ -148,29 +148,36 @@
                         </div>
 
                         <div class="card mt-5">
-                            <div class="card-header border-0 pt-5">
-                                <h2>Macam Pekerjaan</h2>
+                            <div class="card-header">
+                                <h2 class="mt-5">Macam Pekerjaan</h2>
                                 <div class="card-toolbar">
-                                    @if (auth()->user()->role == 'Admin')
-                                        <a href="{{ route('kind.of.work', $taskReport->id) }}"
-                                            class="btn btn-primary btn-sm">Tambah Macam Pekerjaan</a>
-                                    @endif
-                                    <button class="btn btn-primary btn-sm mx-2" data-bs-toggle="modal"
+                                    <button class="btn btn-primary btn-sm mx-2 my-1" data-bs-toggle="modal"
                                         data-bs-target="#modalTimeScheduleHistory">
                                         Riwayat Perubahan Time Schedule
                                     </button>
-                                    <div class="dropdown">
-                                        <button class="btn btn-info btn-sm dropdown-toggle" type="button"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            Riwayat MC
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" data-bs-toggle="modal"
-                                                    data-bs-target="#modalMcHistory">MC-10</a></li>
-                                            <li><a class="dropdown-item" href="#">MC-20</a></li>
-                                            <li><a class="dropdown-item" href="#">MC-30</a></li>
-                                        </ul>
-                                    </div>
+                                    @if (count($totalMcHistories) == 0)
+                                        <button class="btn btn-sm btn-info" type="buttom" id="emptyHistory">Riwayat
+                                            Perubahan MC</button>
+                                    @else
+                                        <div class="dropdown">
+                                            <button class="btn btn-info btn-sm dropdown-toggle mx-2 my-1" type="button"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                Riwayat Perubahan MC
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                @foreach ($totalMcHistories as $totalMcHistory)
+                                                    <li><a class="dropdown-item" target="_blank"
+                                                            href="{{ route('mc.history', [
+                                                                'taskID' => $taskReport->id,
+                                                                'totalMc' => $totalMcHistory->total_mc,
+                                                            ]) }}">
+                                                            MC-{{ $totalMcHistory->total_mc }}
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                             <div class="card-body">
@@ -482,7 +489,6 @@
 
     @include('admin.task-report.components.photo-modal')
     @include('admin.task-report.components.agreement-modal')
-    @include('admin.task-report.components.mc-history-modal')
     @include('supervising_consultant.task-report.components.time-schedule-history-modal')
 @endsection
 

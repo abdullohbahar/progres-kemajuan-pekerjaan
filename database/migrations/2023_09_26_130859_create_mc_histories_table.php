@@ -15,13 +15,14 @@ return new class extends Migration
     {
         Schema::create('mc_histories', function (Blueprint $table) {
             $table->id();
+            $table->foreignUuid('task_report_id')->nullable()->constrained('task_reports')->nullOnDelete();
             $table->foreignUuid('kind_of_work_detail_id')->nullable()->constrained('kind_of_work_details')->nullOnDelete(); // id detail pekerjaan
-            $table->string('from_mc_volume');
-            $table->string('to_mc_volume');
-            $table->string('from_mc_unit');
-            $table->string('to_mc_unit');
-            $table->string('from_mc_unit_price');
-            $table->string('to_mc_unit_price');
+            $table->string('mc_volume')->nullable(); // volume mc
+            $table->string('mc_unit')->nullable(); // unit mc
+            $table->string('mc_unit_price')->nullable(); // harga satuan mc
+            $table->string('work_value')->nullable(); // nilai pekerjaan mc
+            $table->string('total_mc_price')->nullable(); // nilai pekerjaan mc
+            $table->string('total_mc');
             $table->timestamps();
         });
     }

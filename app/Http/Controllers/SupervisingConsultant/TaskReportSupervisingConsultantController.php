@@ -5,6 +5,7 @@ namespace App\Http\Controllers\SupervisingConsultant;
 use App\Models\TaskReport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\McHistory;
 use Illuminate\Support\Facades\Auth;
 use App\Models\SupervisingConsultant;
 use App\Models\TimeScheduleHistory;
@@ -41,6 +42,13 @@ class TaskReportSupervisingConsultantController extends Controller
         // Melakukan pengecekan apakah status sudah aktif atau belum
         $timeScheduleHistories = TimeScheduleHistory::where('task_report_id', $id)->get();
 
+        // mengambil total mc
+        $totalMcHistories = McHistory::where('task_report_id', $id)
+            ->select('total_mc')
+            ->distinct()
+            ->orderBy('total_mc', 'asc')
+            ->get();
+
         $dateSpk = strtotime($taskReport->spk_date);
         $dateNow = strtotime(now());
 
@@ -54,7 +62,8 @@ class TaskReportSupervisingConsultantController extends Controller
             'active' => $this->active,
             'taskReport' => $taskReport,
             'status' => $status,
-            'timeScheduleHistories' => $timeScheduleHistories
+            'timeScheduleHistories' => $timeScheduleHistories,
+            'totalMcHistories' => $totalMcHistories
         ];
 
         return view('supervising_consultant.task-report.show', $data);
