@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('time_schedules', function (Blueprint $table) {
             $table->id();
             $table->foreignUuid('kind_of_work_detail_id')->nullable()->constrained('kind_of_work_details')->nullOnDelete(); // id detail pekerjaan
-            $table->integer('week')->nullable();
-            $table->string('date')->nullable();
-            $table->string('progress')->nullable();
+            $table->integer('week')->nullable()->default(0);
+            $table->string('date')->nullable()->default(0);
+            $table->string('progress')->nullable()->default(0);
             $table->timestamps();
         });
     }
