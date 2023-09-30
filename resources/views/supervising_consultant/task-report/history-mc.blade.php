@@ -9,7 +9,7 @@
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
 
-    <title>RIWAYAT MC</title>
+    <title>MC-{{ $totalMc }}</title>
 </head>
 
 <body style="font-size: 12px">
@@ -17,7 +17,7 @@
 
     </div>
     <div class="container text-center">
-        <h4><b>RIWAYAT MC-{{ $totalMc }}</b></h4>
+        <h4><b>MC-{{ $totalMc }}</b></h4>
     </div>
     <div class="card-body" style="font-size: 14px">
         <div class="row">
