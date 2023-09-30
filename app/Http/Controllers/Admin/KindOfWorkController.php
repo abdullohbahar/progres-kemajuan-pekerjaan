@@ -224,16 +224,45 @@ class KindOfWorkController extends Controller
                     }
                 }
 
-                McHistory::create([
-                    'task_report_id' => $taskId->id,
-                    'kind_of_work_detail_id' => $id,
-                    'total_mc' => round($this->roundMc($totalProgress)),
-                    'mc_volume' => $request->oldMcVolume,
-                    'mc_unit' => $request->oldMcUnit,
-                    'mc_unit_price' => $request->oldMcUnitPrice,
-                    'total_mc_price' => $request->oldTotalMcPrice,
-                    'work_value' => $request->oldWorkValue
-                ]);
+                $totalMc = round($this->roundMc($totalProgress));
+
+                // McHistory::create([
+                //     'task_report_id' => $taskId->id,
+                //     'kind_of_work_detail_id' => $id,
+                //     'total_mc' => round($this->roundMc($totalProgress)),
+                //     'mc_volume' => $request->oldMcVolume,
+                //     'mc_unit' => $request->oldMcUnit,
+                //     'mc_unit_price' => $request->oldMcUnitPrice,
+                //     'total_mc_price' => $request->oldTotalMcPrice,
+                //     'work_value' => $request->oldWorkValue
+                // ]);
+
+                // melakukan pengecekan apakah nama pekerjaan dan mc yang sesuai sudah ada atau belum
+                $mcHistory = McHistory::where('kind_of_work_detail_id', $id)
+                    ->where('task_report_id', $taskId->id)
+                    ->where('total_mc', $totalMc);
+
+                if ($mcHistory->count() <= 0) {
+                    McHistory::create([
+                        'mc_volume' => $request->mc_volume,
+                        'mc_unit' => $request->mc_unit,
+                        'mc_unit_price' => $mcUnitPrice,
+                        'total_mc_price' => $mcTotalPrice,
+                        'work_value' => $workValue,
+                        'total_mc' => $totalMc,
+                        'kind_of_work_detail_id' => $id,
+                        'task_report_id' => $taskId->id,
+                    ]);
+                } else {
+                    $mcHistory->update([
+                        'mc_volume' => $request->mc_volume,
+                        'mc_unit' => $request->mc_unit,
+                        'mc_unit_price' => $mcUnitPrice,
+                        'total_mc_price' => $mcTotalPrice,
+                        'work_value' => $workValue,
+                        'total_mc' => $totalMc,
+                    ]);
+                }
             }
 
             DB::commit();
