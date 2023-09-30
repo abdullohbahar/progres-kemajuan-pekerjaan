@@ -279,6 +279,23 @@ class KindOfWorkController extends Controller
                         'kind_of_work_detail_id' => $id,
                         'task_report_id' => $taskId->id,
                     ]);
+
+                    foreach ($taskReport->kindOfWork as $kindOfWork) {
+                        foreach ($kindOfWork->kindOfWorkDetails as $kindOfWorkDetail) {
+                            if ($kindOfWorkDetail->id != $id) {
+                                McHistory::create([
+                                    'mc_volume' => $kindOfWorkDetail->mc_volume,
+                                    'mc_unit' => $kindOfWorkDetail->mc_unit,
+                                    'mc_unit_price' => $kindOfWorkDetail->mc_unit_price,
+                                    'total_mc_price' => $kindOfWorkDetail->total_mc_price,
+                                    'work_value' => $kindOfWorkDetail->work_value,
+                                    'total_mc' => $totalMc,
+                                    'kind_of_work_detail_id' => $kindOfWorkDetail->id,
+                                    'task_report_id' => $taskId->id,
+                                ]);
+                            }
+                        }
+                    }
                 } else {
                     $mcHistory->update([
                         'mc_volume' => $request->mc_volume,
