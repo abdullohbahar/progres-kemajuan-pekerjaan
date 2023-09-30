@@ -47,6 +47,6 @@ class KindOfWorkDetail extends Model
 
     public function mcHistory()
     {
-        return $this->belongsTo(McHistory::class);
+        return $this->hasMany(McHistory::class);
     }
 }

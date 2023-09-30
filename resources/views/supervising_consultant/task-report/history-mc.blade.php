@@ -95,7 +95,7 @@
 
     <table class="table table-bordered">
         <tr class="fw-bolder text-center">
-            <td style="vertical-align: middle">
+            <td style="vertical-align: middle" colspan="2">
                 No
             </td>
             <td style="vertical-align: middle">
@@ -111,25 +111,86 @@
             <td style="vertical-align: middle">Jumlah Harga (Rp)</td>
             <td style="vertical-align: middle">Nilai Pekerjaan</td>
         </tr>
-        @php
-            $no = 1;
-        @endphp
-        @foreach ($mcHistories as $mcHistory)
-            <tr>
-                <td class="text-center">{{ $no++ }}</td>
-                <td>{{ $mcHistory->kindOfWorkDetail->name }}</td>
-                <td>{{ $mcHistory->mc_unit }}</td>
-                <td>{{ $mcHistory->mc_volume }}</td>
-                <td>Rp {{ number_format($mcHistory->mc_unit_price, 0, ',', '.') }}</td>
-                <td>Rp {{ number_format($mcHistory->total_mc_price, 0, ',', '.') }}</td>
-                <td>{{ $mcHistory->work_value }}%</td>
-            </tr>
-        @endforeach
-    </table>
+        @foreach ($taskReport->kindOfWork as $key => $kindOfWork)
+            @php
+                $showKindOfWorkName = false; // Inisialisasi variabel untuk menentukan apakah harus menampilkan nama jenis pekerjaan
+            @endphp
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
-    </script>
+            @foreach ($kindOfWork->kindOfWorkDetails as $kindOfWorkDetails)
+                @if ($kindOfWorkDetails->mcHistory->where('task_report_id', $taskID)->where('total_mc', $totalMc)->count() > 0)
+                    @php
+                        $showKindOfWorkName = true; // Setel ke true jika ada setidaknya satu hasil dalam relasi mcHistory
+                    @endphp
+                @break
+
+                // Keluar dari loop karena sudah ditemukan hasil yang cukup
+            @endif
+        @endforeach
+
+        @if ($showKindOfWorkName)
+            <tr>
+                <td class="text-center" colspan="2">{{ angkaKeRomawi($key + 1) }}</td>
+                <td class="text-center fw-bolder">{{ $kindOfWork->name }}</td>
+                <!-- Tampilkan nama jenis pekerjaan jika $showKindOfWorkName true -->
+            </tr>
+        @endif
+
+        @php
+            $no = 1; // Inisialisasi nomor urutan
+        @endphp
+
+        @foreach ($kindOfWork->kindOfWorkDetails as $kindOfWorkDetails)
+            @foreach ($kindOfWorkDetails->mcHistory->where('task_report_id', $taskID)->where('total_mc', $totalMc) as $mcHistory)
+                <tr>
+                    <td></td>
+                    <td class="text-center">{{ $no++ }}</td> <!-- Tampilkan nomor urutan increment -->
+                    <td>{{ $mcHistory->kindOfWorkDetail->name }}</td>
+                    <td>{{ $mcHistory->mc_unit }}</td>
+                    <td>{{ $mcHistory->mc_volume }}</td>
+                    <td>Rp {{ number_format($mcHistory->mc_unit_price, 0, ',', '.') }}</td>
+                    <td>Rp {{ number_format($mcHistory->total_mc_price, 0, ',', '.') }}</td>
+                    <td>{{ $mcHistory->work_value }}%</td>
+                </tr>
+            @endforeach
+        @endforeach
+    @endforeach
+</table>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
+</script>
 </body>
 
 </html>
+
+{{-- Konversi angka biasa ke romawi --}}
+@php
+    function angkaKeRomawi($angka)
+    {
+        $romawi = '';
+        $angkaRomawi = [
+            'M' => 1000,
+            'CM' => 900,
+            'D' => 500,
+            'CD' => 400,
+            'C' => 100,
+            'XC' => 90,
+            'L' => 50,
+            'XL' => 40,
+            'X' => 10,
+            'IX' => 9,
+            'V' => 5,
+            'IV' => 4,
+            'I' => 1,
+        ];
+    
+        foreach ($angkaRomawi as $simbol => $nilai) {
+            while ($angka >= $nilai) {
+                $romawi .= $simbol;
+                $angka -= $nilai;
+            }
+        }
+    
+        return $romawi;
+    }
+@endphp

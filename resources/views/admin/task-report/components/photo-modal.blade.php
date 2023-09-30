@@ -48,6 +48,9 @@
             <div class="modal-body">
                 <div class="row appendImage">
                 </div>
+                <div class="row appendBtn">
+
+                </div>
             </div>
 
             <div class="modal-footer">

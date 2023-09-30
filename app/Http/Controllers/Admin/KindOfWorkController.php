@@ -164,12 +164,44 @@ class KindOfWorkController extends Controller
         try {
             DB::beginTransaction();
 
+            // mengambil task id berdasarkan kind of work detail
+            $taskId = KindOfWorkDetail::with(['kindOfWork'])->where('id', $id)->first()->kindOfWork->task;
+
+            // mengambil kind of work berdasarkan task id
+            $taskReport = TaskReport::with('kindOfWork')->where('id', $taskId->id)->first()->kindOfWork;
+
             // Menghapus karakter sesuai dengan array yang ada di $removeChar
             $contractUnitPrice = str_replace($removeChar, "", $request->contract_unit_price);
             $contractTotalPrice = str_replace($removeChar, "", $request->total_contract_price);
             $mcUnitPrice = str_replace($removeChar, "", $request->mc_unit_price);
             $mcTotalPrice = str_replace($removeChar, "", $request->total_mc_price);
             $workValue = str_replace($removePercent, "", $request->work_value);
+
+            // jika spk date sudah aktif maka lakukan kode dibawah
+            if ($taskId->spk_date <= now()) {
+                // lakukan pengecekan apakah sudah ada mc awal atau belum
+                $firstMc = McHistory::where('kind_of_work_detail_id', $id)
+                    ->where('task_report_id', $taskId->id)
+                    ->where('total_mc', 'Awal');
+
+                // jika tidak ada maka lakukan penyimpanan semua mc awal ke database
+                if ($firstMc->count() <= 0) {
+                    foreach ($taskReport as $kindOfWork) {
+                        foreach ($kindOfWork->kindOfWorkDetails as $kindOfWorkDetail) {
+                            McHistory::create([
+                                'mc_volume' => $kindOfWorkDetail->mc_volume,
+                                'mc_unit' => $kindOfWorkDetail->mc_unit,
+                                'mc_unit_price' => $kindOfWorkDetail->mc_unit_price,
+                                'total_mc_price' => $kindOfWorkDetail->total_mc_price,
+                                'work_value' => $kindOfWorkDetail->work_value,
+                                'total_mc' => 'Awal',
+                                'kind_of_work_detail_id' => $kindOfWorkDetail->id,
+                                'task_report_id' => $taskId->id,
+                            ]);
+                        }
+                    }
+                }
+            }
 
             // update kind of work
             KindOfWorkDetail::where('id', $id)->update([
@@ -183,12 +215,6 @@ class KindOfWorkController extends Controller
                 'total_mc_price' => $mcTotalPrice,
                 'work_value' => $workValue,
             ]);
-
-            // mengambil task id berdasarkan kind of work detail
-            $taskId = KindOfWorkDetail::with(['kindOfWork'])->where('id', $id)->first()->kindOfWork->task;
-
-            // mengambil kind of work berdasarkan task id
-            $taskReport = TaskReport::with('kindOfWork')->where('id', $taskId->id)->first()->kindOfWork;
 
             // get total price
             $sumTotalMcPrice = DB::table('kind_of_works')
@@ -303,7 +329,17 @@ class KindOfWorkController extends Controller
         $pictures = ProgressPicture::where('schedule_id', $id)->get();
 
         return response()->json([
-            'datas' => $pictures
+            'datas' => $pictures,
+        ]);
+    }
+
+    public function removeProgressPictures($id)
+    {
+        ProgressPicture::destroy($id);
+
+        return response()->json([
+            'status' => 200,
+            'message' => "Berhasil menghapus foto"
         ]);
     }
 
