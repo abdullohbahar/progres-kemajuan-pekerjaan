@@ -58,6 +58,8 @@ $("#myForm").on("submit", function (e) {
                     } else {
                         $("#myForm")[0].submit();
                     }
+                } else {
+                    $("#myForm")[0].submit();
                 }
             }
         },
