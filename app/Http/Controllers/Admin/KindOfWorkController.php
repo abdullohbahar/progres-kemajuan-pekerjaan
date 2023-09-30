@@ -303,7 +303,17 @@ class KindOfWorkController extends Controller
         $pictures = ProgressPicture::where('schedule_id', $id)->get();
 
         return response()->json([
-            'datas' => $pictures
+            'datas' => $pictures,
+        ]);
+    }
+
+    public function removeProgressPictures($id)
+    {
+        ProgressPicture::destroy($id);
+
+        return response()->json([
+            'status' => 200,
+            'message' => "Berhasil menghapus foto"
         ]);
     }
 

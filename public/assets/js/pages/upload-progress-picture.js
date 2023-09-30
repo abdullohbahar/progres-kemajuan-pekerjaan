@@ -32,6 +32,8 @@ $("body").on("click", "#seePicture", function () {
 
             $(".appendImage").empty();
 
+            console.log(data);
+
             if (data.datas.length > 0) {
                 data.datas.forEach((item, index) => {
                     index += 1;
@@ -39,19 +41,23 @@ $("body").on("click", "#seePicture", function () {
 
                     var img = `
                     <div class="col-sm-12 col-md-4">
-                        <img src="${url}/${item.picture}" id="pict${index}" class="img-thumbnail mx-1 w-100" alt="">
+                        <img src="${url}/${item.picture}" id="pict${index}" class="img-thumbnail mx-1" alt="">
                     </div>
                     `;
 
+                    var btn = `
+                        <div class="col-sm-12 col-md-4">
+                            <button class="btn btn-danger btn-sm mt-2" style="width: 100%" data-id="${item.id}" id="deletePicture">Hapus</button>
+                        </div>
+                    `;
+
+                    $(".appendBtn").append(btn);
                     $(".appendImage").append(img);
                 });
             } else {
                 var html = `<h1>Belum Ada Foto</h1>`;
                 $(".appendImage").append(html);
             }
-
-            console.log(data.datas.length);
-
             modalSeePicture.show();
         } catch (error) {
             // Tangani kesalahan jika terjadi
@@ -61,4 +67,34 @@ $("body").on("click", "#seePicture", function () {
 
     // Panggil fungsi fetchData
     fetchData();
+});
+
+$("body").on("click", "#deletePicture", function () {
+    var id = $(this).data("id");
+
+    Swal.fire({
+        title: "Apakah anda yakin?",
+        text: "Foto yang dihapus tidak bisa dikembalikan!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, Hapus",
+        cancelButtonText: "Batal",
+    }).then((result) => {
+        $.ajax({
+            url: "/konsultan-pengawas/remove-progress-picture/" + id,
+            dataType: "JSON",
+            method: "DELETE",
+            success: function (response) {
+                console.log(response);
+                if (response.status == 200) {
+                    success(response.message);
+                    setTimeout(function () {
+                        window.location = "";
+                    }, 1450);
+                }
+            },
+        });
+    });
 });

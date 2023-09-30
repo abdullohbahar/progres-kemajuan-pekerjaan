@@ -80,10 +80,8 @@ Route::prefix('konsultan-pengawas')->group(function () {
     Route::get('manage-work-progress/{id}', [WeeklyReportSupervisingConsultantController::class, 'manageWeeklyProgress'])->name('manage.work.progress');
     Route::put('update-progress/{id}', [WeeklyReportSupervisingConsultantController::class, 'updateProgress'])->name('update.work.progress');
     Route::post('upload-progress-picture', [KindOfWorkController::class, 'uploadProgressPicture'])->name('upload.progress.picture');
-
-    // Task Report Konsultan Pengawas
+    Route::delete('remove-progress-picture/{id}', [KindOfWorkController::class, 'removeProgressPictures'])->name('remove.progress.picture');
 });
-
 
 // Rekanan
 Route::prefix('rekanan')->group(function () {
@@ -96,6 +94,7 @@ Route::prefix('rekanan')->group(function () {
 Route::get('count-percentage/{id}', [KindOfWorkController::class, 'countPercentage']);
 
 Route::get('report/{id}', [TaskReportAdminController::class, 'report'])->name('report');
+
 Route::get('get-progress-picture/{id}', [KindOfWorkController::class, 'getProgressPictures'])->name('get.progress.picture');
 
 // agreement
