@@ -102,7 +102,7 @@ class TaskReportAdminController extends Controller
         $totalMcHistories = McHistory::where('task_report_id', $id)
             ->select('total_mc')
             ->distinct()
-            ->orderBy('total_mc', 'asc')
+            ->orderByRaw("total_mc = 'Awal' DESC, total_mc ASC")
             ->get();
 
         $dateSpk = strtotime($taskReport->spk_date);
