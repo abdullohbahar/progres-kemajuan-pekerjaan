@@ -127,7 +127,7 @@
             $totalWorkValue = 0; // Inisialisasi variabel total work value
             $totalPrice = 0; // Inisialisasi variabel total work value
             $totalProgressByWeek = []; // Inisialisasi array asosiatif untuk menyimpan total progress berdasarkan minggu
-            
+            $totalTimeSchedule = [];
         @endphp
         @foreach ($taskReport->kindOfWork as $key => $kindOfWork)
             <tr>
@@ -173,12 +173,29 @@
         <tr>
             <td colspan="7"></td>
             <td class="text-center">{{ $totalWorkValue }}%</td>
-            @foreach ($totalProgressByWeek as $totalProgress)
+            @foreach ($totalProgressByWeek as $key => $totalProgress)
                 <td class="text-center">{{ $totalProgress }}%</td>
+                @php
+                    if ($totalProgress == 0) {
+                        $totalTimeSchedule[] = 0;
+                    } else {
+                        $sum = 0;
+                        for ($i = $key; $i >= 1; $i--) {
+                            // dump($i);
+                            $sum += $totalProgressByWeek[$i];
+                        }
+                    
+                        $totalTimeSchedule[] = $sum;
+                    }
+                @endphp
             @endforeach
         </tr>
         <tr>
             <td colspan="7"></td>
+            <td></td>
+            @foreach ($totalTimeSchedule as $value)
+                <td class="text-center">{{ $value }}%</td>
+            @endforeach
         </tr>
         <tr>
             <td colspan="6"></td>
@@ -187,6 +204,10 @@
                 <span>{{ number_format($totalPrice, 0, ',', '.') }}
                 </span>
             </td>
+            <td></td>
+            @foreach ($totalProgressByWeek as $key => $totalProgress)
+                <td class="text-center">{{ $totalProgress }}%</td>
+            @endforeach
         </tr>
     </table>
 

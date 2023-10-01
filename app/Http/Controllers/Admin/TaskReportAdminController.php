@@ -205,28 +205,34 @@ class TaskReportAdminController extends Controller
     {
         $taskReport = TaskReport::with('kindOfWork')->findorfail($id);
 
-        // $totalProgressByWeek = [];
+        // $baris_pertama = [0.15, 0.01, 0, 0, 0, 0];
+        // $baris_kedua = [];
 
-        // foreach ($taskReport->kindOfWork as $kindOfWork) {
-        //     foreach ($kindOfWork->kindOfWorkDetails as $kindOfWorkDetail) {
-        //         foreach ($kindOfWorkDetail->schedules as $schedule) {
-        //             $week = $schedule->week;
-        //             $progress = $schedule->progress;
+        // $total = 0;
 
-        //             if (!isset($totalProgressByWeek[$week])) {
-        //                 $totalProgressByWeek[$week] = 0;
-        //             }
+        // foreach ($baris_pertama as $index => $nilai) {
+        //     $penjumlahan = 0;
 
-        //             $totalProgressByWeek[$week] += $progress;
-        //         }
+        //     // Penjumlahan sesuai dengan pola yang telah dijelaskan
+        //     for ($i = $index; $i >= 0; $i--) {
+        //         $penjumlahan += $baris_pertama[$i];
         //     }
+
+        //     $baris_kedua[] = $penjumlahan;
+        //     $total += $penjumlahan;
         // }
 
-        // foreach ($totalProgressByWeek as $totalProgress) {
-        //     dd($totalProgress);
+        // foreach ($baris_pertama as $nilai) {
+        //     echo $nilai . ' / ';
         // }
 
-        // dd($totalProgressByWeek);
+        // echo "<br>";
+
+        // foreach ($baris_kedua as $nilai) {
+        //     echo $nilai . ' / ';
+        // }
+
+        // dd("x");
 
         $kindOfWorkDetails = $taskReport->kindOfWork->first()->kindOfWorkDetails;
 
