@@ -172,7 +172,7 @@
         @endforeach
         <tr>
             <td colspan="7"></td>
-            <td class="text-center">{{ $totalWorkValue }}%</td>
+            <td class="text-center">{{ round($totalWorkValue) }}%</td>
             @foreach ($totalProgressByWeek as $key => $totalProgress)
                 <td class="text-center">{{ $totalProgress }}%</td>
                 @php

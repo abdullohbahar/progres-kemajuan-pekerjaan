@@ -165,7 +165,7 @@
     <tr>
         <td colspan="6"></td>
         <td>Rp {{ number_format($totalPrice, 0, ',', '.') }}</td>
-        <td class="text-center">{{ $totalWorkValue }}%</td>
+        <td class="text-center">{{ round($totalWorkValue) }}%</td>
     </tr>
 </table>
 
