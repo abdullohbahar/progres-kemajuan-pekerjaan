@@ -125,6 +125,7 @@
         </tr>
         @php
             $totalWorkValue = 0; // Inisialisasi variabel total work value
+            $totalPrice = 0; // Inisialisasi variabel total work value
             $totalProgressByWeek = []; // Inisialisasi array asosiatif untuk menyimpan total progress berdasarkan minggu
             
         @endphp
@@ -165,6 +166,7 @@
                 </tr>
                 @php
                     $totalWorkValue += $kindOfWorkDetail->work_value;
+                    $totalPrice += $kindOfWorkDetail->total_mc_price;
                 @endphp
             @endforeach
         @endforeach
@@ -174,6 +176,17 @@
             @foreach ($totalProgressByWeek as $totalProgress)
                 <td class="text-center">{{ $totalProgress }}%</td>
             @endforeach
+        </tr>
+        <tr>
+            <td colspan="7"></td>
+        </tr>
+        <tr>
+            <td colspan="6"></td>
+            <td class="text-end d-flex justify-content-between">
+                <span class="">Rp</span>
+                <span>{{ number_format($totalPrice, 0, ',', '.') }}
+                </span>
+            </td>
         </tr>
     </table>
 
