@@ -123,6 +123,11 @@
                 <td class="text-center">{{ $schedule->date }}</td>
             @endforeach
         </tr>
+        @php
+            $totalWorkValue = 0; // Inisialisasi variabel total work value
+            $totalProgressByWeek = []; // Inisialisasi array asosiatif untuk menyimpan total progress berdasarkan minggu
+            
+        @endphp
         @foreach ($taskReport->kindOfWork as $key => $kindOfWork)
             <tr>
                 <td class="text-center" colspan="2">{{ angkaKeRomawi($key + 1) }}</td>
@@ -138,14 +143,38 @@
                     <td class="text-end">{{ number_format($kindOfWorkDetail->mc_unit_price, 2, '.', ',') }}</td>
                     <td class="text-end">{{ number_format($kindOfWorkDetail->total_mc_price, 2, '.', ',') }}</td>
                     <td class="text-center">{{ $kindOfWorkDetail->work_value }}%</td>
-                    @foreach ($kindOfWorkDetail->schedules as $schedule)
+                    @foreach ($kindOfWorkDetail->schedules as $key => $schedule)
                         <td class="text-center">
                             {{ $schedule->progress ?? 0 }}%
                         </td>
+
+                        @php
+                            // Mengambil minggu dan progress dari entri schedule saat ini
+                            $week = $schedule->week;
+                            $progress = $schedule->progress;
+                            
+                            // Jika minggu ini belum ada dalam array totalProgressByWeek, inisialisasi dengan nilai 0
+                            if (!isset($totalProgressByWeek[$week])) {
+                                $totalProgressByWeek[$week] = 0;
+                            }
+                            
+                            // Menambahkan nilai progress saat ini ke total progress untuk minggu ini
+                            $totalProgressByWeek[$week] += $progress;
+                        @endphp
                     @endforeach
                 </tr>
+                @php
+                    $totalWorkValue += $kindOfWorkDetail->work_value;
+                @endphp
             @endforeach
         @endforeach
+        <tr>
+            <td colspan="7"></td>
+            <td class="text-center">{{ $totalWorkValue }}%</td>
+            @foreach ($totalProgressByWeek as $totalProgress)
+                <td class="text-center">{{ $totalProgress }}%</td>
+            @endforeach
+        </tr>
     </table>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"

@@ -205,6 +205,29 @@ class TaskReportAdminController extends Controller
     {
         $taskReport = TaskReport::with('kindOfWork')->findorfail($id);
 
+        // $totalProgressByWeek = [];
+
+        // foreach ($taskReport->kindOfWork as $kindOfWork) {
+        //     foreach ($kindOfWork->kindOfWorkDetails as $kindOfWorkDetail) {
+        //         foreach ($kindOfWorkDetail->schedules as $schedule) {
+        //             $week = $schedule->week;
+        //             $progress = $schedule->progress;
+
+        //             if (!isset($totalProgressByWeek[$week])) {
+        //                 $totalProgressByWeek[$week] = 0;
+        //             }
+
+        //             $totalProgressByWeek[$week] += $progress;
+        //         }
+        //     }
+        // }
+
+        // foreach ($totalProgressByWeek as $totalProgress) {
+        //     dd($totalProgress);
+        // }
+
+        // dd($totalProgressByWeek);
+
         $kindOfWorkDetails = $taskReport->kindOfWork->first()->kindOfWorkDetails;
 
         $schedules = $kindOfWorkDetails->first()->schedules;

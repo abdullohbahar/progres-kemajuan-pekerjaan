@@ -111,6 +111,10 @@
             <td style="vertical-align: middle">Jumlah Harga (Rp)</td>
             <td style="vertical-align: middle">Nilai Pekerjaan</td>
         </tr>
+        @php
+            $totalWorkValue = 0; // Inisialisasi variabel total work value
+            $totalPrice = 0; // Inisialisasi variabel total work value
+        @endphp
         @foreach ($taskReport->kindOfWork as $key => $kindOfWork)
             @php
                 $showKindOfWorkName = false; // Inisialisasi variabel untuk menentukan apakah harus menampilkan nama jenis pekerjaan
@@ -123,7 +127,7 @@
                     @endphp
                 @break
 
-                // Keluar dari loop karena sudah ditemukan hasil yang cukup
+                {{-- Keluar dari loop karena sudah ditemukan hasil yang cukup --}}
             @endif
         @endforeach
 
@@ -149,11 +153,20 @@
                     <td>{{ $mcHistory->mc_volume }}</td>
                     <td>Rp {{ number_format($mcHistory->mc_unit_price, 0, ',', '.') }}</td>
                     <td>Rp {{ number_format($mcHistory->total_mc_price, 0, ',', '.') }}</td>
-                    <td>{{ $mcHistory->work_value }}%</td>
+                    <td class="text-center">{{ $mcHistory->work_value }}%</td>
                 </tr>
+                @php
+                    $totalWorkValue += $mcHistory->work_value;
+                    $totalPrice += $mcHistory->total_mc_price;
+                @endphp
             @endforeach
         @endforeach
     @endforeach
+    <tr>
+        <td colspan="6"></td>
+        <td>Rp {{ number_format($totalPrice, 0, ',', '.') }}</td>
+        <td class="text-center">{{ $totalWorkValue }}%</td>
+    </tr>
 </table>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
