@@ -89,5 +89,5 @@
 @endsection
 
 @push('addons-js')
-    <script src="{{ asset('./assets/js/pages/supervising-consultant.js') }}"></script>
+    <script src="{{ asset('./assets/js/pages/supervising-consultant.js?r=' . time()) }}"></script>
 @endpush

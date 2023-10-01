@@ -336,5 +336,5 @@
 @endsection
 
 @push('addons-js')
-    <script src="{{ asset('./assets/js/pages/format-rupiah.js') }}"></script>
+    <script src="{{ asset('./assets/js/pages/format-rupiah.js?r=' . time()) }}"></script>
 @endpush

@@ -91,5 +91,5 @@
 @endsection
 
 @push('addons-js')
-    <script src="{{ asset('./assets/js/pages/task-report.js') }}"></script>
+    <script src="{{ asset('./assets/js/pages/task-report.js?r=' . time()) }}"></script>
 @endpush

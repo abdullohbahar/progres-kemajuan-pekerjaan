@@ -280,9 +280,9 @@
 @endsection
 
 @push('addons-js')
-    <script src="{{ asset('./assets/js/pages/contract-price.js') }}"></script>
-    <script src="{{ asset('./assets/js/pages/mc-price.js') }}"></script>
-    <script src="{{ asset('./assets/js/pages/count-percentage.js') }}"></script>
+    <script src="{{ asset('./assets/js/pages/contract-price.js?r=' . time()) }}"></script>
+    <script src="{{ asset('./assets/js/pages/mc-price.js?r=' . time()) }}"></script>
+    <script src="{{ asset('./assets/js/pages/count-percentage.js?r=' . time()) }}"></script>
 
     {{-- <script>
         // Ambil elemen input

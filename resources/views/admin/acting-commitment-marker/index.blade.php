@@ -89,5 +89,5 @@
 @endsection
 
 @push('addons-js')
-    <script src="{{ asset('./assets/js/pages/acting-commitment-marker.js') }}"></script>
+    <script src="{{ asset('./assets/js/pages/acting-commitment-marker.js?r=' . time()) }}"></script>
 @endpush

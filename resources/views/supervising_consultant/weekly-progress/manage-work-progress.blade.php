@@ -183,5 +183,5 @@
 @endsection
 
 @push('addons-js')
-    <script src="{{ asset('./assets/js/pages/count-remaining-work-value.js') }}"></script>
+    <script src="{{ asset('./assets/js/pages/count-remaining-work-value.js?r=' . time()) }}"></script>
 @endpush

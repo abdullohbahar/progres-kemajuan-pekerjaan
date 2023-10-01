@@ -4,7 +4,7 @@
     <!--begin::Logo-->
     <div class="app-sidebar-logo px-6 justify-content-center" id="kt_app_sidebar_logo">
         <!--begin::Logo image-->
-        <a href="../../demo1/dist/index.html">
+        <a href="{{ route('supervising.consultant.dashboard') }}">
             <img alt="Logo" src="{{ asset('./assets/media/logos/pemkab.png') }}" class="app-sidebar-logo-default"
                 style="height: 70px !important" />
             <img alt="Logo" src="{{ asset('./assets/media/logos/pupr.png') }}" class="app-sidebar-logo-default"

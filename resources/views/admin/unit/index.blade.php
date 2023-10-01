@@ -85,5 +85,5 @@
 @endsection
 
 @push('addons-js')
-    <script src="{{ asset('./assets/js/pages/unit.js') }}"></script>
+    <script src="{{ asset('./assets/js/pages/unit.js?r=' . time()) }}"></script>
 @endpush
