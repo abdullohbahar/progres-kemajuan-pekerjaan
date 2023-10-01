@@ -5,6 +5,15 @@
 @endsection
 
 @push('addons-css')
+    <style>
+        input[readonly] {
+            color: var(--bs-gray-500);
+            background-color: var(--bs-gray-200);
+            border-color: var(--bs-gray-300);
+            opacity: 1;
+            cursor: not-allowed;
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -68,10 +77,20 @@
                                             {{-- mencari data time schedule --}}
                                             {{-- {{ dd($groupedDates) }} --}}
                                             @php
-                                                $date = reset($groupDate) . '-' . end($groupDate);
-                                                
+                                                $date = \Carbon\Carbon::parse(reset($groupDate))->format('d') . '-' . \Carbon\Carbon::parse(end($groupDate))->format('d');
                                                 $data = $kindOfWorkDetail->timeSchedules->where('date', $date)->first();
+                                                $schedule = $kindOfWorkDetail->schedules->where('date', $date)->first();
                                                 
+                                                foreach ($groupDate as $progressDate) {
+                                                    $progressDate = strtotime($progressDate);
+                                                    $dateNow = strtotime(date('d-m-Y'));
+                                                
+                                                    if ($progressDate > $dateNow) {
+                                                        $disabled = '';
+                                                    } else {
+                                                        $disabled = 'readonly';
+                                                    }
+                                                }
                                             @endphp
                                             <div class="col-sm-12 col-md-6 mt-4">
                                                 <div class="form-group">
@@ -83,8 +102,9 @@
                                                     value="{{ $data->date ?? $date }}" class="form-control">
                                                 <input type="text" name="week[]" hidden
                                                     value="{{ $data->week ?? $key }}" class="form-control">
-                                                <input type="text" name="progress[]" value="{{ $data->progress ?? 0 }}"
-                                                    class="form-control progress-value" id="work_value">
+                                                <input type="text" name="progress[]" {{ $disabled }}
+                                                    value="{{ $data->progress ?? 0 }}" class="form-control progress-value"
+                                                    id="work_value">
                                             </div>
 
 
