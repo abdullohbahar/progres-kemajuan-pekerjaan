@@ -89,5 +89,5 @@
 @endsection
 
 @push('addons-js')
-    <script src="{{ asset('./assets/js/pages/partner.js') }}"></script>
+    <script src="{{ asset('./assets/js/pages/partner.js?r=' . time()) }}"></script>
 @endpush

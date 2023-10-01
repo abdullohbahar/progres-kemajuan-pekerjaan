@@ -385,14 +385,14 @@ class KindOfWorkController extends Controller
             return 0;
         }
 
-        // Dapatkan digit terakhir dari total MC
-        $lastDigit = $mc % 10;
+        // Dapatkan digit satuan dari total MC
+        $satuan = $mc % 10;
 
-        // Tentukan total MC pembulatan berdasarkan digit terakhir
-        if ($lastDigit >= 5) {
-            return $mc + (10 - $lastDigit);
+        // Tentukan total MC pembulatan berdasarkan digit satuan
+        if ($satuan > 5) {
+            return ceil($mc / 10) * 10; // Pembulatan ke atas ke puluhan terdekat
         } else {
-            return $mc - $lastDigit;
+            return floor($mc / 10) * 10; // Pembulatan ke bawah ke puluhan terdekat
         }
     }
 

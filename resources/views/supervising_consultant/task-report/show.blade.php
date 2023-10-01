@@ -493,9 +493,9 @@
 @endsection
 
 @push('addons-js')
-    <script src="{{ asset('./assets/js/pages/task-report.js') }}"></script>
-    <script src="{{ asset('./assets/js/pages/upload-progress-picture.js') }}"></script>
-    <script src="{{ asset('./assets/js/pages/agreement.js') }}"></script>
+    <script src="{{ asset('./assets/js/pages/task-report.js?r=' . time()) }}"></script>
+    <script src="{{ asset('./assets/js/pages/upload-progress-picture.js?r=' . time()) }}"></script>
+    <script src="{{ asset('./assets/js/pages/agreement.js?r=' . time()) }}"></script>
 
     {{-- warning alert --}}
     <script>

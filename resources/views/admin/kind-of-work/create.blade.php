@@ -146,7 +146,7 @@
 @endsection
 
 @push('addons-js')
-    <script src="{{ asset('./assets/plugins/custom/formrepeater/formrepeater.bundle.js') }}"></script>
+    <script src="{{ asset('./assets/plugins/custom/formrepeater/formrepeater.bundle.js?r=' . time()) }}"></script>
 
     <script>
         $('#multiple_name').repeater({

@@ -88,5 +88,5 @@
 @endsection
 
 @push('addons-js')
-    <script src="{{ asset('./assets/js/pages/cv-consultant.js') }}"></script>
+    <script src="{{ asset('./assets/js/pages/cv-consultant.js?r=' . time()) }}"></script>
 @endpush

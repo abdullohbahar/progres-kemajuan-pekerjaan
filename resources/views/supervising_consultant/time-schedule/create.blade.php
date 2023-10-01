@@ -136,5 +136,5 @@
 @endsection
 
 @push('addons-js')
-    <script src="{{ asset('./assets/js/pages/timeschedule.js') }}"></script>
+    <script src="{{ asset('./assets/js/pages/timeschedule.js?r=' . time()) }}"></script>
 @endpush
