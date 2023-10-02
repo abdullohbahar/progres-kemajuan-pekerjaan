@@ -265,3 +265,36 @@ $("body").on("click", "#emptyHistory", function () {
         title: "Belum Ada Riwayat",
     });
 });
+
+//  Delete Data
+$("body").on("click", "#removeItemButton", function () {
+    var id = $(this).data("id");
+    var name = $(this).data("name");
+
+    Swal.fire({
+        title: `Apakah Anda Ingin Menghapus ${name}?`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Hapus",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: "/admin/task-report/destroy-kind-of-work/" + id,
+                dataType: "json",
+                type: "DELETE",
+                success: function (response) {
+                    if (response.status == 200) {
+                        success("Berhasil");
+                        setTimeout(function () {
+                            window.location = "";
+                        }, 1450);
+                    } else {
+                        failed("Gagal Menghapus");
+                    }
+                },
+            });
+        }
+    });
+});

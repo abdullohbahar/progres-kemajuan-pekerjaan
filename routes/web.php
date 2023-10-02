@@ -62,6 +62,7 @@ Route::prefix('admin')->group(function () {
         Route::post('/kind-of-work', [KindOfWorkController::class, 'store'])->name('kind.of.work.store');
         Route::get('/kind-of-work/{id}/edit', [KindOfWorkController::class, 'edit'])->name('kind.of.work.edit');
         Route::put('/kind-of-work/{id}/update', [KindOfWorkController::class, 'update'])->name('kind.of.work.update');
+        Route::delete('/destroy-kind-of-work/{id}', [KindOfWorkController::class, 'destroyKindOfWork'])->name('kind.of.work.destroy');
     });
 });
 

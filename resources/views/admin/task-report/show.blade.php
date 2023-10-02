@@ -191,6 +191,11 @@
                                         <div class="card-header pt-5">
                                             <h1>{{ $key + 1 }}. {{ $kindOfWork->name }}</h1>
                                             <div class="card-toolbar">
+                                                @if ($taskReport->spk_date >= date('Y-m-d'))
+                                                    <button id="removeItemButton" data-id="{{ $kindOfWork->id }}"
+                                                        data-name="{{ $kindOfWork->name }}" class="btn btn-sm btn-danger"
+                                                        style="margin-right: 5px">Hapus</button>
+                                                @endif
                                                 @if (auth()->user()->role == 'Admin')
                                                     <a href="{{ route('kind.of.work.edit', $kindOfWork->id) }}"
                                                         class="btn btn-sm btn-warning" style="margin-right: 5px">Ubah</a>

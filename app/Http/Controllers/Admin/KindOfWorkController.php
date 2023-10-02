@@ -444,4 +444,13 @@ class KindOfWorkController extends Controller
             'data' => $progress
         ]);
     }
+
+    public function destroyKindOfWork($id)
+    {
+        KindOfWork::destroy($id);
+
+        return response()->json([
+            'status' => 200,
+        ]);
+    }
 }
