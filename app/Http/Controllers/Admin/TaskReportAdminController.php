@@ -141,7 +141,6 @@ class TaskReportAdminController extends Controller
 
     public function update(Request $request, $id)
     {
-
         $validateData = $request->validate([
             'activity_name' => 'required',
             'task_name' => 'required',
@@ -155,7 +154,6 @@ class TaskReportAdminController extends Controller
             'site_supervisor_id_1' => 'required',
             'site_supervisor_id_2' => 'required',
             'acting_commitment_marker_id' => 'required',
-            'status' => 'required',
         ], [
             'activity_name.required' => 'nama kegiatan harus diisi',
             'task_name.required' => 'nama pekerjaan harus diisi',
@@ -169,7 +167,6 @@ class TaskReportAdminController extends Controller
             'site_supervisor_id_1.required' => 'pengawas lapangan 1 harus diisi', // id pengawas lapangan 1
             'site_supervisor_id_2.required' => 'pengawas lapangan 2 harus diisi', // id pengawas lapangan 2
             'acting_commitment_marker_id.required' => 'PPK harus diisi', // id ppk
-            'status.required' => 'status harus diisi',
         ]);
 
         // Mengambil angka saja dari contract value
