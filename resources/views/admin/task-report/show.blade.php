@@ -155,8 +155,10 @@
                             <div class="card-header">
                                 <h2 class="mt-5">Macam Pekerjaan</h2>
                                 <div class="card-toolbar">
-                                    <a href="{{ route('kind.of.work', $taskReport->id) }}"
-                                        class="btn btn-primary btn-sm mx-1 my-1">Tambah Macam Pekerjaan</a>
+                                    @if ($taskReport->spk_date < date('Y-m-d'))
+                                        <a href="{{ route('kind.of.work', $taskReport->id) }}"
+                                            class="btn btn-primary btn-sm mx-1 my-1">Tambah Macam Pekerjaan</a>
+                                    @endif
                                     @if (count($totalMcHistories) == 0)
                                         <button class="btn btn-sm btn-info mx-1 my-1" type="button"
                                             id="emptyHistory">Riwayat

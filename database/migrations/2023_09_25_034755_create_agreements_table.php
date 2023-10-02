@@ -15,9 +15,14 @@ return new class extends Migration
     {
         Schema::create('agreements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('schedule_id')->nullable()->constrained('schedules')->nullOnDelete(); // id progress
             $table->foreignUuid('user_id')->nullable()->constrained('users')->nullOnDelete(); // id user
-            $table->enum('status', ['Setujui', 'Tolak']);
+            $table->foreignUuid('task_report_id')->nullable()->constrained('task_reports')->nullOnDelete(); // id detail pekerjaan
+            $table->foreignUuid('kind_of_work_detail_id')->nullable()->constrained('kind_of_work_details')->nullOnDelete(); // id detail pekerjaan
+            $table->string('role');
+            $table->string('week');
+            $table->string('date');
+            $table->string('progress');
+            $table->enum('status', ['Disetujui Rekanan', 'Ditolak Rekanan', 'Disetujui Pengawas Lapangan 1', 'Ditolak Pengawas Lapangan 1', 'Disetujui Pengawas Lapangan 2']);
             $table->timestamps();
         });
     }
