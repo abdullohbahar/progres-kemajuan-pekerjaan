@@ -15,8 +15,10 @@ return new class extends Migration
     {
         Schema::create('agreements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('schedule_id')->nullable()->constrained('schedules')->nullOnDelete(); // id progress
             $table->foreignUuid('user_id')->nullable()->constrained('users')->nullOnDelete(); // id user
+            $table->foreignUuid('task_report_id')->nullable()->constrained('task_reports')->nullOnDelete(); // id detail pekerjaan
+            $table->string('week');
+            $table->string('role');
             $table->enum('status', ['Setujui', 'Tolak']);
             $table->timestamps();
         });
