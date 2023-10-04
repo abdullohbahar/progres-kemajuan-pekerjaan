@@ -99,10 +99,12 @@ Route::get('report/{id}', [TaskReportAdminController::class, 'report'])->name('r
 Route::get('get-progress-picture/{id}', [KindOfWorkController::class, 'getProgressPictures'])->name('get.progress.picture');
 
 // agreement
-Route::post('agree/{scheduleID}', [AgreementController::class, 'agree'])->name('agree');
+Route::post('agree-from-supervising-consultant', [AgreementController::class, 'fromSupervisingConsultant'])->name('agree');
 
 // history Mc
 Route::get('history-mc/{taskID}/{totalMc}', [McHistoryController::class, 'history'])->name('mc.history');
 
 // Count Total Progress Before This Week
 Route::get('count-total-progress-before-this-week/{kindOfWorkDetailID}', [KindOfWorkController::class, 'countTotalProgressBeforeThisWeek']);
+
+Route::get('get-task-this-week/{taskID}/{week}', [AgreementController::class, 'getTaskThisWeek']);

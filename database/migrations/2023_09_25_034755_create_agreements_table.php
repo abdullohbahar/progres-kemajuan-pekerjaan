@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('week');
             $table->string('date');
             $table->string('progress');
-            $table->enum('status', ['Disetujui Rekanan', 'Ditolak Rekanan', 'Disetujui Pengawas Lapangan 1', 'Ditolak Pengawas Lapangan 1', 'Disetujui Pengawas Lapangan 2']);
+            $table->enum('status', ['Awal', 'Disetujui Rekanan', 'Ditolak Rekanan', 'Disetujui Pengawas Lapangan 1', 'Ditolak Pengawas Lapangan 1', 'Disetujui Pengawas Lapangan 2']);
             $table->timestamps();
         });
     }
