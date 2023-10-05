@@ -153,7 +153,7 @@
                                 <div class="card-toolbar">
                                     <button class="btn btn-success btn-sm mx-2 my-1" id="sendWeeklyProgressBtn"
                                         data-week="{{ $week }}" data-taskid="{{ $taskReport->id }}">
-                                        Kirim Progress Mingguan
+                                        Kirim / Setujui Progress Mingguan
                                     </button>
                                     <button class="btn btn-primary btn-sm mx-2 my-1" data-bs-toggle="modal"
                                         data-bs-target="#modalTimeScheduleHistory">
