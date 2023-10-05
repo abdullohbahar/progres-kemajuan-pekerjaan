@@ -37,7 +37,7 @@ $("#sendWeeklyProgressBtn").on("click", function () {
     Swal.showLoading();
 
     $.ajax({
-        url: "/get-task-this-week/" + taskID + "/" + week,
+        url: "/agreement/get-task-this-week/" + taskID + "/" + week,
         method: "GET",
         success: function (response) {
             if (response.status == 200) {

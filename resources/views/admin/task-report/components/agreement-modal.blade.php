@@ -1,5 +1,5 @@
 <div class="modal fade" tabindex="-1" id="modalSendWeeklyProgress">
-    <form action="#" enctype="multipart/form-data" method="POST">
+    <form action="{{ route('agree.from.supervising.consultant') }}" enctype="multipart/form-data" method="POST">
         @csrf
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -22,7 +22,6 @@
                                     <td><b>Nama Pekerjaan</b></td>
                                     <td><b>Progress</b></td>
                                 </tr>
-
                             </table>
                         </div>
                     </div>

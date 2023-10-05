@@ -10,9 +10,13 @@ class Agreement extends Model
     use HasFactory;
 
     protected $fillable = [
-        'schedule_id',
         'user_id',
-        'status',
-        'officer',
+        'task_report_id',
+        'kind_of_work_detail_id',
+        'role',
+        'week',
+        'date',
+        'progress',
+        'status'
     ];
 }

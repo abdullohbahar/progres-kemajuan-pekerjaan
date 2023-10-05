@@ -56,6 +56,38 @@ class AgreementController extends Controller
 
     public function fromSupervisingConsultant(Request $request)
     {
-        dd($request->all());
+        foreach ($request->week as $key => $week) {
+            $agreement = Agreement::where('user_id', Auth::user()->id)
+                ->where('task_report_id', $request->task_report_id[$key])
+                ->where('kind_of_work_detail_id', $request->kind_of_work_detail_id[$key])
+                ->where('role', 'Supervising Consultant')
+                ->where('date', $request->date[$key]);
+
+            if ($agreement->count() > 0) {
+                $agreement->update([
+                    'user_id' => Auth::user()->id,
+                    'task_report_id' => $request->task_report_id[$key],
+                    'kind_of_work_detail_id' => $request->kind_of_work_detail_id[$key],
+                    'role' => 'Supervising Consultant',
+                    'week' => $request->week[$key],
+                    'date' => $request->date[$key],
+                    'progress' => $request->progress[$key],
+                    'status' => 'Awal',
+                ]);
+            } else {
+                Agreement::create([
+                    'user_id' => Auth::user()->id,
+                    'task_report_id' => $request->task_report_id[$key],
+                    'kind_of_work_detail_id' => $request->kind_of_work_detail_id[$key],
+                    'role' => 'Supervising Consultant',
+                    'week' => $request->week[$key],
+                    'date' => $request->date[$key],
+                    'progress' => $request->progress[$key],
+                    'status' => 'Awal',
+                ]);
+            }
+        }
+
+        return redirect()->back()->with('success', 'Berhasil mengirim progress mingguan ke rekanan');
     }
 }

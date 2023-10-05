@@ -91,6 +91,13 @@ Route::prefix('rekanan')->group(function () {
     Route::get('task-report/{id}', [TaskReportPartnerController::class, 'show'])->name('show.task.report.partner');
 });
 
+// Agreement
+Route::prefix('agreement')->group(function () {
+    Route::get('get-task-this-week/{taskID}/{week}', [AgreementController::class, 'getTaskThisWeek']);
+
+    Route::post('from-supervising-consultant', [AgreementController::class, 'fromSupervisingConsultant'])->name('agree.from.supervising.consultant');
+});
+
 // additional url
 Route::get('count-percentage/{id}', [KindOfWorkController::class, 'countPercentage']);
 
@@ -98,13 +105,9 @@ Route::get('report/{id}', [TaskReportAdminController::class, 'report'])->name('r
 
 Route::get('get-progress-picture/{id}', [KindOfWorkController::class, 'getProgressPictures'])->name('get.progress.picture');
 
-// agreement
-Route::post('agree-from-supervising-consultant', [AgreementController::class, 'fromSupervisingConsultant'])->name('agree');
 
 // history Mc
 Route::get('history-mc/{taskID}/{totalMc}', [McHistoryController::class, 'history'])->name('mc.history');
 
 // Count Total Progress Before This Week
 Route::get('count-total-progress-before-this-week/{kindOfWorkDetailID}', [KindOfWorkController::class, 'countTotalProgressBeforeThisWeek']);
-
-Route::get('get-task-this-week/{taskID}/{week}', [AgreementController::class, 'getTaskThisWeek']);
