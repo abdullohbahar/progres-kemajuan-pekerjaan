@@ -470,7 +470,6 @@
     <!--end::Content container-->
 
     @include('admin.task-report.components.photo-modal')
-    @include('admin.task-report.components.agreement-modal')
 @endsection
 
 @push('addons-js')

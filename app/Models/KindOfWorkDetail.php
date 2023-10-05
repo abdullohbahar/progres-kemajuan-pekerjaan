@@ -35,6 +35,11 @@ class KindOfWorkDetail extends Model
         return $this->hasMany(Schedule::class);
     }
 
+    public function agreement()
+    {
+        return $this->hasMany(Agreement::class);
+    }
+
     public function timeSchedules()
     {
         return $this->hasMany(TimeSchedule::class);

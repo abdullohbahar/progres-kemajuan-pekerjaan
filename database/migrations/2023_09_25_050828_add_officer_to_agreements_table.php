@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('agreements', function (Blueprint $table) {
-            $table->string('officer')->after('status');
+            // $table->string('officer')->after('status');
         });
     }
 

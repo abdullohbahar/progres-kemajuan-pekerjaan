@@ -151,14 +151,35 @@
                             <div class="card-header border-0 pt-5">
                                 <h2>Progress Pekerjaan Minggu Ini</h2>
                                 <div class="card-toolbar">
-                                    @if (auth()->user()->role == 'Admin')
-                                        <a href="{{ route('kind.of.work', $taskReport->id) }}"
-                                            class="btn btn-primary btn-sm">Tambah Macam Pekerjaan</a>
-                                    @endif
+                                    <button class="btn btn-success btn-sm mx-2 my-1" id="sendWeeklyProgressBtn"
+                                        data-week="{{ $week }}" data-taskid="{{ $taskReport->id }}">
+                                        Kirim / Setujui Progress Mingguan
+                                    </button>
+                                    <button class="btn btn-danger btn-sm mx-2 my-1" id="rejectWeeklyProgressBtn"
+                                        data-week="{{ $week }}" data-taskid="{{ $taskReport->id }}">
+                                        Tolak
+                                    </button>
                                 </div>
                             </div>
                             <div class="card-body">
-
+                                <table class="table table-bordered table-striped">
+                                    <tr>
+                                        <td><b>Nama Pekerjaan</b></td>
+                                        <td><b>Progress</b></td>
+                                        {{-- <td><b>Foto</b></td> --}}
+                                    </tr>
+                                    @foreach ($weeklyProgresses as $weeklyProgress)
+                                        <tr>
+                                            <td>{{ $weeklyProgress->kindOfWorkDetail->name }}</td>
+                                            <td>{{ $weeklyProgress->progress }}</td>
+                                            {{-- <td>
+                                                <a href="javascript:;" id="seePicture"
+                                                    data-scheduleid="{{ $detail->schedules[$key]->id }}">Lihat
+                                                    Foto</a>
+                                            </td> --}}
+                                        </tr>
+                                    @endforeach
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -172,9 +193,9 @@
 @endsection
 
 @push('addons-js')
-    <script src="{{ asset('./assets/js/pages/task-report.js') }}"></script>
-    <script src="{{ asset('./assets/js/pages/upload-progress-picture.js') }}"></script>
-    <script src="{{ asset('./assets/js/pages/agreement.js') }}"></script>
+    <script src="{{ asset('./assets/js/pages/task-report.js?r=' . time()) }}"></script>
+    <script src="{{ asset('./assets/js/pages/upload-progress-picture.js?r=' . time()) }}"></script>
+    <script src="{{ asset('./assets/js/pages/agreement.js?r=' . time()) }}"></script>
 
     {{-- warning alert --}}
     <script>

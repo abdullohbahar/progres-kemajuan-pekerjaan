@@ -7,6 +7,8 @@ use App\Models\Partner;
 use App\Models\TaskReport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\SupervisingConsultant\TaskReportSupervisingConsultantController;
+use App\Models\Agreement;
 use Illuminate\Support\Facades\Auth;
 
 class TaskReportPartnerController extends Controller
@@ -48,10 +50,18 @@ class TaskReportPartnerController extends Controller
             $status = 'active';
         }
 
+        $taskReportController = new TaskReportSupervisingConsultantController();
+
+        $getWeek = $taskReportController->getWeek($taskReport);
+
+        $weeklyProgresses = Agreement::with('kindOfWorkDetail')->where('task_report_id', $id)->where('week', $getWeek)->get();
+
         $data = [
             'active' => $this->active,
             'taskReport' => $taskReport,
-            'status' => $status
+            'status' => $status,
+            'week' => $getWeek,
+            'weeklyProgresses' => $weeklyProgresses
         ];
 
         return view('partner.task-report.show', $data);
