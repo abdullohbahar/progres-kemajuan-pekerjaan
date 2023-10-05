@@ -19,4 +19,9 @@ class Agreement extends Model
         'progress',
         'status'
     ];
+
+    public function kindOfWorkDetail()
+    {
+        return $this->belongsTo(KindOfWorkDetail::class);
+    }
 }
