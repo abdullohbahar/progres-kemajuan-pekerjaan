@@ -13,10 +13,22 @@ class AgreementController extends Controller
     {
         $taskReport = TaskReport::with('kindOfWork.kindOfWorkDetails.schedules')->findorfail($taskID);
 
-        $result = [];
+        $progress = [];
+        $timeScheduleProgress = [];
 
         foreach ($taskReport->kindOfWork as $kindOfWork) {
             foreach ($kindOfWork->kindOfWorkDetails as $kindOfWorkDetail) {
+                // get time schedule
+                foreach ($kindOfWorkDetail->timeSchedules->where('week', $week + 1)->where('progress', '!=', 0) as $timeSchedule) {
+                    $timeScheduleData = [
+                        'name' => $kindOfWorkDetail->name,
+                        'progress' => $timeSchedule->progress
+                    ];
+
+                    $timeScheduleProgress[] = $timeScheduleData;
+                }
+
+                // get prgoress
                 foreach ($kindOfWorkDetail->schedules->where('week', $week)->where('progress', '!=', 0) as $schedule) {
                     $scheduleData = [
                         'name' => $kindOfWorkDetail->name,
@@ -27,7 +39,7 @@ class AgreementController extends Controller
                         'progress' => $schedule->progress,
                     ];
 
-                    $result[] = $scheduleData;
+                    $progress[] = $scheduleData;
                 }
             }
         }
@@ -35,7 +47,10 @@ class AgreementController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'success',
-            'data' => $result,
+            'data' => [
+                $progress,
+                $timeScheduleProgress
+            ],
         ]);
     }
 
