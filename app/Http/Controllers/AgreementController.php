@@ -91,23 +91,21 @@ class AgreementController extends Controller
         return redirect()->back()->with('success', 'Berhasil mengirim progress mingguan ke rekanan');
     }
 
-    public function reject($taskID, $week, $status, $reject)
+    public function reject(Request $request)
     {
-        $agreements = Agreement::where('task_report_id', $taskID)
-            ->where('week', $week)
-            ->where('status', $status)->get();
+        $agreements = Agreement::where('task_report_id', $request->taskID)
+            ->where('week', $request->week)
+            ->where('status', $request->status)->get();
 
         if ($agreements->count() > 0) {
             foreach ($agreements as $agreement) {
                 $agreement->update([
-                    'status' => $reject
+                    'status' => $request->reject,
+                    'information' => $request->information
                 ]);
             }
         }
 
-        return response()->json([
-            'status' => 200,
-            'message' => 'Berhasil ditolak',
-        ]);
+        return redirect()->back()->with('success', "Anda berhasil menolak progress minggu ke-$request->week");
     }
 }

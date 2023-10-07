@@ -94,7 +94,9 @@ Route::prefix('rekanan')->group(function () {
 // Agreement
 Route::prefix('agreement')->group(function () {
     Route::get('get-task-this-week/{taskID}/{week}', [AgreementController::class, 'getTaskThisWeek']);
-    Route::get('reject/{taskID}/{week}/{status}/{reject}', [AgreementController::class, 'reject']);
+    // Route::get('reject/{taskID}/{week}/{status}/{reject}', [AgreementController::class, 'reject']);
+
+    Route::post('reject-weekly-progress', [AgreementController::class, 'reject'])->name('reject.weekly.progress');
 
     Route::post('from-supervising-consultant', [AgreementController::class, 'fromSupervisingConsultant'])->name('agree.from.supervising.consultant');
 });

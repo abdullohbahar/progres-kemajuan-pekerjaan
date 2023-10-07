@@ -11,20 +11,22 @@ $("body").on("click", "#agreeBtn", function () {
         confirmButtonText: "Ya, Setujui",
         cancelButtonText: "Batal",
     }).then((result) => {
-        $.ajax({
-            url: "/agree/" + scheduleID,
-            dataType: "JSON",
-            method: "POST",
-            success: function (response) {
-                console.log(response);
-                if (response.status == 200) {
-                    success(response.message);
-                    setTimeout(function () {
-                        window.location = "";
-                    }, 1450);
-                }
-            },
-        });
+        if (result.isConfirmed) {
+            $.ajax({
+                url: "/agree/" + scheduleID,
+                dataType: "JSON",
+                method: "POST",
+                success: function (response) {
+                    console.log(response);
+                    if (response.status == 200) {
+                        success(response.message);
+                        setTimeout(function () {
+                            window.location = "";
+                        }, 1450);
+                    }
+                },
+            });
+        }
     });
 });
 
@@ -114,27 +116,39 @@ $("#rejectWeeklyProgressBtn").on("click", function () {
     var status = $(this).data("status");
     var reject = $(this).data("reject");
 
-    Swal.fire({
-        title: "Apakah anda yakin menolak?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Ya, Tolak",
-        cancelButtonText: "Batal",
-    }).then((result) => {
-        $.ajax({
-            url: `/agreement/reject/${taskID}/${week}/${status}/${reject}`,
-            method: "GET",
-            success: function (response) {
-                console.log(response);
-                if (response.status == 200) {
-                    success(response.message);
-                    setTimeout(function () {
-                        window.location = "";
-                    }, 1450);
-                }
-            },
-        });
-    });
+    $("#rejectWeek").val(week);
+    $("#rejectTaskID").val(taskID);
+    $("#rejectStatus").val(status);
+    $("#rejectReject").val(reject);
+
+    var myModal = new bootstrap.Modal("#rejectWeeklyProgressModal");
+
+    myModal.show();
+
+    // Swal.fire({
+    //     title: "Apakah anda yakin menolak?",
+    //     icon: "warning",
+    //     showCancelButton: true,
+    //     confirmButtonColor: "#3085d6",
+    //     cancelButtonColor: "#d33",
+    //     confirmButtonText: "Ya, Tolak",
+    //     cancelButtonText: "Batal",
+    //     allowOutsideClick: false,
+    // }).then((result) => {
+    //     if (result.isConfirmed) {
+    //         $.ajax({
+    //             url: `/agreement/reject/${taskID}/${week}/${status}/${reject}`,
+    //             method: "GET",
+    //             success: function (response) {
+    //                 console.log(response);
+    //                 if (response.status == 200) {
+    //                     success(response.message);
+    //                     setTimeout(function () {
+    //                         window.location = "";
+    //                     }, 1450);
+    //                 }
+    //             },
+    //         });
+    //     }
+    // });
 });

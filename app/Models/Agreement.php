@@ -17,7 +17,8 @@ class Agreement extends Model
         'week',
         'date',
         'progress',
-        'status'
+        'status',
+        'information'
     ];
 
     public function kindOfWorkDetail()
