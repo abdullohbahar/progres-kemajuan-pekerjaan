@@ -12,6 +12,7 @@ use App\Models\TimeScheduleHistory;
 use App\Http\Controllers\Controller;
 use App\Models\SupervisingConsultant;
 use App\Models\ActingCommitmentMarker;
+use App\Models\AgreementTaskReport;
 
 class TaskReportAdminController extends Controller
 {
@@ -95,7 +96,7 @@ class TaskReportAdminController extends Controller
 
     public function show($id)
     {
-        $taskReport = TaskReport::where('id', $id)->firstOrfail();
+        $taskReport = TaskReport::with('agreementTaskReport')->where('id', $id)->firstOrfail();
         // Melakukan pengecekan apakah status sudah aktif atau belum
 
         // mengambil total mc
@@ -242,5 +243,19 @@ class TaskReportAdminController extends Controller
         ];
 
         return view('admin.task-report.report', $data);
+    }
+
+    public function sendTaskReportAgreement(Request $request)
+    {
+        AgreementTaskReport::create([
+            'task_report_id' => $request->task_report_id,
+            'supervising_consultant_id' => $request->supervising_consultant_id,
+            'partner_id' => $request->partner_id,
+            'site_supervisor_id_1' => $request->site_supervisor_id_1,
+            'site_supervisor_id_2' => $request->site_supervisor_id_2,
+            'acting_commitment_marker_id' => $request->acting_commitment_marker_id,
+        ]);
+
+        return redirect()->back()->with('success', 'Berhasil mengirim');
     }
 }

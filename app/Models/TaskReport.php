@@ -65,6 +65,11 @@ class TaskReport extends Model
         return $this->hasMany(KindOfWork::class, 'task_id', 'id');
     }
 
+    public function agreementTaskReport()
+    {
+        return $this->hasMany(AgreementTaskReport::class);
+    }
+
     public function timeScheduleHistory()
     {
         return $this->hasMany(TimeScheduleHistory::class);

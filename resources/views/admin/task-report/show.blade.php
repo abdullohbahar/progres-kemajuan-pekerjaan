@@ -65,11 +65,32 @@
                                     </a>
                                 </div>
                                 <div class="card-toolbar">
-                                    @if (auth()->user()->role == 'Admin')
-                                        <a href="{{ route('edit.task.report.admin', $taskReport->id) }}"
-                                            class="btn btn-sm btn-warning"> Ubah
-                                        </a>
+                                    @if (count($taskReport->agreementTaskReport) <= 0)
+                                        <form action="{{ route('send.task.report.agreement') }}" method="POST"
+                                            id="sendTaskReportAgreement">
+                                            @csrf
+                                            <input type="text" hidden name="task_report_id" id="task_report_id"
+                                                value="{{ $taskReport->id }}">
+                                            <input type="text" hidden name="supervising_consultant_id"
+                                                id="supervising_consultant_id"
+                                                value="{{ $taskReport->supervising_consultant_id }}">
+                                            <input type="text" hidden name="partner_id" id="partner_id"
+                                                value="{{ $taskReport->partner_id }}">
+                                            <input type="text" hidden name="site_supervisor_id_1"
+                                                id="site_supervisor_id_1" value="{{ $taskReport->site_supervisor_id_1 }}">
+                                            <input type="text" hidden name="site_supervisor_id_2"
+                                                id="site_supervisor_id_2" value="{{ $taskReport->site_supervisor_id_2 }}">
+                                            <input type="text" hidden name="acting_commitment_marker_id"
+                                                id="acting_commitment_marker_id"
+                                                value="{{ $taskReport->acting_commitment_marker_id }}">
+                                            <button type="submit" class="btn btn-success btn-sm mx-2">
+                                                Kirim Persetujuan Pekerjaan
+                                            </button>
+                                        </form>
                                     @endif
+                                    <a href="{{ route('edit.task.report.admin', $taskReport->id) }}"
+                                        class="btn btn-sm btn-warning"> Ubah
+                                    </a>
                                     <a href="{{ route('report', $taskReport->id) }}" target="_blank"
                                         class="btn btn-sm btn-info mx-2"> Lihat
                                         Laporan
@@ -203,7 +224,8 @@
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <div class="row justify-content-end p-0" style="padding-left: 30px !important">
+                                            <div class="row justify-content-end p-0"
+                                                style="padding-left: 30px !important">
                                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                     @foreach ($kindOfWork->kindOfWorkDetails as $key => $detail)
                                                         <div class="mt-4">
@@ -216,7 +238,8 @@
                                                                 <div class="col-sm-12 col-md-4 text-end">
                                                                     <div class="row justify-content-end">
                                                                         @if (auth()->user()->role == 'Admin')
-                                                                            <div class="col-sm-12 col-md-6 col-lg-4 d-grid">
+                                                                            <div
+                                                                                class="col-sm-12 col-md-6 col-lg-4 d-grid">
                                                                                 <a href="{{ route('manage.work.admin', $detail->id) }}"
                                                                                     class="btn btn-sm btn-primary my-5"
                                                                                     style="margin-right: 5px">Kelola
@@ -476,6 +499,7 @@
     <script src="{{ asset('./assets/js/pages/task-report.js?r=' . time()) }}"></script>
     <script src="{{ asset('./assets/js/pages/upload-progress-picture.js?r=' . time()) }}"></script>
     <script src="{{ asset('./assets/js/pages/agreement.js?r=' . time()) }}"></script>
+    <script src="{{ asset('./assets/js/pages/task_report_agreement.js?r=' . time()) }}"></script>
 
     {{-- warning alert --}}
     <script>
