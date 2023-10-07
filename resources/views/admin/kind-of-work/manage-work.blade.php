@@ -65,7 +65,7 @@
                                 id="myForm">
                                 @csrf
                                 @method('PUT')
-                                <div class="card-body">
+                                {{-- <div class="card-body">
                                     <div class="row">
                                         <h1>Harga Kontrak</h1>
                                     </div>
@@ -130,7 +130,6 @@
                                         </div>
                                         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mt-3">
                                             <div class="form-group">
-                                                {{-- menghitung total harga kontrak --}}
                                                 @php
                                                     $contractTotalPrice = ($kindOfWorkDetail->contract_unit_price ?? 0) * ($kindOfWorkDetail->contract_volume ?? 0);
                                                     if ($contractTotalPrice != 0) {
@@ -153,7 +152,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- harga mc --}}
                                 <div class="card-body">
@@ -257,8 +256,8 @@
                                 </div>
 
                                 {{-- old value --}}
-                                <input type="text" name="oldMcVolume" hidden
-                                    value="{{ $kindOfWorkDetail->mc_volume }}" id="">
+                                <input type="text" name="oldMcVolume" hidden value="{{ $kindOfWorkDetail->mc_volume }}"
+                                    id="">
                                 <input type="text" name="oldMcUnit" hidden value="{{ $kindOfWorkDetail->mc_unit }}"
                                     id="">
                                 <input type="text" name="oldMcUnitPrice" hidden

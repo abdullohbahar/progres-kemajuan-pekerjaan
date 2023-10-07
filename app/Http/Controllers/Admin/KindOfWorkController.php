@@ -171,8 +171,8 @@ class KindOfWorkController extends Controller
             $taskReport = TaskReport::with('kindOfWork')->where('id', $taskId->id)->first()->kindOfWork;
 
             // Menghapus karakter sesuai dengan array yang ada di $removeChar
-            $contractUnitPrice = str_replace($removeChar, "", $request->contract_unit_price);
-            $contractTotalPrice = str_replace($removeChar, "", $request->total_contract_price);
+            // $contractUnitPrice = str_replace($removeChar, "", $request->contract_unit_price);
+            // $contractTotalPrice = str_replace($removeChar, "", $request->total_contract_price);
             $mcUnitPrice = str_replace($removeChar, "", $request->mc_unit_price);
             $mcTotalPrice = str_replace($removeChar, "", $request->total_mc_price);
             $workValue = str_replace($removePercent, "", $request->work_value);
@@ -205,10 +205,10 @@ class KindOfWorkController extends Controller
 
             // update kind of work
             KindOfWorkDetail::where('id', $id)->update([
-                'contract_volume' => $request->contract_volume,
-                'contract_unit' => $request->contract_unit,
-                'contract_unit_price' => $contractUnitPrice,
-                'total_contract_price' => $contractTotalPrice,
+                // 'contract_volume' => $request->contract_volume,
+                // 'contract_unit' => $request->contract_unit,
+                // 'contract_unit_price' => $contractUnitPrice,
+                // 'total_contract_price' => $contractTotalPrice,
                 'mc_volume' => $request->mc_volume,
                 'mc_unit' => $request->mc_unit,
                 'mc_unit_price' => $mcUnitPrice,

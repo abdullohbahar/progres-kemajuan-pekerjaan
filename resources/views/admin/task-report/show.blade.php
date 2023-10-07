@@ -225,7 +225,7 @@
                                                                         @endif
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-12">
+                                                                {{-- <div class="col-12">
                                                                     <div class="accordion"
                                                                         id="kt_accordion_{{ $key }}">
                                                                         <div class="accordion-item">
@@ -281,7 +281,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div> --}}
                                                                 <div class="col-12 mt-5">
                                                                     <div class="accordion"
                                                                         id="kt_accordion_{{ $key }}_mc">
