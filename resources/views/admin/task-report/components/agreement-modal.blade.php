@@ -26,7 +26,7 @@
                         </div>
                     </div>
 
-                    <div class="row mt-5 pt-5">
+                    {{-- <div class="row mt-5 pt-5">
                         <div class="col-12">
                             <h3>Pekerjaan Untuk Minggu Selanjutnya</h3>
                             <table class="table table-bordered table-striped" id="timeSchedule">
@@ -36,7 +36,7 @@
                                 </tr>
                             </table>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
 
                 <div class="modal-footer">

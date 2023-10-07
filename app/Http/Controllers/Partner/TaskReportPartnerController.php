@@ -38,7 +38,7 @@ class TaskReportPartnerController extends Controller
 
     public function show($id)
     {
-        $taskReport = TaskReport::where('id', $id)->firstOrfail();
+        $taskReport = TaskReport::with('kindOfWork.kindOfWorkDetails.schedules')->where('id', $id)->firstOrfail();
         // Melakukan pengecekan apakah status sudah aktif atau belum
 
         $dateSpk = strtotime($taskReport->spk_date);
@@ -59,12 +59,31 @@ class TaskReportPartnerController extends Controller
             ->where('status', 'Awal')
             ->where('week', $getWeek)->get();
 
+        // task next week
+        // $taskNextWeeks = $taskReport;
+
+        $taskNextWeeks = [];
+        foreach ($taskReport?->kindOfWork as $kindOfWork) {
+            foreach ($kindOfWork->kindOfWorkDetails as $kindOfWorkDetail) {
+                // get time schedule
+                foreach ($kindOfWorkDetail->timeSchedules->where('week', $getWeek + 1)->where('progress', '!=', 0) as $timeSchedule) {
+                    $timeScheduleData = [
+                        'name' => $kindOfWorkDetail->name,
+                        'progress' => $timeSchedule->progress
+                    ];
+
+                    $taskNextWeeks[] = $timeScheduleData;
+                }
+            }
+        }
+
         $data = [
             'active' => $this->active,
             'taskReport' => $taskReport,
             'status' => $status,
             'week' => $getWeek,
-            'weeklyProgresses' => $weeklyProgresses
+            'weeklyProgresses' => $weeklyProgresses,
+            'taskNextWeeks' => $taskNextWeeks
         ];
 
         return view('partner.task-report.show', $data);

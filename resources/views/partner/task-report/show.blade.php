@@ -151,15 +151,17 @@
                             <div class="card-header border-0 pt-5">
                                 <h2>Progress Pekerjaan Minggu Ini</h2>
                                 <div class="card-toolbar">
-                                    <button class="btn btn-success btn-sm mx-2 my-1" id="sendWeeklyProgressBtn"
-                                        data-week="{{ $week }}" data-taskid="{{ $taskReport->id }}">
-                                        Kirim / Setujui Progress Mingguan
-                                    </button>
-                                    <button class="btn btn-danger btn-sm mx-2 my-1" id="rejectWeeklyProgressBtn"
-                                        data-week="{{ $week }}" data-taskid="{{ $taskReport->id }}"
-                                        data-status="Awal" data-reject="Ditolak Rekanan">
-                                        Tolak
-                                    </button>
+                                    @if ($weeklyProgresses->count() > 0)
+                                        <button class="btn btn-success btn-sm mx-2 my-1" id="sendWeeklyProgressBtn"
+                                            data-week="{{ $week }}" data-taskid="{{ $taskReport->id }}">
+                                            Kirim / Setujui Progress Mingguan
+                                        </button>
+                                        <button class="btn btn-danger btn-sm mx-2 my-1" id="rejectWeeklyProgressBtn"
+                                            data-week="{{ $week }}" data-taskid="{{ $taskReport->id }}"
+                                            data-status="Awal" data-reject="Ditolak Rekanan">
+                                            Tolak
+                                        </button>
+                                    @endif
                                 </div>
                             </div>
                             <div class="card-body">
@@ -171,13 +173,34 @@
                                     </tr>
                                     @foreach ($weeklyProgresses as $weeklyProgress)
                                         <tr>
-                                            <td>{{ $weeklyProgress->kindOfWorkDetail->name }}</td>
-                                            <td>{{ $weeklyProgress->progress }}</td>
-                                            <td class="text-center">
+                                            <td style="width: 50%">{{ $weeklyProgress->kindOfWorkDetail->name }}</td>
+                                            <td style="width: 25%">{{ $weeklyProgress->progress }}%</td>
+                                            <td style="width: 25%" class="text-center">
                                                 <button class="btn btn-info btn-sm" href="javascript:;"
                                                     id="seePicture">Lihat
                                                     Foto</button>
                                             </td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="card mt-5">
+                            <div class="card-header border-0 pt-5">
+                                <h2>Pekerjaan Untuk Minggu Selanjutnya</h2>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-bordered table-striped">
+                                    <tr>
+                                        <td><b>Nama Pekerjaan</b></td>
+                                        <td><b>Progress</b></td>
+                                        {{-- <td><b>Foto</b></td> --}}
+                                    </tr>
+                                    @foreach ($taskNextWeeks as $taskNextWeek)
+                                        <tr>
+                                            <td style="width: 50%">{{ $taskNextWeek['name'] }}</td>
+                                            <td style="width: 50%">{{ $taskNextWeek['progress'] }}%</td>
                                         </tr>
                                     @endforeach
                                 </table>

@@ -77,29 +77,29 @@ $("#sendWeeklyProgressBtn").on("click", function () {
                     table.append(newRow);
                 });
 
-                // Mendapatkan elemen tabel
-                var table2 = $("#timeSchedule");
+                // // Mendapatkan elemen tabel
+                // var table2 = $("#timeSchedule");
 
-                table2.find("tr:not(#headerTimeSchedule)").remove();
+                // table2.find("tr:not(#headerTimeSchedule)").remove();
 
-                // Melakukan looping untuk setiap item dalam data
-                $.each(data[0], function (index, item) {
-                    // Membuat elemen <tr> baru
-                    var newRow2 = $("<tr>");
+                // // Melakukan looping untuk setiap item dalam data
+                // $.each(data[0], function (index, item) {
+                //     // Membuat elemen <tr> baru
+                //     var newRow2 = $("<tr>");
 
-                    // Mengisi elemen <tr> dengan data dari respons
-                    newRow2.html(
-                        `<td>
-                        ${item.name}
-                            </td>
-                            <td>
-                            ${item.progress}%
-                            </td>`
-                    );
+                //     // Mengisi elemen <tr> dengan data dari respons
+                //     newRow2.html(
+                //         `<td>
+                //         ${item.name}
+                //             </td>
+                //             <td>
+                //             ${item.progress}%
+                //             </td>`
+                //     );
 
-                    // Menyisipkan elemen <tr> baru ke dalam tabel
-                    table2.append(newRow2);
-                });
+                //     // Menyisipkan elemen <tr> baru ke dalam tabel
+                //     table2.append(newRow2);
+                // });
 
                 myModal.show();
             }
