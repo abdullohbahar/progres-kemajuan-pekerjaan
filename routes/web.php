@@ -1,12 +1,15 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AgreementController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\McHistoryController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\KindOfWorkController;
 use App\Http\Controllers\Admin\CvConsultantController;
+use App\Http\Controllers\TaskReportAgreementController;
 use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\SiteSupervisorController;
 use App\Http\Controllers\Admin\TaskReportAdminController;
@@ -14,7 +17,6 @@ use App\Http\Controllers\Partner\DashboardPartnerController;
 use App\Http\Controllers\Partner\TaskReportPartnerController;
 use App\Http\Controllers\Admin\SupervisingConsultantController;
 use App\Http\Controllers\Admin\ActingCommitmentMarkerController;
-use App\Http\Controllers\McHistoryController;
 use App\Http\Controllers\SupervisingConsultant\DashboardSupervisingConsultantController;
 use App\Http\Controllers\SupervisingConsultant\TaskReportSupervisingConsultantController;
 use App\Http\Controllers\SupervisingConsultant\TimeScheduleSupervisingConsultantController;
@@ -64,7 +66,7 @@ Route::prefix('admin')->group(function () {
         Route::put('/kind-of-work/{id}/update', [KindOfWorkController::class, 'update'])->name('kind.of.work.update');
         Route::delete('/destroy-kind-of-work/{id}', [KindOfWorkController::class, 'destroyKindOfWork'])->name('kind.of.work.destroy');
 
-        Route::post('send-task-report-agreement', [TaskReportAdminController::class, 'sendTaskReportAgreement'])->name('send.task.report.agreement');
+        Route::post('send-task-report-agreement', [TaskReportAgreementController::class, 'sendTaskReportAgreement'])->name('send.task.report.agreement');
     });
 });
 
@@ -116,3 +118,20 @@ Route::get('history-mc/{taskID}/{totalMc}', [McHistoryController::class, 'histor
 
 // Count Total Progress Before This Week
 Route::get('count-total-progress-before-this-week/{kindOfWorkDetailID}', [KindOfWorkController::class, 'countTotalProgressBeforeThisWeek']);
+
+Route::put('agree-task-report-agreement/{taskReportID}/{userID}/{role}/{agree}', [TaskReportAgreementController::class, 'agreeTaskReportAgreement'])->name('agree.task.report.agreement');
+
+
+// Route::get('save', function () {
+//     $users = array(
+//         array('id' => '9a338d9f-dd43-4bff-a6e6-09112e45d054', 'username' => 'admin', 'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'role' => 'Admin', 'remember_token' => NULL, 'created_at' => '2023-09-23 09:41:40', 'updated_at' => '2023-09-23 09:41:40'),
+//         array('id' => '9a338d9f-df3a-44bf-9599-1ec435d76e16', 'username' => 'konsultan-pengawas', 'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'role' => 'Supervising Consultant', 'remember_token' => NULL, 'created_at' => '2023-09-23 09:41:40', 'updated_at' => '2023-09-23 09:41:40'),
+//         array('id' => '9a338d9f-e130-462f-ac6c-8c5d0692bf94', 'username' => 'rekanan', 'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'role' => 'Partner', 'remember_token' => NULL, 'created_at' => '2023-09-23 09:41:40', 'updated_at' => '2023-09-23 09:41:40'),
+//         array('id' => '9a338d9f-e2fe-4750-af51-adbe2f723134', 'username' => 'pengawas-lapangan', 'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'role' => 'Site Supervisor', 'remember_token' => NULL, 'created_at' => '2023-09-23 09:41:40', 'updated_at' => '2023-09-23 09:41:40'),
+//         array('id' => '9a338d9f-e476-4db5-8245-d98d77172007', 'username' => 'ppk', 'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'role' => 'Acting Commitment Marker', 'remember_token' => NULL, 'created_at' => '2023-09-23 09:41:40', 'updated_at' => '2023-09-23 09:41:40')
+//     );
+
+//     foreach ($users as $userData) {
+//         User::insert($userData);
+//     }
+// });

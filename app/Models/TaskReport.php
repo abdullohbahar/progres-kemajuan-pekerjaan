@@ -26,7 +26,8 @@ class TaskReport extends Model
         'site_supervisor_id_3', // id pengawas lapangan 3
         'acting_commitment_marker_id', // id ppk
         'status',
-        'execution_time'
+        'execution_time',
+        'is_agree'
     ];
 
     // Konsultan Pengawas

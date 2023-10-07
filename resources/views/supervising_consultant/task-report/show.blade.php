@@ -55,6 +55,53 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <!--begin::Content container-->
             <div id="kt_app_content_container" class="app-container container-fluid">
+                @if (count($taskReport->agreementTaskReport->where('role_id', $supervisingConsultantID)->whereNull('is_agree')) >= 1)
+                    <!--begin::Alert-->
+                    <div class="alert alert-dismissible bg-primary d-flex flex-column flex-sm-row p-5 mb-10">
+                        <!--begin::Icon-->
+                        <i class="ki-duotone ki-information fs-2hx text-light me-4 mb-5 mb-sm-0"><span
+                                class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                        <!--end::Icon-->
+
+                        <!--begin::Wrapper-->
+                        <div class="d-flex flex-column text-light pe-0 pe-sm-10">
+                            <!--begin::Title-->
+                            <h4 class="mb-2 light">Konfirmasi Pekerjaan</h4>
+                            <!--end::Title-->
+
+                            <!--begin::Content-->
+                            <span class="text-capitalize">Admin Telah Melakukan Input Data Pekerjaan. Harap Lakukan
+                                Pengecekan.
+                                Jika selama 2x24 jam anda tidak melakukan konfirmasi maka anda dinyatakan setuju dengan data
+                                yang ada</span>
+                            <!--end::Content-->
+                            <div class="row">
+                                <div class="col">
+                                    <input type="hidden" id="taskReportID" value="{{ $taskReport->id }}">
+                                    <input type="hidden" id="userID"
+                                        value="{{ $taskReport->supervising_consultant_id }}">
+                                    <input type="hidden" id="role" value="supervising_consultant">
+
+                                    <button class="btn btn-info btn-sm mt-2">Lihat Data Pekerjaan</button>
+                                    <button class="btn btn-success btn-sm mt-2 mx-3" id="agreeTaskReport">Setujui</button>
+                                    <button class="btn btn-danger btn-sm mt-2" id="rejectTaskReport">Tolak</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Wrapper-->
+
+                        <!--begin::Close-->
+                        <button type="button"
+                            class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto"
+                            data-bs-dismiss="alert">
+                            <i class="ki-duotone ki-cross fs-1 text-light"><span class="path1"></span><span
+                                    class="path2"></span></i>
+                        </button>
+                        <!--end::Close-->
+                    </div>
+                    <!--end::Alert-->
+                @endif
+
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -197,7 +244,8 @@
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <div class="row justify-content-end p-0" style="padding-left: 30px !important">
+                                            <div class="row justify-content-end p-0"
+                                                style="padding-left: 30px !important">
                                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                     @foreach ($kindOfWork->kindOfWorkDetails as $key => $detail)
                                                         <div class="mt-4">
@@ -210,7 +258,8 @@
                                                                 <div class="col-sm-12 col-md-4 text-end">
                                                                     <div class="row justify-content-end">
                                                                         @if (auth()->user()->role == 'Admin')
-                                                                            <div class="col-sm-12 col-md-6 col-lg-4 d-grid">
+                                                                            <div
+                                                                                class="col-sm-12 col-md-6 col-lg-4 d-grid">
                                                                                 <a href="{{ route('manage.work', $detail->id) }}"
                                                                                     class="btn btn-sm btn-primary my-5"
                                                                                     style="margin-right: 5px">Kelola
@@ -218,7 +267,8 @@
                                                                             </div>
                                                                         @endif
                                                                         @if (auth()->user()->role == 'Supervising Consultant')
-                                                                            <div class="col-sm-12 col-md-6 col-lg-4 d-grid">
+                                                                            <div
+                                                                                class="col-sm-12 col-md-6 col-lg-4 d-grid">
                                                                                 <a href="{{ route('create.time.schedule', $detail->id) }}"
                                                                                     class="btn btn-sm btn-info my-5"
                                                                                     style="margin-right: 5px">Kelola

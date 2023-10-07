@@ -152,3 +152,37 @@ $("#rejectWeeklyProgressBtn").on("click", function () {
     //     }
     // });
 });
+
+// agree task report
+$("#agreeTaskReport").on("click", function () {
+    var taskReportID = $("#taskReportID").val();
+    var userID = $("#userID").val();
+    var role = $("#role").val();
+
+    Swal.fire({
+        title: "Apakah anda yakin menyetujui data tersebut?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, Setujui",
+        cancelButtonText: "Batal",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: `/agree-task-report-agreement/${taskReportID}/${userID}/${role}/1`,
+                dataType: "JSON",
+                method: "PUT",
+                success: function (response) {
+                    console.log(response);
+                    if (response.status == 200) {
+                        success(response.message);
+                        setTimeout(function () {
+                            window.location = "";
+                        }, 1450);
+                    }
+                },
+            });
+        }
+    });
+});

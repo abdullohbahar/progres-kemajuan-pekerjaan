@@ -244,18 +244,4 @@ class TaskReportAdminController extends Controller
 
         return view('admin.task-report.report', $data);
     }
-
-    public function sendTaskReportAgreement(Request $request)
-    {
-        AgreementTaskReport::create([
-            'task_report_id' => $request->task_report_id,
-            'supervising_consultant_id' => $request->supervising_consultant_id,
-            'partner_id' => $request->partner_id,
-            'site_supervisor_id_1' => $request->site_supervisor_id_1,
-            'site_supervisor_id_2' => $request->site_supervisor_id_2,
-            'acting_commitment_marker_id' => $request->acting_commitment_marker_id,
-        ]);
-
-        return redirect()->back()->with('success', 'Berhasil mengirim');
-    }
 }
