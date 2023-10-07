@@ -106,3 +106,35 @@ $("#sendWeeklyProgressBtn").on("click", function () {
 
     Swal.close();
 });
+
+// Reject
+$("#rejectWeeklyProgressBtn").on("click", function () {
+    var week = $(this).data("week");
+    var taskID = $(this).data("taskid");
+    var status = $(this).data("status");
+    var reject = $(this).data("reject");
+
+    Swal.fire({
+        title: "Apakah anda yakin menolak?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, Tolak",
+        cancelButtonText: "Batal",
+    }).then((result) => {
+        $.ajax({
+            url: `/agreement/reject/${taskID}/${week}/${status}/${reject}`,
+            method: "GET",
+            success: function (response) {
+                console.log(response);
+                if (response.status == 200) {
+                    success(response.message);
+                    setTimeout(function () {
+                        window.location = "";
+                    }, 1450);
+                }
+            },
+        });
+    });
+});

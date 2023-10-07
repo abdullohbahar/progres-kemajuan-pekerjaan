@@ -54,7 +54,10 @@ class TaskReportPartnerController extends Controller
 
         $getWeek = $taskReportController->getWeek($taskReport);
 
-        $weeklyProgresses = Agreement::with('kindOfWorkDetail')->where('task_report_id', $id)->where('week', $getWeek)->get();
+        $weeklyProgresses = Agreement::with('kindOfWorkDetail')
+            ->where('task_report_id', $id)
+            ->where('status', 'Awal')
+            ->where('week', $getWeek)->get();
 
         $data = [
             'active' => $this->active,

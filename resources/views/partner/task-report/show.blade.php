@@ -156,7 +156,8 @@
                                         Kirim / Setujui Progress Mingguan
                                     </button>
                                     <button class="btn btn-danger btn-sm mx-2 my-1" id="rejectWeeklyProgressBtn"
-                                        data-week="{{ $week }}" data-taskid="{{ $taskReport->id }}">
+                                        data-week="{{ $week }}" data-taskid="{{ $taskReport->id }}"
+                                        data-status="Awal" data-reject="Ditolak Rekanan">
                                         Tolak
                                     </button>
                                 </div>
@@ -172,11 +173,11 @@
                                         <tr>
                                             <td>{{ $weeklyProgress->kindOfWorkDetail->name }}</td>
                                             <td>{{ $weeklyProgress->progress }}</td>
-                                            {{-- <td>
-                                                <a href="javascript:;" id="seePicture"
-                                                    data-scheduleid="{{ $detail->schedules[$key]->id }}">Lihat
-                                                    Foto</a>
-                                            </td> --}}
+                                            <td class="text-center">
+                                                <button class="btn btn-info btn-sm" href="javascript:;"
+                                                    id="seePicture">Lihat
+                                                    Foto</button>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </table>
