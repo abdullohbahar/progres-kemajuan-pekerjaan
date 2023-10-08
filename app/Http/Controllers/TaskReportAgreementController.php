@@ -54,6 +54,54 @@ class TaskReportAgreementController extends Controller
             ]);
 
         // update task report is_agree
+        // $agreementTaskReport = AgreementTaskReport::where('task_report_id', $taskReportID)
+        //     ->whereNotNull('is_agree')
+        //     ->pluck('is_agree')
+        //     ->toArray();
+
+        // // jika sudah tidak ada data yang kosong maka update is_agree
+        // if (count($agreementTaskReport) >= 5) {
+        //     if (in_array(false, $agreementTaskReport)) {
+        //         // Jika terdapat 'false' dalam array, update is_agree 'false'
+        //         TaskReport::where('id', $taskReportID)->update([
+        //             'is_agree' => false,
+        //         ]);
+        //     } else {
+        //         //  Jika terdapat 'true' dalam array, update is_agree 'true'
+        //         TaskReport::where('id', $taskReportID)->update([
+        //             'is_agree' => true,
+        //         ]);
+        //     }
+        // }
+
+        $this->updateTaskReportAfterRejectOrAgree($taskReportID);
+
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil Menyetujui',
+        ]);
+    }
+
+    public function rejectTaskReportAgreement(Request $request)
+    {
+        AgreementTaskReport::where('task_report_id', $request->taskReportID)
+            ->where('role', $request->role)
+            ->where('role_id', $request->userID)
+            ->update([
+                'is_agree' => false,
+                'information' => $request->information,
+            ]);
+
+        $this->updateTaskReportAfterRejectOrAgree($request->taskReportID);
+
+
+        return redirect()->back()->with('success', 'Berhasil menolak');
+    }
+
+    public function updateTaskReportAfterRejectOrAgree($taskReportID)
+    {
+        // update task report is_agree
         $agreementTaskReport = AgreementTaskReport::where('task_report_id', $taskReportID)
             ->whereNotNull('is_agree')
             ->pluck('is_agree')
@@ -73,12 +121,5 @@ class TaskReportAgreementController extends Controller
                 ]);
             }
         }
-
-
-        return response()->json([
-            'status' => 200,
-            'message' => 'Berhasil Menyetujui',
-            'agreementTaskReport' => $agreementTaskReport,
-        ]);
     }
 }

@@ -120,6 +120,7 @@ Route::get('history-mc/{taskID}/{totalMc}', [McHistoryController::class, 'histor
 Route::get('count-total-progress-before-this-week/{kindOfWorkDetailID}', [KindOfWorkController::class, 'countTotalProgressBeforeThisWeek']);
 
 Route::put('agree-task-report-agreement/{taskReportID}/{userID}/{role}/{agree}', [TaskReportAgreementController::class, 'agreeTaskReportAgreement'])->name('agree.task.report.agreement');
+Route::put('reject-task-report-agreement', [TaskReportAgreementController::class, 'rejectTaskReportAgreement'])->name('reject.task.report.agreement');
 
 
 // Route::get('save', function () {

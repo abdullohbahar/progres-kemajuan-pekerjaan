@@ -186,3 +186,10 @@ $("#agreeTaskReport").on("click", function () {
         }
     });
 });
+
+// Reject
+$("#rejectTaskReport").on("click", function () {
+    var myModal = new bootstrap.Modal("#rejectTaskReportModal");
+
+    myModal.show();
+});
