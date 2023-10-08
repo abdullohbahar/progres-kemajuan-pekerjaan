@@ -50,15 +50,10 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header border-0 pt-5">
-                                <div>
-                                    <h1>{{ $kindOfWorkDetail->kindOfWork->name }}</h1>
-                                    <h6>{{ $kindOfWorkDetail->name }}</h6>
-                                    <input type="hidden" id="idDetail" value="{{ $kindOfWorkDetail->id }}">
-                                    <input type="hidden" id="kindOfWorkID"
-                                        value="{{ $kindOfWorkDetail->kind_of_work_id }}">
-                                </div>
-                                <div class="header-toolbar">
-                                    {{-- <h1>Total Harga : Rp {{ number_format($mcAllPrice, 0, ',', '.') }}</h1> --}}
+                                <div class="card-toolbar">
+                                    <a href="javascript: history.go(-1)" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-arrow-left"></i> Kembali
+                                    </a>
                                 </div>
                             </div>
                             <form action="{{ route('manage.work.update', $kindOfWorkDetail->id) }}" method="POST"
@@ -156,6 +151,15 @@
 
                                 {{-- harga mc --}}
                                 <div class="card-body">
+                                    <div class="row">
+                                        <div>
+                                            <h1>{{ $kindOfWorkDetail->kindOfWork->name }}</h1>
+                                            <h6>{{ $kindOfWorkDetail->name }}</h6>
+                                            <input type="hidden" id="idDetail" value="{{ $kindOfWorkDetail->id }}">
+                                            <input type="hidden" id="kindOfWorkID"
+                                                value="{{ $kindOfWorkDetail->kind_of_work_id }}">
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <h1>Harga MC</h1>
                                     </div>

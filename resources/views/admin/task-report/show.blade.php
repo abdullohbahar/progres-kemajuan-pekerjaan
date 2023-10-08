@@ -60,7 +60,7 @@
                         <div class="card">
                             <div class="card-header border-0 pt-5">
                                 <div class="card-toolbar">
-                                    <a href="{{ route('task.report.admin') }}" class="btn btn-sm btn-primary">
+                                    <a href="javascript: history.go(-1)" class="btn btn-sm btn-primary">
                                         <i class="fas fa-arrow-left"></i> Kembali
                                     </a>
                                 </div>
