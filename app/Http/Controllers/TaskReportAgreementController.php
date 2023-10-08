@@ -44,6 +44,23 @@ class TaskReportAgreementController extends Controller
         return redirect()->back()->with('success', 'Berhasil mengirim');
     }
 
+    public function listTaskReport($taskReportID)
+    {
+        $taskReport = TaskReport::with('kindOfWork')->findorfail($taskReportID);
+
+        $kindOfWorkDetails = $taskReport->kindOfWork->first()->kindOfWorkDetails;
+
+        $schedules = $kindOfWorkDetails->first()->schedules;
+
+        $data = [
+            'taskReport' => $taskReport,
+            'schedules' => $schedules,
+            'kindOfWorkDetails' => $kindOfWorkDetails,
+        ];
+
+        return view('task-report-agreement.report', $data);
+    }
+
     public function agreeTaskReportAgreement($taskReportID, $userID, $role, $agree)
     {
         AgreementTaskReport::where('task_report_id', $taskReportID)
@@ -52,27 +69,6 @@ class TaskReportAgreementController extends Controller
             ->update([
                 'is_agree' => $agree,
             ]);
-
-        // update task report is_agree
-        // $agreementTaskReport = AgreementTaskReport::where('task_report_id', $taskReportID)
-        //     ->whereNotNull('is_agree')
-        //     ->pluck('is_agree')
-        //     ->toArray();
-
-        // // jika sudah tidak ada data yang kosong maka update is_agree
-        // if (count($agreementTaskReport) >= 5) {
-        //     if (in_array(false, $agreementTaskReport)) {
-        //         // Jika terdapat 'false' dalam array, update is_agree 'false'
-        //         TaskReport::where('id', $taskReportID)->update([
-        //             'is_agree' => false,
-        //         ]);
-        //     } else {
-        //         //  Jika terdapat 'true' dalam array, update is_agree 'true'
-        //         TaskReport::where('id', $taskReportID)->update([
-        //             'is_agree' => true,
-        //         ]);
-        //     }
-        // }
 
         $this->updateTaskReportAfterRejectOrAgree($taskReportID);
 

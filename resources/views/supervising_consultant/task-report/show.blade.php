@@ -82,7 +82,8 @@
                                         value="{{ $taskReport->supervising_consultant_id }}">
                                     <input type="hidden" id="role" value="supervising_consultant">
 
-                                    <button class="btn btn-info btn-sm mt-2">Lihat Data Pekerjaan</button>
+                                    <a href="{{ route('list.task.report', $taskReport->id) }}" target="_blank"
+                                        class="btn btn-info btn-sm mt-2">Lihat Data Pekerjaan</a>
                                     <button class="btn btn-success btn-sm mt-2 mx-3" id="agreeTaskReport">Setujui</button>
                                     <button class="btn btn-danger btn-sm mt-2" id="rejectTaskReport">Tolak</button>
                                 </div>
