@@ -77,13 +77,16 @@ class TaskReportPartnerController extends Controller
             }
         }
 
+        $partnerID = Partner::where('user_id', Auth::user()->id)->first()->id;
+
         $data = [
             'active' => $this->active,
             'taskReport' => $taskReport,
             'status' => $status,
             'week' => $getWeek,
             'weeklyProgresses' => $weeklyProgresses,
-            'taskNextWeeks' => $taskNextWeeks
+            'taskNextWeeks' => $taskNextWeeks,
+            'partnerID' => $partnerID
         ];
 
         return view('partner.task-report.show', $data);

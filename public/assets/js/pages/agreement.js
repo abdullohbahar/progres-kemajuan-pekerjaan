@@ -193,3 +193,9 @@ $("#rejectTaskReport").on("click", function () {
 
     myModal.show();
 });
+
+$("#rejectTaskReportPartner").on("click", function () {
+    var myModal = new bootstrap.Modal("#rejectTaskReportPartnerModal");
+
+    myModal.show();
+});
