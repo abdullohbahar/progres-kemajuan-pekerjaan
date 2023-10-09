@@ -177,8 +177,10 @@ class KindOfWorkController extends Controller
             $mcTotalPrice = str_replace($removeChar, "", $request->total_mc_price);
             $workValue = str_replace($removePercent, "", $request->work_value);
 
+            $addDays = Carbon::parse($taskId->spk_date)->addDays(4)->format('Y-m-d');
+
             // jika spk date sudah aktif maka lakukan kode dibawah
-            if ($taskId->spk_date <= now()) {
+            if ($addDays <= now()) {
                 // lakukan pengecekan apakah sudah ada mc awal atau belum
                 $firstMc = McHistory::where('kind_of_work_detail_id', $id)
                     ->where('task_report_id', $taskId->id)
@@ -238,7 +240,7 @@ class KindOfWorkController extends Controller
                 }
             }
 
-            if ($taskId->spk_date <= now()) {
+            if ($addDays <= now()) {
                 // lakukan perhitungan total mc
                 $taskReport = TaskReport::with('kindOfWork.kindOfWorkDetails.schedules')->where('id', $taskId->id)->first();
 
@@ -287,7 +289,7 @@ class KindOfWorkController extends Controller
                                     'mc_volume' => $kindOfWorkDetail->mc_volume,
                                     'mc_unit' => $kindOfWorkDetail->mc_unit,
                                     'mc_unit_price' => $kindOfWorkDetail->mc_unit_price,
-                                    'total_mc_price' => $kindOfWorkDetail->total_mc_price,
+                                    'total_mc_price' => $kindOfWorkDetail->total_mc_price ?? 0,
                                     'work_value' => $kindOfWorkDetail->work_value,
                                     'total_mc' => $totalMc,
                                     'kind_of_work_detail_id' => $kindOfWorkDetail->id,

@@ -77,8 +77,11 @@ class TimeScheduleSupervisingConsultantController extends Controller
                     ->task
                     ->spk_date;
 
+                // menambahkan 4 hari kedepan
+                $addDays = Carbon::parse($spkDate)->addDays(4)->format('Y-m-d');
+
                 // jika aktif maka simpan perubahan ke history
-                if ($spkDate <= now()) {
+                if ($addDays <= now()) {
                     // melakukan pengecekan apakah data yang lama sama dengan data yang baru,
                     // jika tidak sama maka simpan data lama ke histroy
                     // Get Task Report ID
