@@ -6,8 +6,10 @@ use Exception;
 use Carbon\Carbon;
 use App\Models\Unit;
 use RuntimeException;
+use App\Models\Option;
 use App\Models\Partner;
 use App\Models\Schedule;
+use App\Models\McHistory;
 use App\Models\KindOfWork;
 use App\Models\TaskReport;
 use App\Models\TimeSchedule;
@@ -20,7 +22,6 @@ use Illuminate\Support\Facades\Auth;
 use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
 use Illuminate\Console\View\Components\Task;
 use App\Http\Controllers\SendMessageController;
-use App\Models\McHistory;
 
 class KindOfWorkController extends Controller
 {
@@ -73,7 +74,9 @@ class KindOfWorkController extends Controller
     public function edit($id)
     {
         $kindOfWork = KindOfWork::with('task')->where('id', $id)->firstorfail();
-        $expired = now() <= $kindOfWork->task->spk_date;
+        $dateNow = Option::where('name', 'date-now')->first()->value ?? now();
+
+        $expired = $dateNow <= $kindOfWork->task->spk_date;
 
         $data = [
             'active' => $this->active,
@@ -161,6 +164,8 @@ class KindOfWorkController extends Controller
         $removeChar = ['R', 'p', '.', ',', ' '];
         $removePercent = ['%'];
 
+        $dateNows = Option::where('name', 'date-now')->first()->value ?? now();
+
         try {
             DB::beginTransaction();
 
@@ -180,7 +185,7 @@ class KindOfWorkController extends Controller
             $addDays = Carbon::parse($taskId->spk_date)->addDays(4)->format('Y-m-d');
 
             // jika spk date sudah aktif maka lakukan kode dibawah
-            if ($addDays <= now()) {
+            if ($addDays <= $dateNows) {
                 // lakukan pengecekan apakah sudah ada mc awal atau belum
                 $firstMc = McHistory::where('kind_of_work_detail_id', $id)
                     ->where('task_report_id', $taskId->id)
@@ -240,7 +245,7 @@ class KindOfWorkController extends Controller
                 }
             }
 
-            if ($addDays <= now()) {
+            if ($addDays <= $dateNows) {
                 // lakukan perhitungan total mc
                 $taskReport = TaskReport::with('kindOfWork.kindOfWorkDetails.schedules')->where('id', $taskId->id)->first();
 

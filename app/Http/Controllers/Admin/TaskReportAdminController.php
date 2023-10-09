@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SupervisingConsultant;
 use App\Models\ActingCommitmentMarker;
 use App\Models\AgreementTaskReport;
+use App\Models\Option;
 
 class TaskReportAdminController extends Controller
 {
@@ -107,7 +108,7 @@ class TaskReportAdminController extends Controller
             ->get();
 
         $dateSpk = strtotime($taskReport->spk_date);
-        $dateNow = strtotime(now());
+        $dateNow = strtotime(Option::where('name', 'date-now')->first()->value) ?? strtotime(now());
 
         if ($dateNow < $dateSpk) {
             $status = 'inactive';
