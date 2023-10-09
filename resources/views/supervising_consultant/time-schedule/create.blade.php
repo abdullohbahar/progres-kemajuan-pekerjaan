@@ -93,7 +93,6 @@
                                                 
                                                 foreach ($groupDate as $progressDate) {
                                                     $progressDate = strtotime($progressDate);
-                                                    $dateNow = strtotime(date('d-m-Y'));
                                                 
                                                     if ($progressDate > $dateNow) {
                                                         $disabled = '';

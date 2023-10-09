@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\SupervisingConsultant;
 
 use Carbon\Carbon;
+use App\Models\Option;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
 use App\Models\KindOfWorkDetail;
@@ -41,10 +42,13 @@ class WeeklyReportSupervisingConsultantController extends Controller
         // Memecah array ke dalam grup-grup 7 hari
         $groupedDates = array_chunk($dates, 7);
 
+        $dateNow = strtotime(Option::where('name', 'date-now')->first()->value) ?? strtotime(date('d-m-Y'));
+
         $data = [
             'active' => $this->active,
             'groupedDates' => $groupedDates,
             'kindOfWorkDetail' => $kindOfWorkDetail,
+            'dateNow' => $dateNow
         ];
 
         return view('supervising_consultant.weekly-progress.manage-work-progress', $data);

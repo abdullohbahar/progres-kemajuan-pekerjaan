@@ -7,6 +7,7 @@ use App\Models\TimeSchedule;
 use Illuminate\Http\Request;
 use App\Models\KindOfWorkDetail;
 use App\Http\Controllers\Controller;
+use App\Models\Option;
 use App\Models\TimeScheduleHistory;
 
 class TimeScheduleSupervisingConsultantController extends Controller
@@ -39,10 +40,13 @@ class TimeScheduleSupervisingConsultantController extends Controller
         // Memecah array ke dalam grup-grup 7 hari
         $groupedDates = array_chunk($dates, 7);
 
+        $dateNow = strtotime(Option::where('name', 'date-now')->first()->value) ?? strtotime(date('d-m-Y'));
+
         $data = [
             'active' => $this->active,
             'groupedDates' => $groupedDates,
             'kindOfWorkDetail' => $kindOfWorkDetail,
+            'dateNow' => $dateNow
         ];
 
         return view('supervising_consultant.time-schedule.create', $data);
