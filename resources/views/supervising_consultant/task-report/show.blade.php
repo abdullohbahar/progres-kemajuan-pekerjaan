@@ -196,6 +196,8 @@
                         </div>
 
                         <div class="card mt-5">
+                            @include('components.search')
+
                             <div class="card-header">
                                 <h2 class="mt-5">Macam Pekerjaan</h2>
                                 <div class="card-toolbar">
@@ -235,8 +237,9 @@
                             <div class="card-body">
                                 @foreach ($taskReport->kindOfWork as $key => $kindOfWork)
                                     <div class="card mt-5" style="background-color: rgba(242, 242, 242, 0.667)">
-                                        <div class="card-header pt-5">
-                                            <h1>{{ $key + 1 }}. {{ $kindOfWork->name }}</h1>
+                                        <div class="card-header pt-5" id="{{ $key + 5 }}">
+                                            <h1 class="parentSearchable">{{ $key + 1 }}. <span
+                                                    class="childSearchable">{{ $kindOfWork->name }}</span></h1>
                                             <div class="card-toolbar">
                                                 @if (auth()->user()->role == 'Admin')
                                                     <a href="{{ route('kind.of.work.edit', $kindOfWork->id) }}"
@@ -248,11 +251,18 @@
                                             <div class="row justify-content-end p-0"
                                                 style="padding-left: 30px !important">
                                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                    @php
+                                                        $identified = $key + 10;
+                                                    @endphp
                                                     @foreach ($kindOfWork->kindOfWorkDetails as $key => $detail)
                                                         <div class="mt-4">
                                                             <div class="row">
-                                                                <div class="col-sm-12 col-md-8">
-                                                                    <h3>{{ $key + 1 }}. {{ $detail->name }}</h3>
+                                                                <div class="col-sm-12 col-md-8"
+                                                                    id="{{ $key + 9 }}{{ $identified++ }}">
+                                                                    <h3 class="parentSearchable">{{ $key + 1 }}.
+                                                                        <span
+                                                                            class="childSearchable">{{ $detail->name }}</span>
+                                                                    </h3>
                                                                     <p>Keterangan:</p>
                                                                     <p>{!! $detail->information !!}</p>
                                                                 </div>
@@ -551,6 +561,7 @@
     <script src="{{ asset('./assets/js/pages/task-report.js?r=' . time()) }}"></script>
     <script src="{{ asset('./assets/js/pages/upload-progress-picture.js?r=' . time()) }}"></script>
     <script src="{{ asset('./assets/js/pages/agreement.js?r=' . time()) }}"></script>
+    <script src="{{ asset('./assets/js/pages/search.js?r=' . time()) }}"></script>
 
     {{-- warning alert --}}
     <script>
