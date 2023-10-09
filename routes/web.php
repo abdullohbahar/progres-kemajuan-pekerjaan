@@ -122,7 +122,7 @@ Route::get('count-total-progress-before-this-week/{kindOfWorkDetailID}', [KindOf
 Route::get('list-task-report/{taskReportID}', [TaskReportAgreementController::class, 'listTaskReport'])->name('list.task.report');
 Route::put('agree-task-report-agreement/{taskReportID}/{userID}/{role}/{agree}', [TaskReportAgreementController::class, 'agreeTaskReportAgreement'])->name('agree.task.report.agreement');
 Route::put('reject-task-report-agreement', [TaskReportAgreementController::class, 'rejectTaskReportAgreement'])->name('reject.task.report.agreement');
-
+Route::get('reject-reason/{taskReportID}', [TaskReportAgreementController::class, 'rejectReason']);
 
 // Route::get('save', function () {
 //     $users = array(

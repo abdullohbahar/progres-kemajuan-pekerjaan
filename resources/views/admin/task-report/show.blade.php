@@ -55,6 +55,76 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <!--begin::Content container-->
             <div id="kt_app_content_container" class="app-container container-fluid">
+                @if ($taskReport->is_agree == 1)
+                    <!--begin::Alert-->
+                    <div class="alert alert-dismissible bg-success d-flex flex-column flex-sm-row p-5 mb-10">
+                        <!--begin::Icon-->
+                        <i class="ki-duotone ki-information fs-2hx text-light me-4 mb-5 mb-sm-0"><span
+                                class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                        <!--end::Icon-->
+
+                        <!--begin::Wrapper-->
+                        <div class="d-flex flex-column text-light pe-0 pe-sm-10">
+                            <!--begin::Title-->
+                            <h4 class="mb-2 light">Data Pekerjaan Disetujui</h4>
+                            <!--end::Title-->
+
+                            <!--begin::Content-->
+                            <span class="text-capitalize">Data Pekerjaan Yang Dikirim Telah Disetujui.</span>
+                            <!--end::Content-->
+                        </div>
+                        <!--end::Wrapper-->
+
+                        <!--begin::Close-->
+                        <button type="button"
+                            class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto"
+                            data-bs-dismiss="alert">
+                            <i class="ki-duotone ki-cross fs-1 text-light"><span class="path1"></span><span
+                                    class="path2"></span></i>
+                        </button>
+                        <!--end::Close-->
+                    </div>
+                    <!--end::Alert-->
+                @elseif($taskReport->is_agree == 0)
+                    <!--begin::Alert-->
+                    <div class="alert alert-dismissible bg-warning d-flex flex-column flex-sm-row p-5 mb-10">
+                        <!--begin::Icon-->
+                        <i class="ki-duotone ki-information fs-2hx text-light me-4 mb-5 mb-sm-0"><span
+                                class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                        <!--end::Icon-->
+
+                        <!--begin::Wrapper-->
+                        <div class="d-flex flex-column text-light pe-0 pe-sm-10">
+                            <!--begin::Title-->
+                            <h4 class="mb-2 light">Data Pekerjaan Ditolak</h4>
+                            <!--end::Title-->
+
+                            <!--begin::Content-->
+                            <span class="text-capitalize">Data Pekerjaan Yang Dikirim Ditolak. Harap untuk melakukan
+                                pengecekan ulang</span>
+                            <!--end::Content-->
+
+                            <div class="row">
+                                <div class="col">
+                                    <button class="btn btn-danger btn-sm mt-2" id="rejectReasonBtn"
+                                        data-taskreportid="{{ $taskReport->id }}">Lihat Alasan
+                                        Penolakan</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Wrapper-->
+
+                        <!--begin::Close-->
+                        <button type="button"
+                            class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto"
+                            data-bs-dismiss="alert">
+                            <i class="ki-duotone ki-cross fs-1 text-light"><span class="path1"></span><span
+                                    class="path2"></span></i>
+                        </button>
+                        <!--end::Close-->
+                    </div>
+                    <!--end::Alert-->
+                @endif
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -119,7 +189,8 @@
                                             </tr>
                                             <tr>
                                                 <td><b>Nilai Kontrak</b></td>
-                                                <td class="vertically-centered">: Rp {{ $taskReport->contract_value }}</td>
+                                                <td class="vertically-centered">: Rp {{ $taskReport->contract_value }}
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td><b>Waktu Pelaksanaan</b></td>
@@ -503,6 +574,7 @@
     <!--end::Content container-->
 
     @include('admin.task-report.components.photo-modal')
+    @include('admin.task-report.components.reject-reason-modal')
 @endsection
 
 @push('addons-js')

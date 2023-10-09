@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agreement;
-use Illuminate\Http\Request;
-use App\Models\AgreementTaskReport;
 use App\Models\TaskReport;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\AgreementTaskReport;
 
 class TaskReportAgreementController extends Controller
 {
@@ -117,5 +118,86 @@ class TaskReportAgreementController extends Controller
                 ]);
             }
         }
+    }
+
+    public function rejectReason($taskReportID)
+    {
+        $datas = AgreementTaskReport::where('task_report_id', $taskReportID)->get();
+
+        $reason = [];
+
+        foreach ($datas as $data) {
+            if ($data->role == "supervising_consultant") {
+                $supervising = DB::table('agreement_task_reports')
+                    ->join('supervising_consultants', 'agreement_task_reports.role_id', '=', 'supervising_consultants.id')
+                    ->select('agreement_task_reports.*', 'supervising_consultants.*')
+                    ->where('agreement_task_reports.task_report_id', '=', $data->task_report_id)
+                    ->first();
+
+                $reason['supervising'] = [
+                    'role' => 'Konsultan Pengawas',
+                    'data' => $supervising
+                ];
+            }
+
+            if ($data->role == "partner") {
+                $partner = DB::table('agreement_task_reports')
+                    ->join('partners', 'agreement_task_reports.role_id', '=', 'partners.id')
+                    ->select('agreement_task_reports.*', 'partners.*')
+                    ->where('agreement_task_reports.task_report_id', '=', $data->task_report_id)
+                    ->first();
+
+                $reason['partner'] = [
+                    'role' => 'Rekanan',
+                    'data' => $partner
+                ];
+            }
+
+            if ($data->role == "site_supervisor_1") {
+                $siteSupervisor1 = DB::table('agreement_task_reports')
+                    ->join('site_supervisors', 'agreement_task_reports.role_id', '=', 'site_supervisors.id')
+                    ->select('agreement_task_reports.*', 'site_supervisors.*')
+                    ->where('agreement_task_reports.task_report_id', '=', $data->task_report_id)
+                    ->where('agreement_task_reports.role', '=', 'site_supervisor_1')
+                    ->first();
+
+                $reason['site_supervisor_1'] = [
+                    'role' => 'Pengawas Lapangan 1',
+                    'data' => $siteSupervisor1,
+                ];
+            }
+
+            if ($data->role == "site_supervisor_2") {
+                $siteSupervisor2 = DB::table('agreement_task_reports')
+                    ->join('site_supervisors', 'agreement_task_reports.role_id', '=', 'site_supervisors.id')
+                    ->select('agreement_task_reports.*', 'site_supervisors.*')
+                    ->where('agreement_task_reports.task_report_id', '=', $data->task_report_id)
+                    ->where('agreement_task_reports.role', '=', 'site_supervisor_2')
+                    ->first();
+
+                $reason['site_supervisor_2'] = [
+                    'role' => 'Pengawas Lapangan 2',
+                    'data' => $siteSupervisor2,
+                ];
+            }
+
+            if ($data->role == "acting_commitment_marker") {
+                $siteSupervisor2 = DB::table('agreement_task_reports')
+                    ->join('acting_commitment_markers', 'agreement_task_reports.role_id', '=', 'acting_commitment_markers.id')
+                    ->select('agreement_task_reports.*', 'acting_commitment_markers.*')
+                    ->where('agreement_task_reports.task_report_id', '=', $data->task_report_id)
+                    ->first();
+
+                $reason['acting_commitment_marker'] = [
+                    'role' => 'PPK',
+                    'data' => $siteSupervisor2,
+                ];
+            }
+        }
+
+        return response()->json([
+            'status' => 200,
+            'data' => $reason
+        ]);
     }
 }

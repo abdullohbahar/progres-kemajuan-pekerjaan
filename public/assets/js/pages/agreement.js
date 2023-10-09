@@ -188,6 +188,149 @@ $("#agreeTaskReport").on("click", function () {
 });
 
 // Reject
+$("#rejectReasonBtn").on("click", function () {
+    var myModal = new bootstrap.Modal("#rejectReasonModal");
+    var taskReportID = $(this).data("taskreportid");
+
+    console.log(taskReportID);
+
+    $.ajax({
+        url: "/reject-reason/" + taskReportID,
+        method: "GET",
+        success: function (response) {
+            console.log(response);
+
+            if (response["data"]["supervising"]["data"]["is_agree"] == 1) {
+                var statusSupervising = `<span class="badge badge-success">Setuju</span>`;
+            } else if (
+                response["data"]["supervising"]["data"]["is_agree"] == 0
+            ) {
+                var statusSupervising = `<span class="badge badge-danger">Tidak Setuju</span>`;
+            } else {
+                var statusSupervising = "";
+            }
+
+            var supervisingConsultantTd = `
+                <td>${response["data"]["supervising"]["data"]["name"]}</td>
+                <td>${response["data"]["supervising"]["role"]}</td>
+                <td>${statusSupervising}</td>
+                <td>${
+                    response["data"]["supervising"]["data"]["information"] ??
+                    "-"
+                }</td>
+            `;
+
+            $("#supervisingConsultant").append(supervisingConsultantTd);
+
+            if (response["data"]["partner"]["data"]["is_agree"] == 1) {
+                var statusPartner = `<span class="badge badge-success">Setuju</span>`;
+            } else if (response["data"]["partner"]["data"]["is_agree"] == 0) {
+                var statusPartner = `<span class="badge badge-danger">Tidak Setuju</span>`;
+            } else {
+                var statusPartner = "";
+            }
+
+            var partnerTd = `
+                <td>${response["data"]["partner"]["data"]["name"]}</td>
+                <td>${response["data"]["partner"]["role"]}</td>
+                <td>${statusPartner}</td>
+                <td>${
+                    response["data"]["partner"]["data"]["information"] ?? "-"
+                }</td>
+                `;
+
+            $("#partners").append(partnerTd);
+
+            if (
+                response["data"]["site_supervisor_1"]["data"]["is_agree"] == 1
+            ) {
+                var statusSiteSupervisor1 = `<span class="badge badge-success">Setuju</span>`;
+            } else if (
+                response["data"]["site_supervisor_1"]["data"]["is_agree"] == 0
+            ) {
+                var statusSiteSupervisor1 = `<span class="badge badge-danger">Tidak Setuju</span>`;
+            } else {
+                var statusSiteSupervisor1 = "";
+            }
+
+            var siteSupervisor1Td = `
+                <td>${
+                    response["data"]["site_supervisor_1"]["data"]["name"]
+                }</td>
+                <td>${response["data"]["site_supervisor_1"]["role"]}</td>
+                <td>${statusSiteSupervisor1}</td>
+                <td>${
+                    response["data"]["site_supervisor_1"]["data"][
+                        "information"
+                    ] ?? "-"
+                }</td>
+                `;
+
+            $("#siteSupervisor1").append(siteSupervisor1Td);
+
+            if (
+                response["data"]["site_supervisor_2"]["data"]["is_agree"] == 2
+            ) {
+                var statusSiteSupervisor2 = `<span class="badge badge-success">Setuju</span>`;
+            } else if (
+                response["data"]["site_supervisor_2"]["data"]["is_agree"] == 0
+            ) {
+                var statusSiteSupervisor2 = `<span class="badge badge-danger">Tidak Setuju</span>`;
+            } else {
+                var statusSiteSupervisor2 = "";
+            }
+
+            var siteSupervisor2Td = `
+                <td>${
+                    response["data"]["site_supervisor_2"]["data"]["name"]
+                }</td>
+                <td>${response["data"]["site_supervisor_2"]["role"]}</td>
+                <td>${statusSiteSupervisor2}</td>
+                <td>${
+                    response["data"]["site_supervisor_2"]["data"][
+                        "information"
+                    ] ?? "-"
+                }</td>
+                `;
+
+            $("#siteSupervisor2").append(siteSupervisor2Td);
+
+            if (
+                response["data"]["acting_commitment_marker"]["data"][
+                    "is_agree"
+                ] == 2
+            ) {
+                var statusPPK = `<span class="badge badge-success">Setuju</span>`;
+            } else if (
+                response["data"]["acting_commitment_marker"]["data"][
+                    "is_agree"
+                ] == 0
+            ) {
+                var statusPPK = `<span class="badge badge-danger">Tidak Setuju</span>`;
+            } else {
+                var statusPPK = "";
+            }
+
+            var ppkTd = `
+                <td>${
+                    response["data"]["acting_commitment_marker"]["data"]["name"]
+                }</td>
+                <td>${response["data"]["acting_commitment_marker"]["role"]}</td>
+                <td>${statusPPK}</td>
+                <td>${
+                    response["data"]["acting_commitment_marker"]["data"][
+                        "information"
+                    ] ?? "-"
+                }</td>
+                `;
+
+            $("#ppk").append(ppkTd);
+        },
+    });
+
+    myModal.show();
+});
+
 $("#rejectTaskReport").on("click", function () {
     var myModal = new bootstrap.Modal("#rejectTaskReportModal");
 
