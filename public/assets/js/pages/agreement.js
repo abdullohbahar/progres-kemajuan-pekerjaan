@@ -192,12 +192,17 @@ $("#rejectReasonBtn").on("click", function () {
     var myModal = new bootstrap.Modal("#rejectReasonModal");
     var taskReportID = $(this).data("taskreportid");
 
-    console.log(taskReportID);
-
     $.ajax({
         url: "/reject-reason/" + taskReportID,
         method: "GET",
         success: function (response) {
+            // empty row
+            $("#supervisingConsultant").empty();
+            $("#partners").empty();
+            $("#siteSupervisor1").empty();
+            $("#siteSupervisor2").empty();
+            $("#ppk").empty();
+
             console.log(response);
 
             if (response["data"]["supervising"]["data"]["is_agree"] == 1) {
