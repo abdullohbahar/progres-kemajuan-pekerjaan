@@ -94,8 +94,21 @@ class TaskReportAgreementController extends Controller
 
     public function rejectTaskReportAgreement(Request $request)
     {
+        // jika rolenya site supervisor maka lakukan pengecekan
+        // apakah site supervisor 1 atau dua
+        $role = $request->role;
+        if ($role == 'site_supervisor') {
+            $taskReport = TaskReport::where('id', $request->taskReportID)->where('site_supervisor_id_1', $request->userID)->first();
+
+            if ($taskReport) {
+                $role = 'site_supervisor_1';
+            } else {
+                $role = 'site_supervisor_2';
+            }
+        }
+
         AgreementTaskReport::where('task_report_id', $request->taskReportID)
-            ->where('role', $request->role)
+            ->where('role', $role)
             ->where('role_id', $request->userID)
             ->update([
                 'is_agree' => false,

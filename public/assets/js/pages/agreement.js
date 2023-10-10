@@ -175,12 +175,12 @@ $("#agreeTaskReport").on("click", function () {
                 method: "PUT",
                 success: function (response) {
                     console.log(response);
-                    // if (response.status == 200) {
-                    //     success(response.message);
-                    //     setTimeout(function () {
-                    //         window.location = "";
-                    //     }, 1450);
-                    // }
+                    if (response.status == 200) {
+                        success(response.message);
+                        setTimeout(function () {
+                            window.location = "";
+                        }, 1450);
+                    }
                 },
             });
         }
@@ -339,6 +339,12 @@ $("#rejectTaskReport").on("click", function () {
 
 $("#rejectTaskReportPartner").on("click", function () {
     var myModal = new bootstrap.Modal("#rejectTaskReportPartnerModal");
+
+    myModal.show();
+});
+
+$("#rejectTaskReportSiteSupervisor").on("click", function () {
+    var myModal = new bootstrap.Modal("#rejectTaskReportSiteSupervisorModal");
 
     myModal.show();
 });
