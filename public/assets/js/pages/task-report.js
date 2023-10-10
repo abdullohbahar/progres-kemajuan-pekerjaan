@@ -16,6 +16,9 @@ if (role == "Admin") {
 } else if (role == "Partner") {
     var hidden = "d-none";
     var url = "/rekanan/task-report/";
+} else if (role == "Site Supervisor") {
+    var hidden = "d-none";
+    var url = "/pengawas-lapangan/task-report/";
 } else {
     var hidden = "d-none";
     var url = "/task-report/";

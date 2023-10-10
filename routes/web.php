@@ -17,6 +17,8 @@ use App\Http\Controllers\Partner\DashboardPartnerController;
 use App\Http\Controllers\Partner\TaskReportPartnerController;
 use App\Http\Controllers\Admin\SupervisingConsultantController;
 use App\Http\Controllers\Admin\ActingCommitmentMarkerController;
+use App\Http\Controllers\SiteSupervisor\DashboardSiteSupervisorController;
+use App\Http\Controllers\SiteSupervisor\TaskReportSiteSupervisorController;
 use App\Http\Controllers\SupervisingConsultant\DashboardSupervisingConsultantController;
 use App\Http\Controllers\SupervisingConsultant\TaskReportSupervisingConsultantController;
 use App\Http\Controllers\SupervisingConsultant\TimeScheduleSupervisingConsultantController;
@@ -93,6 +95,12 @@ Route::prefix('rekanan')->group(function () {
     Route::get('dashboard', [DashboardPartnerController::class, 'index'])->name('partner.dashboard');
     Route::get('task-report', [TaskReportPartnerController::class, 'index'])->name('task.report.partner');
     Route::get('task-report/{id}', [TaskReportPartnerController::class, 'show'])->name('show.task.report.partner');
+});
+
+Route::prefix('pengawas-lapangan')->group(function () {
+    Route::get('dashboard', [DashboardSiteSupervisorController::class, 'index'])->name('site.supervisor.dashboard');
+    Route::get('task-report', [TaskReportSiteSupervisorController::class, 'index'])->name('task.report.site.supervisor');
+    Route::get('task-report/{id}', [TaskReportSiteSupervisorController::class, 'show'])->name('show.task.report.site.supervisor');
 });
 
 // Agreement
