@@ -64,6 +64,18 @@ class TaskReportAgreementController extends Controller
 
     public function agreeTaskReportAgreement($taskReportID, $userID, $role, $agree)
     {
+        // jika rolenya site supervisor maka lakukan pengecekan
+        // apakah site supervisor 1 atau dua
+        if ($role == 'site_supervisor') {
+            $taskReport = TaskReport::where('id', $taskReportID)->where('site_supervisor_id_1', $userID)->first();
+
+            if ($taskReport) {
+                $role = 'site_supervisor_1';
+            } else {
+                $role = 'site_supervisor_2';
+            }
+        }
+
         AgreementTaskReport::where('task_report_id', $taskReportID)
             ->where('role', $role)
             ->where('role_id', $userID)
@@ -73,10 +85,10 @@ class TaskReportAgreementController extends Controller
 
         $this->updateTaskReportAfterRejectOrAgree($taskReportID);
 
-
         return response()->json([
             'status' => 200,
             'message' => 'Berhasil Menyetujui',
+            'role' => $role,
         ]);
     }
 

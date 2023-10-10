@@ -78,7 +78,7 @@ class TaskReportSiteSupervisorController extends Controller
             }
         }
 
-        $partnerID = SiteSupervisor::where('user_id', Auth::user()->id)->first()->id;
+        $siteSupervisorID = SiteSupervisor::where('user_id', Auth::user()->id)->first()->id;
 
         $data = [
             'active' => $this->active,
@@ -87,7 +87,7 @@ class TaskReportSiteSupervisorController extends Controller
             'week' => $getWeek,
             'weeklyProgresses' => $weeklyProgresses,
             'taskNextWeeks' => $taskNextWeeks,
-            'partnerID' => $partnerID
+            'siteSupervisorID' => $siteSupervisorID
         ];
 
         return view('site-supervisor.task-report.show', $data);

@@ -53,4 +53,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Partner::class);
     }
+
+    public function siteSupervisor()
+    {
+        return $this->hasOne(SiteSupervisor::class);
+    }
 }

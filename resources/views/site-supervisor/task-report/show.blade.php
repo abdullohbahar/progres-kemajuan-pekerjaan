@@ -55,7 +55,7 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <!--begin::Content container-->
             <div id="kt_app_content_container" class="app-container container-fluid">
-                @if (count($taskReport->agreementTaskReport->where('role_id', $partnerID)->whereNull('is_agree')) >= 1)
+                @if (count($taskReport->agreementTaskReport->where('role_id', $siteSupervisorID)->whereNull('is_agree')) >= 1)
                     <!--begin::Alert-->
                     <div class="alert alert-dismissible bg-primary d-flex flex-column flex-sm-row p-5 mb-10">
                         <!--begin::Icon-->
@@ -78,8 +78,8 @@
                             <div class="row">
                                 <div class="col">
                                     <input type="hidden" id="taskReportID" value="{{ $taskReport->id }}">
-                                    <input type="hidden" id="userID" value="{{ $taskReport->partner_id }}">
-                                    <input type="hidden" id="role" value="partner">
+                                    <input type="hidden" id="userID" value="{{ Auth::user()->siteSupervisor->id }}">
+                                    <input type="hidden" id="role" value="site_supervisor">
 
                                     <a href="{{ route('list.task.report', $taskReport->id) }}" target="_blank"
                                         class="btn btn-info btn-sm mt-2">Lihat Data Pekerjaan</a>
