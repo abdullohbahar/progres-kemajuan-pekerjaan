@@ -260,7 +260,7 @@
     </div>
 
     @include('admin.task-report.components.photo-modal')
-    @include('admin.task-report.components.agreement-modal')
+    @include('site-supervisor.task-report.components.agreement-modal')
 @endsection
 
 @push('addons-js')

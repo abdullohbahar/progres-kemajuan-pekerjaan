@@ -55,7 +55,7 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <!--begin::Content container-->
             <div id="kt_app_content_container" class="app-container container-fluid">
-                @if ($taskReport->is_agree == 1)
+                @if ($taskReport->is_agree === 1)
                     <!--begin::Alert-->
                     <div class="alert alert-dismissible bg-success d-flex flex-column flex-sm-row p-5 mb-10">
                         <!--begin::Icon-->
@@ -85,7 +85,7 @@
                         <!--end::Close-->
                     </div>
                     <!--end::Alert-->
-                @elseif($taskReport->is_agree == 0)
+                @elseif($taskReport->is_agree === 0)
                     <!--begin::Alert-->
                     <div class="alert alert-dismissible bg-warning d-flex flex-column flex-sm-row p-5 mb-10">
                         <!--begin::Icon-->
