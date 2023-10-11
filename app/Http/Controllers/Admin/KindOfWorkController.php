@@ -357,6 +357,25 @@ class KindOfWorkController extends Controller
         ]);
     }
 
+    public function getProgressPicturesOtherRole($kindOfWorkDetailID, $week)
+    {
+        // $pictures = ProgressPicture::where('schedule_id', $id)->get();
+
+        $schedules = Schedule::where('kind_of_work_detail_id', $kindOfWorkDetailID)
+            ->where('week', $week)
+            ->get();
+
+        $pictures = [];
+
+        foreach ($schedules as $key => $schedule) {
+            $pictures[$key] = ProgressPicture::where('schedule_id', $schedule->id)->get();
+        }
+
+        return response()->json([
+            'datas' => $pictures,
+        ]);
+    }
+
     public function removeProgressPictures($id)
     {
         ProgressPicture::destroy($id);
