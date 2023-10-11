@@ -57,7 +57,7 @@ class TaskReportSiteSupervisorController extends Controller
 
         $weeklyProgresses = Agreement::with('kindOfWorkDetail')
             ->where('task_report_id', $id)
-            ->where('status', 'Awal')
+            ->where('status', 'Disetujui Rekanan')
             ->where('week', $getWeek)->get();
 
         // task next week

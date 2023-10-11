@@ -91,6 +91,41 @@ class AgreementController extends Controller
         return redirect()->back()->with('success', 'Berhasil mengirim progress mingguan ke rekanan');
     }
 
+    public function fromPartner(Request $request)
+    {
+        foreach ($request->week as $key => $week) {
+            $agreement = Agreement::where('task_report_id', $request->task_report_id[$key])
+                ->where('kind_of_work_detail_id', $request->kind_of_work_detail_id[$key])
+                ->where('date', $request->date[$key]);
+
+            if ($agreement->count() > 0) {
+                $agreement->update([
+                    'user_id' => Auth::user()->id,
+                    'task_report_id' => $request->task_report_id[$key],
+                    'kind_of_work_detail_id' => $request->kind_of_work_detail_id[$key],
+                    'role' => 'Partner',
+                    'week' => $request->week[$key],
+                    'date' => $request->date[$key],
+                    'progress' => $request->progress[$key],
+                    'status' => 'Disetujui Rekanan',
+                ]);
+            } else {
+                Agreement::create([
+                    'user_id' => Auth::user()->id,
+                    'task_report_id' => $request->task_report_id[$key],
+                    'kind_of_work_detail_id' => $request->kind_of_work_detail_id[$key],
+                    'role' => 'Partner',
+                    'week' => $request->week[$key],
+                    'date' => $request->date[$key],
+                    'progress' => $request->progress[$key],
+                    'status' => 'Disetujui Rekanan',
+                ]);
+            }
+        }
+
+        return redirect()->back()->with('success', 'Berhasil mengirim progress mingguan ke konsultan pengawas 1');
+    }
+
     public function reject(Request $request)
     {
         $agreements = Agreement::where('task_report_id', $request->taskID)

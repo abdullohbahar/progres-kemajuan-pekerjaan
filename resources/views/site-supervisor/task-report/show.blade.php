@@ -224,7 +224,8 @@
                                             <td style="width: 25%">{{ $weeklyProgress->progress }}%</td>
                                             <td style="width: 25%" class="text-center">
                                                 <button class="btn btn-info btn-sm" href="javascript:;"
-                                                    id="seePicture">Lihat
+                                                    data-kindofworkdetailid="{{ $weeklyProgress->kind_of_work_detail_id }}"
+                                                    data-week={{ $week }} id="seePictureOtherRole">Lihat
                                                     Foto</button>
                                             </td>
                                         </tr>

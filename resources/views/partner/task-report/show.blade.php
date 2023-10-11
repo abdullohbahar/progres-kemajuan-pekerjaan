@@ -197,7 +197,7 @@
                             <div class="card-header border-0 pt-5">
                                 <h2>Progress Pekerjaan Minggu Ini</h2>
                                 <div class="card-toolbar">
-                                    @if ($weeklyProgresses->count() > 0)
+                                    @if ($weeklyProgresses->count() > 0 && $taskReport->agreement->where('role', 'Partner')->count() == 0)
                                         <button class="btn btn-success btn-sm mx-2 my-1" id="sendWeeklyProgressBtn"
                                             data-week="{{ $week }}" data-taskid="{{ $taskReport->id }}">
                                             Kirim / Setujui Progress Mingguan
@@ -260,7 +260,7 @@
     </div>
 
     @include('admin.task-report.components.photo-modal')
-    @include('admin.task-report.components.agreement-modal')
+    @include('partner.task-report.components.agreement-modal')
 @endsection
 
 @push('addons-js')

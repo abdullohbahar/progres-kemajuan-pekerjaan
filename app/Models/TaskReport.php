@@ -71,6 +71,11 @@ class TaskReport extends Model
         return $this->hasMany(AgreementTaskReport::class);
     }
 
+    public function agreement()
+    {
+        return $this->hasMany(Agreement::class);
+    }
+
     public function timeScheduleHistory()
     {
         return $this->hasMany(TimeScheduleHistory::class);

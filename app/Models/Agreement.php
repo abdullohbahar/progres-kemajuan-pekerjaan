@@ -25,4 +25,9 @@ class Agreement extends Model
     {
         return $this->belongsTo(KindOfWorkDetail::class);
     }
+
+    public function taskReport()
+    {
+        return $this->belongsTo(TaskReport::class);
+    }
 }
