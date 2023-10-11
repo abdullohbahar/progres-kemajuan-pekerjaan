@@ -109,6 +109,7 @@ Route::prefix('agreement')->group(function () {
     // Route::get('reject/{taskID}/{week}/{status}/{reject}', [AgreementController::class, 'reject']);
 
     Route::post('reject-weekly-progress', [AgreementController::class, 'reject'])->name('reject.weekly.progress');
+    Route::get('reject-weekly-progress-reason/{taskReportID}', [AgreementController::class, 'rejectWeeklyProgressReason']);
 
     Route::post('from-supervising-consultant', [AgreementController::class, 'fromSupervisingConsultant'])->name('agree.from.supervising.consultant');
     Route::post('from-partner', [AgreementController::class, 'fromPartner'])->name('agree.from.partner');

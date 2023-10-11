@@ -143,4 +143,30 @@ class AgreementController extends Controller
 
         return redirect()->back()->with('success', "Anda berhasil menolak progress minggu ke-$request->week");
     }
+
+    public function rejectWeeklyProgressReason($taskReportID)
+    {
+        $agreements = Agreement::with('kindOfWorkDetail')->where('task_report_id', $taskReportID)->get();
+
+        $datas = [];
+
+        foreach ($agreements as $key => $agreement) {
+            $datas[$key] = [
+                'name' => $agreement->kindOfWorkDetail->name,
+                'progress' => $agreement->progress,
+                'information' => $agreement->information,
+            ];
+        }
+
+
+        if ($agreements->count() > 0) {
+            return response()->json([
+                'data' => $datas
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => "Data tidak ditemukan"
+            ], 404);
+        }
+    }
 }

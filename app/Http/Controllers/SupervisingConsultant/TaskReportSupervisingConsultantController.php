@@ -39,7 +39,7 @@ class TaskReportSupervisingConsultantController extends Controller
 
     public function show($id)
     {
-        $taskReport = TaskReport::with('agreementTaskReport')->where('id', $id)->firstOrfail();
+        $taskReport = TaskReport::with('agreementTaskReport', 'agreement')->where('id', $id)->firstOrfail();
 
         $week = $this->getWeek($taskReport);
 

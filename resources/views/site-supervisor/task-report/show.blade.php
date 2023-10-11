@@ -107,8 +107,7 @@
                         <div class="card">
                             <div class="card-header border-0 pt-5">
                                 <div class="card-toolbar">
-                                    <a href="{{ route('task.report.supervising.consultant') }}"
-                                        class="btn btn-sm btn-primary">
+                                    <a href="{{ route('task.report.site.supervisor') }}" class="btn btn-sm btn-primary">
                                         <i class="fas fa-arrow-left"></i> Kembali
                                     </a>
                                 </div>

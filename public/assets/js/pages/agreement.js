@@ -353,3 +353,50 @@ $("#rejectTaskReportSiteSupervisor").on("click", function () {
 
     myModal.show();
 });
+
+// reject weekly progress reason
+$("#showWeeklyProgressRejectRaeasonBtn").on("click", async function () {
+    var myModal = new bootstrap.Modal("#showWeeklyProgressRejectRaeasonModal");
+
+    var taskReportID = $(this).data("taskreportid");
+
+    try {
+        const response = await fetch(
+            `/agreement/reject-weekly-progress-reason/${taskReportID}`
+        );
+
+        if (response.ok) {
+            const data = await response.json();
+
+            // Mendapatkan elemen tabel
+            var tableBody = $("#reject-rason-table tbody");
+
+            tableBody.empty();
+
+            // Melakukan looping untuk setiap item dalam data
+            if (Array.isArray(data.data)) {
+                data.data.forEach((item) => {
+                    tableBody.append(`
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.progress}%</td>
+                        </tr>
+                    `);
+                    $("#rejectReason").empty();
+                    $("#rejectReason").text(item.information);
+                });
+            } else {
+                console.error("Data yang diterima tidak valid:", data);
+            }
+
+            myModal.show();
+        } else if (response.status === 404) {
+            const errorData = await response.json();
+            console.error("Data tidak ditemukan:", errorData.message);
+        } else {
+            console.error("Gagal melakukan permintaan AJAX");
+        }
+    } catch (error) {
+        console.error("Terjadi kesalahan:", error);
+    }
+});

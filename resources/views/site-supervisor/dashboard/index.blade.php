@@ -74,7 +74,7 @@
                                                     <td>{{ $activeWork->spk_date }}</td>
                                                     <td><span class="badge badge-success">{{ $activeWork->status }}</span>
                                                     </td>
-                                                    <td><a href="{{ route('show.task.report.supervising.consultant', $activeWork->id) }}"
+                                                    <td><a href="{{ route('show.task.report.site.supervisor', $activeWork->id) }}"
                                                             class="btn btn-info btn-sm">Detail Pekerjaan
                                                         </a></td>
                                                 </tr>
@@ -114,7 +114,7 @@
                                                     <td>{{ $inactiveWork->spk_date }}</td>
                                                     <td><span class="badge badge-secondary">Belum Aktif</span>
                                                     </td>
-                                                    <td><a href="{{ route('show.task.report.supervising.consultant', $inactiveWork->id) }}"
+                                                    <td><a href="{{ route('show.task.report.site.supervisor', $inactiveWork->id) }}"
                                                             class="btn btn-info btn-sm">Detail Pekerjaan
                                                         </a></td>
                                                 </tr>
@@ -154,7 +154,7 @@
                                                     <td>{{ $spWork->spk_date }}</td>
                                                     <td><span class="badge badge-warning">{{ $spWork->status }}</span>
                                                     </td>
-                                                    <td><a href="{{ route('show.task.report.supervising.consultant', $spWork->id) }}"
+                                                    <td><a href="{{ route('show.task.report.site.supervisor', $spWork->id) }}"
                                                             class="btn btn-info btn-sm">Detail Pekerjaan
                                                         </a></td>
                                                 </tr>

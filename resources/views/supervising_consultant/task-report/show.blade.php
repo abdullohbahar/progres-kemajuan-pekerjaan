@@ -105,95 +105,11 @@
 
                 <div class="row">
                     <div class="col-12">
-                        <div class="card">
-                            <div class="card-header border-0 pt-5">
-                                <div class="card-toolbar">
-                                    <a href="{{ route('task.report.supervising.consultant') }}"
-                                        class="btn btn-sm btn-primary">
-                                        <i class="fas fa-arrow-left"></i> Kembali
-                                    </a>
-                                </div>
-                                <div class="card-toolbar">
-                                    <a href="{{ route('report', $taskReport->id) }}" target="_blank"
-                                        class="btn btn-sm btn-info mx-2"> Lihat
-                                        Laporan
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="card-body" style="font-size: 14px">
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-6">
-                                        <table class="table" style="width: 100%">
-                                            <tr>
-                                                <td style="width: 30%"><b>Nama Kegiatan</b></td>
-                                                <td class="vertically-centered">: {{ $taskReport->activity_name }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Nama Pekerjaan</b></td>
-                                                <td class="vertically-centered">: {{ $taskReport->task_name }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Lokasi</b></td>
-                                                <td class="vertically-centered">: {{ $taskReport->location }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Tahun Anggaran</b></td>
-                                                <td class="vertically-centered">: {{ $taskReport->fiscal_year }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Nilai Kontrak</b></td>
-                                                <td class="vertically-centered">: Rp {{ $taskReport->contract_value }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Waktu Pelaksanaan</b></td>
-                                                <td class="vertically-centered">: {{ $taskReport->execution_time }} Hari
-                                                    Kalender</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Status</b></td>
-                                                <td class="vertically-centered">: {{ $taskReport->status }}</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class="col-sm-12 col-md-6">
-                                        <table class="table" style="width: 100%">
-                                            <tr>
-                                                <td style="width: 30%"><b>CV / Penyedia Jasa</b></td>
-                                                <td class="vertically-centered">: {{ $taskReport->partner->name }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Nomor SPK</b></td>
-                                                <td class="vertically-centered">: {{ $taskReport->spk_number }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Tanggal SPK</b></td>
-                                                <td class="vertically-centered">: {{ $taskReport->spk_date }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Konsultan Pengawas</b></td>
-                                                <td class="vertically-centered">:
-                                                    {{ $taskReport->supervisingConsultant->name }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Pengawas Lapangan 1</b></td>
-                                                <td class="vertically-centered">:
-                                                    {{ $taskReport->siteSupervisorFirst->name }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Pengawas Lapangan 2</b></td>
-                                                <td class="vertically-centered">:
-                                                    {{ $taskReport->siteSupervisorSecond->name }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>PPK</b></td>
-                                                <td class="vertically-centered">:
-                                                    {{ $taskReport->actingCommitmentMarker->name }}</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @include('components.detail-task-report')
+
+                        @includeWhen(
+                            $taskReport->agreement->where('status', 'Ditolak Rekanan')->count() > 0,
+                            'components.alert-reject-weekly-progress')
 
                         <div class="card mt-5">
                             @include('components.search')
@@ -248,8 +164,7 @@
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <div class="row justify-content-end p-0"
-                                                style="padding-left: 30px !important">
+                                            <div class="row justify-content-end p-0" style="padding-left: 30px !important">
                                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                     @php
                                                         $identified = $key + 10;
@@ -269,8 +184,7 @@
                                                                 <div class="col-sm-12 col-md-4 text-end">
                                                                     <div class="row justify-content-end">
                                                                         @if (auth()->user()->role == 'Admin')
-                                                                            <div
-                                                                                class="col-sm-12 col-md-6 col-lg-4 d-grid">
+                                                                            <div class="col-sm-12 col-md-6 col-lg-4 d-grid">
                                                                                 <a href="{{ route('manage.work', $detail->id) }}"
                                                                                     class="btn btn-sm btn-primary my-5"
                                                                                     style="margin-right: 5px">Kelola
@@ -555,6 +469,7 @@
     @include('admin.task-report.components.photo-modal')
     @include('admin.task-report.components.agreement-modal')
     @include('supervising_consultant.task-report.components.time-schedule-history-modal')
+    @include('supervising_consultant.task-report.components.reject-weekly-progress-modal')
 @endsection
 
 @push('addons-js')
