@@ -39,8 +39,19 @@ class TaskReportSiteSupervisorController extends Controller
 
     public function show($id)
     {
+        $siteSupervisorID = SiteSupervisor::where('user_id', Auth::user()->id)->first()->id;
+
         $taskReport = TaskReport::with('kindOfWork.kindOfWorkDetails.schedules')->where('id', $id)->firstOrfail();
         // Melakukan pengecekan apakah status sudah aktif atau belum
+
+        // Melakukan pengecekan apakah pengawas 1 atau 2
+        $checkSiteSupervisor = TaskReport::where('site_supervisor_id_1', $siteSupervisorID)->where('id', $id)->get();
+
+        if ($checkSiteSupervisor->count() >= 1) {
+            $siteSupervisorRole = 1;
+        } else if ($checkSiteSupervisor->count() == 0) {
+            $siteSupervisorRole = 2;
+        }
 
         $dateSpk = strtotime($taskReport->spk_date);
         $dateNow = strtotime(now());
@@ -55,11 +66,20 @@ class TaskReportSiteSupervisorController extends Controller
 
         $getWeek = $taskReportController->getWeek($taskReport);
 
-        $weeklyProgresses = Agreement::with('kindOfWorkDetail')
-            ->where('task_report_id', $id)
-            ->where('status', 'Disetujui Rekanan')
-            ->where('role', 'Site Supervisor')
-            ->where('week', $getWeek)->get();
+        if ($siteSupervisorRole == 1) {
+            $weeklyProgresses = Agreement::with('kindOfWorkDetail')
+                ->where('task_report_id', $id)
+                ->where('status', 'Disetujui Rekanan')
+                ->where('role', 'Site Supervisor')
+                ->where('week', $getWeek)->get();
+        } else if ($siteSupervisorRole == 2) {
+            $weeklyProgresses = Agreement::with('kindOfWorkDetail')
+                ->where('task_report_id', $id)
+                ->where('status', 'Disetujui Pengawas Lapangan 1')
+                ->where('role', 'Site Supervisor 2')
+                ->where('week', $getWeek)->get();
+        }
+
 
         // task next week
         // $taskNextWeeks = $taskReport;
@@ -88,7 +108,8 @@ class TaskReportSiteSupervisorController extends Controller
             'week' => $getWeek,
             'weeklyProgresses' => $weeklyProgresses,
             'taskNextWeeks' => $taskNextWeeks,
-            'siteSupervisorID' => $siteSupervisorID
+            'siteSupervisorID' => $siteSupervisorID,
+            'siteSupervisorRole' => $siteSupervisorRole
         ];
 
         return view('site-supervisor.task-report.show', $data);

@@ -193,9 +193,15 @@
                             </div>
                         </div>
 
-                        @includeWhen(
-                            $taskReport->agreement->where('status', 'Disetujui Rekanan')->where('task_report_id', $taskReport->id)->where('week', $week)->count() > 0,
-                            'components.alert-sent-weekly-progress')
+                        @if ($siteSupervisorRole == 1)
+                            @includeWhen(
+                                $taskReport->agreement->where('status', 'Disetujui Rekanan')->where('task_report_id', $taskReport->id)->where('week', $week)->count() > 0,
+                                'components.alert-sent-weekly-progress')
+                        @elseif($siteSupervisorRole == 2)
+                            @includeWhen(
+                                $taskReport->agreement->where('status', 'Disetujui Pengawas Lapangan 1')->where('task_report_id', $taskReport->id)->where('week', $week)->count() > 0,
+                                'components.alert-sent-weekly-progress')
+                        @endif
 
                         <div class="card mt-5">
                             <div class="card-header border-0 pt-5">
@@ -206,12 +212,14 @@
                                             data-week="{{ $week }}" data-taskid="{{ $taskReport->id }}">
                                             Kirim / Setujui Progress Mingguan
                                         </button>
-                                        <button class="btn btn-danger btn-sm mx-2 my-1" id="rejectWeeklyProgressBtn"
-                                            data-week="{{ $week }}" data-taskid="{{ $taskReport->id }}"
-                                            data-status="Disetujui Rekanan" data-reject="Ditolak Pengawas Lapangan 1"
-                                            data-role="Partner">
-                                            Tolak
-                                        </button>
+                                        @if ($siteSupervisorRole == 1)
+                                            <button class="btn btn-danger btn-sm mx-2 my-1" id="rejectWeeklyProgressBtn"
+                                                data-week="{{ $week }}" data-taskid="{{ $taskReport->id }}"
+                                                data-status="Disetujui Rekanan" data-reject="Ditolak Pengawas Lapangan 1"
+                                                data-role="Partner">
+                                                Tolak
+                                            </button>
+                                        @endif
                                     @endif
                                 </div>
                             </div>

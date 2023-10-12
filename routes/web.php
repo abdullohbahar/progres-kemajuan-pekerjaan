@@ -113,6 +113,7 @@ Route::prefix('agreement')->group(function () {
 
     Route::post('from-supervising-consultant', [AgreementController::class, 'fromSupervisingConsultant'])->name('agree.from.supervising.consultant');
     Route::post('from-partner', [AgreementController::class, 'fromPartner'])->name('agree.from.partner');
+    Route::post('from-site-supervisor', [AgreementController::class, 'fromSiteSupervisor1'])->name('agree.from.site.supervisor');
 });
 
 // additional url

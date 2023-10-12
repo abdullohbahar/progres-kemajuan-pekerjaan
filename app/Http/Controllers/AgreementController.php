@@ -122,7 +122,69 @@ class AgreementController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Berhasil mengirim progress mingguan ke konsultan pengawas 1');
+        return redirect()->back()->with('success', 'Berhasil mengirim progress mingguan ke pengawas lapangan 1');
+    }
+
+    public function fromSiteSupervisor1(Request $request)
+    {
+        foreach ($request->week as $key => $week) {
+            $agreement = Agreement::where('task_report_id', $request->task_report_id[$key])
+                ->where('kind_of_work_detail_id', $request->kind_of_work_detail_id[$key])
+                ->where('date', $request->date[$key]);
+
+            if ($request->siteSupervisorRole == 1) {
+                if ($agreement->count() > 0) {
+                    $agreement->update([
+                        'user_id' => Auth::user()->id,
+                        'task_report_id' => $request->task_report_id[$key],
+                        'kind_of_work_detail_id' => $request->kind_of_work_detail_id[$key],
+                        'role' => 'Site Supervisor 2',
+                        'week' => $request->week[$key],
+                        'date' => $request->date[$key],
+                        'progress' => $request->progress[$key],
+                        'status' => 'Disetujui Pengawas Lapangan 1',
+                    ]);
+                } else {
+                    Agreement::create([
+                        'user_id' => Auth::user()->id,
+                        'task_report_id' => $request->task_report_id[$key],
+                        'kind_of_work_detail_id' => $request->kind_of_work_detail_id[$key],
+                        'role' => 'Site Supervisor 2',
+                        'week' => $request->week[$key],
+                        'date' => $request->date[$key],
+                        'progress' => $request->progress[$key],
+                        'status' => 'Disetujui Pengawas Lapangan 1',
+                    ]);
+                }
+            } else {
+                if ($agreement->count() > 0) {
+                    $agreement->update([
+                        'user_id' => Auth::user()->id,
+                        'task_report_id' => $request->task_report_id[$key],
+                        'kind_of_work_detail_id' => $request->kind_of_work_detail_id[$key],
+                        'role' => 'Acting Commitment Marker',
+                        'week' => $request->week[$key],
+                        'date' => $request->date[$key],
+                        'progress' => $request->progress[$key],
+                        'status' => 'Disetujui Pengawas Lapangan 2',
+                    ]);
+                } else {
+                    Agreement::create([
+                        'user_id' => Auth::user()->id,
+                        'task_report_id' => $request->task_report_id[$key],
+                        'kind_of_work_detail_id' => $request->kind_of_work_detail_id[$key],
+                        'role' => 'Acting Commitment Marker',
+                        'week' => $request->week[$key],
+                        'date' => $request->date[$key],
+                        'progress' => $request->progress[$key],
+                        'status' => 'Disetujui Pengawas Lapangan 2',
+                    ]);
+                }
+            }
+        }
+
+
+        return redirect()->back()->with('success', 'Berhasil mengirim progress mingguan');
     }
 
     public function reject(Request $request)

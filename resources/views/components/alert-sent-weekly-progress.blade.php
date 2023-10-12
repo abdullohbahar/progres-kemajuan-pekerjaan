@@ -1,12 +1,14 @@
 @php
-    $role = $taskReport->agreement->first()->role;
+    $roles = $taskReport->agreement->first()->role;
 
-    if ($role == 'Supervising Consultant') {
-        $role = 'Konsultan Pengawas';
-    } elseif ($role == 'Partner') {
-        $role = 'Konsultan Pengawas';
-    } elseif ($role == 'Site Supervisor') {
-        $role = 'Rekanan';
+    if ($roles == 'Supervising Consultant') {
+        $roles = 'Konsultan Pengawas';
+    } elseif ($roles == 'Partner') {
+        $roles = 'Konsultan Pengawas';
+    } elseif ($roles == 'Site Supervisor') {
+        $roles = 'Rekanan';
+    } elseif ($roles == 'Site Supervisor 2') {
+        $roles = 'Pengawas Lapangan 1';
     }
 @endphp
 <!--begin::Alert-->
@@ -19,7 +21,7 @@
     <!--begin::Wrapper-->
     <div class="d-flex flex-column text-light pe-0 pe-sm-10">
         <!--begin::Title-->
-        <h4 class="mb-2 text-light text-capitalize">{{ $role }} Telah Mengirim Progress Mingguan</h4>
+        <h4 class="mb-2 text-light text-capitalize">{{ $roles }} Telah Mengirim Progress Mingguan</h4>
         <!--end::Title-->
 
         <!--begin::Content-->
