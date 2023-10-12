@@ -193,6 +193,10 @@
                             </div>
                         </div>
 
+                        @includeWhen(
+                            $taskReport->agreement->where('status', 'Awal')->where('task_report_id', $taskReport->id)->where('week', $week)->count() > 0,
+                            'components.alert-sent-weekly-progress')
+
                         <div class="card mt-5">
                             <div class="card-header border-0 pt-5">
                                 <h2>Progress Pekerjaan Minggu Ini</h2>
