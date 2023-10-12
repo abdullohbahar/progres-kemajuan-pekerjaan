@@ -117,10 +117,12 @@
                             <div class="card-header">
                                 <h2 class="mt-5">Macam Pekerjaan</h2>
                                 <div class="card-toolbar">
-                                    <button class="btn btn-success btn-sm mx-2 my-1" id="sendWeeklyProgressBtn"
-                                        data-week="{{ $week }}" data-taskid="{{ $taskReport->id }}">
-                                        Kirim / Setujui Progress Mingguan
-                                    </button>
+                                    @if ($taskReport->agreement->where('status', 'Awal')->where('week', $week)->count() == 0)
+                                        <button class="btn btn-success btn-sm mx-2 my-1" id="sendWeeklyProgressBtn"
+                                            data-week="{{ $week }}" data-taskid="{{ $taskReport->id }}">
+                                            Kirim / Setujui Progress Mingguan
+                                        </button>
+                                    @endif
                                     <button class="btn btn-primary btn-sm mx-2 my-1" data-bs-toggle="modal"
                                         data-bs-target="#modalTimeScheduleHistory">
                                         Riwayat Perubahan Time Schedule
