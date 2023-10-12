@@ -72,6 +72,7 @@
                             <input type="hidden" name="taskID" id="rejectTaskID">
                             <input type="hidden" name="status" id="rejectStatus">
                             <input type="hidden" name="reject" id="rejectReject">
+                            <input type="hidden" name="role" id="rejectRole">
 
                             <label for="" class="form-label">Alasan Menolak</label>
                             <textarea name="information" class="form-control" id="" required cols="20" rows="10"></textarea>

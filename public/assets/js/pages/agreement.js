@@ -115,11 +115,13 @@ $("#rejectWeeklyProgressBtn").on("click", function () {
     var taskID = $(this).data("taskid");
     var status = $(this).data("status");
     var reject = $(this).data("reject");
+    var role = $(this).data("role");
 
     $("#rejectWeek").val(week);
     $("#rejectTaskID").val(taskID);
     $("#rejectStatus").val(status);
     $("#rejectReject").val(reject);
+    $("#rejectRole").val(role);
 
     var myModal = new bootstrap.Modal("#rejectWeeklyProgressModal");
 

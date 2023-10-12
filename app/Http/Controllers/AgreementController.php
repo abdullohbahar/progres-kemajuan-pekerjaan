@@ -57,8 +57,7 @@ class AgreementController extends Controller
     public function fromSupervisingConsultant(Request $request)
     {
         foreach ($request->week as $key => $week) {
-            $agreement = Agreement::where('user_id', Auth::user()->id)
-                ->where('task_report_id', $request->task_report_id[$key])
+            $agreement = Agreement::where('task_report_id', $request->task_report_id[$key])
                 ->where('kind_of_work_detail_id', $request->kind_of_work_detail_id[$key])
                 ->where('role', 'Supervising Consultant')
                 ->where('date', $request->date[$key]);
@@ -68,7 +67,7 @@ class AgreementController extends Controller
                     'user_id' => Auth::user()->id,
                     'task_report_id' => $request->task_report_id[$key],
                     'kind_of_work_detail_id' => $request->kind_of_work_detail_id[$key],
-                    'role' => 'Supervising Consultant',
+                    'role' => 'Partner',
                     'week' => $request->week[$key],
                     'date' => $request->date[$key],
                     'progress' => $request->progress[$key],
@@ -79,7 +78,7 @@ class AgreementController extends Controller
                     'user_id' => Auth::user()->id,
                     'task_report_id' => $request->task_report_id[$key],
                     'kind_of_work_detail_id' => $request->kind_of_work_detail_id[$key],
-                    'role' => 'Supervising Consultant',
+                    'role' => 'Partner',
                     'week' => $request->week[$key],
                     'date' => $request->date[$key],
                     'progress' => $request->progress[$key],
@@ -103,7 +102,7 @@ class AgreementController extends Controller
                     'user_id' => Auth::user()->id,
                     'task_report_id' => $request->task_report_id[$key],
                     'kind_of_work_detail_id' => $request->kind_of_work_detail_id[$key],
-                    'role' => 'Partner',
+                    'role' => 'Site Supervisor',
                     'week' => $request->week[$key],
                     'date' => $request->date[$key],
                     'progress' => $request->progress[$key],
@@ -114,7 +113,7 @@ class AgreementController extends Controller
                     'user_id' => Auth::user()->id,
                     'task_report_id' => $request->task_report_id[$key],
                     'kind_of_work_detail_id' => $request->kind_of_work_detail_id[$key],
-                    'role' => 'Partner',
+                    'role' => 'Site Supervisor',
                     'week' => $request->week[$key],
                     'date' => $request->date[$key],
                     'progress' => $request->progress[$key],
@@ -130,13 +129,17 @@ class AgreementController extends Controller
     {
         $agreements = Agreement::where('task_report_id', $request->taskID)
             ->where('week', $request->week)
+            ->orWhere('status', 'Awal')
             ->where('status', $request->status)->get();
+
+        // dd($agreements);
 
         if ($agreements->count() > 0) {
             foreach ($agreements as $agreement) {
                 $agreement->update([
                     'status' => $request->reject,
-                    'information' => $request->information
+                    'information' => $request->information,
+                    'role' => $request->role,
                 ]);
             }
         }

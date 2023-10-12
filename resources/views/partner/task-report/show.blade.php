@@ -194,21 +194,28 @@
                         </div>
 
                         @includeWhen(
-                            $taskReport->agreement->where('status', 'Awal')->where('task_report_id', $taskReport->id)->where('week', $week)->count() > 0,
+                            $taskReport->agreement->where('status', 'Ditolak Pengawas Lapangan 1')->where('week', $week)->count() > 0,
+                            'components.alert-reject-weekly-progress')
+
+                        @includeWhen(
+                            $taskReport->agreement->where('role', 'Partner')->where('task_report_id', $taskReport->id)->where('week', $week)->where('status', 'Awal')->count() > 0,
                             'components.alert-sent-weekly-progress')
 
                         <div class="card mt-5">
                             <div class="card-header border-0 pt-5">
                                 <h2>Progress Pekerjaan Minggu Ini</h2>
                                 <div class="card-toolbar">
-                                    @if ($weeklyProgresses->count() > 0 && $taskReport->agreement->where('role', 'Partner')->count() == 0)
+                                    @if (
+                                        $weeklyProgresses->count() > 0 ||
+                                            $taskReport->agreement->where('status', 'Ditolak Pengawas Lapangan 1')->where('week', $week)->count() > 0)
                                         <button class="btn btn-success btn-sm mx-2 my-1" id="sendWeeklyProgressBtn"
                                             data-week="{{ $week }}" data-taskid="{{ $taskReport->id }}">
                                             Kirim / Setujui Progress Mingguan
                                         </button>
                                         <button class="btn btn-danger btn-sm mx-2 my-1" id="rejectWeeklyProgressBtn"
                                             data-week="{{ $week }}" data-taskid="{{ $taskReport->id }}"
-                                            data-status="Awal" data-reject="Ditolak Rekanan">
+                                            data-status="Ditolak Pengawas Lapangan 1" data-reject="Ditolak Rekanan"
+                                            data-role="Supervising Consultant">
                                             Tolak
                                         </button>
                                     @endif
@@ -265,6 +272,7 @@
 
     @include('admin.task-report.components.photo-modal')
     @include('partner.task-report.components.agreement-modal')
+    @include('supervising_consultant.task-report.components.reject-weekly-progress-modal')
 @endsection
 
 @push('addons-js')

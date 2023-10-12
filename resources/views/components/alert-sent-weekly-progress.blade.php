@@ -4,9 +4,9 @@
     if ($role == 'Supervising Consultant') {
         $role = 'Konsultan Pengawas';
     } elseif ($role == 'Partner') {
-        $role = 'Rekanan';
-    } elseif ($role == 'Site Supervisor') {
         $role = 'Konsultan Pengawas';
+    } elseif ($role == 'Site Supervisor') {
+        $role = 'Rekanan';
     }
 @endphp
 <!--begin::Alert-->
