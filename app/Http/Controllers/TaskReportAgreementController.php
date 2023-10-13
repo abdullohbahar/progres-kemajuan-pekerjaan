@@ -36,12 +36,6 @@ class TaskReportAgreementController extends Controller
             'role' => 'site_supervisor_2'
         ]);
 
-        AgreementTaskReport::create([
-            'task_report_id' => $request->task_report_id,
-            'role_id' => $request->acting_commitment_marker_id,
-            'role' => 'acting_commitment_marker'
-        ]);
-
         return redirect()->back()->with('success', 'Berhasil mengirim');
     }
 
@@ -130,7 +124,7 @@ class TaskReportAgreementController extends Controller
             ->toArray();
 
         // jika sudah tidak ada data yang kosong maka update is_agree
-        if (count($agreementTaskReport) >= 5) {
+        if (count($agreementTaskReport) >= 4) {
             if (in_array(false, $agreementTaskReport)) {
                 // Jika terdapat 'false' dalam array, update is_agree 'false'
                 TaskReport::where('id', $taskReportID)->update([

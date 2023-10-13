@@ -276,7 +276,7 @@ $("#rejectReasonBtn").on("click", function () {
             $("#siteSupervisor1").append(siteSupervisor1Td);
 
             if (
-                response["data"]["site_supervisor_2"]["data"]["is_agree"] == 2
+                response["data"]["site_supervisor_2"]["data"]["is_agree"] == 1
             ) {
                 var statusSiteSupervisor2 = `<span class="badge badge-success">Setuju</span>`;
             } else if (
@@ -301,37 +301,6 @@ $("#rejectReasonBtn").on("click", function () {
                 `;
 
             $("#siteSupervisor2").append(siteSupervisor2Td);
-
-            if (
-                response["data"]["acting_commitment_marker"]["data"][
-                    "is_agree"
-                ] == 2
-            ) {
-                var statusPPK = `<span class="badge badge-success">Setuju</span>`;
-            } else if (
-                response["data"]["acting_commitment_marker"]["data"][
-                    "is_agree"
-                ] == 0
-            ) {
-                var statusPPK = `<span class="badge badge-danger">Tidak Setuju</span>`;
-            } else {
-                var statusPPK = "";
-            }
-
-            var ppkTd = `
-                <td>${
-                    response["data"]["acting_commitment_marker"]["data"]["name"]
-                }</td>
-                <td>${response["data"]["acting_commitment_marker"]["role"]}</td>
-                <td>${statusPPK}</td>
-                <td>${
-                    response["data"]["acting_commitment_marker"]["data"][
-                        "information"
-                    ] ?? "-"
-                }</td>
-                `;
-
-            $("#ppk").append(ppkTd);
         },
     });
 
