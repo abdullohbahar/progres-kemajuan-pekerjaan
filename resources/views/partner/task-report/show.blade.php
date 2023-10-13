@@ -266,6 +266,7 @@
                         </div>
                     </div>
                 </div>
+                @include('partner.task-report.components.history-progress-weekly');
             </div>
         </div>
     </div>

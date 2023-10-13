@@ -85,9 +85,10 @@ class TaskReportSiteSupervisorController extends Controller
         // $taskNextWeeks = $taskReport;
 
         $taskNextWeeks = [];
+        $taskLastWeeks = [];
         foreach ($taskReport?->kindOfWork as $kindOfWork) {
             foreach ($kindOfWork->kindOfWorkDetails as $kindOfWorkDetail) {
-                // get time schedule
+                // get time schedule next week
                 foreach ($kindOfWorkDetail->timeSchedules->where('week', $getWeek + 1)->where('progress', '!=', 0) as $timeSchedule) {
                     $timeScheduleData = [
                         'name' => $kindOfWorkDetail->name,
@@ -96,8 +97,24 @@ class TaskReportSiteSupervisorController extends Controller
 
                     $taskNextWeeks[] = $timeScheduleData;
                 }
+
+
+                for ($i = $getWeek - 1; $i >= 1; $i--) {
+                    $timeScheduleDataLastWeek = [];
+                    foreach ($kindOfWorkDetail->timeSchedules->where('week', $i)->where('progress', '!=', 0) as $timeSchedule) {
+                        $timeScheduleDataLastWeek = [
+                            'name' => $kindOfWorkDetail->name,
+                            'kind_of_work_detail_id' => $timeSchedule->kind_of_work_detail_id,
+                            'progress' => $timeSchedule->progress
+                        ];
+
+                        $taskLastWeeks[$i][] = $timeScheduleDataLastWeek;
+                    }
+                }
             }
         }
+
+        krsort($taskLastWeeks);
 
         $siteSupervisorID = SiteSupervisor::where('user_id', Auth::user()->id)->first()->id;
 
@@ -109,7 +126,8 @@ class TaskReportSiteSupervisorController extends Controller
             'weeklyProgresses' => $weeklyProgresses,
             'taskNextWeeks' => $taskNextWeeks,
             'siteSupervisorID' => $siteSupervisorID,
-            'siteSupervisorRole' => $siteSupervisorRole
+            'siteSupervisorRole' => $siteSupervisorRole,
+            'taskLastWeeks' => $taskLastWeeks
         ];
 
         return view('site-supervisor.task-report.show', $data);

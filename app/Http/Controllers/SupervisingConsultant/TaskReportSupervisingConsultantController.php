@@ -81,7 +81,7 @@ class TaskReportSupervisingConsultantController extends Controller
     {
         // menampilkan form berdasarkan jumlah minggu
         // menghitung hari per minggu
-        $start_date = Carbon::parse($taskReport->spkDate)->format('Y-m-d');
+        $start_date = Carbon::parse($taskReport->spk_date)->format('Y-m-d');
         $executionTime = $taskReport->execution_time;
         $dates = [];
 
@@ -99,6 +99,8 @@ class TaskReportSupervisingConsultantController extends Controller
         $groupedDates = array_chunk($dates, 7);
 
         $dateNow = date('d-m-Y');
+
+        $weeks = 0;
 
         foreach ($groupedDates as $week => $dates) {
             $weekNow = $week;
