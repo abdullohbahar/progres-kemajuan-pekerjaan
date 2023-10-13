@@ -12,29 +12,49 @@ class TaskReportAgreementController extends Controller
 {
     public function sendTaskReportAgreement(Request $request)
     {
-        AgreementTaskReport::create([
-            'task_report_id' => $request->task_report_id,
-            'role_id' => $request->supervising_consultant_id,
-            'role' => 'supervising_consultant'
-        ]);
+        $agreementTaskReports = AgreementTaskReport::where('task_report_id', $request->task_report_id);
 
-        AgreementTaskReport::create([
-            'task_report_id' => $request->task_report_id,
-            'role_id' => $request->partner_id,
-            'role' => 'partner'
-        ]);
+        if ($agreementTaskReports->count() <= 0) {
+            AgreementTaskReport::create([
+                'task_report_id' => $request->task_report_id,
+                'role_id' => $request->supervising_consultant_id,
+                'role' => 'supervising_consultant'
+            ]);
 
-        AgreementTaskReport::create([
-            'task_report_id' => $request->task_report_id,
-            'role_id' => $request->site_supervisor_id_1,
-            'role' => 'site_supervisor_1'
-        ]);
+            AgreementTaskReport::create([
+                'task_report_id' => $request->task_report_id,
+                'role_id' => $request->partner_id,
+                'role' => 'partner'
+            ]);
 
-        AgreementTaskReport::create([
-            'task_report_id' => $request->task_report_id,
-            'role_id' => $request->site_supervisor_id_2,
-            'role' => 'site_supervisor_2'
-        ]);
+            AgreementTaskReport::create([
+                'task_report_id' => $request->task_report_id,
+                'role_id' => $request->site_supervisor_id_1,
+                'role' => 'site_supervisor_1'
+            ]);
+
+            AgreementTaskReport::create([
+                'task_report_id' => $request->task_report_id,
+                'role_id' => $request->site_supervisor_id_2,
+                'role' => 'site_supervisor_2'
+            ]);
+        } else {
+            AgreementTaskReport::where('task_report_id', $request->task_report_id)
+                ->whereIn('role_id', [
+                    $request->supervising_consultant_id,
+                    $request->partner_id,
+                    $request->site_supervisor_id_1,
+                    $request->site_supervisor_id_2
+                ])
+                ->update([
+                    'information' => NULL,
+                    'is_agree' => NULL
+                ]);
+
+            TaskReport::where('id', $request->task_report_id)->update([
+                'is_agree' => NULL
+            ]);
+        }
 
         return redirect()->back()->with('success', 'Berhasil mengirim');
     }

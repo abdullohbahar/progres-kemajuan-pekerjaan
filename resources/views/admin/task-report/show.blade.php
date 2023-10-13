@@ -135,7 +135,7 @@
                                     </a>
                                 </div>
                                 <div class="card-toolbar">
-                                    @if (count($taskReport->agreementTaskReport) <= 0)
+                                    @if (count($taskReport->agreementTaskReport) <= 0 || $taskReport->is_agree === 0)
                                         <form action="{{ route('send.task.report.agreement') }}" method="POST"
                                             id="sendTaskReportAgreement">
                                             @csrf
