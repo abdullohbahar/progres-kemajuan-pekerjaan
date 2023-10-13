@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ActingCommitmentMarker\DashboardActingCommitmentMarkerController;
+use App\Http\Controllers\ActingCommitmentMarker\TaskReportActingComitmentMarkerController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AgreementController;
@@ -101,6 +103,12 @@ Route::prefix('pengawas-lapangan')->group(function () {
     Route::get('dashboard', [DashboardSiteSupervisorController::class, 'index'])->name('site.supervisor.dashboard');
     Route::get('task-report', [TaskReportSiteSupervisorController::class, 'index'])->name('task.report.site.supervisor');
     Route::get('task-report/{id}', [TaskReportSiteSupervisorController::class, 'show'])->name('show.task.report.site.supervisor');
+});
+
+Route::prefix('ppk')->group(function () {
+    Route::get('dashboard', [DashboardActingCommitmentMarkerController::class, 'index'])->name('acting.commitment.marker.dashboard');
+    Route::get('task-report', [TaskReportActingComitmentMarkerController::class, 'index'])->name('task.report.acting.commitment.marker');
+    Route::get('task-report/{id}', [TaskReportActingComitmentMarkerController::class, 'show'])->name('show.task.report.acting.commitment.marker');
 });
 
 // Agreement
