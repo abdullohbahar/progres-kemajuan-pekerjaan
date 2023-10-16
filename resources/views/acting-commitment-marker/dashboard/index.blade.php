@@ -74,7 +74,7 @@
                                                     <td>{{ $activeWork->spk_date }}</td>
                                                     <td><span class="badge badge-success">{{ $activeWork->status }}</span>
                                                     </td>
-                                                    <td><a href="{{ route('show.task.report.site.supervisor', $activeWork->id) }}"
+                                                    <td><a href="{{ route('show.task.report.acting.commitment.marker', $activeWork->id) }}"
                                                             class="btn btn-info btn-sm">Lihat Laporan
                                                         </a></td>
                                                 </tr>
@@ -114,7 +114,7 @@
                                                     <td>{{ $inactiveWork->spk_date }}</td>
                                                     <td><span class="badge badge-secondary">Belum Aktif</span>
                                                     </td>
-                                                    <td><a href="{{ route('show.task.report.site.supervisor', $inactiveWork->id) }}"
+                                                    <td><a href="{{ route('show.task.report.acting.commitment.marker', $inactiveWork->id) }}"
                                                             class="btn btn-info btn-sm">Lihat Laporan
                                                         </a></td>
                                                 </tr>
@@ -154,7 +154,7 @@
                                                     <td>{{ $spWork->spk_date }}</td>
                                                     <td><span class="badge badge-warning">{{ $spWork->status }}</span>
                                                     </td>
-                                                    <td><a href="{{ route('show.task.report.site.supervisor', $spWork->id) }}"
+                                                    <td><a href="{{ route('show.task.report.acting.commitment.marker', $spWork->id) }}"
                                                             class="btn btn-info btn-sm">Lihat Laporan
                                                         </a></td>
                                                 </tr>

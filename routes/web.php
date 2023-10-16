@@ -19,6 +19,7 @@ use App\Http\Controllers\Partner\DashboardPartnerController;
 use App\Http\Controllers\Partner\TaskReportPartnerController;
 use App\Http\Controllers\Admin\SupervisingConsultantController;
 use App\Http\Controllers\Admin\ActingCommitmentMarkerController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiteSupervisor\DashboardSiteSupervisorController;
 use App\Http\Controllers\SiteSupervisor\TaskReportSiteSupervisorController;
 use App\Http\Controllers\SupervisingConsultant\DashboardSupervisingConsultantController;
@@ -123,6 +124,9 @@ Route::prefix('agreement')->group(function () {
     Route::post('from-partner', [AgreementController::class, 'fromPartner'])->name('agree.from.partner');
     Route::post('from-site-supervisor', [AgreementController::class, 'fromSiteSupervisor1'])->name('agree.from.site.supervisor');
 });
+
+Route::get('profile', [ProfileController::class, 'index'])->name('profile');
+Route::put('update-profile/{id}', [ProfileController::class, 'update'])->name('update.profile');
 
 // additional url
 Route::get('count-percentage/{id}', [KindOfWorkController::class, 'countPercentage']);
