@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agreement;
+use App\Models\Schedule;
 use App\Models\TaskReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -156,6 +157,12 @@ class AgreementController extends Controller
                         'status' => 'Disetujui Pengawas Lapangan 1',
                     ]);
                 }
+
+                // add value true to is site supervisor agree
+                Schedule::where('kind_of_work_detail_id', $request->kind_of_work_detail_id[$key])
+                    ->where('week', $request->week[$key])->update([
+                        'is_site_supervisor_agree' => 1
+                    ]);
             } else {
                 if ($agreement->count() > 0) {
                     $agreement->update([

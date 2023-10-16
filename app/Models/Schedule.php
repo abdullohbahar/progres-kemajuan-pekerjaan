@@ -13,7 +13,8 @@ class Schedule extends Model
         'kind_of_work_detail_id',
         'week',
         'date',
-        'progress'
+        'progress',
+        'is_site_supervisor_agree'
     ];
 
     public function kindOfWorkDetail()

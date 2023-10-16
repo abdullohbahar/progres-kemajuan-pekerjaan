@@ -98,10 +98,9 @@ class TaskReportSiteSupervisorController extends Controller
                     $taskNextWeeks[] = $timeScheduleData;
                 }
 
-
                 for ($i = $getWeek - 1; $i >= 1; $i--) {
                     $timeScheduleDataLastWeek = [];
-                    foreach ($kindOfWorkDetail->timeSchedules->where('week', $i)->where('progress', '!=', 0) as $timeSchedule) {
+                    foreach ($kindOfWorkDetail->schedules->where('week', $i)->where('is_site_supervisor_agree', 1)->where('progress', '!=', 0) as $timeSchedule) {
                         $timeScheduleDataLastWeek = [
                             'name' => $kindOfWorkDetail->name,
                             'kind_of_work_detail_id' => $timeSchedule->kind_of_work_detail_id,
