@@ -162,9 +162,23 @@ class AgreementController extends Controller
             $maxSP = -5;
             // check is total more than or less than max sp
             if ($total < $maxSP) {
-                TaskReport::where('id', $taskReportID)->update([
-                    'status' => 'SCM 1'
-                ]);
+                if ($taskReport->status == 'Aktif') {
+                    TaskReport::where('id', $taskReportID)->update([
+                        'status' => 'SP 1'
+                    ]);
+                } else if ($taskReport->status == 'SP 1') {
+                    TaskReport::where('id', $taskReportID)->update([
+                        'status' => 'SCM 1'
+                    ]);
+                } else if ($taskReport->status == 'SCM 1') {
+                    TaskReport::where('id', $taskReportID)->update([
+                        'status' => 'SCM 2'
+                    ]);
+                } else if ($taskReport->status == 'SCM 2') {
+                    TaskReport::where('id', $taskReportID)->update([
+                        'status' => 'SCM 3'
+                    ]);
+                }
             } else {
                 TaskReport::where('id', $taskReportID)->update([
                     'status' => 'Aktif'
@@ -173,9 +187,23 @@ class AgreementController extends Controller
         } else {
             $maxSP = -10;
             if ($total < $maxSP) {
-                TaskReport::where('id', $taskReportID)->update([
-                    'status' => 'SP 1'
-                ]);
+                if ($taskReport->status == 'Aktif') {
+                    TaskReport::where('id', $taskReportID)->update([
+                        'status' => 'SP 1'
+                    ]);
+                } else if ($taskReport->status == 'SP 1') {
+                    TaskReport::where('id', $taskReportID)->update([
+                        'status' => 'SCM 1'
+                    ]);
+                } else if ($taskReport->status == 'SCM 1') {
+                    TaskReport::where('id', $taskReportID)->update([
+                        'status' => 'SCM 2'
+                    ]);
+                } else if ($taskReport->status == 'SCM 2') {
+                    TaskReport::where('id', $taskReportID)->update([
+                        'status' => 'SCM 3'
+                    ]);
+                }
             } else {
                 TaskReport::where('id', $taskReportID)->update([
                     'status' => 'Aktif'
