@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Agreement;
 use App\Models\Schedule;
+use App\Models\Agreement;
 use App\Models\TaskReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\SupervisingConsultant\TaskReportSupervisingConsultantController;
 
 class AgreementController extends Controller
 {
@@ -123,7 +124,64 @@ class AgreementController extends Controller
             }
         }
 
+        // lakukan pengecekan apakah minggu ini dapat SP atau tidak
+        $this->checkSP($request->task_report_id[0]);
+
         return redirect()->back()->with('success', 'Berhasil mengirim progress mingguan ke pengawas lapangan 1');
+    }
+
+    public function checkSP($taskReportID)
+    {
+        $taskReport = TaskReport::with(['kindOfWork.kindOfWorkDetails.schedules', 'kindOfWork.kindOfWorkDetails.timeSchedules'])->findorfail($taskReportID);
+
+        $taskReportController = new TaskReportSupervisingConsultantController();
+
+        $getWeek = $taskReportController->getWeek($taskReport);
+
+        $totalSchedule = 0;
+        $totalTimeSchedule = 0;
+
+        foreach ($taskReport->kindOfWork as $kindOfWork) {
+            foreach ($kindOfWork->kindOfWorkDetails as $kindOfWorkDetail) {
+                // count schedule
+                for ($i = 1; $i < $getWeek + 1; $i++) {
+                    $totalSchedule += $kindOfWorkDetail->schedules->where('week', $i)->first()?->progress;
+                }
+
+                // count time schedule
+                for ($i = 1; $i < $getWeek + 1; $i++) {
+                    $totalTimeSchedule += $kindOfWorkDetail->timeSchedules->where('week', $i)->first()?->progress;
+                }
+            }
+        }
+
+        $total = $totalSchedule - $totalTimeSchedule;
+
+        // check if 
+        if ($totalTimeSchedule > 70) {
+            $maxSP = -5;
+            // check is total more than or less than max sp
+            if ($total < $maxSP) {
+                TaskReport::where('id', $taskReportID)->update([
+                    'status' => 'SCM 1'
+                ]);
+            } else {
+                TaskReport::where('id', $taskReportID)->update([
+                    'status' => 'Aktif'
+                ]);
+            }
+        } else {
+            $maxSP = -10;
+            if ($total < $maxSP) {
+                TaskReport::where('id', $taskReportID)->update([
+                    'status' => 'SP 1'
+                ]);
+            } else {
+                TaskReport::where('id', $taskReportID)->update([
+                    'status' => 'Aktif'
+                ]);
+            }
+        }
     }
 
     public function fromSiteSupervisor1(Request $request)

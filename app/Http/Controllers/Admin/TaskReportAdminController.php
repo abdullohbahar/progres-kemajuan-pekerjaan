@@ -3,17 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use DataTables;
+use App\Models\Option;
 use App\Models\Partner;
 use App\Models\McHistory;
 use App\Models\TaskReport;
 use Illuminate\Http\Request;
 use App\Models\SiteSupervisor;
+use App\Models\AgreementTaskReport;
 use App\Models\TimeScheduleHistory;
 use App\Http\Controllers\Controller;
 use App\Models\SupervisingConsultant;
 use App\Models\ActingCommitmentMarker;
-use App\Models\AgreementTaskReport;
-use App\Models\Option;
+use App\Http\Controllers\SupervisingConsultant\TaskReportSupervisingConsultantController;
 
 class TaskReportAdminController extends Controller
 {
@@ -107,6 +108,9 @@ class TaskReportAdminController extends Controller
             ->orderByRaw("total_mc = 'Awal' DESC, total_mc ASC")
             ->get();
 
+        $taskReportController = new TaskReportSupervisingConsultantController();
+        $getWeek = $taskReportController->getWeek($taskReport);
+
         $dateSpk = strtotime($taskReport->spk_date);
         $dateNow = strtotime(Option::where('name', 'date-now')->first()->value) ?? strtotime(now());
 
@@ -120,7 +124,8 @@ class TaskReportAdminController extends Controller
             'active' => $this->active,
             'taskReport' => $taskReport,
             'status' => $status,
-            'totalMcHistories' => $totalMcHistories
+            'totalMcHistories' => $totalMcHistories,
+            'getWeek' => $getWeek
         ];
 
         return view('admin.task-report.show', $data);
@@ -244,5 +249,22 @@ class TaskReportAdminController extends Controller
         ];
 
         return view('admin.task-report.report', $data);
+    }
+
+    public function reportWeekly($id, $week)
+    {
+        $taskReport = TaskReport::with('kindOfWork')->findorfail($id);
+
+        $kindOfWorkDetails = $taskReport->kindOfWork->first()->kindOfWorkDetails;
+
+        $schedules = $kindOfWorkDetails->first()->schedules;
+
+        $data = [
+            'taskReport' => $taskReport,
+            'schedules' => $schedules,
+            'kindOfWorkDetails' => $kindOfWorkDetails,
+        ];
+
+        return view('admin.task-report.weekly-report', $data);
     }
 }

@@ -132,6 +132,7 @@ Route::put('update-profile/{id}', [ProfileController::class, 'update'])->name('u
 Route::get('count-percentage/{id}', [KindOfWorkController::class, 'countPercentage']);
 
 Route::get('report/{id}', [TaskReportAdminController::class, 'report'])->name('report');
+Route::get('weekly-report/{id}/{week}', [TaskReportAdminController::class, 'reportWeekly'])->name('weekly.report');
 
 Route::get('get-progress-picture/{id}', [KindOfWorkController::class, 'getProgressPictures'])->name('get.progress.picture');
 Route::get('get-progress-picture-other-role/{kindOfWorkDetailID}/{week}', [KindOfWorkController::class, 'getProgressPicturesOtherRole'])->name('get.progress.picture');

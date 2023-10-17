@@ -165,6 +165,30 @@
                                         class="btn btn-sm btn-info mx-2"> Lihat
                                         Laporan
                                     </a>
+                                    <div class="dropdown">
+                                        <button class="btn btn-info btn-sm dropdown-toggle mx-2 my-1" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            Lihat Laporan
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="{{ route('report', $taskReport->id) }}" class="dropdown-item"
+                                                    target="_blank">
+                                                    Seluruh Laporan
+                                                </a>
+                                            </li>
+                                            @for ($i = 1; $i < $getWeek; $i++)
+                                                <li><a class="dropdown-item" target="_blank"
+                                                        href="{{ route('weekly.report', [
+                                                            'id' => $taskReport->id,
+                                                            'week' => $i,
+                                                        ]) }}">
+                                                        Laporan Minggu Ke-{{ $i }}
+                                                    </a>
+                                                </li>
+                                            @endfor
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-body" style="font-size: 14px">
