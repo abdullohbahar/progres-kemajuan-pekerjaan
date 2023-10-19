@@ -153,12 +153,12 @@
                             // Mengambil minggu dan progress dari entri schedule saat ini
                             $week = $schedule->week;
                             $progress = $schedule->progress;
-                            
+
                             // Jika minggu ini belum ada dalam array totalProgressByWeek, inisialisasi dengan nilai 0
                             if (!isset($totalProgressByWeek[$week])) {
                                 $totalProgressByWeek[$week] = 0;
                             }
-                            
+
                             // Menambahkan nilai progress saat ini ke total progress untuk minggu ini
                             $totalProgressByWeek[$week] += $progress;
                         @endphp
@@ -184,7 +184,7 @@
                             // dump($i);
                             $sum += $totalProgressByWeek[$i];
                         }
-                    
+
                         $totalTimeSchedule[] = $sum;
                     }
                 @endphp
@@ -239,14 +239,14 @@
             'IV' => 4,
             'I' => 1,
         ];
-    
+
         foreach ($angkaRomawi as $simbol => $nilai) {
             while ($angka >= $nilai) {
                 $romawi .= $simbol;
                 $angka -= $nilai;
             }
         }
-    
+
         return $romawi;
     }
 @endphp

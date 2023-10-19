@@ -113,4 +113,28 @@ class TaskReportSupervisingConsultantController extends Controller
 
         return $weeks ?? 0;
     }
+
+    public function getGroupedDates($taskReport)
+    {
+        // menampilkan form berdasarkan jumlah minggu
+        // menghitung hari per minggu
+        $start_date = Carbon::parse($taskReport->spk_date)->format('Y-m-d');
+        $executionTime = $taskReport->execution_time;
+        $dates = [];
+
+        // Menginisialisasi tanggal awal
+        $current_date = $start_date;
+
+        for ($i = 0; $i < $executionTime; $i++) {
+            $dates[] = date('d-m-Y', strtotime($current_date));
+
+            // Menambahkan 1 hari ke tanggal saat ini
+            $current_date = date('Y-m-d', strtotime($current_date . " + 1 day"));
+        }
+
+        // Memecah array ke dalam grup-grup 7 hari
+        $groupedDates = array_chunk($dates, 7);
+
+        return $groupedDates ?? 0;
+    }
 }

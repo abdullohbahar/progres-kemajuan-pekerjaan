@@ -161,10 +161,6 @@
                                     <a href="{{ route('edit.task.report.admin', $taskReport->id) }}"
                                         class="btn btn-sm btn-warning"> Ubah
                                     </a>
-                                    <a href="{{ route('report', $taskReport->id) }}" target="_blank"
-                                        class="btn btn-sm btn-info mx-2"> Lihat
-                                        Laporan
-                                    </a>
                                     <div class="dropdown">
                                         <button class="btn btn-info btn-sm dropdown-toggle mx-2 my-1" type="button"
                                             data-bs-toggle="dropdown" aria-expanded="false">
