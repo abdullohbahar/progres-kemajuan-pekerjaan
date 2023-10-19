@@ -126,7 +126,9 @@ class TaskReportSiteSupervisorController extends Controller
             'taskNextWeeks' => $taskNextWeeks,
             'siteSupervisorID' => $siteSupervisorID,
             'siteSupervisorRole' => $siteSupervisorRole,
-            'taskLastWeeks' => $taskLastWeeks
+            'taskLastWeeks' => $taskLastWeeks,
+            'getWeek' => $getWeek,
+
         ];
 
         return view('site-supervisor.task-report.show', $data);

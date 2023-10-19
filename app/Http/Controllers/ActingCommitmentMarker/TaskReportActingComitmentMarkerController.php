@@ -88,7 +88,8 @@ class TaskReportActingComitmentMarkerController extends Controller
             'week' => $getWeek,
             'weeklyProgresses' => $weeklyProgresses,
             'taskNextWeeks' => $taskNextWeeks,
-            'partnerID' => $partnerID
+            'partnerID' => $partnerID,
+            'getWeek' => $getWeek,
         ];
 
         return view('partner.task-report.show', $data);

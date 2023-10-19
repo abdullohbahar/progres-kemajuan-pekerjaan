@@ -107,7 +107,8 @@ class TaskReportPartnerController extends Controller
             'weeklyProgresses' => $weeklyProgresses,
             'taskNextWeeks' => $taskNextWeeks,
             'partnerID' => $partnerID,
-            'taskLastWeeks' => $taskLastWeeks
+            'taskLastWeeks' => $taskLastWeeks,
+            'getWeek' => $getWeek,
         ];
 
         return view('partner.task-report.show', $data);

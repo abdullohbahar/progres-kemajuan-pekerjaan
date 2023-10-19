@@ -42,6 +42,7 @@ class TaskReportSupervisingConsultantController extends Controller
         $taskReport = TaskReport::with('agreementTaskReport', 'agreement')->where('id', $id)->firstOrfail();
 
         $week = $this->getWeek($taskReport);
+        $getWeek = $week;
 
         // Melakukan pengecekan apakah status sudah aktif atau belum
         $timeScheduleHistories = TimeScheduleHistory::where('task_report_id', $id)->get();
@@ -71,7 +72,8 @@ class TaskReportSupervisingConsultantController extends Controller
             'timeScheduleHistories' => $timeScheduleHistories,
             'totalMcHistories' => $totalMcHistories,
             'week' => $week,
-            'supervisingConsultantID' => $supervisingConsultantID
+            'supervisingConsultantID' => $supervisingConsultantID,
+            'getWeek' => $getWeek
         ];
 
         return view('supervising_consultant.task-report.show', $data);
