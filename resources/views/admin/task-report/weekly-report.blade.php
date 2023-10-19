@@ -92,7 +92,7 @@
                 MC-0
             </td>
             <td style="vertical-align: middle" rowspan="3">Bobot Tiap Pekerjaan</td>
-            <td colspan="6">
+            <td colspan="3">
                 Progress Pelaksanaan Pekerjaan
             </td>
         </tr>
@@ -104,18 +104,15 @@
                 Volume
             </td>
             <td style="vertical-align: middle" rowspan="2">Jumlah Harga (Rp)</td>
-            <td colspan="2">
+            <td>
                 s/d Minggu Lalu
             </td>
-            <td colspan="2">Minggu Ini</td>
-            <td colspan="2">s/d Minggu Ini</td>
+            <td>Minggu Ini</td>
+            <td>s/d Minggu Ini</td>
         </tr>
         <tr class="fw-bolder text-center">
-            <td>Volume</td>
             <td>Bobot (%)</td>
-            <td>Volume</td>
             <td>Bobot (%)</td>
-            <td>Volume</td>
             <td>Bobot (%)</td>
         </tr>
         @php
@@ -147,7 +144,6 @@
                             $progressLastWeek += $detailLastWeek->progress ?? 0;
                         }
                     @endphp
-                    <td></td>
                     <td>{{ $progressLastWeek }}%</td>
 
                     {{-- minggu ini --}}
@@ -155,11 +151,6 @@
                         $detailThisWeek = $kindOfWorkDetail->schedules->where('week', $week)->first();
                         $progressThisWeek = $detailThisWeek->progress ?? 0;
                     @endphp
-                    <td>
-                        @if ($progressThisWeek != 0)
-                            {{ $kindOfWorkDetail->mc_volume }}
-                        @endif
-                    </td>
                     <td>{{ $progressThisWeek }}%</td>
 
                     {{-- minggu lalu + minggu ini --}}
@@ -171,7 +162,6 @@
                             $progressNow += $detailNow->progress ?? 0;
                         }
                     @endphp
-                    <td></td>
                     <td>{{ $progressNow }}%</td>
                 </tr>
 
@@ -211,12 +201,11 @@
             <td colspan="3" class="fw-bolder text-end">Terlambat</td>
             <td class="fw-bolder text-end">{{ $totalProgressNow - $totalTimeSchedule }}%</td>
         </tr>
+    </table>
+
+    <table style="width: 100%; margin-top: 100px">
         <tr>
-            <td colspan="14" style="height: 70px"></td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-            <td>
+            <td colspan="2">
                 Mengetahui <br>
                 Pejabat Pembuat Komitmen <br>
                 Dinas Perhubungan Kab. Bantul
@@ -228,7 +217,7 @@
                 <u>{{ $ppk->name }}</u> <br>
                 NIP. {{ $ppk->nip }}
             </td>
-            <td colspan="3">
+            <td colspan="2">
                 Mengetahui <br>
                 Tim Teknis Pelaksana Lapangan <br>
                 <u>1. {{ $siteSupervisor1->name }}</u> <br>
@@ -242,7 +231,7 @@
                 <u>3. {{ $siteSupervisor3->name }}</u> <br>
                 NIP. {{ $siteSupervisor3->nip }}
             </td>
-            <td colspan="4" class="text-center">
+            <td colspan="2" class="text-center">
                 Disetujui <br>
                 Penyedia Jasa <br>
                 {{ $partner->cvConsultant->name }}
