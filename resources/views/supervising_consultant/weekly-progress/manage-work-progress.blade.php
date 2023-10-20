@@ -128,17 +128,17 @@
                                                 $date = \Carbon\Carbon::parse(reset($groupDate))->format('d') . '-' . \Carbon\Carbon::parse(end($groupDate))->format('d');
                                                 $data = $kindOfWorkDetail->timeSchedules->where('date', $date)->first();
                                                 $schedule = $kindOfWorkDetail->schedules->where('date', $date)->first();
-                                                
+
                                                 foreach ($groupDate as $progressDate) {
                                                     $progressDate = strtotime($progressDate);
-                                                
+
                                                     if ($progressDate > $dateNow) {
                                                         $disabled = '';
                                                     } else {
                                                         $disabled = 'readonly';
                                                     }
                                                 }
-                                                
+
                                             @endphp
                                             <div class="col-sm-12 col-md-6 mt-5 pt-4">
                                                 <div class="form-group">

@@ -42,7 +42,13 @@ class WeeklyReportSupervisingConsultantController extends Controller
         // Memecah array ke dalam grup-grup 7 hari
         $groupedDates = array_chunk($dates, 7);
 
-        $dateNow = strtotime(Option::where('name', 'date-now')->first()->value) ?? strtotime(date('d-m-Y'));
+        $optionDate = Option::where('name', 'date-now')->first()->value;
+
+        if ($optionDate) {
+            $dateNow = strtotime($optionDate);
+        } else {
+            $dateNow = strtotime(date('d-m-Y'));
+        }
 
         $data = [
             'active' => $this->active,
