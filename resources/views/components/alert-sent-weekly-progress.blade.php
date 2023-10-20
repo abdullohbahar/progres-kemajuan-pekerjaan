@@ -3,12 +3,16 @@
 
     if ($roles == 'Supervising Consultant') {
         $roles = 'Konsultan Pengawas';
+        $message = '';
     } elseif ($roles == 'Partner') {
         $roles = 'Konsultan Pengawas';
+        $message = '';
     } elseif ($roles == 'Site Supervisor') {
         $roles = 'Rekanan';
+        $message = 'Jika data tidak disetujui selama 2x24 jam maka sistem akan otomatis menyetujui data yang ada';
     } elseif ($roles == 'Site Supervisor 2') {
         $roles = 'Pengawas Lapangan 1';
+        $message = 'Jika data tidak disetujui selama 1x24 jam maka sistem akan otomatis menyetujui data yang ada';
     }
 @endphp
 <!--begin::Alert-->
@@ -21,7 +25,8 @@
     <!--begin::Wrapper-->
     <div class="d-flex flex-column text-light pe-0 pe-sm-10">
         <!--begin::Title-->
-        <h4 class="mb-2 text-light text-capitalize">{{ $roles }} Telah Mengirim Progress Mingguan</h4>
+        <h4 class="mb-2 text-light text-capitalize">{{ $roles }} Telah Mengirim Progress Mingguan.
+            {{ $message }}</h4>
         <!--end::Title-->
 
         <!--begin::Content-->

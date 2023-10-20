@@ -56,6 +56,7 @@ class AgreementController extends Controller
         ]);
     }
 
+    // dari konsultan pengawas ke rekanan
     public function fromSupervisingConsultant(Request $request)
     {
         foreach ($request->week as $key => $week) {
@@ -89,9 +90,13 @@ class AgreementController extends Controller
             }
         }
 
+        $sendMessage = new SendMessageController();
+        $sendMessage->sendMessageToPartner($request->kind_of_work_detail_id[0]);
+
         return redirect()->back()->with('success', 'Berhasil mengirim progress mingguan ke rekanan');
     }
 
+    // dari rekanan ke pengawas lapangan
     public function fromPartner(Request $request)
     {
         foreach ($request->week as $key => $week) {
@@ -124,6 +129,9 @@ class AgreementController extends Controller
             }
         }
 
+        $sendMessage = new SendMessageController();
+        $sendMessage->sendMessageToSiteSupervisor($request->kind_of_work_detail_id[0]);
+
         // lakukan pengecekan apakah minggu ini dapat SP atau tidak
         $this->checkSP($request->task_report_id[0]);
 
@@ -155,7 +163,10 @@ class AgreementController extends Controller
             }
         }
 
-        $total = $totalSchedule - $totalTimeSchedule;
+        // $total = $totalSchedule - $totalTimeSchedule;
+        $total = -25;
+
+        $sendMessage = new SendMessageController();
 
         // check if 
         if ($totalTimeSchedule > 70) {
@@ -179,6 +190,8 @@ class AgreementController extends Controller
                         'status' => 'SCM 3'
                     ]);
                 }
+
+                $sendMessage->sendMessageGotSP($taskReportID);
             } else {
                 TaskReport::where('id', $taskReportID)->update([
                     'status' => 'Aktif'
@@ -204,6 +217,8 @@ class AgreementController extends Controller
                         'status' => 'SCM 3'
                     ]);
                 }
+
+                $sendMessage->sendMessageGotSP($taskReportID);
             } else {
                 TaskReport::where('id', $taskReportID)->update([
                     'status' => 'Aktif'
