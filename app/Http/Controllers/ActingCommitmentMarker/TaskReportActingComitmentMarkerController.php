@@ -92,6 +92,6 @@ class TaskReportActingComitmentMarkerController extends Controller
             'getWeek' => $getWeek,
         ];
 
-        return view('partner.task-report.show', $data);
+        return view('acting-commitment-marker.task-report.show', $data);
     }
 }

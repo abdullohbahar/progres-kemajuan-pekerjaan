@@ -55,68 +55,11 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <!--begin::Content container-->
             <div id="kt_app_content_container" class="app-container container-fluid">
-                @if (count($taskReport->agreementTaskReport->where('role_id', $siteSupervisorID)->whereNull('is_agree')) >= 1)
-                    <!--begin::Alert-->
-                    <div class="alert alert-dismissible bg-primary d-flex flex-column flex-sm-row p-5 mb-10">
-                        <!--begin::Icon-->
-                        <i class="ki-duotone ki-information fs-2hx text-light me-4 mb-5 mb-sm-0"><span
-                                class="path1"></span><span class="path2"></span><span class="path3"></span></i>
-                        <!--end::Icon-->
-
-                        <!--begin::Wrapper-->
-                        <div class="d-flex flex-column text-light pe-0 pe-sm-10">
-                            <!--begin::Title-->
-                            <h4 class="mb-2 light">Konfirmasi Pekerjaan</h4>
-                            <!--end::Title-->
-
-                            <!--begin::Content-->
-                            <span class="text-capitalize">Admin Telah Melakukan Input Data Pekerjaan. Harap Lakukan
-                                Pengecekan.
-                                Jika selama 2x24 jam anda tidak melakukan konfirmasi maka anda dinyatakan setuju dengan data
-                                yang ada</span>
-                            <!--end::Content-->
-                            <div class="row">
-                                <div class="col">
-                                    <input type="hidden" id="taskReportID" value="{{ $taskReport->id }}">
-                                    <input type="hidden" id="userID" value="{{ Auth::user()->siteSupervisor->id }}">
-                                    <input type="hidden" id="role" value="site_supervisor">
-
-                                    <a href="{{ route('list.task.report', $taskReport->id) }}" target="_blank"
-                                        class="btn btn-info btn-sm mt-2">Lihat Data Pekerjaan</a>
-                                    <button class="btn btn-success btn-sm mt-2 mx-3" id="agreeTaskReport">Setujui</button>
-                                    <button class="btn btn-danger btn-sm mt-2"
-                                        id="rejectTaskReportSiteSupervisor">Tolak</button>
-                                </div>
-                            </div>
-                        </div>
-                        <!--end::Wrapper-->
-
-                        <!--begin::Close-->
-                        <button type="button"
-                            class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto"
-                            data-bs-dismiss="alert">
-                            <i class="ki-duotone ki-cross fs-1 text-light"><span class="path1"></span><span
-                                    class="path2"></span></i>
-                        </button>
-                        <!--end::Close-->
-                    </div>
-                    <!--end::Alert-->
-                @endif
                 <div class="row">
                     <div class="col-12">
                         @include('components.detail-task-report')
 
-                        @if ($siteSupervisorRole == 1)
-                            @includeWhen(
-                                $taskReport->agreement->where('status', 'Disetujui Rekanan')->where('task_report_id', $taskReport->id)->where('week', $week)->count() > 0,
-                                'components.alert-sent-weekly-progress')
-                        @elseif($siteSupervisorRole == 2)
-                            @includeWhen(
-                                $taskReport->agreement->where('status', 'Disetujui Pengawas Lapangan 1')->where('task_report_id', $taskReport->id)->where('week', $week)->count() > 0,
-                                'components.alert-sent-weekly-progress')
-                        @endif
-
-                        <div class="card mt-5">
+                        {{-- <div class="card mt-5">
                             <div class="card-header border-0 pt-5">
                                 <h2>Progress Pekerjaan Minggu Ini</h2>
                                 <div class="card-toolbar">
@@ -141,7 +84,6 @@
                                     <tr>
                                         <td><b>Nama Pekerjaan</b></td>
                                         <td><b>Progress</b></td>
-                                        {{-- <td><b>Foto</b></td> --}}
                                     </tr>
                                     @foreach ($weeklyProgresses as $weeklyProgress)
                                         <tr>
@@ -157,9 +99,9 @@
                                     @endforeach
                                 </table>
                             </div>
-                        </div>
+                        </div> --}}
 
-                        <div class="card mt-5">
+                        {{-- <div class="card mt-5">
                             <div class="card-header border-0 pt-5">
                                 <h2>Pekerjaan Untuk Minggu Selanjutnya</h2>
                             </div>
@@ -168,7 +110,6 @@
                                     <tr>
                                         <td><b>Nama Pekerjaan</b></td>
                                         <td><b>Progress</b></td>
-                                        {{-- <td><b>Foto</b></td> --}}
                                     </tr>
                                     @foreach ($taskNextWeeks as $taskNextWeek)
                                         <tr>
@@ -178,15 +119,15 @@
                                     @endforeach
                                 </table>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    @include('admin.task-report.components.photo-modal')
-    @include('site-supervisor.task-report.components.agreement-modal')
+    {{-- @include('admin.task-report.components.photo-modal')
+    @include('site-supervisor.task-report.components.agreement-modal') --}}
 @endsection
 
 @push('addons-js')
