@@ -30,7 +30,12 @@
                                 @enderror
                             </div>
                             <div class="form-group mb-3">
-                                <label class="form-label" for="phone_number">Nomor HP</label>
+                                <label class="form-label" for="phone_number">Nomor HP <small style="color: red">
+                                        <i>
+                                            (Gunakan
+                                            Awalan 0 atau +62
+                                            misal: +6281224213, 0821345678)
+                                        </i></small></label>
                                 <input type="text" name="phone_number" id="phone_number"
                                     class="form-control @error('phone_number') is-invalid @enderror"
                                     value="{{ old('phone_number') }}" required>
