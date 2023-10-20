@@ -56,6 +56,9 @@ class TaskReportAgreementController extends Controller
             ]);
         }
 
+        $sendMessage = new SendMessageController();
+        $sendMessage->sendMessageTaskReportConfirmation($request->task_report_id);
+
         return redirect()->back()->with('success', 'Berhasil mengirim');
     }
 

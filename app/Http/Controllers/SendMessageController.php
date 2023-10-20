@@ -100,7 +100,7 @@ class SendMessageController extends Controller
 
     public function sendMessageGotSP($taskReportID)
     {
-        // cari data task report seusai macam pekerjaan id
+        // cari data task report
         $taskReport = TaskReport::where('id', $taskReportID)->first();
 
         $partner = Partner::where('id', $taskReport->partner_id)->first();
@@ -125,6 +125,46 @@ class SendMessageController extends Controller
             CURLOPT_POSTFIELDS => array(
                 'target' => $partner->phone_number . ',' . $supervisingConsultant->phone_number, // nomer hp Rekanan
                 'message' => "Pekerjaan *$taskName* Mendapat *$status*, Harap Untuk Melengkapi Pekerjaan Di Minggu Depan",
+                'countryCode' => '62', //optional
+            ),
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: 2Ap5o4gaEsJrHmNuhLDH' //change TOKEN to your actual token
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+    }
+
+    public function sendMessageTaskReportConfirmation($taskReportID)
+    {
+        // cari data task report
+        $taskReport = TaskReport::where('id', $taskReportID)->first();
+
+        $supervisingConsultant = SupervisingConsultant::where('id', $taskReport->supervising_consultant_id)->first();
+        $partner = Partner::where('id', $taskReport->partner_id)->first();
+        $siteSupervisor1 = SiteSupervisor::where('id', $taskReport->site_supervisor_id_1)->first();
+        $siteSupervisor2 = SiteSupervisor::where('id', $taskReport->site_supervisor_id_2)->first();
+
+
+        $taskName = $taskReport->task_name;
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.fonnte.com/send',
+            CURLOPT_SSL_VERIFYPEER => FALSE,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array(
+                'target' => $partner->phone_number . ',' . $supervisingConsultant->phone_number . ',' . $siteSupervisor1->phone_number . ',' . $siteSupervisor2->phone_number, // nomer hp Rekanan
+                'message' => "Admin Telah Melakukan Input Data Pekerjaan *$taskName*. Harap Lakukan Pengecekan. Jika selama 2x24 jam anda tidak melakukan konfirmasi maka anda dinyatakan setuju dengan data yang ada",
                 'countryCode' => '62', //optional
             ),
             CURLOPT_HTTPHEADER => array(
