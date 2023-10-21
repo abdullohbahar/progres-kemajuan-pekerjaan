@@ -40,7 +40,7 @@ License: For each use you must have a valid license purchased only from above li
     </style>
 
     <title>
-        @yield('title')
+        Siswasdal PolSiB | @yield('title')
     </title>
     @stack('addons-css')
 </head>
