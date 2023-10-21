@@ -23,7 +23,7 @@
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                         <!--begin::Item-->
                         <li class="breadcrumb-item text-muted">
-                            <a href="../../demo1/dist/index.html" class="text-muted text-hover-primary">Home</a>
+                            <a href="{{ route('dashboard.admin') }}" class="text-muted text-hover-primary">Home</a>
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
@@ -50,22 +50,17 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header border-0 pt-5">
-                                <div>
-                                    <h1>{{ $kindOfWorkDetail->kindOfWork->name }}</h1>
-                                    <h6>{{ $kindOfWorkDetail->name }}</h6>
-                                    <input type="hidden" id="idDetail" value="{{ $kindOfWorkDetail->id }}">
-                                    <input type="hidden" id="kindOfWorkID"
-                                        value="{{ $kindOfWorkDetail->kind_of_work_id }}">
-                                </div>
-                                <div class="header-toolbar">
-                                    {{-- <h1>Total Harga : Rp {{ number_format($mcAllPrice, 0, ',', '.') }}</h1> --}}
+                                <div class="card-toolbar">
+                                    <a href="javascript: history.go(-1)" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-arrow-left"></i> Kembali
+                                    </a>
                                 </div>
                             </div>
                             <form action="{{ route('manage.work.update', $kindOfWorkDetail->id) }}" method="POST"
                                 id="myForm">
                                 @csrf
                                 @method('PUT')
-                                <div class="card-body">
+                                {{-- <div class="card-body">
                                     <div class="row">
                                         <h1>Harga Kontrak</h1>
                                     </div>
@@ -130,7 +125,6 @@
                                         </div>
                                         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mt-3">
                                             <div class="form-group">
-                                                {{-- menghitung total harga kontrak --}}
                                                 @php
                                                     $contractTotalPrice = ($kindOfWorkDetail->contract_unit_price ?? 0) * ($kindOfWorkDetail->contract_volume ?? 0);
                                                     if ($contractTotalPrice != 0) {
@@ -153,10 +147,19 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- harga mc --}}
                                 <div class="card-body">
+                                    <div class="row">
+                                        <div>
+                                            <h1>{{ $kindOfWorkDetail->kindOfWork->name }}</h1>
+                                            <h6>{{ $kindOfWorkDetail->name }}</h6>
+                                            <input type="hidden" id="idDetail" value="{{ $kindOfWorkDetail->id }}">
+                                            <input type="hidden" id="kindOfWorkID"
+                                                value="{{ $kindOfWorkDetail->kind_of_work_id }}">
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <h1>Harga MC</h1>
                                     </div>
@@ -257,8 +260,8 @@
                                 </div>
 
                                 {{-- old value --}}
-                                <input type="text" name="oldMcVolume" hidden
-                                    value="{{ $kindOfWorkDetail->mc_volume }}" id="">
+                                <input type="text" name="oldMcVolume" hidden value="{{ $kindOfWorkDetail->mc_volume }}"
+                                    id="">
                                 <input type="text" name="oldMcUnit" hidden value="{{ $kindOfWorkDetail->mc_unit }}"
                                     id="">
                                 <input type="text" name="oldMcUnitPrice" hidden

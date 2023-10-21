@@ -3,15 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use DataTables;
+use Carbon\Carbon;
+use App\Models\Option;
 use App\Models\Partner;
 use App\Models\McHistory;
 use App\Models\TaskReport;
 use Illuminate\Http\Request;
 use App\Models\SiteSupervisor;
+use App\Models\AgreementTaskReport;
 use App\Models\TimeScheduleHistory;
 use App\Http\Controllers\Controller;
 use App\Models\SupervisingConsultant;
 use App\Models\ActingCommitmentMarker;
+use App\Http\Controllers\SupervisingConsultant\TaskReportSupervisingConsultantController;
 
 class TaskReportAdminController extends Controller
 {
@@ -95,7 +99,7 @@ class TaskReportAdminController extends Controller
 
     public function show($id)
     {
-        $taskReport = TaskReport::where('id', $id)->firstOrfail();
+        $taskReport = TaskReport::with('agreementTaskReport')->where('id', $id)->firstOrfail();
         // Melakukan pengecekan apakah status sudah aktif atau belum
 
         // mengambil total mc
@@ -105,8 +109,11 @@ class TaskReportAdminController extends Controller
             ->orderByRaw("total_mc = 'Awal' DESC, total_mc ASC")
             ->get();
 
+        $taskReportController = new TaskReportSupervisingConsultantController();
+        $getWeek = $taskReportController->getWeek($taskReport);
+
         $dateSpk = strtotime($taskReport->spk_date);
-        $dateNow = strtotime(now());
+        $dateNow = strtotime(Option::where('name', 'date-now')->first()->value) ?? strtotime(now());
 
         if ($dateNow < $dateSpk) {
             $status = 'inactive';
@@ -118,7 +125,8 @@ class TaskReportAdminController extends Controller
             'active' => $this->active,
             'taskReport' => $taskReport,
             'status' => $status,
-            'totalMcHistories' => $totalMcHistories
+            'totalMcHistories' => $totalMcHistories,
+            'getWeek' => $getWeek
         ];
 
         return view('admin.task-report.show', $data);
@@ -242,5 +250,78 @@ class TaskReportAdminController extends Controller
         ];
 
         return view('admin.task-report.report', $data);
+    }
+
+    public function reportWeekly($id, $week)
+    {
+        $taskReport = TaskReport::with('kindOfWork', 'actingCommitmentMarker', 'partner.cvConsultant')->findorfail($id);
+
+        $taskReportController = new TaskReportSupervisingConsultantController();
+
+        $groupedDates = $taskReportController->getGroupedDates($taskReport);
+
+        $kindOfWorkDetails = $taskReport->kindOfWork->first()->kindOfWorkDetails;
+
+        $ppk = $taskReport->actingCommitmentMarker;
+        $siteSupervisor1 = SiteSupervisor::where('id', $taskReport->site_supervisor_id_1)->first();
+        $siteSupervisor2 = SiteSupervisor::where('id', $taskReport->site_supervisor_id_2)->first();
+        $siteSupervisor3 = SiteSupervisor::where('id', $taskReport->site_supervisor_id_3)->first();
+        $partner = $taskReport->partner;
+        $supervisingConsultant = $taskReport->supervisingConsultant;
+
+        $firstDateOfWeek = Carbon::createFromFormat('d-m-Y', current($groupedDates[$week - 1]));
+        $formattedfirstDateOfWeek = $firstDateOfWeek->isoFormat('D MMMM Y');
+
+        $lastDateOfWeek = Carbon::createFromFormat('d-m-Y', end($groupedDates[$week - 1]));
+        $formattedlastDateOfWeek = $lastDateOfWeek->isoFormat('D MMMM Y');
+
+        $agreementDate = Carbon::createFromFormat('Y-m-d', $taskReport->spk_date);
+        $formattedAgreementDate = $lastDateOfWeek->isoFormat('D MMMM Y');
+
+        $data = [
+            'taskReport' => $taskReport,
+            'kindOfWorkDetails' => $kindOfWorkDetails,
+            'week' => $week,
+            'ppk' => $ppk,
+            'siteSupervisor1' => $siteSupervisor1,
+            'siteSupervisor2' => $siteSupervisor2,
+            'siteSupervisor3' => $siteSupervisor3,
+            'partner' => $partner,
+            'supervisingConsultant' => $supervisingConsultant,
+            'firstDayOfWeek' => current($groupedDates[$week - 1]),
+            'lastDateOfWeek' => end($groupedDates[$week - 1]),
+            'formattedlastDateOfWeek' => $formattedlastDateOfWeek,
+            'formattedfirstDateOfWeek' => $formattedfirstDateOfWeek,
+            'formattedAgreementDate' => $formattedAgreementDate,
+            'spelledNumber' => $this->spelledNumber($week)
+        ];
+
+        return view('admin.task-report.weekly-report', $data);
+    }
+
+    public function spelledNumber($angka)
+    {
+        $angka = abs($angka);
+        $spelledNumber = ["", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas"];
+
+        if ($angka < 12) {
+            return $spelledNumber[$angka];
+        } elseif ($angka < 20) {
+            return $this->spelledNumber($angka - 10) . " Belas";
+        } elseif ($angka < 100) {
+            return $this->spelledNumber($angka / 10) . " Puluh " . $this->spelledNumber($angka % 10);
+        } elseif ($angka < 200) {
+            return "Seratus " . $this->spelledNumber($angka - 100);
+        } elseif ($angka < 1000) {
+            return $this->spelledNumber($angka / 100) . " Ratus " . $this->spelledNumber($angka % 100);
+        } elseif ($angka < 2000) {
+            return "Seribu " . $this->spelledNumber($angka - 1000);
+        } elseif ($angka < 1000000) {
+            return $this->spelledNumber($angka / 1000) . " Ribu " . $this->spelledNumber($angka % 1000);
+        } elseif ($angka < 1000000000) {
+            return $this->spelledNumber($angka / 1000000) . " Juta " . $this->spelledNumber($angka % 1000000);
+        } else {
+            return "Angka terlalu besar untuk diubah menjadi terbilang.";
+        }
     }
 }

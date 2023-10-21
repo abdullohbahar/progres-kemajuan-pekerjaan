@@ -38,7 +38,7 @@ class TaskReportPartnerController extends Controller
 
     public function show($id)
     {
-        $taskReport = TaskReport::where('id', $id)->firstOrfail();
+        $taskReport = TaskReport::with('kindOfWork.kindOfWorkDetails.schedules')->where('id', $id)->firstOrfail();
         // Melakukan pengecekan apakah status sudah aktif atau belum
 
         $dateSpk = strtotime($taskReport->spk_date);
@@ -54,14 +54,61 @@ class TaskReportPartnerController extends Controller
 
         $getWeek = $taskReportController->getWeek($taskReport);
 
-        $weeklyProgresses = Agreement::with('kindOfWorkDetail')->where('task_report_id', $id)->where('week', $getWeek)->get();
+
+        $weeklyProgresses = Agreement::with('kindOfWorkDetail')
+            ->where('task_report_id', $id)
+            ->where('role', 'Partner')
+            ->where('status', 'Awal')
+            ->orWhere('status', 'Ditolak Pengawas Lapangan 1')
+            ->where('week', $getWeek)->get();
+
+        // task next week
+        // $taskNextWeeks = $taskReport;
+
+        $taskNextWeeks = [];
+        $taskLastWeeks = [];
+        foreach ($taskReport?->kindOfWork as $kindOfWork) {
+            foreach ($kindOfWork->kindOfWorkDetails as $kindOfWorkDetail) {
+                // get time schedule next week
+                foreach ($kindOfWorkDetail->timeSchedules->where('week', $getWeek + 1)->where('progress', '!=', 0) as $timeSchedule) {
+                    $timeScheduleData = [
+                        'name' => $kindOfWorkDetail->name,
+                        'progress' => $timeSchedule->progress
+                    ];
+
+                    $taskNextWeeks[] = $timeScheduleData;
+                }
+
+
+                for ($i = $getWeek - 1; $i >= 1; $i--) {
+                    $timeScheduleDataLastWeek = [];
+                    foreach ($kindOfWorkDetail->schedules->where('week', $i)->where('is_site_supervisor_agree', 1)->where('progress', '!=', 0) as $timeSchedule) {
+                        $timeScheduleDataLastWeek = [
+                            'name' => $kindOfWorkDetail->name,
+                            'kind_of_work_detail_id' => $timeSchedule->kind_of_work_detail_id,
+                            'progress' => $timeSchedule->progress
+                        ];
+
+                        $taskLastWeeks[$i][] = $timeScheduleDataLastWeek;
+                    }
+                }
+            }
+        }
+
+        krsort($taskLastWeeks);
+
+        $partnerID = Partner::where('user_id', Auth::user()->id)->first()->id;
 
         $data = [
             'active' => $this->active,
             'taskReport' => $taskReport,
             'status' => $status,
             'week' => $getWeek,
-            'weeklyProgresses' => $weeklyProgresses
+            'weeklyProgresses' => $weeklyProgresses,
+            'taskNextWeeks' => $taskNextWeeks,
+            'partnerID' => $partnerID,
+            'taskLastWeeks' => $taskLastWeeks,
+            'getWeek' => $getWeek,
         ];
 
         return view('partner.task-report.show', $data);

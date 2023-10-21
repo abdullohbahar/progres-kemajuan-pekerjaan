@@ -7,6 +7,7 @@ use App\Models\TimeSchedule;
 use Illuminate\Http\Request;
 use App\Models\KindOfWorkDetail;
 use App\Http\Controllers\Controller;
+use App\Models\Option;
 use App\Models\TimeScheduleHistory;
 
 class TimeScheduleSupervisingConsultantController extends Controller
@@ -39,10 +40,13 @@ class TimeScheduleSupervisingConsultantController extends Controller
         // Memecah array ke dalam grup-grup 7 hari
         $groupedDates = array_chunk($dates, 7);
 
+        $dateNow = strtotime(Option::where('name', 'date-now')->first()->value) ?? strtotime(date('d-m-Y'));
+
         $data = [
             'active' => $this->active,
             'groupedDates' => $groupedDates,
             'kindOfWorkDetail' => $kindOfWorkDetail,
+            'dateNow' => $dateNow
         ];
 
         return view('supervising_consultant.time-schedule.create', $data);
@@ -73,8 +77,11 @@ class TimeScheduleSupervisingConsultantController extends Controller
                     ->task
                     ->spk_date;
 
+                // menambahkan 4 hari kedepan
+                $addDays = Carbon::parse($spkDate)->addDays(4)->format('Y-m-d');
+
                 // jika aktif maka simpan perubahan ke history
-                if ($spkDate <= now()) {
+                if ($addDays <= now()) {
                     // melakukan pengecekan apakah data yang lama sama dengan data yang baru,
                     // jika tidak sama maka simpan data lama ke histroy
                     // Get Task Report ID

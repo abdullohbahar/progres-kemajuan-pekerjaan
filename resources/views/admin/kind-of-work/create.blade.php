@@ -23,7 +23,7 @@
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                         <!--begin::Item-->
                         <li class="breadcrumb-item text-muted">
-                            <a href="../../demo1/dist/index.html" class="text-muted text-hover-primary">Home</a>
+                            <a href="{{ route('dashboard.admin') }}" class="text-muted text-hover-primary">Home</a>
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
@@ -54,7 +54,7 @@
                             <div class="card">
                                 <div class="card-header border-0 pt-5">
                                     <div class="card-toolbar">
-                                        <a href="{{ route('task.report.admin') }}" class="btn btn-sm btn-primary">
+                                        <a href="javascript: history.go(-1)" class="btn btn-sm btn-primary">
                                             <i class="fas fa-arrow-left"></i> Kembali
                                         </a>
                                     </div>

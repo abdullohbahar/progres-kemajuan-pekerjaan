@@ -23,6 +23,7 @@ class User extends Authenticatable
         'username',
         'password',
         'role',
+        'photo',
     ];
 
     /**
@@ -52,5 +53,10 @@ class User extends Authenticatable
     public function partner()
     {
         return $this->hasOne(Partner::class);
+    }
+
+    public function siteSupervisor()
+    {
+        return $this->hasOne(SiteSupervisor::class);
     }
 }

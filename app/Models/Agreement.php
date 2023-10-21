@@ -17,11 +17,17 @@ class Agreement extends Model
         'week',
         'date',
         'progress',
-        'status'
+        'status',
+        'information'
     ];
 
     public function kindOfWorkDetail()
     {
         return $this->belongsTo(KindOfWorkDetail::class);
+    }
+
+    public function taskReport()
+    {
+        return $this->belongsTo(TaskReport::class);
     }
 }

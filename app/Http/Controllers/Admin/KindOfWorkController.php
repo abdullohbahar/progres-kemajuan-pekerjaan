@@ -6,8 +6,10 @@ use Exception;
 use Carbon\Carbon;
 use App\Models\Unit;
 use RuntimeException;
+use App\Models\Option;
 use App\Models\Partner;
 use App\Models\Schedule;
+use App\Models\McHistory;
 use App\Models\KindOfWork;
 use App\Models\TaskReport;
 use App\Models\TimeSchedule;
@@ -20,7 +22,6 @@ use Illuminate\Support\Facades\Auth;
 use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
 use Illuminate\Console\View\Components\Task;
 use App\Http\Controllers\SendMessageController;
-use App\Models\McHistory;
 
 class KindOfWorkController extends Controller
 {
@@ -73,7 +74,9 @@ class KindOfWorkController extends Controller
     public function edit($id)
     {
         $kindOfWork = KindOfWork::with('task')->where('id', $id)->firstorfail();
-        $expired = now() <= $kindOfWork->task->spk_date;
+        $dateNow = Option::where('name', 'date-now')->first()->value ?? now();
+
+        $expired = $dateNow <= $kindOfWork->task->spk_date;
 
         $data = [
             'active' => $this->active,
@@ -161,6 +164,8 @@ class KindOfWorkController extends Controller
         $removeChar = ['R', 'p', '.', ',', ' '];
         $removePercent = ['%'];
 
+        $dateNows = Option::where('name', 'date-now')->first()->value ?? now();
+
         try {
             DB::beginTransaction();
 
@@ -171,14 +176,16 @@ class KindOfWorkController extends Controller
             $taskReport = TaskReport::with('kindOfWork')->where('id', $taskId->id)->first()->kindOfWork;
 
             // Menghapus karakter sesuai dengan array yang ada di $removeChar
-            $contractUnitPrice = str_replace($removeChar, "", $request->contract_unit_price);
-            $contractTotalPrice = str_replace($removeChar, "", $request->total_contract_price);
+            // $contractUnitPrice = str_replace($removeChar, "", $request->contract_unit_price);
+            // $contractTotalPrice = str_replace($removeChar, "", $request->total_contract_price);
             $mcUnitPrice = str_replace($removeChar, "", $request->mc_unit_price);
             $mcTotalPrice = str_replace($removeChar, "", $request->total_mc_price);
             $workValue = str_replace($removePercent, "", $request->work_value);
 
+            $addDays = Carbon::parse($taskId->spk_date)->addDays(4)->format('Y-m-d');
+
             // jika spk date sudah aktif maka lakukan kode dibawah
-            if ($taskId->spk_date <= now()) {
+            if ($addDays <= $dateNows) {
                 // lakukan pengecekan apakah sudah ada mc awal atau belum
                 $firstMc = McHistory::where('kind_of_work_detail_id', $id)
                     ->where('task_report_id', $taskId->id)
@@ -205,10 +212,10 @@ class KindOfWorkController extends Controller
 
             // update kind of work
             KindOfWorkDetail::where('id', $id)->update([
-                'contract_volume' => $request->contract_volume,
-                'contract_unit' => $request->contract_unit,
-                'contract_unit_price' => $contractUnitPrice,
-                'total_contract_price' => $contractTotalPrice,
+                // 'contract_volume' => $request->contract_volume,
+                // 'contract_unit' => $request->contract_unit,
+                // 'contract_unit_price' => $contractUnitPrice,
+                // 'total_contract_price' => $contractTotalPrice,
                 'mc_volume' => $request->mc_volume,
                 'mc_unit' => $request->mc_unit,
                 'mc_unit_price' => $mcUnitPrice,
@@ -238,7 +245,7 @@ class KindOfWorkController extends Controller
                 }
             }
 
-            if ($taskId->spk_date <= now()) {
+            if ($addDays <= $dateNows) {
                 // lakukan perhitungan total mc
                 $taskReport = TaskReport::with('kindOfWork.kindOfWorkDetails.schedules')->where('id', $taskId->id)->first();
 
@@ -287,7 +294,7 @@ class KindOfWorkController extends Controller
                                     'mc_volume' => $kindOfWorkDetail->mc_volume,
                                     'mc_unit' => $kindOfWorkDetail->mc_unit,
                                     'mc_unit_price' => $kindOfWorkDetail->mc_unit_price,
-                                    'total_mc_price' => $kindOfWorkDetail->total_mc_price,
+                                    'total_mc_price' => $kindOfWorkDetail->total_mc_price ?? 0,
                                     'work_value' => $kindOfWorkDetail->work_value,
                                     'total_mc' => $totalMc,
                                     'kind_of_work_detail_id' => $kindOfWorkDetail->id,
@@ -344,6 +351,25 @@ class KindOfWorkController extends Controller
     public function getProgressPictures($id)
     {
         $pictures = ProgressPicture::where('schedule_id', $id)->get();
+
+        return response()->json([
+            'datas' => $pictures,
+        ]);
+    }
+
+    public function getProgressPicturesOtherRole($kindOfWorkDetailID, $week)
+    {
+        // $pictures = ProgressPicture::where('schedule_id', $id)->get();
+
+        $schedules = Schedule::where('kind_of_work_detail_id', $kindOfWorkDetailID)
+            ->where('week', $week)
+            ->get();
+
+        $pictures = [];
+
+        foreach ($schedules as $key => $schedule) {
+            $pictures[$key] = ProgressPicture::where('schedule_id', $schedule->id)->get();
+        }
 
         return response()->json([
             'datas' => $pictures,

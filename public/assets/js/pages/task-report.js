@@ -16,6 +16,12 @@ if (role == "Admin") {
 } else if (role == "Partner") {
     var hidden = "d-none";
     var url = "/rekanan/task-report/";
+} else if (role == "Site Supervisor") {
+    var hidden = "d-none";
+    var url = "/pengawas-lapangan/task-report/";
+} else if (role == "Acting Commitment Marker") {
+    var hidden = "d-none";
+    var url = "/ppk/task-report/";
 } else {
     var hidden = "d-none";
     var url = "/task-report/";
@@ -125,12 +131,6 @@ var KTDatatablesServerSide = (function () {
                         if (data == "Aktif") {
                             const dateNow = new Date().getTime();
                             const dateSpk = new Date(row.spk_date).getTime();
-
-                            console.log(dateSpk < dateNow);
-
-                            console.log(dateNow);
-                            console.log(dateSpk);
-                            console.log(row);
 
                             if (dateNow < dateSpk) {
                                 return `<span class="badge badge-secondary">Belum Mulai</span>`;

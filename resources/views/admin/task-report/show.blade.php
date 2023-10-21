@@ -32,7 +32,7 @@
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                         <!--begin::Item-->
                         <li class="breadcrumb-item text-muted">
-                            <a href="../../demo1/dist/index.html" class="text-muted text-hover-primary">Home</a>
+                            <a href="{{ route('dashboard.admin') }}" class="text-muted text-hover-primary">Home</a>
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
@@ -55,25 +55,136 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <!--begin::Content container-->
             <div id="kt_app_content_container" class="app-container container-fluid">
+                @if ($taskReport->is_agree === 1)
+                    <!--begin::Alert-->
+                    <div class="alert alert-dismissible bg-success d-flex flex-column flex-sm-row p-5 mb-10">
+                        <!--begin::Icon-->
+                        <i class="ki-duotone ki-information fs-2hx text-light me-4 mb-5 mb-sm-0"><span
+                                class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                        <!--end::Icon-->
+
+                        <!--begin::Wrapper-->
+                        <div class="d-flex flex-column text-light pe-0 pe-sm-10">
+                            <!--begin::Title-->
+                            <h4 class="mb-2 light">Data Pekerjaan Disetujui</h4>
+                            <!--end::Title-->
+
+                            <!--begin::Content-->
+                            <span class="text-capitalize">Data Pekerjaan Yang Dikirim Telah Disetujui.</span>
+                            <!--end::Content-->
+                        </div>
+                        <!--end::Wrapper-->
+
+                        <!--begin::Close-->
+                        <button type="button"
+                            class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto"
+                            data-bs-dismiss="alert">
+                            <i class="ki-duotone ki-cross fs-1 text-light"><span class="path1"></span><span
+                                    class="path2"></span></i>
+                        </button>
+                        <!--end::Close-->
+                    </div>
+                    <!--end::Alert-->
+                @elseif($taskReport->is_agree === 0)
+                    <!--begin::Alert-->
+                    <div class="alert alert-dismissible bg-warning d-flex flex-column flex-sm-row p-5 mb-10">
+                        <!--begin::Icon-->
+                        <i class="ki-duotone ki-information fs-2hx text-light me-4 mb-5 mb-sm-0"><span
+                                class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                        <!--end::Icon-->
+
+                        <!--begin::Wrapper-->
+                        <div class="d-flex flex-column text-light pe-0 pe-sm-10">
+                            <!--begin::Title-->
+                            <h4 class="mb-2 light">Data Pekerjaan Ditolak</h4>
+                            <!--end::Title-->
+
+                            <!--begin::Content-->
+                            <span class="text-capitalize">Data Pekerjaan Yang Dikirim Ditolak. Harap untuk melakukan
+                                pengecekan ulang</span>
+                            <!--end::Content-->
+
+                            <div class="row">
+                                <div class="col">
+                                    <button class="btn btn-danger btn-sm mt-2" id="rejectReasonBtn"
+                                        data-taskreportid="{{ $taskReport->id }}">Lihat Alasan
+                                        Penolakan</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Wrapper-->
+
+                        <!--begin::Close-->
+                        <button type="button"
+                            class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto"
+                            data-bs-dismiss="alert">
+                            <i class="ki-duotone ki-cross fs-1 text-light"><span class="path1"></span><span
+                                    class="path2"></span></i>
+                        </button>
+                        <!--end::Close-->
+                    </div>
+                    <!--end::Alert-->
+                @endif
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header border-0 pt-5">
                                 <div class="card-toolbar">
-                                    <a href="{{ route('task.report.admin') }}" class="btn btn-sm btn-primary">
+                                    <a href="javascript: history.go(-1)" class="btn btn-sm btn-primary">
                                         <i class="fas fa-arrow-left"></i> Kembali
                                     </a>
                                 </div>
                                 <div class="card-toolbar">
-                                    @if (auth()->user()->role == 'Admin')
-                                        <a href="{{ route('edit.task.report.admin', $taskReport->id) }}"
-                                            class="btn btn-sm btn-warning"> Ubah
-                                        </a>
+                                    @if (count($taskReport->agreementTaskReport) <= 0 || $taskReport->is_agree === 0)
+                                        <form action="{{ route('send.task.report.agreement') }}" method="POST"
+                                            id="sendTaskReportAgreement">
+                                            @csrf
+                                            <input type="text" hidden name="task_report_id" id="task_report_id"
+                                                value="{{ $taskReport->id }}">
+                                            <input type="text" hidden name="supervising_consultant_id"
+                                                id="supervising_consultant_id"
+                                                value="{{ $taskReport->supervising_consultant_id }}">
+                                            <input type="text" hidden name="partner_id" id="partner_id"
+                                                value="{{ $taskReport->partner_id }}">
+                                            <input type="text" hidden name="site_supervisor_id_1"
+                                                id="site_supervisor_id_1" value="{{ $taskReport->site_supervisor_id_1 }}">
+                                            <input type="text" hidden name="site_supervisor_id_2"
+                                                id="site_supervisor_id_2" value="{{ $taskReport->site_supervisor_id_2 }}">
+                                            <input type="text" hidden name="acting_commitment_marker_id"
+                                                id="acting_commitment_marker_id"
+                                                value="{{ $taskReport->acting_commitment_marker_id }}">
+                                            <button type="submit" class="btn btn-success btn-sm mx-2">
+                                                Kirim Persetujuan Pekerjaan
+                                            </button>
+                                        </form>
                                     @endif
-                                    <a href="{{ route('report', $taskReport->id) }}" target="_blank"
-                                        class="btn btn-sm btn-info mx-2"> Lihat
-                                        Laporan
+                                    <a href="{{ route('edit.task.report.admin', $taskReport->id) }}"
+                                        class="btn btn-sm btn-warning"> Ubah
                                     </a>
+                                    <div class="dropdown">
+                                        <button class="btn btn-info btn-sm dropdown-toggle mx-2 my-1" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            Lihat Laporan
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="{{ route('report', $taskReport->id) }}" class="dropdown-item"
+                                                    target="_blank">
+                                                    Seluruh Laporan
+                                                </a>
+                                            </li>
+                                            @for ($i = 1; $i < $getWeek; $i++)
+                                                <li><a class="dropdown-item" target="_blank"
+                                                        href="{{ route('weekly.report', [
+                                                            'id' => $taskReport->id,
+                                                            'week' => $i,
+                                                        ]) }}">
+                                                        Laporan Minggu Ke-{{ $i }}
+                                                    </a>
+                                                </li>
+                                            @endfor
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-body" style="font-size: 14px">
@@ -98,7 +209,8 @@
                                             </tr>
                                             <tr>
                                                 <td><b>Nilai Kontrak</b></td>
-                                                <td class="vertically-centered">: Rp {{ $taskReport->contract_value }}</td>
+                                                <td class="vertically-centered">: Rp {{ $taskReport->contract_value }}
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td><b>Waktu Pelaksanaan</b></td>
@@ -152,13 +264,15 @@
                         </div>
 
                         <div class="card mt-5">
+                            @include('components.search')
                             <div class="card-header">
-                                <h2 class="mt-5">Macam Pekerjaan</h2>
+                                <h2 class="mt-5">Macam Pekerjaan
+                                </h2>
                                 <div class="card-toolbar">
-                                    @if ($taskReport->spk_date >= date('Y-m-d'))
-                                        <a href="{{ route('kind.of.work', $taskReport->id) }}"
-                                            class="btn btn-primary btn-sm mx-1 my-1">Tambah Macam Pekerjaan</a>
-                                    @endif
+                                    {{-- @if ($taskReport->spk_date >= date('Y-m-d')) --}}
+                                    <a href="{{ route('kind.of.work', $taskReport->id) }}"
+                                        class="btn btn-primary btn-sm mx-1 my-1">Tambah Macam Pekerjaan</a>
+                                    {{-- @endif --}}
                                     @if (count($totalMcHistories) == 0)
                                         <button class="btn btn-sm btn-info mx-1 my-1" type="button"
                                             id="emptyHistory">Riwayat
@@ -188,8 +302,9 @@
                             <div class="card-body">
                                 @foreach ($taskReport->kindOfWork as $key => $kindOfWork)
                                     <div class="card mt-5" style="background-color: rgba(242, 242, 242, 0.667)">
-                                        <div class="card-header pt-5">
-                                            <h1>{{ $key + 1 }}. {{ $kindOfWork->name }}</h1>
+                                        <div class="card-header pt-5" id="{{ $key + 5 }}">
+                                            <h1 class="parentSearchable">{{ $key + 1 }}. <span
+                                                    class="childSearchable">{{ $kindOfWork->name }}</span></h1>
                                             <div class="card-toolbar">
                                                 @if ($taskReport->spk_date >= date('Y-m-d'))
                                                     <button id="removeItemButton" data-id="{{ $kindOfWork->id }}"
@@ -203,20 +318,29 @@
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <div class="row justify-content-end p-0" style="padding-left: 30px !important">
+                                            <div class="row justify-content-end p-0"
+                                                style="padding-left: 30px !important">
                                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                    @php
+                                                        $identified = $key + 10;
+                                                    @endphp
                                                     @foreach ($kindOfWork->kindOfWorkDetails as $key => $detail)
                                                         <div class="mt-4">
                                                             <div class="row">
-                                                                <div class="col-sm-12 col-md-8">
-                                                                    <h3>{{ $key + 1 }}. {{ $detail->name }}</h3>
+                                                                <div class="col-sm-12 col-md-8"
+                                                                    id="{{ $key + 9 }}{{ $identified++ }}">
+                                                                    <h3 class="parentSearchable">{{ $key + 1 }}.
+                                                                        <span
+                                                                            class="childSearchable">{{ $detail->name }}</span>
+                                                                    </h3>
                                                                     <p>Keterangan:</p>
                                                                     <p>{!! $detail->information !!}</p>
                                                                 </div>
                                                                 <div class="col-sm-12 col-md-4 text-end">
                                                                     <div class="row justify-content-end">
                                                                         @if (auth()->user()->role == 'Admin')
-                                                                            <div class="col-sm-12 col-md-6 col-lg-4 d-grid">
+                                                                            <div
+                                                                                class="col-sm-12 col-md-6 col-lg-4 d-grid">
                                                                                 <a href="{{ route('manage.work.admin', $detail->id) }}"
                                                                                     class="btn btn-sm btn-primary my-5"
                                                                                     style="margin-right: 5px">Kelola
@@ -225,7 +349,7 @@
                                                                         @endif
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-12">
+                                                                {{-- <div class="col-12">
                                                                     <div class="accordion"
                                                                         id="kt_accordion_{{ $key }}">
                                                                         <div class="accordion-item">
@@ -281,7 +405,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div> --}}
                                                                 <div class="col-12 mt-5">
                                                                     <div class="accordion"
                                                                         id="kt_accordion_{{ $key }}_mc">
@@ -470,12 +594,15 @@
     <!--end::Content container-->
 
     @include('admin.task-report.components.photo-modal')
+    @include('admin.task-report.components.reject-reason-modal')
 @endsection
 
 @push('addons-js')
     <script src="{{ asset('./assets/js/pages/task-report.js?r=' . time()) }}"></script>
     <script src="{{ asset('./assets/js/pages/upload-progress-picture.js?r=' . time()) }}"></script>
     <script src="{{ asset('./assets/js/pages/agreement.js?r=' . time()) }}"></script>
+    <script src="{{ asset('./assets/js/pages/task_report_agreement.js?r=' . time()) }}"></script>
+    <script src="{{ asset('./assets/js/pages/search.js?r=' . time()) }}"></script>
 
     {{-- warning alert --}}
     <script>

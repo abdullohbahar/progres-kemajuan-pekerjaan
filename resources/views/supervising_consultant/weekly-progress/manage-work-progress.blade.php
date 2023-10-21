@@ -32,7 +32,7 @@
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                         <!--begin::Item-->
                         <li class="breadcrumb-item text-muted">
-                            <a href="../../demo1/dist/index.html" class="text-muted text-hover-primary">Home</a>
+                            <a href="{{ route('dashboard.admin') }}" class="text-muted text-hover-primary">Home</a>
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
@@ -59,9 +59,10 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header border-0">
-                                <div class="py-5">
-                                    <h1>Kelola Kemajuan Pekerjaan</h1>
-                                    <h3>{{ $kindOfWorkDetail->name }}</h3>
+                                <div class="card-toolbar">
+                                    <a href="javascript: history.go(-1)" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-arrow-left"></i> Kembali
+                                    </a>
                                 </div>
                             </div>
                             <form action="{{ route('update.work.progress', $kindOfWorkDetail->id) }}" method="POST"
@@ -69,6 +70,12 @@
                                 @csrf
                                 @method('PUT')
                                 <div class="card-body">
+                                    <div class="row">
+                                        <div class="py-5">
+                                            <h1>Kelola Kemajuan Pekerjaan</h1>
+                                            <h3>{{ $kindOfWorkDetail->name }}</h3>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-sm-12 col-md-6 mt-4">
                                             <div class="form-group">
@@ -121,18 +128,17 @@
                                                 $date = \Carbon\Carbon::parse(reset($groupDate))->format('d') . '-' . \Carbon\Carbon::parse(end($groupDate))->format('d');
                                                 $data = $kindOfWorkDetail->timeSchedules->where('date', $date)->first();
                                                 $schedule = $kindOfWorkDetail->schedules->where('date', $date)->first();
-                                                
+
                                                 foreach ($groupDate as $progressDate) {
                                                     $progressDate = strtotime($progressDate);
-                                                    $dateNow = strtotime(date('d-m-Y'));
-                                                
+
                                                     if ($progressDate > $dateNow) {
                                                         $disabled = '';
                                                     } else {
                                                         $disabled = 'readonly';
                                                     }
                                                 }
-                                                
+
                                             @endphp
                                             <div class="col-sm-12 col-md-6 mt-5 pt-4">
                                                 <div class="form-group">

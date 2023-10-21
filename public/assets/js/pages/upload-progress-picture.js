@@ -98,3 +98,58 @@ $("body").on("click", "#deletePicture", function () {
         });
     });
 });
+
+$("body").on("click", "#seePictureOtherRole", function () {
+    var kindOfWorkDetailID = $(this).data("kindofworkdetailid");
+    var week = $(this).data("week");
+    var url = window.location.origin;
+    // Fungsi async untuk mengirim permintaan AJAX
+    async function fetchData() {
+        try {
+            const response = await fetch(
+                "/get-progress-picture-other-role/" +
+                    kindOfWorkDetailID +
+                    "/" +
+                    week
+            );
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json(); // Mengambil data JSON dari respons
+
+            $(".appendImage").empty();
+
+            if (data.datas.length > 0) {
+                data.datas.forEach((item, index) => {
+                    console.log(item.length);
+
+                    if (item.length > 0) {
+                        item.forEach((item, index) => {
+                            var img = `
+                            <div class="col-sm-12 col-md-4">
+                                <img src="${url}/${item.picture}" id="pict${index}" class="img-thumbnail mx-1" alt="">
+                            </div>
+                            `;
+
+                            $(".appendImage").append(img);
+                        });
+                    } else {
+                        var html = `<h1>Belum Ada Foto</h1>`;
+                        $(".appendImage").append(html);
+                    }
+                });
+            } else {
+                var html = `<h1>Belum Ada Foto</h1>`;
+                $(".appendImage").append(html);
+            }
+            modalSeePicture.show();
+        } catch (error) {
+            // Tangani kesalahan jika terjadi
+            alert("Terjadi kesalahan:", error);
+        }
+    }
+
+    // Panggil fungsi fetchData
+    fetchData();
+});

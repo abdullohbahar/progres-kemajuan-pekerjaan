@@ -26,7 +26,8 @@ class TaskReport extends Model
         'site_supervisor_id_3', // id pengawas lapangan 3
         'acting_commitment_marker_id', // id ppk
         'status',
-        'execution_time'
+        'execution_time',
+        'is_agree'
     ];
 
     // Konsultan Pengawas
@@ -63,6 +64,16 @@ class TaskReport extends Model
     public function kindOfWork()
     {
         return $this->hasMany(KindOfWork::class, 'task_id', 'id');
+    }
+
+    public function agreementTaskReport()
+    {
+        return $this->hasMany(AgreementTaskReport::class);
+    }
+
+    public function agreement()
+    {
+        return $this->hasMany(Agreement::class);
     }
 
     public function timeScheduleHistory()
