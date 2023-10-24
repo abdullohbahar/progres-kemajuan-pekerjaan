@@ -111,6 +111,10 @@
             <td style="vertical-align: middle">Jumlah Harga (Rp)</td>
             <td style="vertical-align: middle">Nilai Pekerjaan</td>
         </tr>
+        @php
+            $totalPrice = 0;
+            $totalPercentage = 0;
+        @endphp
         @foreach ($taskReport->kindOfWork as $key => $kindOfWork)
             <tr>
                 <td class="text-center" colspan="2">{{ angkaKeRomawi($key + 1) }}</td>
@@ -127,8 +131,18 @@
                     <td class="text-end">{{ number_format($kindOfWorkDetail->total_mc_price, 2, '.', ',') }}</td>
                     <td class="text-center">{{ $kindOfWorkDetail->work_value }}%</td>
                 </tr>
+
+                @php
+                    $totalPrice += $kindOfWorkDetail->total_mc_price;
+                    $totalPercentage += $kindOfWorkDetail->work_value;
+                @endphp
             @endforeach
         @endforeach
+        <tr>
+            <td colspan="6"></td>
+            <td class="text-end">{{ number_format($totalPrice, 2, '.', ',') }}</td>
+            <td class="text-center">{{ round($totalPercentage) }}%</td>
+        </tr>
     </table>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
@@ -159,14 +173,14 @@
             'IV' => 4,
             'I' => 1,
         ];
-    
+
         foreach ($angkaRomawi as $simbol => $nilai) {
             while ($angka >= $nilai) {
                 $romawi .= $simbol;
                 $angka -= $nilai;
             }
         }
-    
+
         return $romawi;
     }
 @endphp
