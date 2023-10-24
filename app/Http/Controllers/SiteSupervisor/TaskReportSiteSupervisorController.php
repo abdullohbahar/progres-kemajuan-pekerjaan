@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\SiteSupervisor;
 
 use DataTables;
+use App\Models\Option;
 use App\Models\Agreement;
 use App\Models\TaskReport;
 use Illuminate\Http\Request;
@@ -54,7 +55,13 @@ class TaskReportSiteSupervisorController extends Controller
         }
 
         $dateSpk = strtotime($taskReport->spk_date);
-        $dateNow = strtotime(now());
+        $optionDate = Option::where('name', 'date-now')->first()->value;
+
+        if ($optionDate) {
+            $dateNow = strtotime($optionDate);
+        } else {
+            $dateNow = strtotime(date('d-m-Y'));
+        }
 
         if ($dateNow < $dateSpk) {
             $status = 'inactive';

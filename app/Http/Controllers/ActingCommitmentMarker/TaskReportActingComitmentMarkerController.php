@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ActingCommitmentMarker;
 
 use DataTables;
+use App\Models\Option;
 use App\Models\Agreement;
 use App\Models\TaskReport;
 use Illuminate\Http\Request;
@@ -42,6 +43,15 @@ class TaskReportActingComitmentMarkerController extends Controller
         // Melakukan pengecekan apakah status sudah aktif atau belum
 
         $dateSpk = strtotime($taskReport->spk_date);
+
+        $optionDate = Option::where('name', 'date-now')->first()->value;
+
+        if ($optionDate) {
+            $dateNow = strtotime($optionDate);
+        } else {
+            $dateNow = strtotime(date('d-m-Y'));
+        }
+
         $dateNow = strtotime(now());
 
         if ($dateNow < $dateSpk) {

@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Partner;
 
 use DataTables;
+use App\Models\Option;
 use App\Models\Partner;
+use App\Models\Agreement;
 use App\Models\TaskReport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\SupervisingConsultant\TaskReportSupervisingConsultantController;
-use App\Models\Agreement;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\SupervisingConsultant\TaskReportSupervisingConsultantController;
 
 class TaskReportPartnerController extends Controller
 {
@@ -42,7 +43,14 @@ class TaskReportPartnerController extends Controller
         // Melakukan pengecekan apakah status sudah aktif atau belum
 
         $dateSpk = strtotime($taskReport->spk_date);
-        $dateNow = strtotime(now());
+
+        $optionDate = Option::where('name', 'date-now')->first()->value;
+
+        if ($optionDate) {
+            $dateNow = strtotime($optionDate);
+        } else {
+            $dateNow = strtotime(date('d-m-Y'));
+        }
 
         if ($dateNow < $dateSpk) {
             $status = 'inactive';

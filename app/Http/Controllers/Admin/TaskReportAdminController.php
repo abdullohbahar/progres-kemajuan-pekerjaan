@@ -113,12 +113,13 @@ class TaskReportAdminController extends Controller
         $getWeek = $taskReportController->getWeek($taskReport);
 
         $dateSpk = strtotime($taskReport->spk_date);
-        $dateNow = strtotime(Option::where('name', 'date-now')->first()->value) ?? strtotime(now());
 
-        if ($dateNow < $dateSpk) {
-            $status = 'inactive';
+        $optionDate = Option::where('name', 'date-now')->first()->value;
+
+        if ($optionDate) {
+            $dateNow = strtotime($optionDate);
         } else {
-            $status = 'active';
+            $dateNow = strtotime(date('d-m-Y'));
         }
 
         $data = [

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\ActingCommitmentMarker;
 
+use App\Models\Option;
 use App\Models\TaskReport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -13,6 +14,14 @@ class DashboardActingCommitmentMarkerController extends Controller
     public function index()
     {
         $dateNow = now();
+
+        $optionDate = Option::where('name', 'date-now')->first()->value;
+
+        if ($optionDate) {
+            $dateNow = $optionDate;
+        } else {
+            $dateNow = date('Y-m-d');
+        }
 
         $partnerID = ActingCommitmentMarker::where('user_id', Auth::user()->id)->first();
 
