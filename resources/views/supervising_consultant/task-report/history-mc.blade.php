@@ -150,7 +150,7 @@
                     <td class="text-center">{{ $no++ }}</td> <!-- Tampilkan nomor urutan increment -->
                     <td>{{ $mcHistory->kindOfWorkDetail->name }}</td>
                     <td>{{ $mcHistory->mc_unit }}</td>
-                    <td>{{ $mcHistory->mc_volume }}</td>
+                    <td>{{ str_replace('.', ',', $mcHistory->mc_volume) }}</td>
                     <td>Rp {{ number_format($mcHistory->mc_unit_price, 0, ',', '.') }}</td>
                     <td>Rp {{ number_format($mcHistory->total_mc_price, 0, ',', '.') }}</td>
                     <td class="text-center">{{ $mcHistory->work_value }}%</td>
@@ -196,14 +196,14 @@
             'IV' => 4,
             'I' => 1,
         ];
-    
+
         foreach ($angkaRomawi as $simbol => $nilai) {
             while ($angka >= $nilai) {
                 $romawi .= $simbol;
                 $angka -= $nilai;
             }
         }
-    
+
         return $romawi;
     }
 @endphp

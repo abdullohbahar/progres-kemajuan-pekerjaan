@@ -167,9 +167,9 @@
                                         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mt-3">
                                             <div class="form-group">
                                                 <label class="form-label" for="mc_volume">Volume</label>
-                                                <input type="number" name="mc_volume"
+                                                <input type="text" name="mc_volume"
                                                     class="form-control @error('mc_volume') is-invalid @enderror"
-                                                    value="{{ old('mc_volume', $kindOfWorkDetail->mc_volume) }}"
+                                                    value="{{ old('mc_volume', str_replace('.', ',', $kindOfWorkDetail->mc_volume)) }}"
                                                     id="mc_volume">
                                                 @error('mc_volume')
                                                     <div id="validationServerUsernameFeedback"
@@ -204,7 +204,7 @@
                                             <div class="form-group">
                                                 @php
                                                     if ($kindOfWorkDetail->mc_unit_price != 0) {
-                                                        $mcUnitPrice = 'Rp ' . number_format($kindOfWorkDetail->mc_unit_price, 0, ',', '.');
+                                                        $mcUnitPrice = 'Rp ' . number_format($kindOfWorkDetail->mc_unit_price, 0, ',', ',');
                                                     } else {
                                                         $mcUnitPrice = '';
                                                     }
@@ -226,7 +226,7 @@
                                                 @php
                                                     $mcTotalPrice = ($kindOfWorkDetail->mc_unit_price ?? 0) * ($kindOfWorkDetail->mc_volume ?? 0);
                                                     if ($mcTotalPrice != 0) {
-                                                        $mcTotalPriceRupiah = 'Rp ' . number_format($mcTotalPrice, 0, ',', '.');
+                                                        $mcTotalPriceRupiah = 'Rp ' . number_format($mcTotalPrice, 0, ',', ',');
                                                     } else {
                                                         $mcTotalPriceRupiah = '';
                                                     }
