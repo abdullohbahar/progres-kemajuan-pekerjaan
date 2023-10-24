@@ -140,9 +140,9 @@
                     <td>{{ $key + 1 }}</td>
                     <td>{{ $kindOfWorkDetail->name }}</td>
                     <td>{{ $kindOfWorkDetail->mc_unit }}</td>
-                    <td>{{ $kindOfWorkDetail->mc_volume }}</td>
-                    <td class="text-end">{{ number_format($kindOfWorkDetail->mc_unit_price, 2, '.', ',') }}</td>
-                    <td class="text-end">{{ number_format($kindOfWorkDetail->total_mc_price, 2, '.', ',') }}</td>
+                    <td>{{ str_replace('.', ',', $kindOfWorkDetail->mc_volume) }}</td>
+                    <td class="text-end">{{ number_format($kindOfWorkDetail->mc_unit_price, 0, '.', ',') }}</td>
+                    <td class="text-end">{{ number_format($kindOfWorkDetail->total_mc_price, 0, '.', ',') }}</td>
                     <td class="text-center">{{ $kindOfWorkDetail->work_value }}%</td>
                     @foreach ($kindOfWorkDetail->schedules as $key => $schedule)
                         <td class="text-center">
@@ -201,7 +201,7 @@
             <td colspan="6"></td>
             <td class="text-end d-flex justify-content-between">
                 <span class="">Rp</span>
-                <span>{{ number_format($totalPrice, 0, ',', '.') }}
+                <span>{{ number_format($totalPrice, 0, '.', ',') }}
                 </span>
             </td>
             <td></td>

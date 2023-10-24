@@ -431,7 +431,8 @@
                                                                                     <table>
                                                                                         <tr>
                                                                                             <td>Volume</td>
-                                                                                            <td>: {{ $detail->mc_volume }}
+                                                                                            <td>:
+                                                                                                {{ str_replace('.', ',', $detail->mc_volume) }}
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>

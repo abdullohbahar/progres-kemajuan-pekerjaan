@@ -163,8 +163,8 @@ class AgreementController extends Controller
             }
         }
 
-        // $total = $totalSchedule - $totalTimeSchedule;
-        $total = -25;
+        $total = $totalSchedule - $totalTimeSchedule;
+        // $total = -25;
 
         $sendMessage = new SendMessageController();
 
@@ -199,6 +199,7 @@ class AgreementController extends Controller
             }
         } else {
             $maxSP = -10;
+
             if ($total < $maxSP) {
                 if ($taskReport->status == 'Aktif') {
                     TaskReport::where('id', $taskReportID)->update([

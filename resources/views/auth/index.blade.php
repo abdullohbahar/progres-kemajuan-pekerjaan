@@ -16,7 +16,7 @@ License: For each use you must have a valid license purchased only from above li
 
 <head>
     <base href="../../../" />
-    <title>Login</title>
+    <title>Siswasdal PolSiB | Login</title>
     <meta charset="utf-8" />
     <meta name="description"
         content="The most advanced Bootstrap 5 Admin Theme with 40 unique prebuilt layouts on Themeforest trusted by 100,000 beginners and professionals. Multi-demo, Dark Mode, RTL support and complete React, Angular, Vue, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js, Node.js, Flask, Symfony & Laravel versions. Grab your copy now and get life-time updates for free." />
@@ -107,6 +107,7 @@ License: For each use you must have a valid license purchased only from above li
                             <!--begin::Heading-->
                             <div class="text-center mb-11">
                                 <!--begin::Title-->
+                                <h1 class="text-dark fw-bolder mb-3 pb-4">Siswasdal PolSiB</h1>
                                 <img alt="Logo" style="width: 50%"
                                     src="{{ asset('./assets/media/logos/pupr.png') }}" />
                                 <img alt="Logo" style="width: 25%"

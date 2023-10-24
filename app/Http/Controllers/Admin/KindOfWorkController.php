@@ -181,6 +181,7 @@ class KindOfWorkController extends Controller
             $mcUnitPrice = str_replace($removeChar, "", $request->mc_unit_price);
             $mcTotalPrice = str_replace($removeChar, "", $request->total_mc_price);
             $workValue = str_replace($removePercent, "", $request->work_value);
+            $mcVolume = str_replace(',', '.', $request->mc_volume);
 
             $addDays = Carbon::parse($taskId->spk_date)->addDays(4)->format('Y-m-d');
 
@@ -216,7 +217,7 @@ class KindOfWorkController extends Controller
                 // 'contract_unit' => $request->contract_unit,
                 // 'contract_unit_price' => $contractUnitPrice,
                 // 'total_contract_price' => $contractTotalPrice,
-                'mc_volume' => $request->mc_volume,
+                'mc_volume' => $mcVolume,
                 'mc_unit' => $request->mc_unit,
                 'mc_unit_price' => $mcUnitPrice,
                 'total_mc_price' => $mcTotalPrice,
@@ -277,7 +278,7 @@ class KindOfWorkController extends Controller
 
                 if ($mcHistory->count() <= 0) {
                     McHistory::create([
-                        'mc_volume' => $request->mc_volume,
+                        'mc_volume' => $mcVolume,
                         'mc_unit' => $request->mc_unit,
                         'mc_unit_price' => $mcUnitPrice,
                         'total_mc_price' => $mcTotalPrice,
@@ -305,7 +306,7 @@ class KindOfWorkController extends Controller
                     }
                 } else {
                     $mcHistory->update([
-                        'mc_volume' => $request->mc_volume,
+                        'mc_volume' => $mcVolume,
                         'mc_unit' => $request->mc_unit,
                         'mc_unit_price' => $mcUnitPrice,
                         'total_mc_price' => $mcTotalPrice,
