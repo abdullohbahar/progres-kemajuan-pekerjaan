@@ -4,6 +4,7 @@ namespace App\Http\Controllers\SupervisingConsultant;
 
 use DataTables;
 use Carbon\Carbon;
+use App\Models\Option;
 use App\Models\McHistory;
 use App\Models\TaskReport;
 use Illuminate\Http\Request;
@@ -57,7 +58,14 @@ class TaskReportSupervisingConsultantController extends Controller
             ->get();
 
         $dateSpk = strtotime($taskReport->spk_date);
-        $dateNow = strtotime(now());
+
+        $optionDate = Option::where('name', 'date-now')->first()->value;
+
+        if ($optionDate) {
+            $dateNow = strtotime($optionDate);
+        } else {
+            $dateNow = strtotime(date('d-m-Y'));
+        }
 
         if ($dateNow < $dateSpk) {
             $status = 'inactive';
@@ -100,7 +108,14 @@ class TaskReportSupervisingConsultantController extends Controller
         // Memecah array ke dalam grup-grup 7 hari
         $groupedDates = array_chunk($dates, 7);
 
-        $dateNow = date('d-m-Y');
+        $optionDate = Option::where('name', 'date-now')->first()->value;
+
+        if ($optionDate) {
+            $dateNow = Carbon::parse($optionDate)->format('d-m-Y');
+        } else {
+            $dateNow = date('d-m-Y');
+        }
+
 
         $weeks = 0;
 

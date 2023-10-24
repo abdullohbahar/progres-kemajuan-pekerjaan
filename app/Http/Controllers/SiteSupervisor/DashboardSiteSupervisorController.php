@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\SiteSupervisor;
 
+use App\Models\Option;
 use App\Models\TaskReport;
 use Illuminate\Http\Request;
 use App\Models\SiteSupervisor;
@@ -14,6 +15,14 @@ class DashboardSiteSupervisorController extends Controller
     {
         // Mendapatkan waktu saat ini
         $dateNow = now();
+        $optionDate = Option::where('name', 'date-now')->first()->value;
+
+        if ($optionDate) {
+            $dateNow = $optionDate;
+        } else {
+            $dateNow = date('d-m-Y');
+        }
+
 
         // Mencari ID Site Supervisor yang sesuai dengan user yang sedang diotorisasi
         $siteSupervisorID = SiteSupervisor::where('user_id', Auth::user()->id)->first();

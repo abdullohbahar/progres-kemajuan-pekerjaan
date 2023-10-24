@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Partner;
 
+use App\Models\Option;
 use App\Models\Partner;
 use App\Models\TaskReport;
 use Illuminate\Http\Request;
@@ -13,6 +14,13 @@ class DashboardPartnerController extends Controller
     public function index()
     {
         $dateNow = now();
+        $optionDate = Option::where('name', 'date-now')->first()->value;
+
+        if ($optionDate) {
+            $dateNow = $optionDate;
+        } else {
+            $dateNow = date('d-m-Y');
+        }
 
         $partnerID = Partner::where('user_id', Auth::user()->id)->first();
 

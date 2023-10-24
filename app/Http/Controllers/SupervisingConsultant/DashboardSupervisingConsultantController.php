@@ -2,17 +2,26 @@
 
 namespace App\Http\Controllers\SupervisingConsultant;
 
+use App\Models\Option;
 use App\Models\TaskReport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\SupervisingConsultant;
 use Illuminate\Support\Facades\Auth;
+use App\Models\SupervisingConsultant;
 
 class DashboardSupervisingConsultantController extends Controller
 {
     public function index()
     {
         $dateNow = now();
+        $dateNow = now();
+        $optionDate = Option::where('name', 'date-now')->first()->value;
+
+        if ($optionDate) {
+            $dateNow = $optionDate;
+        } else {
+            $dateNow = date('d-m-Y');
+        }
 
         $supervisingConsultantID = SupervisingConsultant::where('user_id', Auth::user()->id)->first();
 
