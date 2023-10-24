@@ -132,7 +132,7 @@
                     <td>{{ $key + 1 }}</td>
                     <td>{{ $kindOfWorkDetail->name }}</td>
                     <td>{{ $kindOfWorkDetail->mc_unit }}</td>
-                    <td>{{ str_replace('.', ',', $kindOfWorkDetil->mc_volume) }}</td>
+                    <td>{{ str_replace('.', ',', $kindOfWorkDetail->mc_volume) }}</td>
                     <td class="text-end">{{ number_format($kindOfWorkDetail->total_mc_price, 2, '.', ',') }}</td>
                     <td class="text-center">{{ $kindOfWorkDetail->work_value }}%</td>
 
