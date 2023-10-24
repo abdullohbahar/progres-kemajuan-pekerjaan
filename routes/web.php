@@ -38,12 +38,12 @@ use App\Http\Controllers\SupervisingConsultant\WeeklyReportSupervisingConsultant
 |
 */
 
-Route::get('/', [AuthController::class, 'index']);
+Route::get('/', [AuthController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/auth', [AuthController::class, 'authenticate'])->name('auth');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 // ADMIN
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('dashboard', [DashboardAdminController::class, 'index'])->name('dashboard.admin');
 
     Route::resource('cv-consultant', CvConsultantController::class)->only(['index', 'store', 'destroy', 'update', 'edit']);
@@ -77,7 +77,7 @@ Route::prefix('admin')->group(function () {
 
 
 // Konsultan Pengawas
-Route::prefix('konsultan-pengawas')->group(function () {
+Route::prefix('konsultan-pengawas')->middleware('auth')->group(function () {
     Route::get('dashboard', [DashboardSupervisingConsultantController::class, 'index'])->name('supervising.consultant.dashboard');
 
     Route::get('task-report', [TaskReportSupervisingConsultantController::class, 'index'])->name('task.report.supervising.consultant');
@@ -94,26 +94,26 @@ Route::prefix('konsultan-pengawas')->group(function () {
 });
 
 // Rekanan
-Route::prefix('rekanan')->group(function () {
+Route::prefix('rekanan')->middleware('auth')->group(function () {
     Route::get('dashboard', [DashboardPartnerController::class, 'index'])->name('partner.dashboard');
     Route::get('task-report', [TaskReportPartnerController::class, 'index'])->name('task.report.partner');
     Route::get('task-report/{id}', [TaskReportPartnerController::class, 'show'])->name('show.task.report.partner');
 });
 
-Route::prefix('pengawas-lapangan')->group(function () {
+Route::prefix('pengawas-lapangan')->middleware('auth')->group(function () {
     Route::get('dashboard', [DashboardSiteSupervisorController::class, 'index'])->name('site.supervisor.dashboard');
     Route::get('task-report', [TaskReportSiteSupervisorController::class, 'index'])->name('task.report.site.supervisor');
     Route::get('task-report/{id}', [TaskReportSiteSupervisorController::class, 'show'])->name('show.task.report.site.supervisor');
 });
 
-Route::prefix('ppk')->group(function () {
+Route::prefix('ppk')->middleware('auth')->group(function () {
     Route::get('dashboard', [DashboardActingCommitmentMarkerController::class, 'index'])->name('acting.commitment.marker.dashboard');
     Route::get('task-report', [TaskReportActingComitmentMarkerController::class, 'index'])->name('task.report.acting.commitment.marker');
     Route::get('task-report/{id}', [TaskReportActingComitmentMarkerController::class, 'show'])->name('show.task.report.acting.commitment.marker');
 });
 
 // Agreement
-Route::prefix('agreement')->group(function () {
+Route::prefix('agreement')->middleware('auth')->group(function () {
     Route::get('get-task-this-week/{taskID}/{week}', [AgreementController::class, 'getTaskThisWeek']);
     // Route::get('reject/{taskID}/{week}/{status}/{reject}', [AgreementController::class, 'reject']);
 
@@ -125,29 +125,31 @@ Route::prefix('agreement')->group(function () {
     Route::post('from-site-supervisor', [AgreementController::class, 'fromSiteSupervisor1'])->name('agree.from.site.supervisor');
 });
 
-Route::get('profile', [ProfileController::class, 'index'])->name('profile');
-Route::put('update-profile/{id}', [ProfileController::class, 'update'])->name('update.profile');
+Route::middleware('auth')->group(function () {
+    Route::get('profile', [ProfileController::class, 'index'])->name('profile');
+    Route::put('update-profile/{id}', [ProfileController::class, 'update'])->name('update.profile');
 
-// additional url
-Route::get('count-percentage/{id}', [KindOfWorkController::class, 'countPercentage']);
+    // additional url
+    Route::get('count-percentage/{id}', [KindOfWorkController::class, 'countPercentage']);
 
-Route::get('report/{id}', [TaskReportAdminController::class, 'report'])->name('report');
-Route::get('weekly-report/{id}/{week}', [TaskReportAdminController::class, 'reportWeekly'])->name('weekly.report');
+    Route::get('report/{id}', [TaskReportAdminController::class, 'report'])->name('report');
+    Route::get('weekly-report/{id}/{week}', [TaskReportAdminController::class, 'reportWeekly'])->name('weekly.report');
 
-Route::get('get-progress-picture/{id}', [KindOfWorkController::class, 'getProgressPictures'])->name('get.progress.picture');
-Route::get('get-progress-picture-other-role/{kindOfWorkDetailID}/{week}', [KindOfWorkController::class, 'getProgressPicturesOtherRole'])->name('get.progress.picture');
+    Route::get('get-progress-picture/{id}', [KindOfWorkController::class, 'getProgressPictures'])->name('get.progress.picture');
+    Route::get('get-progress-picture-other-role/{kindOfWorkDetailID}/{week}', [KindOfWorkController::class, 'getProgressPicturesOtherRole'])->name('get.progress.picture');
 
 
-// history Mc
-Route::get('history-mc/{taskID}/{totalMc}', [McHistoryController::class, 'history'])->name('mc.history');
+    // history Mc
+    Route::get('history-mc/{taskID}/{totalMc}', [McHistoryController::class, 'history'])->name('mc.history');
 
-// Count Total Progress Before This Week
-Route::get('count-total-progress-before-this-week/{kindOfWorkDetailID}', [KindOfWorkController::class, 'countTotalProgressBeforeThisWeek']);
+    // Count Total Progress Before This Week
+    Route::get('count-total-progress-before-this-week/{kindOfWorkDetailID}', [KindOfWorkController::class, 'countTotalProgressBeforeThisWeek']);
 
-Route::get('list-task-report/{taskReportID}', [TaskReportAgreementController::class, 'listTaskReport'])->name('list.task.report');
-Route::put('agree-task-report-agreement/{taskReportID}/{userID}/{role}/{agree}', [TaskReportAgreementController::class, 'agreeTaskReportAgreement'])->name('agree.task.report.agreement');
-Route::put('reject-task-report-agreement', [TaskReportAgreementController::class, 'rejectTaskReportAgreement'])->name('reject.task.report.agreement');
-Route::get('reject-reason/{taskReportID}', [TaskReportAgreementController::class, 'rejectReason']);
+    Route::get('list-task-report/{taskReportID}', [TaskReportAgreementController::class, 'listTaskReport'])->name('list.task.report');
+    Route::put('agree-task-report-agreement/{taskReportID}/{userID}/{role}/{agree}', [TaskReportAgreementController::class, 'agreeTaskReportAgreement'])->name('agree.task.report.agreement');
+    Route::put('reject-task-report-agreement', [TaskReportAgreementController::class, 'rejectTaskReportAgreement'])->name('reject.task.report.agreement');
+    Route::get('reject-reason/{taskReportID}', [TaskReportAgreementController::class, 'rejectReason']);
+});
 
 // Route::get('save', function () {
 //     $users = array(
