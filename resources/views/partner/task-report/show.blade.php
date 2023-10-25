@@ -118,7 +118,7 @@
                                 <h2>Progress Pekerjaan Minggu Ini</h2>
                                 <div class="card-toolbar">
                                     @if (
-                                        $weeklyProgresses->count() > 0 ||
+                                        $taskReport->agreement->where('role', 'Partner')->where('task_report_id', $taskReport->id)->where('week', $week)->where('status', 'Awal')->count() > 0 ||
                                             $taskReport->agreement->where('status', 'Ditolak Pengawas Lapangan 1')->where('week', $week)->count() > 0)
                                         <button class="btn btn-success btn-sm mx-2 my-1" id="sendWeeklyProgressBtn"
                                             data-week="{{ $week }}" data-taskid="{{ $taskReport->id }}">
@@ -142,11 +142,11 @@
                                     </tr>
                                     @foreach ($weeklyProgresses as $weeklyProgress)
                                         <tr>
-                                            <td style="width: 50%">{{ $weeklyProgress->kindOfWorkDetail->name }}</td>
-                                            <td style="width: 25%">{{ $weeklyProgress->progress }}%</td>
+                                            <td style="width: 50%">{{ $weeklyProgress['name'] }}</td>
+                                            <td style="width: 25%">{{ $weeklyProgress['progress'] }}%</td>
                                             <td style="width: 25%" class="text-center">
                                                 <button class="btn btn-info btn-sm" href="javascript:;"
-                                                    data-kindofworkdetailid="{{ $weeklyProgress->kind_of_work_detail_id }}"
+                                                    data-kindofworkdetailid="{{ $weeklyProgress['kind_of_work_detail_id'] }}"
                                                     data-week={{ $week }} id="seePictureOtherRole">Lihat
                                                     Foto</button>
                                             </td>

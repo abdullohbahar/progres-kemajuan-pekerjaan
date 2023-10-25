@@ -130,7 +130,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header pt-5">
-                                <h1>Pekerjaan Yang Mendapat SP</h1>
+                                <h1>Pekerjaan Yang Bermasalah</h1>
                             </div>
                             <div class="card-body" style="overflow-y: visible">
                                 <div class="table-responsive">
