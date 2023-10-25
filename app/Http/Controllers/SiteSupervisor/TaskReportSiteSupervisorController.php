@@ -73,20 +73,21 @@ class TaskReportSiteSupervisorController extends Controller
 
         $getWeek = $taskReportController->getWeek($taskReport);
 
-        if ($siteSupervisorRole == 1) {
-            $weeklyProgresses = Agreement::with('kindOfWorkDetail')
-                ->where('task_report_id', $id)
-                ->where('status', 'Disetujui Rekanan')
-                ->where('role', 'Site Supervisor')
-                ->where('week', $getWeek)->get();
-        } else if ($siteSupervisorRole == 2) {
-            $weeklyProgresses = Agreement::with('kindOfWorkDetail')
-                ->where('task_report_id', $id)
-                ->where('status', 'Disetujui Pengawas Lapangan 1')
-                ->where('role', 'Site Supervisor 2')
-                ->where('week', $getWeek)->get();
-        }
+        // if ($siteSupervisorRole == 1) {
+        //     $weeklyProgresses = Agreement::with('kindOfWorkDetail')
+        //         ->where('task_report_id', $id)
+        //         // ->where('status', 'Disetujui Rekanan')
+        //         // ->where('role', 'Site Supervisor')
+        //         ->where('week', $getWeek)->get();
+        // } else if ($siteSupervisorRole == 2) {
+        //     $weeklyProgresses = Agreement::with('kindOfWorkDetail')
+        //         ->where('task_report_id', $id)
+        //         // ->where('status', 'Disetujui Pengawas Lapangan 1')
+        //         // ->where('role', 'Site Supervisor 2')
+        //         ->where('week', $getWeek)->get();
+        // }
 
+        // dd($weeklyProgresses);
 
         // task next week
         // $taskNextWeeks = $taskReport;
@@ -124,12 +125,16 @@ class TaskReportSiteSupervisorController extends Controller
 
         $siteSupervisorID = SiteSupervisor::where('user_id', Auth::user()->id)->first()->id;
 
+        $thisWeekReport = $this->getWeeklyReportThisWeek($taskReport, $getWeek);
+
+        // dd($thisWeekReport);
+
         $data = [
             'active' => $this->active,
             'taskReport' => $taskReport,
             'status' => $status,
             'week' => $getWeek,
-            'weeklyProgresses' => $weeklyProgresses,
+            'weeklyProgresses' => $thisWeekReport,
             'taskNextWeeks' => $taskNextWeeks,
             'siteSupervisorID' => $siteSupervisorID,
             'siteSupervisorRole' => $siteSupervisorRole,
@@ -139,5 +144,29 @@ class TaskReportSiteSupervisorController extends Controller
         ];
 
         return view('site-supervisor.task-report.show', $data);
+    }
+
+    public function getWeeklyReportThisWeek($taskReport, $week)
+    {
+        $progress = [];
+
+        foreach ($taskReport->kindOfWork as $kindOfWork) {
+            foreach ($kindOfWork->kindOfWorkDetails as $kindOfWorkDetail) {
+                // get prgoress
+                foreach ($kindOfWorkDetail->schedules->where('week', $week)->where('progress', '!=', 0) as $schedule) {
+                    $scheduleData = [
+                        'name' => $kindOfWorkDetail->name,
+                        'kind_of_work_detail_id' => $kindOfWorkDetail->id, // Ganti 'nama_kolom' dengan kolom yang sesuai
+                        'week' => $schedule->week,
+                        'date' => $schedule->date,
+                        'progress' => $schedule->progress,
+                    ];
+
+                    $progress[] = $scheduleData;
+                }
+            }
+        }
+
+        return $progress;
     }
 }

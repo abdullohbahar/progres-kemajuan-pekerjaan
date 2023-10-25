@@ -37,7 +37,7 @@ class DashboardSupervisingConsultantController extends Controller
             ->where('supervising_consultant_id', $supervisingConsultantID->id)
             ->get();
 
-        $spWorks = TaskReport::where('status', 'like', '%SP%')
+        $spWorks = TaskReport::where('status', 'like', '%SP%')->orWhere('status', 'like', '%SC%')
             ->where('supervising_consultant_id', $supervisingConsultantID->id)
             ->get();
 

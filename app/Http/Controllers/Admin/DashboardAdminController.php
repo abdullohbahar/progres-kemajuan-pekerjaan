@@ -22,7 +22,7 @@ class DashboardAdminController extends Controller
 
         $activeWorks = TaskReport::where('spk_date', '<=', $dateNow)->where('status', 'not like', '%SP%')->where('status', 'not like', '%SC%')->get();
         $inactiveWorks = TaskReport::where('spk_date', '>=', $dateNow)->where('status', 'not like', '%SP%')->where('status', 'not like', '%SC%')->get();
-        $spWorks = TaskReport::where('status', 'like', '%SP%')->get();
+        $spWorks = TaskReport::where('status', 'like', '%SP%')->orWhere('status', 'like', '%SC%')->get();
 
         $data = [
             'active' => 'dashboard',

@@ -127,7 +127,7 @@
                                             @php
                                                 $date = \Carbon\Carbon::parse(reset($groupDate))->format('d') . '-' . \Carbon\Carbon::parse(end($groupDate))->format('d');
                                                 $data = $kindOfWorkDetail->timeSchedules->where('date', $date)->first();
-                                                $schedule = $kindOfWorkDetail->schedules->where('date', $date)->first();
+                                                $schedule = $kindOfWorkDetail->schedules->where('week', $key + 1)->first();
 
                                                 foreach ($groupDate as $progressDate) {
                                                     $progressDate = strtotime($progressDate);

@@ -120,7 +120,22 @@
                             <div class="card-header border-0 pt-5">
                                 <h2>Progress Pekerjaan Minggu Ini</h2>
                                 <div class="card-toolbar">
-                                    @if ($weeklyProgresses->count() > 0)
+                                    @php
+                                        if ($siteSupervisorRole == 1) {
+                                            $count = $taskReport->agreement
+                                                ->where('status', 'Disetujui Rekanan')
+                                                ->where('task_report_id', $taskReport->id)
+                                                ->where('week', $week)
+                                                ->count();
+                                        } elseif ($siteSupervisorRole == 2) {
+                                            $count = $taskReport->agreement
+                                                ->where('status', 'Disetujui Pengawas Lapangan 1')
+                                                ->where('task_report_id', $taskReport->id)
+                                                ->where('week', $week)
+                                                ->count();
+                                        }
+                                    @endphp
+                                    @if ($count > 0)
                                         <button class="btn btn-success btn-sm mx-2 my-1" id="sendWeeklyProgressBtn"
                                             data-week="{{ $week }}" data-taskid="{{ $taskReport->id }}">
                                             Kirim / Setujui Progress Mingguan
@@ -145,11 +160,11 @@
                                     </tr>
                                     @foreach ($weeklyProgresses as $weeklyProgress)
                                         <tr>
-                                            <td style="width: 50%">{{ $weeklyProgress->kindOfWorkDetail->name }}</td>
-                                            <td style="width: 25%">{{ $weeklyProgress->progress }}%</td>
+                                            <td style="width: 50%">{{ $weeklyProgress['name'] }}</td>
+                                            <td style="width: 25%">{{ $weeklyProgress['progress'] }}%</td>
                                             <td style="width: 25%" class="text-center">
                                                 <button class="btn btn-info btn-sm" href="javascript:;"
-                                                    data-kindofworkdetailid="{{ $weeklyProgress->kind_of_work_detail_id }}"
+                                                    data-kindofworkdetailid="{{ $weeklyProgress['kind_of_work_detail_id'] }}"
                                                     data-week={{ $week }} id="seePictureOtherRole">Lihat
                                                     Foto</button>
                                             </td>

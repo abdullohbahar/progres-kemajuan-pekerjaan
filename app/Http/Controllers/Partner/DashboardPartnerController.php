@@ -37,6 +37,7 @@ class DashboardPartnerController extends Controller
             ->get();
 
         $spWorks = TaskReport::where('status', 'like', '%SP%')
+            ->orWhere('status', 'like', '%SC%')
             ->where('partner_id', $partnerID->id)
             ->get();
 

@@ -9,6 +9,7 @@ use App\Models\Agreement;
 use App\Models\TaskReport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\SiteSupervisor\TaskReportSiteSupervisorController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\SupervisingConsultant\TaskReportSupervisingConsultantController;
 
@@ -63,12 +64,12 @@ class TaskReportPartnerController extends Controller
         $getWeek = $taskReportController->getWeek($taskReport);
 
 
-        $weeklyProgresses = Agreement::with('kindOfWorkDetail')
-            ->where('task_report_id', $id)
-            ->where('role', 'Partner')
-            ->where('status', 'Awal')
-            ->orWhere('status', 'Ditolak Pengawas Lapangan 1')
-            ->where('week', $getWeek)->get();
+        // $weeklyProgresses = Agreement::with('kindOfWorkDetail')
+        //     ->where('task_report_id', $id)
+        //     // ->where('role', 'Partner')
+        //     // ->where('status', 'Awal')
+        //     // ->orWhere('status', 'Ditolak Pengawas Lapangan 1')
+        //     ->where('week', $getWeek)->get();
 
         // task next week
         // $taskNextWeeks = $taskReport;
@@ -107,12 +108,15 @@ class TaskReportPartnerController extends Controller
 
         $partnerID = Partner::where('user_id', Auth::user()->id)->first()->id;
 
+        $taskReportSiteSupervisorController = new TaskReportSiteSupervisorController();
+        $thisWeekReport = $taskReportSiteSupervisorController->getWeeklyReportThisWeek($taskReport, $getWeek);
+
         $data = [
             'active' => $this->active,
             'taskReport' => $taskReport,
             'status' => $status,
             'week' => $getWeek,
-            'weeklyProgresses' => $weeklyProgresses,
+            'weeklyProgresses' => $thisWeekReport,
             'taskNextWeeks' => $taskNextWeeks,
             'partnerID' => $partnerID,
             'taskLastWeeks' => $taskLastWeeks,

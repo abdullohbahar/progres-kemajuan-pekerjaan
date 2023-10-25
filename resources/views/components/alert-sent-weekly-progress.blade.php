@@ -20,7 +20,7 @@
         $message = '';
     }
 @endphp
-@if ($message)
+@if ($roles != '')
     <!--begin::Alert-->
     <div class="alert alert-dismissible bg-info d-flex flex-column flex-sm-row p-5 mb-10 mt-5">
         <!--begin::Icon-->
