@@ -122,6 +122,12 @@ class TaskReportAdminController extends Controller
             $dateNow = strtotime(date('d-m-Y'));
         }
 
+        if ($dateNow < $dateSpk) {
+            $status = 'inactive';
+        } else {
+            $status = 'active';
+        }
+
         $data = [
             'active' => $this->active,
             'taskReport' => $taskReport,
