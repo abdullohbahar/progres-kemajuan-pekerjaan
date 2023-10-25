@@ -60,7 +60,7 @@ class DashboardSiteSupervisorController extends Controller
         }
 
         // Mencari pekerjaan dengan status SP (Site Plan)
-        $spWorks = TaskReport::where('status', 'like', '%SP%');
+        $spWorks = TaskReport::where('status', 'like', '%SP%')->orWhere('status', 'like', '%SC%');
 
         // Memeriksa apakah ada pekerjaan SP dengan Site Supervisor ID 1
         if ($spWorks->where('site_supervisor_id_1', $siteSupervisorID->id)->count() > 0) {

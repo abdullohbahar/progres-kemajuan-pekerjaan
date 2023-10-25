@@ -38,6 +38,7 @@ class DashboardActingCommitmentMarkerController extends Controller
             ->get();
 
         $spWorks = TaskReport::where('status', 'like', '%SP%')
+            ->orWhere('status', 'like', '%SC%')
             ->where('acting_commitment_marker_id', $partnerID->id)
             ->get();
 
