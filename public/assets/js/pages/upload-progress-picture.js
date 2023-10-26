@@ -31,6 +31,7 @@ $("body").on("click", "#seePicture", function () {
             const data = await response.json(); // Mengambil data JSON dari respons
 
             $(".appendImage").empty();
+            $(".appendBtn").empty();
 
             console.log(data);
 
@@ -102,6 +103,8 @@ $("body").on("click", "#deletePicture", function () {
 $("body").on("click", "#seePictureOtherRole", function () {
     var kindOfWorkDetailID = $(this).data("kindofworkdetailid");
     var week = $(this).data("week");
+    var scheduleID = $(this).data("scheduleid");
+    console.log(scheduleID);
     var url = window.location.origin;
     // Fungsi async untuk mengirim permintaan AJAX
     async function fetchData() {
@@ -122,7 +125,7 @@ $("body").on("click", "#seePictureOtherRole", function () {
 
             if (data.datas.length > 0) {
                 data.datas.forEach((item, index) => {
-                    console.log(item.length);
+                    console.log(item);
 
                     if (item.length > 0) {
                         item.forEach((item, index) => {
