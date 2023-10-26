@@ -6,8 +6,10 @@ var modalUploadPicture = new bootstrap.Modal(
 $("body").on("click", "#uploadPicture", function () {
     var date = $(this).data("date");
     var scheduleid = $(this).data("scheduleid");
+    var week = $(this).data("week");
     $("#datePicture").val(date);
     $("#scheduleid").val(scheduleid);
+    $("#week").val(week);
 
     modalUploadPicture.show();
 });
