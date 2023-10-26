@@ -356,7 +356,8 @@ class KindOfWorkController extends Controller
 
         ProgressPicture::create([
             'schedule_id' => $request->id,
-            'picture' => $picture
+            'picture' => $picture,
+            'week' => $request->week,
         ]);
 
         return redirect()->back()->with('success', 'Berhasil Menambah Foto');
@@ -374,10 +375,11 @@ class KindOfWorkController extends Controller
     public function getProgressPicturesOtherRole($kindOfWorkDetailID, $week)
     {
         // $pictures = ProgressPicture::where('schedule_id', $id)->get();
-
-        $schedules = Schedule::where('kind_of_work_detail_id', $kindOfWorkDetailID)
+        $schedules = Schedule::with('progressPictures')->where('kind_of_work_detail_id', $kindOfWorkDetailID)
             ->where('week', $week)
             ->get();
+
+        // dd($schedules);
 
         $pictures = [];
 

@@ -18,6 +18,7 @@
                 <div class="modal-body">
                     <input type="text" name="date" hidden id="datePicture">
                     <input type="text" name="id" hidden id="scheduleid">
+                    <input type="text" name="week" hidden id="week">
                     <input type="file" name="picture" class="form-control" id="">
                 </div>
 

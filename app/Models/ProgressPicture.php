@@ -11,7 +11,8 @@ class ProgressPicture extends Model
 
     protected $fillable = [
         'schedule_id',
-        'picture'
+        'picture',
+        'week'
     ];
 
     public function schedule()
