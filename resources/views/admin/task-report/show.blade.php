@@ -560,11 +560,11 @@
                                                                                                             type="button"
                                                                                                             id="uploadPicture"
                                                                                                             data-date="{{ $schedule->date }}"
-                                                                                                            data-scheduleid="{{ $detail->schedules[$key]->id }}">Upload
+                                                                                                            data-scheduleid="{{ $schedule->id }}">Upload
                                                                                                             Foto</a> |
                                                                                                         <a href="javascript:;"
                                                                                                             id="seePicture"
-                                                                                                            data-scheduleid="{{ $detail->schedules[$key]->id }}">Lihat
+                                                                                                            data-scheduleid="{{ $schedule->id }}">Lihat
                                                                                                             Foto</a>
                                                                                                     </td>
                                                                                                 </tr>
