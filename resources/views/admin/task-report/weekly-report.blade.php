@@ -198,7 +198,7 @@
             <td class="fw-bolder text-end">{{ $totalTimeSchedule }}%</td>
         </tr>
         <tr>
-            <td colspan="3" class="fw-bolder text-end">Terlambat</td>
+            <td colspan="3" class="fw-bolder text-end">Selisih</td>
             <td class="fw-bolder text-end">{{ $totalProgressNow - $totalTimeSchedule }}%</td>
         </tr>
     </table>

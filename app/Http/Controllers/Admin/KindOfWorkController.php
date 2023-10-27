@@ -198,6 +198,8 @@ class KindOfWorkController extends Controller
 
             $addDays = Carbon::parse($taskId->spk_date)->addDays(4)->format('Y-m-d');
 
+            $addDays = strtotime($addDays);
+
             // jika spk date sudah aktif maka lakukan kode dibawah
             if ($addDays <= $dateNows) {
                 // lakukan pengecekan apakah sudah ada mc awal atau belum
