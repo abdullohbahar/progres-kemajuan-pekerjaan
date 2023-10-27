@@ -306,11 +306,10 @@
                                             <h1 class="parentSearchable">{{ $key + 1 }}. <span
                                                     class="childSearchable">{{ $kindOfWork->name }}</span></h1>
                                             <div class="card-toolbar">
-                                                @if ($taskReport->spk_date >= date('Y-m-d'))
-                                                    <button id="removeItemButton" data-id="{{ $kindOfWork->id }}"
-                                                        data-name="{{ $kindOfWork->name }}" class="btn btn-sm btn-danger"
-                                                        style="margin-right: 5px">Hapus</button>
-                                                @endif
+                                                <button id="removeItemButton" data-id="{{ $kindOfWork->id }}"
+                                                    data-name="{{ $kindOfWork->name }}" class="btn btn-sm btn-danger"
+                                                    style="margin-right: 5px">Hapus</button>
+
                                                 @if (auth()->user()->role == 'Admin')
                                                     <a href="{{ route('kind.of.work.edit', $kindOfWork->id) }}"
                                                         class="btn btn-sm btn-warning" style="margin-right: 5px">Ubah</a>
