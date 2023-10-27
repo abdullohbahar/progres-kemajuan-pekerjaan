@@ -159,6 +159,9 @@
                                             <h1 class="parentSearchable">{{ $key + 1 }}. <span
                                                     class="childSearchable">{{ $kindOfWork->name }}</span></h1>
                                             <div class="card-toolbar">
+                                                <button id="removeItemButton" data-id="{{ $kindOfWork->id }}"
+                                                    data-name="{{ $kindOfWork->name }}" class="btn btn-sm btn-danger"
+                                                    style="margin-right: 5px">Hapus</button>
                                                 @if (auth()->user()->role == 'Admin')
                                                     <a href="{{ route('kind.of.work.edit', $kindOfWork->id) }}"
                                                         class="btn btn-sm btn-warning" style="margin-right: 5px">Ubah</a>
@@ -186,7 +189,8 @@
                                                                 <div class="col-sm-12 col-md-4 text-end">
                                                                     <div class="row justify-content-end">
                                                                         @if (auth()->user()->role == 'Admin')
-                                                                            <div class="col-sm-12 col-md-6 col-lg-4 d-grid">
+                                                                            <div
+                                                                                class="col-sm-12 col-md-6 col-lg-4 d-grid">
                                                                                 <a href="{{ route('manage.work', $detail->id) }}"
                                                                                     class="btn btn-sm btn-primary my-5"
                                                                                     style="margin-right: 5px">Kelola
