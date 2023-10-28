@@ -152,8 +152,26 @@ var KTDatatablesServerSide = (function () {
                     orderable: false,
                     className: "text-left",
                     render: function (data, type, row) {
+                        if (
+                            role == "Partner" ||
+                            role == "Supervising Consultant"
+                        ) {
+                            if (
+                                row.status == "SP 1" ||
+                                row.status == "SCM 1" ||
+                                row.status == "SCM 2" ||
+                                row.status == "SCM 3"
+                            ) {
+                                var spButton = `<a class="btn btn-warning btn-sm">Surat SP</a>`;
+                            } else {
+                                var spButton = ``;
+                            }
+                        } else {
+                            var spButton = "";
+                        }
+
                         return `
-                        <a href="#" class="btn btn-primary btn-active-light-primary btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                            <a href="#" class="btn btn-primary btn-active-light-primary btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
                                 Aksi
                                 <span class="svg-icon fs-5 m-0">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -199,6 +217,8 @@ var KTDatatablesServerSide = (function () {
                                 <!--end::Menu item-->
                             </div>
                             <!--end::Menu-->
+
+                            ${spButton}    
                             `;
                     },
                 },
