@@ -164,3 +164,14 @@ Route::middleware('auth')->group(function () {
 //         User::insert($userData);
 //     }
 // });
+
+
+Route::get('testing', function () {
+
+    $nilaiYangInginDihitung = 0.5;
+    $totalNilai = 14.55;
+
+    $persentase = ($nilaiYangInginDihitung / $totalNilai) * 100;
+
+    echo "0.5 adalah sekitar " . number_format($persentase, 2) . "% dari 14.55";
+});

@@ -138,7 +138,7 @@ var KTDatatablesServerSide = (function () {
 
                             var color = "success";
                         } else if (data == "SP 1" || data == "SCM 1") {
-                            var color = "warning";
+                            var color = "danger";
                         } else if (data == "SCM 2" || data == "SCM 3") {
                             var color = "danger";
                         }
