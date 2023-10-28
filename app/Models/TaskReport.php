@@ -27,7 +27,8 @@ class TaskReport extends Model
         'acting_commitment_marker_id', // id ppk
         'status',
         'execution_time',
-        'is_agree'
+        'is_agree',
+        'contract_terminated'
     ];
 
     // Konsultan Pengawas

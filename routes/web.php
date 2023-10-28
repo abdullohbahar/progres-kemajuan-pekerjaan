@@ -26,6 +26,7 @@ use App\Http\Controllers\SupervisingConsultant\DashboardSupervisingConsultantCon
 use App\Http\Controllers\SupervisingConsultant\TaskReportSupervisingConsultantController;
 use App\Http\Controllers\SupervisingConsultant\TimeScheduleSupervisingConsultantController;
 use App\Http\Controllers\SupervisingConsultant\WeeklyReportSupervisingConsultantController;
+use App\Http\Controllers\TerminateContractController;
 
 /*
 |--------------------------------------------------------------------------
@@ -149,6 +150,8 @@ Route::middleware('auth')->group(function () {
     Route::put('agree-task-report-agreement/{taskReportID}/{userID}/{role}/{agree}', [TaskReportAgreementController::class, 'agreeTaskReportAgreement'])->name('agree.task.report.agreement');
     Route::put('reject-task-report-agreement', [TaskReportAgreementController::class, 'rejectTaskReportAgreement'])->name('reject.task.report.agreement');
     Route::get('reject-reason/{taskReportID}', [TaskReportAgreementController::class, 'rejectReason']);
+
+    Route::post('terminate-contract/{taskReportID}', TerminateContractController::class);
 });
 
 // Route::get('save', function () {
@@ -166,12 +169,12 @@ Route::middleware('auth')->group(function () {
 // });
 
 
-Route::get('testing', function () {
+// Route::get('testing', function () {
 
-    $nilaiYangInginDihitung = 0.5;
-    $totalNilai = 14.55;
+//     $nilaiYangInginDihitung = 0.5;
+//     $totalNilai = 14.55;
 
-    $persentase = ($nilaiYangInginDihitung / $totalNilai) * 100;
+//     $persentase = ($nilaiYangInginDihitung / $totalNilai) * 100;
 
-    echo "0.5 adalah sekitar " . number_format($persentase, 2) . "% dari 14.55";
-});
+//     echo "0.5 adalah sekitar " . number_format($persentase, 2) . "% dari 14.55";
+// });

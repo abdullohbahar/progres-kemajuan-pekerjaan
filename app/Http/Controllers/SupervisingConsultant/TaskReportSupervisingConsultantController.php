@@ -42,6 +42,11 @@ class TaskReportSupervisingConsultantController extends Controller
     {
         $taskReport = TaskReport::with('agreementTaskReport', 'agreement')->where('id', $id)->firstOrfail();
 
+        if ($taskReport->contract_terminated) {
+            return redirect()->back()->with('terminated', '');
+        }
+
+
         $week = $this->getWeek($taskReport);
         $getWeek = $week;
 

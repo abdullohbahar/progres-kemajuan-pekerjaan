@@ -45,6 +45,10 @@ class TaskReportSiteSupervisorController extends Controller
         $taskReport = TaskReport::with('kindOfWork.kindOfWorkDetails.schedules')->where('id', $id)->firstOrfail();
         // Melakukan pengecekan apakah status sudah aktif atau belum
 
+        if ($taskReport->contract_terminated) {
+            return redirect()->back()->with('terminated', '');
+        }
+
         // Melakukan pengecekan apakah pengawas 1 atau 2
         $checkSiteSupervisor = TaskReport::where('site_supervisor_id_1', $siteSupervisorID)->where('id', $id)->get();
 

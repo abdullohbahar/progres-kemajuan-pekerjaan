@@ -42,6 +42,10 @@ class TaskReportActingComitmentMarkerController extends Controller
         $taskReport = TaskReport::with('kindOfWork.kindOfWorkDetails.schedules')->where('id', $id)->firstOrfail();
         // Melakukan pengecekan apakah status sudah aktif atau belum
 
+        if ($taskReport->contract_terminated) {
+            return redirect()->back()->with('terminated', '');
+        }
+
         $dateSpk = strtotime($taskReport->spk_date);
 
         $optionDate = Option::where('name', 'date-now')->first()->value;

@@ -145,4 +145,38 @@
             })
         })
     </script>
+
+    <script>
+        $("#terminateContract").on("click", function() {
+            var taskReportID = $(this).data("id");
+
+            Swal.fire({
+                title: "Apakah anda yakin memutus kontrak?",
+                text: "Pekerjaan yang telah diputus tidak dapat diubah",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, Setujui",
+                cancelButtonText: "Batal",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "/terminate-contract/" + taskReportID,
+                        dataType: "JSON",
+                        method: "POST",
+                        success: function(response) {
+                            console.log(response);
+                            if (response.status == 200) {
+                                success(response.message);
+                                setTimeout(function() {
+                                    window.location = "";
+                                }, 1450);
+                            }
+                        },
+                    });
+                }
+            });
+        })
+    </script>
 @endpush
