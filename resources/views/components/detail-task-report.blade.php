@@ -6,9 +6,11 @@
             </a>
         </div>
         <div class="card-toolbar">
-            @if ($taskReport->status == 'SCM 1' || $taskReport->status == 'SCM 2' || $taskReport->status == 'SCM 3')
-                <button class="btn btn-danger btn-sm" id="terminateContract" data-id="{{ $taskReport->id }}">Putus
-                    Kontrak</button>
+            @if (auth()->user()->role == 'Acting Commitment Marker')
+                @if ($taskReport->status == 'SCM 1' || $taskReport->status == 'SCM 2' || $taskReport->status == 'SCM 3')
+                    <button class="btn btn-danger btn-sm" id="terminateContract" data-id="{{ $taskReport->id }}">Putus
+                        Kontrak</button>
+                @endif
             @endif
             <div class="dropdown">
                 <button class="btn btn-info btn-sm dropdown-toggle mx-2 my-1" type="button" data-bs-toggle="dropdown"

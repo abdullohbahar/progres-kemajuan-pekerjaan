@@ -2,6 +2,11 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\ActingCommitmentMarkerMiddleware;
+use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\PartnerMiddleware;
+use App\Http\Middleware\SiteSupervisorMiddleware;
+use App\Http\Middleware\SupervisingConsultantMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -63,6 +68,11 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'admin' => AdminMiddleware::class,
+        'supervising-consultant' => SupervisingConsultantMiddleware::class,
+        'partner' => PartnerMiddleware::class,
+        'site-supervisor' => SiteSupervisorMiddleware::class,
+        'acting-commitment-marker' => ActingCommitmentMarkerMiddleware::class,
     ];
 
     protected function bootstrappers()
