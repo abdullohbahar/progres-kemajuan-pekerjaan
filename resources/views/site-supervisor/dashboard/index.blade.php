@@ -152,7 +152,7 @@
                                                     <td>{{ $spWork->task_name }}</td>
                                                     <td>{{ $spWork->fiscal_year }}</td>
                                                     <td>{{ $spWork->spk_date }}</td>
-                                                    <td><span class="badge badge-warning">{{ $spWork->status }}</span>
+                                                    <td><span class="badge badge-danger">{{ $spWork->status }}</span>
                                                     </td>
                                                     <td><a href="{{ route('show.task.report.site.supervisor', $spWork->id) }}"
                                                             class="btn btn-info btn-sm">Detail Pekerjaan
