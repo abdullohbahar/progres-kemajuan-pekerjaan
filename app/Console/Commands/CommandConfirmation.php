@@ -95,6 +95,7 @@ class CommandConfirmation extends Command
                     }
                 }
             }
+
             info("Cron Job running at 2 " . now());
         }
     }
