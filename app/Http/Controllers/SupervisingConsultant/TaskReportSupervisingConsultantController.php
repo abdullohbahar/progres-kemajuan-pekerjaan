@@ -133,8 +133,6 @@ class TaskReportSupervisingConsultantController extends Controller
             }
         }
 
-        dd($groups, $weeks);
-
         return $weeks ?? 0;
     }
 
