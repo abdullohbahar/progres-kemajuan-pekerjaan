@@ -80,7 +80,7 @@
         </div>
     </div>
 
-    <table class="table table-bordered">
+    <table class="table table-bordered" style="width: 100%">
         <tr class="fw-bolder text-center">
             <td style="vertical-align: middle" colspan="2" rowspan="3">
                 No
@@ -94,6 +94,9 @@
             <td style="vertical-align: middle" rowspan="3">Bobot Tiap Pekerjaan</td>
             <td colspan="3">
                 Progress Pelaksanaan Pekerjaan
+            </td>
+            <td>
+                Tingkat
             </td>
         </tr>
         <tr class="fw-bolder text-center">
@@ -109,6 +112,7 @@
             </td>
             <td>Minggu Ini</td>
             <td>s/d Minggu Ini</td>
+            <td rowspan="2" style="vertical-align: middle;">Penyelesaian</td>
         </tr>
         <tr class="fw-bolder text-center">
             <td>Bobot (%)</td>
@@ -163,6 +167,17 @@
                         }
                     @endphp
                     <td>{{ $progressNow }}%</td>
+
+                    @php
+                        if ($progressNow > 0) {
+                            $tingkatPenyelesaian = ($progressNow / $kindOfWorkDetail->work_value) * 100;
+                        } else {
+                            $tingkatPenyelesaian = 0;
+                        }
+                    @endphp
+                    <td>
+                        {{ number_format($tingkatPenyelesaian, 2) }}%
+                    </td>
                 </tr>
 
                 @php
@@ -198,8 +213,11 @@
             <td class="fw-bolder text-end">{{ $totalTimeSchedule }}%</td>
         </tr>
         <tr>
-            <td colspan="3" class="fw-bolder text-end">Terlambat</td>
-            <td class="fw-bolder text-end">{{ $totalProgressNow - $totalTimeSchedule }}%</td>
+            @php
+                $selisih = $totalProgressNow - $totalTimeSchedule;
+            @endphp
+            <td colspan="3" class="fw-bolder text-end">Selisih</td>
+            <td class="fw-bolder text-end" style="{{ $selisih < 0 ? 'color: red' : '' }}">{{ $selisih }}%</td>
         </tr>
     </table>
 

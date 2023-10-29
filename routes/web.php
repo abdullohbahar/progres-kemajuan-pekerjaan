@@ -26,6 +26,7 @@ use App\Http\Controllers\SupervisingConsultant\DashboardSupervisingConsultantCon
 use App\Http\Controllers\SupervisingConsultant\TaskReportSupervisingConsultantController;
 use App\Http\Controllers\SupervisingConsultant\TimeScheduleSupervisingConsultantController;
 use App\Http\Controllers\SupervisingConsultant\WeeklyReportSupervisingConsultantController;
+use App\Http\Controllers\TerminateContractController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +44,7 @@ Route::post('/auth', [AuthController::class, 'authenticate'])->name('auth');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 // ADMIN
-Route::prefix('admin')->middleware('auth')->group(function () {
+Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get('dashboard', [DashboardAdminController::class, 'index'])->name('dashboard.admin');
 
     Route::resource('cv-consultant', CvConsultantController::class)->only(['index', 'store', 'destroy', 'update', 'edit']);
@@ -77,7 +78,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
 
 // Konsultan Pengawas
-Route::prefix('konsultan-pengawas')->middleware('auth')->group(function () {
+Route::prefix('konsultan-pengawas')->middleware('supervising-consultant')->group(function () {
     Route::get('dashboard', [DashboardSupervisingConsultantController::class, 'index'])->name('supervising.consultant.dashboard');
 
     Route::get('task-report', [TaskReportSupervisingConsultantController::class, 'index'])->name('task.report.supervising.consultant');
@@ -94,19 +95,19 @@ Route::prefix('konsultan-pengawas')->middleware('auth')->group(function () {
 });
 
 // Rekanan
-Route::prefix('rekanan')->middleware('auth')->group(function () {
+Route::prefix('rekanan')->middleware('partner')->group(function () {
     Route::get('dashboard', [DashboardPartnerController::class, 'index'])->name('partner.dashboard');
     Route::get('task-report', [TaskReportPartnerController::class, 'index'])->name('task.report.partner');
     Route::get('task-report/{id}', [TaskReportPartnerController::class, 'show'])->name('show.task.report.partner');
 });
 
-Route::prefix('pengawas-lapangan')->middleware('auth')->group(function () {
+Route::prefix('pengawas-lapangan')->middleware('site-supervisor')->group(function () {
     Route::get('dashboard', [DashboardSiteSupervisorController::class, 'index'])->name('site.supervisor.dashboard');
     Route::get('task-report', [TaskReportSiteSupervisorController::class, 'index'])->name('task.report.site.supervisor');
     Route::get('task-report/{id}', [TaskReportSiteSupervisorController::class, 'show'])->name('show.task.report.site.supervisor');
 });
 
-Route::prefix('ppk')->middleware('auth')->group(function () {
+Route::prefix('ppk')->middleware('acting-commitment-marker')->group(function () {
     Route::get('dashboard', [DashboardActingCommitmentMarkerController::class, 'index'])->name('acting.commitment.marker.dashboard');
     Route::get('task-report', [TaskReportActingComitmentMarkerController::class, 'index'])->name('task.report.acting.commitment.marker');
     Route::get('task-report/{id}', [TaskReportActingComitmentMarkerController::class, 'show'])->name('show.task.report.acting.commitment.marker');
@@ -149,6 +150,8 @@ Route::middleware('auth')->group(function () {
     Route::put('agree-task-report-agreement/{taskReportID}/{userID}/{role}/{agree}', [TaskReportAgreementController::class, 'agreeTaskReportAgreement'])->name('agree.task.report.agreement');
     Route::put('reject-task-report-agreement', [TaskReportAgreementController::class, 'rejectTaskReportAgreement'])->name('reject.task.report.agreement');
     Route::get('reject-reason/{taskReportID}', [TaskReportAgreementController::class, 'rejectReason']);
+
+    Route::post('terminate-contract/{taskReportID}', TerminateContractController::class);
 });
 
 // Route::get('save', function () {
@@ -163,4 +166,15 @@ Route::middleware('auth')->group(function () {
 //     foreach ($users as $userData) {
 //         User::insert($userData);
 //     }
+// });
+
+
+// Route::get('testing', function () {
+
+//     $nilaiYangInginDihitung = 0.5;
+//     $totalNilai = 14.55;
+
+//     $persentase = ($nilaiYangInginDihitung / $totalNilai) * 100;
+
+//     echo "0.5 adalah sekitar " . number_format($persentase, 2) . "% dari 14.55";
 // });

@@ -43,17 +43,17 @@ $("#myForm").on("submit", function (e) {
         url: `/count-total-progress-before-this-week/${id}`,
         method: "GET",
         success: function (response) {
+            console.log(response);
             if (response.status == 200) {
-                console.log(response);
                 // jika respon data != 0 maka lakukan validasi
                 if (response.data != 0) {
                     var cleanWorkValue = parseFloat(
                         $("#workValue").val().replace("%", "")
                     );
 
-                    if (cleanWorkValue > response.data) {
+                    if (cleanWorkValue < response.data) {
                         alert(
-                            `Nilai Pekerjaan Tidak Boleh Melebihi Total Progress Yang Ada. Total Progress: ${response.data}%`
+                            `Nilai Pekerjaan Tidak Boleh Kurang Dari Total Progress Yang Ada. Total Progress: ${response.data}%`
                         );
                     } else {
                         $("#myForm")[0].submit();
@@ -61,6 +61,10 @@ $("#myForm").on("submit", function (e) {
                 } else {
                     $("#myForm")[0].submit();
                 }
+            } else if (response.status == 201) {
+                alert(
+                    `Nilai Pekerjaan Tidak Bisa Diubah Karena Sudah Mencapai Total Nilai Pekerjaan. Total Nilai Pekerjaan : ${response.work_value}%`
+                );
             }
         },
     });

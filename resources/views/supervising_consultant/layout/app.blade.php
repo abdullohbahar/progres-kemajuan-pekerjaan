@@ -195,6 +195,16 @@ License: For each use you must have a valid license purchased only from above li
         </script>
     @endif
 
+    @if (session()->has('terminated'))
+        <script>
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oops...',
+                text: 'Anda Tidak Bisa Melihat Detail Pekerjaan Karena Kontrak Telah Diputus!',
+            })
+        </script>
+    @endif
+
     @stack('addons-js')
 </body>
 <!--end::Body-->

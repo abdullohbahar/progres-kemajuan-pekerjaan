@@ -198,6 +198,8 @@ class KindOfWorkController extends Controller
 
             $addDays = Carbon::parse($taskId->spk_date)->addDays(4)->format('Y-m-d');
 
+            $addDays = strtotime($addDays);
+
             // jika spk date sudah aktif maka lakukan kode dibawah
             if ($addDays <= $dateNows) {
                 // lakukan pengecekan apakah sudah ada mc awal atau belum
@@ -440,7 +442,23 @@ class KindOfWorkController extends Controller
 
     public function countTotalProgressBeforeThisWeek($kindOfWorkDetailID)
     {
-        $kindOfWorkDetail = KindOfWorkDetail::with('kindOfWork')->findorfail($kindOfWorkDetailID);
+        $kindOfWorkDetail = KindOfWorkDetail::with('kindOfWork', 'schedules')->findorfail($kindOfWorkDetailID);
+
+        $totalProgress = 0;
+        foreach ($kindOfWorkDetail->schedules as $schedule) {
+            $totalProgress += $schedule->progress;
+        }
+
+        if ($totalProgress >= $kindOfWorkDetail->work_value) {
+            return response()->json([
+                'status' => 201,
+                'data' => 0,
+                'message' => 'lebih dari',
+                'work_value' => $kindOfWorkDetail->work_value,
+                'totalProgress' => $totalProgress
+            ]);
+        }
+
 
         $spkDate = $kindOfWorkDetail->kindOfWork->task->spk_date;
         $execution_time = $kindOfWorkDetail->kindOfWork->task->execution_time;
@@ -490,7 +508,8 @@ class KindOfWorkController extends Controller
 
         return response()->json([
             'status' => 200,
-            'data' => $progress
+            'data' => $progress,
+            'message' => 'kurang dari',
         ]);
     }
 

@@ -152,11 +152,15 @@
                                                     <td>{{ $spWork->task_name }}</td>
                                                     <td>{{ $spWork->fiscal_year }}</td>
                                                     <td>{{ $spWork->spk_date }}</td>
-                                                    <td><span class="badge badge-warning">{{ $spWork->status }}</span>
+                                                    <td><span class="badge badge-danger">{{ $spWork->status }}</span>
                                                     </td>
                                                     <td><a href="{{ route('show.task.report.partner', $spWork->id) }}"
                                                             class="btn btn-info btn-sm">Detail Pekerjaan
-                                                        </a></td>
+                                                        </a>
+                                                        @if ($spWork->status == 'SP 1' || $spWork->status == 'SCM 1' || $spWork->status == 'SCM 2' || $spWork->status == 'SCM 3')
+                                                            <button class="btn btn-warning btn-sm">Surat SP</button>
+                                                        @endif
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>

@@ -30,6 +30,7 @@ return new class extends Migration
             $table->foreignUuid('acting_commitment_marker_id')->nullable()->constrained('acting_commitment_markers')->nullOnDelete(); // id PPK
             $table->enum('status', ['Aktif', 'SP 1', 'SCM 1', 'SCM 2', 'SCM 3'])->default('Aktif');
             $table->integer('execution_time');
+            $table->boolean('contract_terminated')->nullable()->default(0);
             $table->timestamps();
         });
     }
