@@ -121,6 +121,16 @@ class TaskReportSupervisingConsultantController extends Controller
             $dateNow = date('d-m-Y');
         }
 
+        // dd($dateNow);
+
+        $filteredArray = array_filter($groups, function ($subArray) {
+            return !empty($subArray);
+        });
+
+        $groups = array_values($filteredArray);
+
+        // dump($groups);
+
         $weeks = 0;
 
         foreach ($groups as $week => $dates) {
@@ -133,54 +143,60 @@ class TaskReportSupervisingConsultantController extends Controller
             }
         }
 
+        // dd($weeks);
+
         return $weeks ?? 0;
     }
 
-    // public function getWeek($taskReport)
-    // {
-    //     // menampilkan form berdasarkan jumlah minggu
-    //     // menghitung hari per minggu
-    //     $start_date = Carbon::parse($taskReport->spk_date)->format('Y-m-d');
-    //     $executionTime = $taskReport->execution_time;
-    //     $dates = [];
+    public function oldGetWeek($taskReport)
+    {
+        // menampilkan form berdasarkan jumlah minggu
+        // menghitung hari per minggu
+        $start_date = Carbon::parse($taskReport->spk_date)->format('Y-m-d');
+        $executionTime = $taskReport->execution_time;
+        $dates = [];
 
-    //     // Menginisialisasi tanggal awal
-    //     $current_date = $start_date;
+        // Menginisialisasi tanggal awal
+        $current_date = $start_date;
 
-    //     for ($i = 0; $i < $executionTime; $i++) {
-    //         $dates[] = date('d-m-Y', strtotime($current_date));
+        for ($i = 0; $i < $executionTime; $i++) {
+            $dates[] = date('d-m-Y', strtotime($current_date));
 
-    //         // Menambahkan 1 hari ke tanggal saat ini
-    //         $current_date = date('Y-m-d', strtotime($current_date . " + 1 day"));
-    //     }
+            // Menambahkan 1 hari ke tanggal saat ini
+            $current_date = date('Y-m-d', strtotime($current_date . " + 1 day"));
+        }
 
-    //     // Memecah array ke dalam grup-grup 7 hari
-    //     $groupedDates = array_chunk($dates, 7);
+        // Memecah array ke dalam grup-grup 7 hari
+        $groupedDates = array_chunk($dates, 7);
 
-    //     $optionDate = Option::where('name', 'date-now')->first()->value;
+        $optionDate = Option::where('name', 'date-now')->first()->value;
 
-    //     if ($optionDate) {
-    //         $dateNow = Carbon::parse($optionDate)->format('d-m-Y');
-    //     } else {
-    //         $dateNow = date('d-m-Y');
-    //     }
+        if ($optionDate) {
+            $dateNow = Carbon::parse($optionDate)->format('d-m-Y');
+        } else {
+            $dateNow = date('d-m-Y');
+        }
+
+        // dd($dateNow);
+
+        // dd($groupedDates);
 
 
-    //     $weeks = 0;
+        $weeks = 0;
 
-    //     foreach ($groupedDates as $week => $dates) {
-    //         $weekNow = $week;
-    //         foreach ($dates as $date) {
-    //             if ($date == $dateNow) {
-    //                 $weeks = $weekNow + 1;
-    //             }
-    //         }
-    //     }
+        foreach ($groupedDates as $week => $dates) {
+            $weekNow = $week;
+            foreach ($dates as $date) {
+                if ($date == $dateNow) {
+                    $weeks = $weekNow + 1;
+                }
+            }
+        }
 
-    //     // dd($weeks);
+        dd($weeks);
 
-    //     return $weeks ?? 0;
-    // }
+        return $weeks ?? 0;
+    }
 
     public function getGroupedDates($taskReport)
     {
