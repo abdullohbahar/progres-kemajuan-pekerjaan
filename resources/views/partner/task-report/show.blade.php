@@ -158,7 +158,7 @@
 
                         <div class="card mt-5">
                             <div class="card-header border-0 pt-5">
-                                <h2>Pekerjaan Untuk Minggu Selanjutnya</h2>
+                                <h2>Pekerjaan Untuk Minggu Selanjutnya Menurut Time Schedule</h2>
                             </div>
                             <div class="card-body">
                                 <table class="table table-bordered table-striped">
