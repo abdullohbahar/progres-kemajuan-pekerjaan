@@ -65,6 +65,8 @@ $("#myForm").on("submit", function (e) {
                 alert(
                     `Nilai Pekerjaan Tidak Bisa Diubah Karena Sudah Mencapai Total Nilai Pekerjaan. Total Nilai Pekerjaan : ${response.work_value}%`
                 );
+            } else {
+                alert("error");
             }
         },
     });

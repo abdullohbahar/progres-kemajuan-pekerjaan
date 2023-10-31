@@ -8,7 +8,9 @@
         <div class="card-toolbar">
             @if (auth()->user()->role == 'Acting Commitment Marker')
                 @if ($taskReport->status == 'SCM 1' || $taskReport->status == 'SCM 2' || $taskReport->status == 'SCM 3')
-                    <button class="btn btn-danger btn-sm" id="terminateContract" data-id="{{ $taskReport->id }}">Putus
+                    <button class="btn btn-danger btn-sm" id="terminateContract"
+                        {{ $taskReport->contract_terminated != null ? 'hidden' : '' }}
+                        data-id="{{ $taskReport->id }}">Putus
                         Kontrak</button>
                 @endif
             @endif
@@ -68,7 +70,13 @@
                     </tr>
                     <tr>
                         <td><b>Status</b></td>
-                        <td class="vertically-centered">: {{ $taskReport->status }}</td>
+                        <td class="vertically-centered">:
+                            @if ($taskReport->contract_terminated)
+                                <span class="badge badge-danger">Putus Kontrak</span>
+                            @else
+                                {{ $taskReport->status }}
+                            @endif
+                        </td>
                     </tr>
                 </table>
             </div>

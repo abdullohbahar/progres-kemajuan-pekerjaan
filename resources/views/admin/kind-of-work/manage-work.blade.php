@@ -56,7 +56,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <form action="{{ route('manage.work.update', $kindOfWorkDetail->id) }}" method="POST"
+                            <form action="{{ route('manage.work.update.admin', $kindOfWorkDetail->id) }}" method="POST"
                                 id="myForm">
                                 @csrf
                                 @method('PUT')

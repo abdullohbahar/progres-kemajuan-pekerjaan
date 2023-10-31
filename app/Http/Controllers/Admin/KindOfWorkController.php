@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Auth;
 use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
 use Illuminate\Console\View\Components\Task;
 use App\Http\Controllers\SendMessageController;
+use App\Http\Controllers\SupervisingConsultant\TaskReportSupervisingConsultantController;
 
 class KindOfWorkController extends Controller
 {
@@ -171,7 +172,7 @@ class KindOfWorkController extends Controller
         $removeChar = ['R', 'p', '.', ',', ' '];
         $removePercent = ['%'];
 
-        $optionDate = Option::where('name', 'date-now')->first()->value;
+        $optionDate = Option::where('name', 'date-now')->first()?->value;
 
         if ($optionDate) {
             $dateNows = strtotime($optionDate);
@@ -444,61 +445,74 @@ class KindOfWorkController extends Controller
     {
         $kindOfWorkDetail = KindOfWorkDetail::with('kindOfWork', 'schedules')->findorfail($kindOfWorkDetailID);
 
-        $totalProgress = 0;
-        foreach ($kindOfWorkDetail->schedules as $schedule) {
-            $totalProgress += $schedule->progress;
-        }
+        if ($kindOfWorkDetail->schedules->count() != 0) {
+            $totalProgress = 0;
+            foreach ($kindOfWorkDetail->schedules as $schedule) {
+                $totalProgress += $schedule->progress;
+            }
 
-        if ($totalProgress >= $kindOfWorkDetail->work_value) {
-            return response()->json([
-                'status' => 201,
-                'data' => 0,
-                'message' => 'lebih dari',
-                'work_value' => $kindOfWorkDetail->work_value,
-                'totalProgress' => $totalProgress
-            ]);
-        }
-
-
-        $spkDate = $kindOfWorkDetail->kindOfWork->task->spk_date;
-        $execution_time = $kindOfWorkDetail->kindOfWork->task->execution_time;
-
-        // menampilkan form berdasarkan jumlah minggu
-        // menghitung hari per minggu
-        $start_date = Carbon::parse($spkDate)->format('Y-m-d');
-        $executionTime = $execution_time;
-        $dates = [];
-
-        // Menginisialisasi tanggal awal
-        $current_date = $start_date;
-
-        for ($i = 0; $i < $executionTime; $i++) {
-            $dates[] = date('d-m-Y', strtotime($current_date));
-
-            // Menambahkan 1 hari ke tanggal saat ini
-            $current_date = date('Y-m-d', strtotime($current_date . " + 1 day"));
-        }
-
-        // Memecah array ke dalam grup-grup 7 hari
-        $groupedDates = array_chunk($dates, 7);
-
-        $optionDate = Option::where('name', 'date-now')->first()->value;
-
-        if ($optionDate) {
-            $dateNow = Carbon::parse($optionDate)->format('d-m-Y');
-        } else {
-            $dateNow = date('d-m-Y');
-        }
-
-
-        foreach ($groupedDates as $key => $date) {
-            if (in_array($dateNow, $date)) {
-                $weekNow = $key + 1;
-                break;
-            } else {
-                $weekNow = '';
+            if ($totalProgress >= $kindOfWorkDetail->work_value) {
+                return response()->json([
+                    'status' => 201,
+                    'data' => 0,
+                    'message' => 'lebih dari',
+                    'work_value' => $kindOfWorkDetail->work_value,
+                    'totalProgress' => $totalProgress
+                ]);
             }
         }
+
+
+
+        // $spkDate = $kindOfWorkDetail->kindOfWork->task->spk_date;
+        // $execution_time = $kindOfWorkDetail->kindOfWork->task->execution_time;
+
+        // // menampilkan form berdasarkan jumlah minggu
+        // // menghitung hari per minggu
+        // $optionDate = Option::where('name', 'date-now')->first()?->value;
+
+        // if ($optionDate) {
+        //     $start_date = Carbon::parse($optionDate)->format('Y-m-d');
+        // } else {
+        //     $start_date = Carbon::parse($spkDate)->format('Y-m-d');
+        // }
+
+        // $executionTime = $execution_time;
+        // $dates = [];
+
+        // // Menginisialisasi tanggal awal
+        // $current_date = $start_date;
+
+        // for ($i = 0; $i < $executionTime; $i++) {
+        //     $dates[] = date('d-m-Y', strtotime($current_date));
+
+        //     // Menambahkan 1 hari ke tanggal saat ini
+        //     $current_date = date('Y-m-d', strtotime($current_date . " + 1 day"));
+        // }
+
+        // // Memecah array ke dalam grup-grup 7 hari
+        // $groupedDates = array_chunk($dates, 7);
+
+        // $optionDate = Option::where('name', 'date-now')->first()->value;
+
+        // if ($optionDate) {
+        //     $dateNow = Carbon::parse($optionDate)->format('d-m-Y');
+        // } else {
+        //     $dateNow = date('d-m-Y');
+        // }
+
+
+        // foreach ($groupedDates as $key => $date) {
+        //     if (in_array($dateNow, $date)) {
+        //         $weekNow = $key + 1;
+        //         break;
+        //     } else {
+        //         $weekNow = '';
+        //     }
+        // }
+
+        $taskReportController = new TaskReportSupervisingConsultantController();
+        $weekNow = $taskReportController->getWeek($kindOfWorkDetail->kindOfWork->task);
 
         if ($weekNow) {
             $progress = Schedule::where('kind_of_work_detail_id', $kindOfWorkDetailID)->where('week', '<=', $weekNow)->sum('progress');
