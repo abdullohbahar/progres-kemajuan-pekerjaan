@@ -1,4 +1,3 @@
-{{-- add konsultan modal --}}
 <div class="modal fade" tabindex="-1" id="kt_modal_1">
     <div class="modal-dialog">
         <form action="{{ route('admin.task.store') }}" method="POST">
@@ -18,16 +17,28 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-12">
-                            <div class="form-group mb-3">
-                                <label class="form-label" for="name">Nama</label>
-                                <input type="text" name="name" id="name" value="{{ old('name') }}"
-                                    class="form-control @error('name') is-invalid @enderror">
-                                @error('name')
-                                    <div id="validationServerUsernameFeedback" class="invalid-feedback text-capitalize">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
+                            <label class="form-label" for="name">Nama</label>
+                            <input type="text" name="name" id="name" value="{{ old('name') }}"
+                                class="form-control @error('name') is-invalid @enderror" required>
+                            @error('name')
+                                <div id="validationServerUsernameFeedback" class="invalid-feedback text-capitalize">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                            <label for="Unit" class="form-label mt-2">Unit</label>
+                            <select class="form-select @error('unit') is-invalid @enderror" name="unit"
+                                data-control="select2" data-dropdown-parent="#kt_modal_1"
+                                data-placeholder="Select an option" required>
+                                <option value="">-- Pilih Unit --</option>
+                                @foreach ($units as $unit)
+                                    <option value="{{ $unit->unit }}">{{ $unit->unit }}</option>
+                                @endforeach
+                            </select>
+                            @error('unit')
+                                <div id="validationServerUsernameFeedback" class="invalid-feedback text-capitalize">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                     </div>
                 </div>

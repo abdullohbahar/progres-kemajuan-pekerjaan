@@ -21,7 +21,7 @@
                             <div class="form-group mb-3">
                                 <label class="form-label" for="name">Nama</label>
                                 <input type="text" name="name" id="name" value="{{ old('name') }}"
-                                    class="form-control @error('name') is-invalid @enderror">
+                                    class="form-control @error('name') is-invalid @enderror" required>
                                 @error('name')
                                     <div id="validationServerUsernameFeedback" class="invalid-feedback text-capitalize">
                                         {{ $message }}

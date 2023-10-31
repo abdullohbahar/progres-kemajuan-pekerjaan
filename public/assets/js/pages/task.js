@@ -40,6 +40,11 @@ $("#kt_datatable_dom_positioning").DataTable({
             name: "name",
         },
         {
+            orderable: true,
+            data: "unit",
+            name: "unit",
+        },
+        {
             data: "id",
             name: "id",
         },

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\TaskMasterData;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 use DataTables;
 
@@ -23,8 +24,11 @@ class TaskMasterDataController extends Controller
             return Datatables::of($query)->make();
         }
 
+        $units = Unit::all();
+
         $data = [
             'active' => $this->active,
+            'units' => $units
         ];
 
         return view('admin.task.index', $data);
@@ -33,7 +37,8 @@ class TaskMasterDataController extends Controller
     public function store(Request $request)
     {
         $validateData =  $request->validate([
-            'name' => 'required|unique:task_master_data'
+            'name' => 'required|unique:task_master_data',
+            'unit' => 'required',
         ], [
             'name.required' => 'Nama Pekerjaan harus diisi',
             'name.unique' => 'Nama Pekerjaan telah dipakai',

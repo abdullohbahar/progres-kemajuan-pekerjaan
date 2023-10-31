@@ -65,6 +65,7 @@
                                         <tr class="fw-bold fs-6 text-gray-800 px-7">
                                             <th>#</th>
                                             <th>Nama Pekerjaan</th>
+                                            <th>Unit</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
