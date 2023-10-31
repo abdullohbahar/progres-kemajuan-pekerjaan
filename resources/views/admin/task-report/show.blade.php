@@ -57,7 +57,8 @@
             <div id="kt_app_content_container" class="app-container container-fluid">
                 @if ($taskReport->is_agree === 1)
                     <!--begin::Alert-->
-                    <div class="alert alert-dismissible bg-success d-flex flex-column flex-sm-row p-5 mb-10">
+                    <div
+                        class="alert alert-dismissible bg-success d-flex flex-column flex-sm-row p-5 mb-10 {{ $taskReport->contract_terminated != null ? 'd-none' : '' }}">
                         <!--begin::Icon-->
                         <i class="ki-duotone ki-information fs-2hx text-light me-4 mb-5 mb-sm-0"><span
                                 class="path1"></span><span class="path2"></span><span class="path3"></span></i>
@@ -87,7 +88,8 @@
                     <!--end::Alert-->
                 @elseif($taskReport->is_agree === 0)
                     <!--begin::Alert-->
-                    <div class="alert alert-dismissible bg-warning d-flex flex-column flex-sm-row p-5 mb-10">
+                    <div
+                        class="alert alert-dismissible bg-warning d-flex flex-column flex-sm-row p-5 mb-10 {{ $taskReport->contract_terminated != null ? 'd-none' : '' }}">
                         <!--begin::Icon-->
                         <i class="ki-duotone ki-information fs-2hx text-light me-4 mb-5 mb-sm-0"><span
                                 class="path1"></span><span class="path2"></span><span class="path3"></span></i>
@@ -159,6 +161,7 @@
                                         </form>
                                     @endif
                                     <a href="{{ route('edit.task.report.admin', $taskReport->id) }}"
+                                        {{ $taskReport->contract_terminated != null ? 'hidden' : '' }}
                                         class="btn btn-sm btn-warning"> Ubah
                                     </a>
                                     <div class="dropdown">
@@ -219,7 +222,14 @@
                                             </tr>
                                             <tr>
                                                 <td><b>Status</b></td>
-                                                <td class="vertically-centered">: {{ $taskReport->status }}</td>
+                                                <td class="vertically-centered">: 
+                                                    @if ($taskReport->contract_terminated)
+                                                    <span class="badge badge-danger">Putus Kontrak</span>
+                                                    @else
+                                                    {{ $taskReport->status }}
+                                                    @endif    
+                                                
+                                                </td>
                                             </tr>
                                         </table>
                                     </div>
@@ -271,6 +281,7 @@
                                 <div class="card-toolbar">
                                     {{-- @if ($taskReport->spk_date >= date('Y-m-d')) --}}
                                     <a href="{{ route('kind.of.work', $taskReport->id) }}"
+                                        {{ $taskReport->contract_terminated != null ? 'hidden' : '' }}
                                         class="btn btn-primary btn-sm mx-1 my-1">Tambah Macam Pekerjaan</a>
                                     {{-- @endif --}}
                                     @if (count($totalMcHistories) == 0)
@@ -308,10 +319,12 @@
                                             <div class="card-toolbar">
                                                 <button id="removeItemButton" data-id="{{ $kindOfWork->id }}"
                                                     data-name="{{ $kindOfWork->name }}" class="btn btn-sm btn-danger"
+                                                    {{ $taskReport->contract_terminated != null ? 'hidden' : '' }}
                                                     style="margin-right: 5px">Hapus</button>
 
                                                 @if (auth()->user()->role == 'Admin')
                                                     <a href="{{ route('kind.of.work.edit', $kindOfWork->id) }}"
+                                                        {{ $taskReport->contract_terminated != null ? 'hidden' : '' }}
                                                         class="btn btn-sm btn-warning" style="margin-right: 5px">Ubah</a>
                                                 @endif
                                             </div>
@@ -342,6 +355,7 @@
                                                                                 class="col-sm-12 col-md-6 col-lg-4 d-grid">
                                                                                 <a href="{{ route('manage.work.admin', $detail->id) }}"
                                                                                     class="btn btn-sm btn-primary my-5"
+                                                                                    {{ $taskReport->contract_terminated != null ? 'hidden' : '' }}
                                                                                     style="margin-right: 5px">Kelola
                                                                                     Pekerjaan</a>
                                                                             </div>
@@ -555,12 +569,6 @@
                                                                                                         {{ $schedule->progress }}%
                                                                                                     </td>
                                                                                                     <td>
-                                                                                                        <a href="javascript:void(0);"
-                                                                                                            type="button"
-                                                                                                            id="uploadPicture"
-                                                                                                            data-date="{{ $schedule->date }}"
-                                                                                                            data-scheduleid="{{ $schedule->id }}">Upload
-                                                                                                            Foto</a> |
                                                                                                         <a href="javascript:;"
                                                                                                             id="seePicture"
                                                                                                             data-scheduleid="{{ $schedule->id }}">Lihat
