@@ -222,13 +222,13 @@
                                             </tr>
                                             <tr>
                                                 <td><b>Status</b></td>
-                                                <td class="vertically-centered">: 
+                                                <td class="vertically-centered">:
                                                     @if ($taskReport->contract_terminated)
-                                                    <span class="badge badge-danger">Putus Kontrak</span>
+                                                        <span class="badge badge-danger">Putus Kontrak</span>
                                                     @else
-                                                    {{ $taskReport->status }}
-                                                    @endif    
-                                                
+                                                        {{ $taskReport->status }}
+                                                    @endif
+
                                                 </td>
                                             </tr>
                                         </table>
@@ -530,24 +530,24 @@
                                                                 </div>
                                                                 <div class="col-12 mt-5">
                                                                     <div class="accordion"
-                                                                        id="kt_accordion_{{ $key }}_weekly_progress">
+                                                                        id="kt_accordion_{{ $key }}{{ $detail->id }}_weekly_progress">
                                                                         <div class="accordion-item">
                                                                             <h2 class="accordion-header"
-                                                                                id="kt_accordion_{{ $key }}_weekly_progress_header_{{ $key }}_weekly_progress">
+                                                                                id="kt_accordion_{{ $key }}{{ $detail->id }}_weekly_progress_header_{{ $key }}{{ $detail->id }}_weekly_progress">
                                                                                 <button
                                                                                     class="accordion-button fs-4 fw-semibold collapsed"
                                                                                     type="button"
                                                                                     data-bs-toggle="collapse"
-                                                                                    data-bs-target="#kt_accordion_{{ $key }}_weekly_progress_body_{{ $key }}_weekly_progress"
+                                                                                    data-bs-target="#kt_accordion_{{ $key }}{{ $detail->id }}_weekly_progress_body_{{ $key }}{{ $detail->id }}_weekly_progress"
                                                                                     aria-expanded="false"
-                                                                                    aria-controls="kt_accordion_{{ $key }}_weekly_progress_body_{{ $key }}_weekly_progress">
+                                                                                    aria-controls="kt_accordion_{{ $key }}{{ $detail->id }}_weekly_progress_body_{{ $key }}{{ $detail->id }}_weekly_progress">
                                                                                     Progress Mingguan
                                                                                 </button>
                                                                             </h2>
-                                                                            <div id="kt_accordion_{{ $key }}_weekly_progress_body_{{ $key }}_weekly_progress"
+                                                                            <div id="kt_accordion_{{ $key }}{{ $detail->id }}_weekly_progress_body_{{ $key }}{{ $detail->id }}_weekly_progress"
                                                                                 class="accordion-collapse collapse"
-                                                                                aria-labelledby="kt_accordion_{{ $key }}_weekly_progress_header_{{ $key }}_weekly_progress"
-                                                                                data-bs-parent="#kt_accordion_{{ $key }}_weekly_progress">
+                                                                                aria-labelledby="kt_accordion_{{ $key }}{{ $detail->id }}_weekly_progress_header_{{ $key }}{{ $detail->id }}_weekly_progress"
+                                                                                data-bs-parent="#kt_accordion_{{ $key }}{{ $detail->id }}_weekly_progress">
                                                                                 <div class="accordion-body"
                                                                                     style="overflow-x: scroll">
                                                                                     <table class="table table-bordered">
