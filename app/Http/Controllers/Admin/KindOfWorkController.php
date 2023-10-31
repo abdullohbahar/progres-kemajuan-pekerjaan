@@ -31,10 +31,12 @@ class KindOfWorkController extends Controller
     public function create($taskId)
     {
         TaskReport::findorfail($taskId);
+        $units = Unit::all();
 
         $data = [
             'active' => $this->active,
-            'task_id' => $taskId
+            'task_id' => $taskId,
+            'units' => $units
         ];
 
         return view('admin.kind-of-work.create', $data);
