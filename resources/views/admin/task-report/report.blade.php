@@ -8,6 +8,20 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
+    <style>
+        body {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        @media print {
+            .page-break {
+                page-break-after: always;
+                page-break-before: always;
+                margin-top: 100px;
+            }
+        }
+    </style>
 
     <title>PROGRES KEMAJUAN PEKERJAAN</title>
 </head>
@@ -98,7 +112,7 @@
             <td rowspan="3" style="vertical-align: middle" colspan="2">
                 No
             </td>
-            <td rowspan="3" style="vertical-align: middle">
+            <td rowspan="3" style="vertical-align: middle; width: 20%">
                 Macam Pekerjaan
             </td>
             <td rowspan="3" style="vertical-align: middle">
@@ -171,8 +185,17 @@
             @endforeach
         @endforeach
         <tr>
-            <td colspan="7"></td>
+            <td colspan="6" class="text-center fw-bolder">Jumlah Nilai Pekerjaan</td>
+            <td class="text-end d-flex justify-content-between">
+                <span class="">Rp</span>
+                <span>{{ number_format($totalPrice, 0, '.', ',') }}
+                </span>
+            </td>
             <td class="text-center">{{ round($totalWorkValue) }}%</td>
+        </tr>
+        <tr>
+            <td colspan="6" class="text-center fw-bolder">Kemajuan Pekerjaan Mingguan</td>
+            <td colspan="2"></td>
             @foreach ($totalProgressByWeek as $key => $totalProgress)
                 <td class="text-center">{{ $totalProgress }}%</td>
                 @php
@@ -191,28 +214,65 @@
             @endforeach
         </tr>
         <tr>
-            <td colspan="7"></td>
-            <td></td>
+            <td colspan="6" class="text-center fw-bolder">Kemajuan Pekerjaan Kumulatif</td>
+            <td colspan="2"></td>
             @foreach ($totalTimeSchedule as $value)
                 <td class="text-center">{{ $value }}%</td>
             @endforeach
         </tr>
+
         <tr>
-            <td colspan="6"></td>
-            <td class="text-end d-flex justify-content-between">
-                <span class="">Rp</span>
-                <span>{{ number_format($totalPrice, 0, '.', ',') }}
-                </span>
-            </td>
-            <td></td>
-            @foreach ($totalProgressByWeek as $key => $totalProgress)
-                <td class="text-center">{{ $totalProgress }}%</td>
+            <td colspan="6" class="text-center fw-bolder">Time Schedule Pekerjaan Kumulatif</td>
+            <td colspan="2"></td>
+            @foreach ($cumulativeTimeSchedules as $key => $cumulativeTimeSchedule)
+                <td class="text-center">{{ $cumulativeTimeSchedule }}%</td>
             @endforeach
         </tr>
     </table>
 
+    <div class="row page-break" style="margin-top: 100px">
+        <div class="col-12">
+            <div id="chartContainer" style="width: 100%;"></div>
+        </div>
+        <h3 style="padding-top: 100px;">Minggu Ke</h3>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
+    </script>
+    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
+
+    <script>
+        window.onload = function() {
+            var totalTimeSchedule = @json($totalTimeSchedule); // Menyisipkan variabel PHP ke dalam JavaScript
+
+            var max = Math.max.apply(Math, totalTimeSchedule) + 15;
+
+            var options = {
+                animationEnabled: true,
+                axisY: {
+                    title: "Persentase",
+                    maximum: max
+                },
+                data: [{
+                    type: "spline",
+                    dataPoints: []
+                }]
+            };
+
+            // Menambahkan data dari totalTimeSchedule ke dataPoints
+            for (var i = 0; i < totalTimeSchedule.length; i++) {
+                options.data[0].dataPoints.push({
+                    x: i + 1, // Sesuaikan dengan tanggal yang sesuai
+                    y: totalTimeSchedule[i],
+                    label: "Minggu Ke-" + (i + 1) // Menambahkan teks label di bawah data
+                });
+            }
+
+            $("#chartContainer").CanvasJSChart(options);
+
+        }
     </script>
 </body>
 

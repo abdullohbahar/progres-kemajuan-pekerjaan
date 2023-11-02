@@ -10,6 +10,7 @@ use App\Models\McHistory;
 use App\Models\TaskReport;
 use Illuminate\Http\Request;
 use App\Models\SiteSupervisor;
+use Illuminate\Support\Facades\DB;
 use App\Models\AgreementTaskReport;
 use App\Models\TimeScheduleHistory;
 use App\Http\Controllers\Controller;
@@ -219,7 +220,7 @@ class TaskReportAdminController extends Controller
 
     public function report($id)
     {
-        $taskReport = TaskReport::with('kindOfWork')->findorfail($id);
+        $taskReport = TaskReport::with('kindOfWork.kindOfWorkDetails.timeSchedules')->findorfail($id);
 
         // $baris_pertama = [0.15, 0.01, 0, 0, 0, 0];
         // $baris_kedua = [];
@@ -254,10 +255,28 @@ class TaskReportAdminController extends Controller
 
         $schedules = $kindOfWorkDetails->first()->schedules;
 
+        $timeSchedules = DB::table('task_reports')
+            ->join('kind_of_works', 'kind_of_works.task_id', '=', 'task_reports.id')
+            ->join('kind_of_work_details', 'kind_of_work_details.kind_of_work_id', '=', 'kind_of_works.id')
+            ->join('time_schedules', 'time_schedules.kind_of_work_detail_id', '=', 'kind_of_work_details.id')
+            ->select('time_schedules.week', DB::raw('SUM(time_schedules.progress) as total_progress'))
+            ->where('task_reports.id', $id)
+            ->groupBy('time_schedules.week')
+            ->get();
+
+        $cumulativeTimeSchedules = [];
+        $total = 0;
+
+        foreach ($timeSchedules as $value) {
+            $total += $value->total_progress;
+            $cumulativeTimeSchedules[] = $total;
+        }
+
         $data = [
             'taskReport' => $taskReport,
             'schedules' => $schedules,
             'kindOfWorkDetails' => $kindOfWorkDetails,
+            'cumulativeTimeSchedules' => $cumulativeTimeSchedules,
         ];
 
         return view('admin.task-report.report', $data);
