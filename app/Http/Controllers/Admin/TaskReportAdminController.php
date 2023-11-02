@@ -272,11 +272,28 @@ class TaskReportAdminController extends Controller
             $cumulativeTimeSchedules[] = $total;
         }
 
+        $ppk = $taskReport->actingCommitmentMarker;
+        $siteSupervisor1 = SiteSupervisor::where('id', $taskReport->site_supervisor_id_1)->first();
+        $siteSupervisor2 = SiteSupervisor::where('id', $taskReport->site_supervisor_id_2)->first();
+        $siteSupervisor3 = SiteSupervisor::where('id', $taskReport->site_supervisor_id_3)->first();
+        $partner = $taskReport->partner;
+        $supervisingConsultant = $taskReport->supervisingConsultant;
+
+        $lastDateOfWeek = Carbon::now();
+        $formattedlastDateOfWeek = $lastDateOfWeek->isoFormat('D MMMM Y');
+
         $data = [
             'taskReport' => $taskReport,
             'schedules' => $schedules,
             'kindOfWorkDetails' => $kindOfWorkDetails,
             'cumulativeTimeSchedules' => $cumulativeTimeSchedules,
+            'ppk' => $ppk,
+            'siteSupervisor1' => $siteSupervisor1,
+            'siteSupervisor2' => $siteSupervisor2,
+            'siteSupervisor3' => $siteSupervisor3,
+            'partner' => $partner,
+            'supervisingConsultant' => $supervisingConsultant,
+            'formattedlastDateOfWeek' => $formattedlastDateOfWeek,
         ];
 
         return view('admin.task-report.report', $data);

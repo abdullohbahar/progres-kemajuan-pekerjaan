@@ -15,18 +15,35 @@
         }
 
         @media print {
+            body {
+                display: table;
+                table-layout: fixed;
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+
             .page-break {
                 page-break-after: always;
                 page-break-before: always;
                 margin-top: 100px;
             }
+
+            .print-separate {
+                page-break-inside: avoid;
+                margin-top: 50px;
+            }
+        }
+
+        @page {
+            size: auto;
+            margin: 20mm 0 10mm 0;
         }
     </style>
 
     <title>PROGRES KEMAJUAN PEKERJAAN</title>
 </head>
 
-<body style="font-size: 12px">
+<body style="font-size: 12pt">
     <div class="container mb-5">
 
     </div>
@@ -230,9 +247,75 @@
         </tr>
     </table>
 
+    <table style="width: 100%; margin-top: 200px;" class="print-separate">
+        <tr>
+            <td colspan="2">
+                <br>
+                <br>
+                Mengetahui <br>
+                Pejabat Pembuat Komitmen <br>
+                Dinas Perhubungan Kab. Bantul
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <u>{{ $ppk->name }}</u> <br>
+                NIP. {{ $ppk->nip }}
+            </td>
+            <td colspan="2">
+                <br>
+                <br>
+                Mengetahui <br>
+                Tim Teknis Pelaksana Lapangan <br>
+                <u>1. {{ $siteSupervisor1->name }}</u> <br>
+                NIP. {{ $siteSupervisor1->nip }}
+                <br>
+                <br>
+                <u>2. {{ $siteSupervisor2->name }}</u> <br>
+                NIP. {{ $siteSupervisor2->nip }}
+                <br>
+                <br>
+                <u>3. {{ $siteSupervisor3->name }}</u> <br>
+                NIP. {{ $siteSupervisor3->nip }}
+            </td>
+            <td colspan="2" class="text-center">
+                <br>
+                <br>
+                Disetujui <br>
+                Penyedia Jasa <br>
+                {{ $partner->cvConsultant->name }}
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <u>{{ $partner->name }}</u> <br>
+                {{ $partner->position }}
+            </td>
+            <td colspan="3" class="text-center">
+                <br>
+                <br>
+                Yogyakarta, {{ $formattedlastDateOfWeek }}<br>
+                Dibuat <br>
+                Konsultan Pengawas <br>
+                {{ $supervisingConsultant->cvConsultant->name }}
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <u>{{ $supervisingConsultant->name }}</u> <br>
+                {{ $supervisingConsultant->position }}
+            </td>
+        </tr>
+    </table>
+
     <div class="row page-break" style="margin-top: 100px">
         <div class="col-12">
-            <div id="chartContainer" style="width: 100%;"></div>
+            <div id="chartContainer" style="width: 88%;"></div>
         </div>
         <h3 style="padding-top: 100px;">Minggu Ke</h3>
     </div>
@@ -272,6 +355,25 @@
 
             $("#chartContainer").CanvasJSChart(options);
 
+        }
+    </script>
+
+    <script>
+        // Fungsi untuk menambahkan "ATAS SENDIRI" ke setiap halaman cetak baru
+        function addHeaderToNewPage() {
+            var newPageHeader = document.createElement('div');
+            newPageHeader.textContent = 'ATAS SENDIRI';
+            newPageHeader.style.position = 'fixed';
+            newPageHeader.style.top = '0';
+            newPageHeader.style.width = '100%';
+            newPageHeader.style.text - align = 'center';
+
+            document.body.appendChild(newPageHeader);
+        }
+
+        // Memantau perubahan halaman cetak
+        window.onbeforeprint = function() {
+            addHeaderToNewPage();
         }
     </script>
 </body>
