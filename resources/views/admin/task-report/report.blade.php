@@ -424,7 +424,7 @@
             for (var i = 0; i < cumulativeTimeSchedules.length; i++) {
                 options.data[1].dataPoints.push({
                     x: i + 1, // Sesuaikan dengan tanggal yang sesuai
-                    y: cumulativeTimeSchedules[i] + 5,
+                    y: cumulativeTimeSchedules[i],
                     label: "Minggu Ke-" + (i + 1) // Menambahkan teks label di bawah data
                 });
             }
