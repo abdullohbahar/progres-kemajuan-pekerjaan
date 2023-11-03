@@ -63,28 +63,47 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group mb-3">
-                                                <label class="form-label" for="name">Nama Pekerjaan</label>
-                                                <input type="text" name="name" id="name"
-                                                    value="{{ old('name') }}"
-                                                    class="form-control @error('name') is-invalid @enderror">
+                                                <label class="form-label" for="name">Divisi</label>
+                                                <select class="form-select" name="name" data-control="select2"
+                                                    data-placeholder="Pilih Divisi" required>
+                                                    <option></option>
+                                                    @foreach ($divisions as $division)
+                                                        <option value="{{ $division->name }}"
+                                                            {{ old('name') == $division->name ? 'selected' : '' }}>
+                                                            {{ $division->name }}</option>
+                                                    @endforeach
+                                                </select>
                                                 @error('name')
                                                     <div id="validationServerUsernameFeedback"
                                                         class="invalid-feedback text-capitalize">
                                                         {{ $message }}
                                                     </div>
                                                 @enderror
+                                                {{-- <input type="text" name="name" id="name"
+                                                    value="{{ old('name') }}"
+                                                    class="form-control @error('name') is-invalid @enderror"> --}}
                                             </div>
                                             <div data-repeater-list="multiple_name">
                                                 <div data-repeater-item>
                                                     <div class="row mt-5 justify-content-end">
                                                         <div class="col-8">
                                                             <div class="form-group mb-3">
-                                                                <label class="form-label" for="sub_name">Sub
+                                                                <label class="form-label" for="sub_name">
                                                                     Pekerjaan</label>
-                                                                <input type="text" name="sub_name" id="sub_name"
+                                                                <select class="form-select select2-opt" name="sub_name"
+                                                                    data-control="select2"
+                                                                    data-placeholder="Pilih Pekerjaan" required>
+                                                                    <option></option>
+                                                                    @foreach ($tasks as $task)
+                                                                        <option value="{{ $task->name }}"
+                                                                            {{ old('sub_name') == $task->name ? 'selected' : '' }}>
+                                                                            {{ $task->name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                {{-- <input type="text" name="sub_name" id="sub_name"
                                                                     value="{{ old('sub_name') }}"
                                                                     class="form-control @error('sub_name') is-invalid @enderror"
-                                                                    required>
+                                                                    required> --}}
                                                                 @error('sub_name')
                                                                     <div id="validationServerUsernameFeedback"
                                                                         class="invalid-feedback text-capitalize">
@@ -158,6 +177,12 @@
 
             show: function() {
                 $(this).slideDown();
+                // $('.select2-container').remove();
+                $('.select2-opt').select2({
+                    placeholder: "Placeholder text",
+                    allowClear: true
+                });
+                // $('.select2-container').css('width', '100%');
             },
 
             hide: function(deleteElement) {

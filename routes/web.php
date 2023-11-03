@@ -19,6 +19,8 @@ use App\Http\Controllers\Partner\DashboardPartnerController;
 use App\Http\Controllers\Partner\TaskReportPartnerController;
 use App\Http\Controllers\Admin\SupervisingConsultantController;
 use App\Http\Controllers\Admin\ActingCommitmentMarkerController;
+use App\Http\Controllers\Admin\DivisionMasterDataController;
+use App\Http\Controllers\Admin\TaskMasterDataController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiteSupervisor\DashboardSiteSupervisorController;
 use App\Http\Controllers\SiteSupervisor\TaskReportSiteSupervisorController;
@@ -76,6 +78,18 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     });
 
     Route::put('update-manage-work/{id}', [KindOfWorkController::class, 'updateManageWork'])->name('manage.work.update.admin');
+
+    Route::prefix('division')->group(function () {
+        Route::get('/', [DivisionMasterDataController::class, 'index'])->name('admin.division');
+        Route::post('store', [DivisionMasterDataController::class, 'store'])->name('admin.division.store');
+        Route::delete('destroy/{id}', [DivisionMasterDataController::class, 'destroy'])->name('admin.division.destroy');
+    });
+
+    Route::prefix('task')->group(function () {
+        Route::get('/', [TaskMasterDataController::class, 'index'])->name('admin.task');
+        Route::post('store', [TaskMasterDataController::class, 'store'])->name('admin.task.store');
+        Route::delete('destroy/{id}', [TaskMasterDataController::class, 'destroy'])->name('admin.task.destroy');
+    });
 });
 
 

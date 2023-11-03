@@ -65,10 +65,19 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group mb-3">
-                                                <label class="form-label" for="work_name">Nama Pekerjaan</label>
-                                                <input type="text" name="work_name" id="work_name"
+                                                <label class="form-label" for="work_name">Divisi</label>
+                                                <select class="form-select" name="work_name" data-control="select2"
+                                                    data-placeholder="Pilih Divisi" required>
+                                                    <option></option>
+                                                    @foreach ($divisions as $division)
+                                                        <option value="{{ $division->name }}"
+                                                            {{ old('name', $kindOfWork->name) == $division->name ? 'selected' : '' }}>
+                                                            {{ $division->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                {{-- <input type="text" name="work_name" id="work_name"
                                                     value="{{ old('work_name', $kindOfWork->name) }}"
-                                                    class="form-control @error('work_name') is-invalid @enderror">
+                                                    class="form-control @error('work_name') is-invalid @enderror"> --}}
                                                 @error('work_name')
                                                     <div id="validationServerUsernameFeedback"
                                                         class="invalid-feedback text-capitalize">
@@ -82,11 +91,21 @@
                                                     <div class="row mt-5 justify-content-end">
                                                         <div class="col-8">
                                                             <div class="form-group mb-3">
-                                                                <label class="form-label" for="name">Sub
+                                                                <label class="form-label" for="name">
                                                                     Pekerjaan</label>
-                                                                <input type="text" name="name" id="name"
+                                                                <select class="form-select select2-opt" name="name"
+                                                                    id="name" data-control="select2"
+                                                                    data-placeholder="Pilih Pekerjaan" required>
+                                                                    <option></option>
+                                                                    @foreach ($tasks as $task)
+                                                                        <option value="{{ $task->name }}"
+                                                                            {{ old('name') == $task->name ? 'selected' : '' }}>
+                                                                            {{ $task->name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                {{-- <input type="text" name="name" id="name"
                                                                     value="{{ old('name') }}"
-                                                                    class="form-control @error('name') is-invalid @enderror">
+                                                                    class="form-control @error('name') is-invalid @enderror"> --}}
                                                                 @error('name')
                                                                     <div id="validationServerUsernameFeedback"
                                                                         class="invalid-feedback text-capitalize">
@@ -171,6 +190,7 @@
 
             show: function() {
                 $(this).slideDown();
+                $('.select2-opt').select2();
             },
 
             hide: function(deleteElement) {
@@ -210,6 +230,27 @@
             },
 
             isFirstItemUndeletable: true,
+        });
+
+        dataFromDatabase.forEach(function(item, index) {
+            // Dapatkan elemen Form Repeater yang ada
+            var existingRepeater = repeater.find('[data-repeater-item]:last');
+
+            // Clone elemen Form Repeater yang ada dan tambahkan sebagai elemen baru
+            var newRepeater = existingRepeater.clone();
+            newRepeater.find('select').val(item.name).trigger('change');
+
+            // Setel nilai pada elemen input tersembunyi
+            newRepeater.find('[name="id"]').val(item.id);
+
+            // Atur elemen baru sebagai elemen terakhir dalam Form Repeater
+            existingRepeater.after(newRepeater);
+
+            // Inisialisasi select2 untuk elemen yang baru ditambahkan
+            newRepeater.find('.select2-opt').select2({
+                placeholder: "Pilih Pekerjaan",
+                allowClear: true
+            });
         });
 
         // Mengatur data dalam daftar

@@ -23,6 +23,8 @@ use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
 use Illuminate\Console\View\Components\Task;
 use App\Http\Controllers\SendMessageController;
 use App\Http\Controllers\SupervisingConsultant\TaskReportSupervisingConsultantController;
+use App\Models\DivisionMasterData;
+use App\Models\TaskMasterData;
 
 class KindOfWorkController extends Controller
 {
@@ -31,10 +33,14 @@ class KindOfWorkController extends Controller
     public function create($taskId)
     {
         TaskReport::findorfail($taskId);
+        $divisons = DivisionMasterData::all();
+        $tasks = TaskMasterData::all();
 
         $data = [
             'active' => $this->active,
-            'task_id' => $taskId
+            'task_id' => $taskId,
+            'divisions' => $divisons,
+            'tasks' => $tasks,
         ];
 
         return view('admin.kind-of-work.create', $data);
@@ -53,10 +59,12 @@ class KindOfWorkController extends Controller
 
             // save sub name and information to kind of work detail (detail macam pekerjaan)
             foreach ($request->multiple_name as $key => $sub_name) {
+                $taskMasterDataUnit = TaskMasterData::where('name', $sub_name)->first()?->unit ?? '';
                 KindOfWorkDetail::create([
                     'kind_of_work_id' => $kindOfWork->id,
                     'name' => $request->multiple_name[$key]['sub_name'],
                     'information' => $request->multiple_name[$key]['information'],
+                    'mc_unit' => $taskMasterDataUnit,
                 ]);
             }
 
@@ -86,10 +94,15 @@ class KindOfWorkController extends Controller
 
         $expired = $dateNow <= $kindOfWork->task->spk_date;
 
+        $divisons = DivisionMasterData::all();
+        $tasks = TaskMasterData::all();
+
         $data = [
             'active' => $this->active,
             'kindOfWork' => $kindOfWork,
-            'expired' => $expired
+            'expired' => $expired,
+            'divisions' => $divisons,
+            'tasks' => $tasks,
         ];
 
         return view('admin.kind-of-work.edit', $data);
