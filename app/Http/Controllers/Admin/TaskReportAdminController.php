@@ -269,6 +269,9 @@ class TaskReportAdminController extends Controller
 
         foreach ($timeSchedules as $value) {
             $total += $value->total_progress;
+            if ($total > 100) {
+                $total = 100;
+            }
             $cumulativeTimeSchedules[] = $total;
         }
 
