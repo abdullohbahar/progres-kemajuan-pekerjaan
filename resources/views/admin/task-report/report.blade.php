@@ -225,7 +225,7 @@
                             $sum += $totalProgressByWeek[$i];
                         }
 
-                        $totalTimeSchedule[] = $sum;
+                        $totalTimeSchedule[] = round($sum, 2);
                     }
                 @endphp
             @endforeach
@@ -317,7 +317,6 @@
         <div class="col-12">
             <div id="chartContainer" style="width: 88%;"></div>
         </div>
-        <h3 style="padding-top: 100px;">Minggu Ke</h3>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
@@ -326,7 +325,7 @@
     <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
     <script src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
 
-    <script>
+    {{-- <script>
         window.onload = function() {
             var totalTimeSchedule = @json($totalTimeSchedule); // Menyisipkan variabel PHP ke dalam JavaScript
 
@@ -340,8 +339,13 @@
                 },
                 data: [{
                     type: "spline",
+                    name: "Projected Sales 1",
                     dataPoints: []
-                }]
+                }, {
+                    type: "spline",
+                    name: "Projected Sales 2",
+                    dataPoints: []
+                }, ]
             };
 
             // Menambahkan data dari totalTimeSchedule ke dataPoints
@@ -353,7 +357,88 @@
                 });
             }
 
+            for (var i = 0; i < totalTimeSchedule.length; i++) {
+                options.data[1].dataPoints.push({
+                    x: i + 1, // Sesuaikan dengan tanggal yang sesuai
+                    y: totalTimeSchedule[i] + 5,
+                    label: "Minggu Ke-" + (i + 1) // Menambahkan teks label di bawah data
+                });
+            }
+
             $("#chartContainer").CanvasJSChart(options);
+
+        }
+    </script> --}}
+
+    <script>
+        window.onload = function() {
+            var totalTimeSchedule = @json($totalTimeSchedule); // Menyisipkan variabel PHP ke dalam JavaScript
+            var cumulativeTimeSchedules = @json($cumulativeTimeSchedules); // Menyisipkan variabel PHP ke dalam JavaScript
+            var max = Math.max.apply(Math, totalTimeSchedule) + 15;
+
+            var options = {
+                animationEnabled: true,
+                theme: "light2",
+                maximum: max,
+                axisY: {
+                    title: "Presentase",
+                    minimum: -10
+                },
+                toolTip: {
+                    shared: true
+                },
+                legend: {
+                    cursor: "pointer",
+                    verticalAlign: "bottom",
+                    horizontalAlign: "left",
+                    dockInsidePlotArea: true,
+                    itemclick: toogleDataSeries
+                },
+                data: [{
+                        type: "spline",
+                        showInLegend: true,
+                        name: "Kemajuan Pekerjaan Kumulatif	",
+                        markerType: "square",
+                        color: "#F08080",
+                        dataPoints: []
+                    },
+                    {
+                        type: "spline",
+                        showInLegend: true,
+                        name: "Time Schedule Pekerjaan Kumulatif",
+                        lineDashType: "dash",
+                        dataPoints: []
+                    }
+                ]
+            };
+
+            // Menambahkan data dari totalTimeSchedule ke dataPoints
+            for (var i = 0; i < totalTimeSchedule.length; i++) {
+                options.data[0].dataPoints.push({
+                    x: i + 1, // Sesuaikan dengan tanggal yang sesuai
+                    y: totalTimeSchedule[i],
+                    label: "Minggu Ke-" + (i + 1) // Menambahkan teks label di bawah data
+                });
+            }
+
+            for (var i = 0; i < cumulativeTimeSchedules.length; i++) {
+                options.data[1].dataPoints.push({
+                    x: i + 1, // Sesuaikan dengan tanggal yang sesuai
+                    y: cumulativeTimeSchedules[i] + 5,
+                    label: "Minggu Ke-" + (i + 1) // Menambahkan teks label di bawah data
+                });
+            }
+
+            $("#chartContainer").CanvasJSChart(options);
+
+            function toogleDataSeries(e) {
+                if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+                e.chart.render();
+            }
 
         }
     </script>
