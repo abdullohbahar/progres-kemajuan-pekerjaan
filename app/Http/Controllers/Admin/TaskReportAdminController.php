@@ -17,6 +17,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SupervisingConsultant;
 use App\Models\ActingCommitmentMarker;
 use App\Http\Controllers\SupervisingConsultant\TaskReportSupervisingConsultantController;
+use PDF;
 
 class TaskReportAdminController extends Controller
 {
@@ -222,6 +223,8 @@ class TaskReportAdminController extends Controller
     {
         $taskReport = TaskReport::with('kindOfWork.kindOfWorkDetails.timeSchedules')->findorfail($id);
 
+        // dd($id);
+
         // $baris_pertama = [0.15, 0.01, 0, 0, 0, 0];
         // $baris_kedua = [];
 
@@ -298,6 +301,10 @@ class TaskReportAdminController extends Controller
             'supervisingConsultant' => $supervisingConsultant,
             'formattedlastDateOfWeek' => $formattedlastDateOfWeek,
         ];
+
+        // $pdf = PDF::loadView('admin.task-report.report', $data);
+
+        // return $pdf->download("Surat SP $taskReport->task_name.pdf", $data);
 
         return view('admin.task-report.report', $data);
     }
