@@ -8,6 +8,7 @@ use App\Models\TaskReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\SupervisingConsultant\TaskReportSupervisingConsultantController;
+use App\Models\Option;
 
 class AgreementController extends Controller
 {
@@ -177,6 +178,23 @@ class AgreementController extends Controller
                     TaskReport::where('id', $taskReportID)->update([
                         'status' => 'SP 1'
                     ]);
+
+                    $option = Option::where('name', $taskReport)->count();
+
+                    if ($option < 0) {
+                        Option::create([
+                            'name' => $taskReportID,
+                            'value' => json_encode([
+                                'date_out' => date('d-m-Y'),
+                            ])
+                        ]);
+                    } else {
+                        Option::where('name', $taskReportID)->update([
+                            'value' => json_encode([
+                                'date_out' => date('d-m-Y'),
+                            ])
+                        ]);
+                    }
                 } else if ($taskReport->status == 'SP 1') {
                     TaskReport::where('id', $taskReportID)->update([
                         'status' => 'SCM 1'
@@ -205,6 +223,23 @@ class AgreementController extends Controller
                     TaskReport::where('id', $taskReportID)->update([
                         'status' => 'SP 1'
                     ]);
+
+                    $option = Option::where('name', $taskReport)->count();
+
+                    if ($option < 0) {
+                        Option::create([
+                            'name' => $taskReportID,
+                            'value' => json_encode([
+                                'date_out' => date('d-m-Y'),
+                            ])
+                        ]);
+                    } else {
+                        Option::where('name', $taskReportID)->update([
+                            'value' => json_encode([
+                                'date_out' => date('d-m-Y'),
+                            ])
+                        ]);
+                    }
                 } else if ($taskReport->status == 'SP 1') {
                     TaskReport::where('id', $taskReportID)->update([
                         'status' => 'SCM 1'

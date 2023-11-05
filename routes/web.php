@@ -28,6 +28,7 @@ use App\Http\Controllers\SupervisingConsultant\DashboardSupervisingConsultantCon
 use App\Http\Controllers\SupervisingConsultant\TaskReportSupervisingConsultantController;
 use App\Http\Controllers\SupervisingConsultant\TimeScheduleSupervisingConsultantController;
 use App\Http\Controllers\SupervisingConsultant\WeeklyReportSupervisingConsultantController;
+use App\Http\Controllers\SuratSpController;
 use App\Http\Controllers\TerminateContractController;
 
 /*
@@ -167,6 +168,8 @@ Route::put('reject-task-report-agreement', [TaskReportAgreementController::class
 Route::get('reject-reason/{taskReportID}', [TaskReportAgreementController::class, 'rejectReason']);
 
 Route::post('terminate-contract/{taskReportID}', TerminateContractController::class);
+
+Route::get('surat-sp/{id}', [SuratSpController::class, 'index'])->name('surat.sp');
 
 // Route::get('save', function () {
 //     $users = array(
