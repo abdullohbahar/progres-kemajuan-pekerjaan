@@ -158,7 +158,8 @@
                                                             class="btn btn-info btn-sm">Detail Pekerjaan
                                                         </a>
                                                         @if ($spWork->status == 'SP 1' || $spWork->status == 'SCM 1' || $spWork->status == 'SCM 2' || $spWork->status == 'SCM 3')
-                                                            <button class="btn btn-warning btn-sm">Surat SP</button>
+                                                            <a href="{{ route('surat.sp', $spWork->id) }}"
+                                                                class="btn btn-warning btn-sm">Surat SP</a>
                                                         @endif
                                                     </td>
                                                 </tr>
