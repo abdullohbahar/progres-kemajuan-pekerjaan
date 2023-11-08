@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\Option;
 use App\Models\Schedule;
 use App\Models\Agreement;
 use App\Models\TaskReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\SupervisingConsultant\TaskReportSupervisingConsultantController;
-use App\Models\Option;
 
 class AgreementController extends Controller
 {
@@ -237,17 +238,25 @@ class AgreementController extends Controller
     {
         $option = Option::where('name', $taskReportID)->count();
 
+        $optionDate = Option::where('name', 'date-now')->first()->value;
+
+        if ($optionDate) {
+            $dateNow = Carbon::parse($optionDate)->format('d-m-Y');
+        } else {
+            $dateNow = date('d-m-Y');
+        }
+
         if ($option <= 0) {
             Option::create([
                 'name' => $taskReportID,
                 'value' => json_encode([
-                    'date_out' => date('d-m-Y'),
+                    'date_out' => $dateNow,
                 ])
             ]);
         } else {
             Option::where('name', $taskReportID)->update([
                 'value' => json_encode([
-                    'date_out' => date('d-m-Y'),
+                    'date_out' => $dateNow,
                 ])
             ]);
         }
