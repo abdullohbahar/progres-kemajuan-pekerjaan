@@ -182,7 +182,9 @@
                                         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mt-3">
                                             <div class="form-group">
                                                 <label class="form-label" for="mc_unit">Satuan</label>
-                                                <select class="form-control @error('mc_unit') is-invalid @enderror" disabled
+                                                <input type="text" value="{{ $kindOfWorkDetail->mc_unit ?? $unit }}"
+                                                    name="mc_unit" id="mc_unit" class="form-control" readonly>
+                                                {{-- <select class="form-control @error('mc_unit') is-invalid @enderror" disabled
                                                     name="mc_unit" id="mc_unit" required>
                                                     <option value="">-- Pilih Unit --</option>
                                                     @foreach ($units as $unit)
@@ -191,7 +193,7 @@
                                                             {{ $unit->unit }}
                                                         </option>
                                                     @endforeach
-                                                </select>
+                                                </select> --}}
                                                 @error('mc_unit')
                                                     <div id="validationServerUsernameFeedback"
                                                         class="invalid-feedback text-capitalize">

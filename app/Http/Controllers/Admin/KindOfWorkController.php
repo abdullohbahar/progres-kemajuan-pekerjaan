@@ -165,10 +165,13 @@ class KindOfWorkController extends Controller
         $units = Unit::orderBy('unit', 'asc')->get();
         $kindOfWorkDetail = KindOfWorkDetail::with('kindOfWork')->findorfail($id);
 
+        $unit = TaskMasterData::where('name', $kindOfWorkDetail->name)->first()?->unit ?? '';
+
         $data = [
             'active' => $this->active,
             'kindOfWorkDetail' => $kindOfWorkDetail,
             'units' => $units,
+            'unit' => $unit
         ];
 
         return view('admin.kind-of-work.manage-work', $data);
