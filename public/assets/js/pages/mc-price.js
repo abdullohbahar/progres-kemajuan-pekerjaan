@@ -1,5 +1,15 @@
 // Fungsi untuk mengubah angka menjadi format Rupiah
 function formatRupiah(number) {
+    // Konversi angka menjadi format Rupiah dengan toLocaleString
+    var formatted = Number(number).toLocaleString("id-ID", {
+        style: "currency",
+        currency: "IDR",
+    });
+
+    return formatted;
+}
+
+function formatRupiahMcUnit(number) {
     // Ubah number menjadi string
     number = number.toString();
 
@@ -11,7 +21,8 @@ function formatRupiah(number) {
         // Ubah number menjadi format Rupiah
         var reverse = number.toString().split("").reverse().join("");
         var ribuan = reverse.match(/\d{1,3}/g);
-        var formatted = ribuan.join(",").split("").reverse().join("");
+        console.log("ribuan: " + ribuan);
+        var formatted = ribuan.join(".").split("").reverse().join("");
         return "Rp " + formatted;
     } else {
         return ""; // Mengembalikan string kosong jika tidak ada number
@@ -21,7 +32,7 @@ function formatRupiah(number) {
 // Menggunakan event keyup untuk mengubah number saat diketikkan
 $("#mc_unit_price").on("keyup", function () {
     var number = $(this).val();
-    var formatted = formatRupiah(number);
+    var formatted = formatRupiahMcUnit(number);
     $(this).val(formatted);
 });
 
@@ -46,6 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var mcUnitPrice = extractNumber(mcUnitPriceInput.value);
         var volume = convertToDot(volumeInput.value) || 0;
         var totalHarga = mcUnitPrice * volume;
+        console.log("total harga: " + totalHarga);
         totalPriceInput.value = formatRupiah(totalHarga); // Menampilkan total harga dengan dua desimal
     }
 

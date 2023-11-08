@@ -165,10 +165,13 @@ class KindOfWorkController extends Controller
         $units = Unit::orderBy('unit', 'asc')->get();
         $kindOfWorkDetail = KindOfWorkDetail::with('kindOfWork')->findorfail($id);
 
+        $unit = TaskMasterData::where('name', $kindOfWorkDetail->name)->first()?->unit ?? '';
+
         $data = [
             'active' => $this->active,
             'kindOfWorkDetail' => $kindOfWorkDetail,
             'units' => $units,
+            'unit' => $unit
         ];
 
         return view('admin.kind-of-work.manage-work', $data);
@@ -177,6 +180,7 @@ class KindOfWorkController extends Controller
     // update manage work = kind of work detail update
     public function updateManageWork(Request $request, $id)
     {
+
         // get task id
         $task_id = KindOfWorkDetail::with('kindOfWork')->findOrFail($id);
 
@@ -193,6 +197,8 @@ class KindOfWorkController extends Controller
             $dateNows = strtotime(date('d-m-Y'));
         }
 
+        $removeCharUnitPrice = ['R', 'p', '.', ' ', "\u{A0}"];
+
         try {
             DB::beginTransaction();
 
@@ -206,9 +212,11 @@ class KindOfWorkController extends Controller
             // $contractUnitPrice = str_replace($removeChar, "", $request->contract_unit_price);
             // $contractTotalPrice = str_replace($removeChar, "", $request->total_contract_price);
             $mcUnitPrice = str_replace($removeChar, "", $request->mc_unit_price);
-            $mcTotalPrice = str_replace($removeChar, "", $request->total_mc_price);
+            $mcTotalPrice = str_replace($removeCharUnitPrice, "", $request->total_mc_price);
             $workValue = str_replace($removePercent, "", $request->work_value);
             $mcVolume = str_replace(',', '.', $request->mc_volume);
+
+            $mcTotalPrice = str_replace(',', '.', $mcTotalPrice);
 
             $addDays = Carbon::parse($taskId->spk_date)->addDays(4)->format('Y-m-d');
 

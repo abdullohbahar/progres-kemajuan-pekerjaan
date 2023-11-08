@@ -162,7 +162,7 @@ var KTDatatablesServerSide = (function () {
                                 row.status == "SCM 2" ||
                                 row.status == "SCM 3"
                             ) {
-                                var spButton = `<a class="btn btn-warning btn-sm">Surat SP</a>`;
+                                var spButton = `<a href="/surat-sp/${row.id}" class="btn btn-warning btn-sm">Surat SP</a>`;
                             } else {
                                 var spButton = ``;
                             }

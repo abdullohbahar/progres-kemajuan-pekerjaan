@@ -11,7 +11,7 @@ function formatRupiah(number) {
         // Ubah number menjadi format Rupiah
         var reverse = number.toString().split("").reverse().join("");
         var ribuan = reverse.match(/\d{1,3}/g);
-        var formatted = ribuan.join(",").split("").reverse().join("");
+        var formatted = ribuan.join(".").split("").reverse().join("");
         return "Rp " + formatted;
     } else {
         return ""; // Mengembalikan string kosong jika tidak ada number

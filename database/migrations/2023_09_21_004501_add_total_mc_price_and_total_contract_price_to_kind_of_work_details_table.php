@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('kind_of_work_details', function (Blueprint $table) {
             $table->bigInteger('total_contract_price')->nullable()->after('contract_unit_price');
-            $table->bigInteger('total_mc_price')->nullable()->after('mc_unit_price');
+            $table->text('total_mc_price')->nullable()->after('mc_unit_price');
         });
     }
 
