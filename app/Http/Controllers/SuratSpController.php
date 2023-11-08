@@ -29,13 +29,21 @@ class SuratSpController extends Controller
         $tanggalSpKeluar = Carbon::createFromFormat('d-m-Y', $jsonTanggalSpKeluar->date_out);
         $formattedTanggalSPKeluar = $tanggalSpKeluar->isoFormat('D MMMM Y');
 
-        $spWeek = $this->getWeekSPLetter($taskReport, $jsonTanggalSpKeluar->date_out);
+        // $spWeek = $this->getWeekSPLetter($taskReport, $jsonTanggalSpKeluar->date_out);
 
-        $groupedDates = $this->getGroupedDatesSpLetter($taskReport);
+        // dd($spWeek, $jsonTanggalSpKeluar->date_out);
 
-        $firstDateOfWeek = Carbon::createFromFormat('d-m-Y', current($groupedDates[$spWeek - 1]));
+        // $firstDateOfWeek = Carbon::createFromFormat('d-m-Y', current($groupedDates[$spWeek - 1]));
 
-        $lastDateOfWeek = Carbon::createFromFormat('d-m-Y', end($groupedDates[$spWeek - 1]));
+        // $lastDateOfWeek = Carbon::createFromFormat('d-m-Y', end($groupedDates[$spWeek - 1]));
+
+        $groupedDates = $this->getGroupedDatesSpLetter($taskReport, $jsonTanggalSpKeluar->date_out);
+
+        $spWeek = $groupedDates['week'];
+
+        $firstDateOfWeek = $groupedDates['firstDateOfWeek'];
+
+        $lastDateOfWeek = $groupedDates['lastDateOfWeek'];
 
         $cumulativeTimeSchedules = $this->cumulativeTimeSchedules($id);
 
@@ -172,7 +180,7 @@ class SuratSpController extends Controller
         return $weeks ?? 0;
     }
 
-    public function getGroupedDatesSpLetter($taskReport)
+    public function getGroupedDatesSpLetter($taskReport, $spDate)
     {
         // menampilkan form berdasarkan jumlah minggu
         // menghitung hari per minggu
@@ -193,6 +201,27 @@ class SuratSpController extends Controller
         // Memecah array ke dalam grup-grup 7 hari
         $groupedDates = array_chunk($dates, 7);
 
-        return $groupedDates ?? 0;
+        // dd($groupedDates);
+
+        // Loop melalui array utama
+        foreach ($groupedDates as $index => $sub_array) {
+            // Loop melalui array dalam array
+            foreach ($sub_array as $tanggal) {
+                if (in_array($spDate, $sub_array)) {
+                    $index = $index;
+                    break 2; // '2' mengacu pada jumlah loop yang ingin dihentikan
+                } else {
+                    $index = 0;
+                }
+            }
+        }
+
+        $data = [
+            'firstDateOfWeek' => current($groupedDates[$index]) ?? 0,
+            'lastDateOfWeek' => end($groupedDates[$index]) ?? 0,
+            'week' => ($index + 1) ?? 0
+        ];
+
+        return $data;
     }
 }
