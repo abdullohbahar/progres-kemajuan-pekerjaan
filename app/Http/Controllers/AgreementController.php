@@ -174,27 +174,12 @@ class AgreementController extends Controller
             $maxSP = -5;
             // check is total more than or less than max sp
             if ($total < $maxSP) {
+                $this->SaveDateToOption($taskReport, $taskReportID);
+
                 if ($taskReport->status == 'Aktif') {
                     TaskReport::where('id', $taskReportID)->update([
                         'status' => 'SP 1'
                     ]);
-
-                    $option = Option::where('name', $taskReport)->count();
-
-                    if ($option < 0) {
-                        Option::create([
-                            'name' => $taskReportID,
-                            'value' => json_encode([
-                                'date_out' => date('d-m-Y'),
-                            ])
-                        ]);
-                    } else {
-                        Option::where('name', $taskReportID)->update([
-                            'value' => json_encode([
-                                'date_out' => date('d-m-Y'),
-                            ])
-                        ]);
-                    }
                 } else if ($taskReport->status == 'SP 1') {
                     TaskReport::where('id', $taskReportID)->update([
                         'status' => 'SCM 1'
@@ -219,27 +204,12 @@ class AgreementController extends Controller
             $maxSP = -10;
 
             if ($total < $maxSP) {
+                $this->SaveDateToOption($taskReport, $taskReportID);
+
                 if ($taskReport->status == 'Aktif') {
                     TaskReport::where('id', $taskReportID)->update([
                         'status' => 'SP 1'
                     ]);
-
-                    $option = Option::where('name', $taskReport)->count();
-
-                    if ($option < 0) {
-                        Option::create([
-                            'name' => $taskReportID,
-                            'value' => json_encode([
-                                'date_out' => date('d-m-Y'),
-                            ])
-                        ]);
-                    } else {
-                        Option::where('name', $taskReportID)->update([
-                            'value' => json_encode([
-                                'date_out' => date('d-m-Y'),
-                            ])
-                        ]);
-                    }
                 } else if ($taskReport->status == 'SP 1') {
                     TaskReport::where('id', $taskReportID)->update([
                         'status' => 'SCM 1'
@@ -260,6 +230,26 @@ class AgreementController extends Controller
                     'status' => 'Aktif'
                 ]);
             }
+        }
+    }
+
+    public function SaveDateToOption($taskReport, $taskReportID)
+    {
+        $option = Option::where('name', $taskReportID)->count();
+
+        if ($option <= 0) {
+            Option::create([
+                'name' => $taskReportID,
+                'value' => json_encode([
+                    'date_out' => date('d-m-Y'),
+                ])
+            ]);
+        } else {
+            Option::where('name', $taskReportID)->update([
+                'value' => json_encode([
+                    'date_out' => date('d-m-Y'),
+                ])
+            ]);
         }
     }
 

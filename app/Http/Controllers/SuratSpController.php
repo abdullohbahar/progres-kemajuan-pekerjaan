@@ -22,7 +22,7 @@ class SuratSpController extends Controller
     {
         $taskReport = TaskReport::with('partner.cvConsultant', 'supervisingConsultant.cvConsultant')->findorfail($id);
 
-        $option = Option::where('name', $id)->firstOrfail();
+        $option = Option::where('name', $id)->first();
 
         $jsonTanggalSpKeluar = json_decode($option->value);
 
