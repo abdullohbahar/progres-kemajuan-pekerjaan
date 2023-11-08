@@ -19,8 +19,6 @@ $("#mc_unit_price, #mc_volume").on("keyup", function () {
                     parseFloat(mcTotalPriceClean) +
                     parseFloat(response.allMcPrice);
 
-                console.log(allMcPrice);
-
                 // hitung persen
                 if (!isNaN(mcTotalPriceClean)) {
                     var percentage = (mcTotalPriceClean / allMcPrice) * 100;
@@ -43,7 +41,6 @@ $("#myForm").on("submit", function (e) {
         url: `/count-total-progress-before-this-week/${id}`,
         method: "GET",
         success: function (response) {
-            console.log(response);
             if (response.status == 200) {
                 // jika respon data != 0 maka lakukan validasi
                 if (response.data != 0) {

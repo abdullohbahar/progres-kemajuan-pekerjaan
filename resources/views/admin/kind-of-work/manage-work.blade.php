@@ -204,7 +204,7 @@
                                             <div class="form-group">
                                                 @php
                                                     if ($kindOfWorkDetail->mc_unit_price != 0) {
-                                                        $mcUnitPrice = 'Rp ' . number_format($kindOfWorkDetail->mc_unit_price, 0, ',', ',');
+                                                        $mcUnitPrice = 'Rp ' . number_format($kindOfWorkDetail->mc_unit_price, 0, ',', '.');
                                                     } else {
                                                         $mcUnitPrice = '';
                                                     }
@@ -226,7 +226,7 @@
                                                 @php
                                                     $mcTotalPrice = ($kindOfWorkDetail->mc_unit_price ?? 0) * ($kindOfWorkDetail->mc_volume ?? 0);
                                                     if ($mcTotalPrice != 0) {
-                                                        $mcTotalPriceRupiah = 'Rp ' . number_format($mcTotalPrice, 0, ',', ',');
+                                                        $mcTotalPriceRupiah = 'Rp ' . number_format($mcTotalPrice, 2, ',', '.');
                                                     } else {
                                                         $mcTotalPriceRupiah = '';
                                                     }
