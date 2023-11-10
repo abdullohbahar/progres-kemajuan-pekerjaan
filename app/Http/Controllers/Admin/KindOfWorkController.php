@@ -51,20 +51,26 @@ class KindOfWorkController extends Controller
         try {
             DB::beginTransaction();
 
-            // save name to kind of work (macam pekerjaan)
-            $kindOfWork = KindOfWork::create([
-                'task_id' => $request->task_id,
-                'name' => $request->name
-            ]);
+            // check name in kind of work already exist or not
+            $kindOfWorkName = KindOfWork::where("task_id", $request->task_id)->where("name", $request->name);
+
+            if ($kindOfWorkName->count() <= 0) {
+                // save name to kind of work (macam pekerjaan)
+                $kindOfWork = KindOfWork::create([
+                    'task_id' => $request->task_id,
+                    'name' => $request->name
+                ]);
+            } else {
+                $kindOfWork = $kindOfWorkName->first();
+            }
 
             // save sub name and information to kind of work detail (detail macam pekerjaan)
-            foreach ($request->multiple_name as $key => $sub_name) {
-                $taskMasterDataUnit = TaskMasterData::where('name', $sub_name)->first()?->unit ?? '';
+            foreach ($request->sub_name as $key => $sub_name) {
                 KindOfWorkDetail::create([
                     'kind_of_work_id' => $kindOfWork->id,
-                    'name' => $request->multiple_name[$key]['sub_name'],
-                    'information' => $request->multiple_name[$key]['information'],
-                    'mc_unit' => $taskMasterDataUnit,
+                    'name' => $sub_name,
+                    'information' => $request->information[$key],
+                    'mc_unit' => $request->unit[$key],
                 ]);
             }
 
@@ -76,7 +82,7 @@ class KindOfWorkController extends Controller
 
             Bugsnag::notifyException($e);
 
-            return to_route('show.task.report.admin', $request->task_id)->with('success', 'Gagal Menambahkan Macam Pekerjaan');
+            return to_route('show.task.report.admin', $request->task_id)->with('failed', 'Gagal Menambahkan Macam Pekerjaan');
         }
     }
 
