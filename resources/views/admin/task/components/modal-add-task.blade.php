@@ -25,6 +25,20 @@
                                     {{ $message }}
                                 </div>
                             @enderror
+                            <label for="Division" class="form-label mt-2">Divisi</label>
+                            <select class="form-select @error('division_master_data_id') is-invalid @enderror"
+                                name="division_master_data_id" data-control="select2" data-dropdown-parent="#kt_modal_1"
+                                data-placeholder="Select an option" required>
+                                <option value="">-- Pilih Divisi --</option>
+                                @foreach ($divisions as $division)
+                                    <option value="{{ $division->id }}">{{ $division->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('division_master_data_id')
+                                <div id="validationServerUsernameFeedback" class="invalid-feedback text-capitalize">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                             <label for="Unit" class="form-label mt-2">Unit</label>
                             <select class="form-select @error('unit') is-invalid @enderror" name="unit"
                                 data-control="select2" data-dropdown-parent="#kt_modal_1"

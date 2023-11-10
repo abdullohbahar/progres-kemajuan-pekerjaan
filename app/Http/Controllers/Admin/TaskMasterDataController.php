@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\DivisionMasterData;
 use App\Models\TaskMasterData;
 use App\Models\Unit;
 use Illuminate\Http\Request;
@@ -18,17 +19,24 @@ class TaskMasterDataController extends Controller
     {
         if ($request->ajax()) {
 
-            $query = TaskMasterData::orderBy('name', 'asc')->get();
+            $query = TaskMasterData::with('division')->orderBy('name', 'asc')->get();
 
-            // return $query;
-            return Datatables::of($query)->make();
+
+            return Datatables::of($query)
+                ->addColumn('division', function ($item) {
+                    return $item->division?->name;
+                })
+                ->rawColumns(['division', 'username'])
+                ->make();
         }
 
         $units = Unit::all();
+        $divisions = DivisionMasterData::orderBy('created_at', 'asc')->get();
 
         $data = [
             'active' => $this->active,
-            'units' => $units
+            'units' => $units,
+            'divisions' => $divisions
         ];
 
         return view('admin.task.index', $data);
@@ -39,8 +47,10 @@ class TaskMasterDataController extends Controller
         $validateData =  $request->validate([
             'name' => 'required|unique:task_master_data',
             'unit' => 'required',
+            'division_master_data_id' => 'required',
         ], [
             'name.required' => 'Nama Pekerjaan harus diisi',
+            'division_master_data_id.required' => 'Divisi harus diisi',
             'name.unique' => 'Nama Pekerjaan telah dipakai',
         ]);
 
