@@ -31,7 +31,7 @@ class TaskMasterDataController extends Controller
         }
 
         $units = Unit::all();
-        $divisions = DivisionMasterData::orderBy('created_at', 'asc')->get();
+        $divisions = DivisionMasterData::orderByRaw("CAST(SUBSTRING(name, LOCATE('DIVISI', name) + 6) AS UNSIGNED)")->get();
 
         $data = [
             'active' => $this->active,

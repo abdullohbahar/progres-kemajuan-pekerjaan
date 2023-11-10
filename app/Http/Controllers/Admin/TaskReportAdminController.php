@@ -101,12 +101,14 @@ class TaskReportAdminController extends Controller
 
     public function show($id)
     {
-        $taskReport = TaskReport::with('agreementTaskReport')->where('id', $id)->firstOrfail();
-        // Melakukan pengecekan apakah status sudah aktif atau belum
-
-        // if ($taskReport->contract_terminated) {
-        //     return redirect()->back()->with('terminated', '');
-        // }
+        $taskReport = TaskReport::with(
+            [
+                'agreementTaskReport',
+                'kindOfWork' => function ($query) {
+                    $query->orderByRaw("CAST(SUBSTRING(name, LOCATE('DIVISI', name) + 6) AS UNSIGNED)");
+                }
+            ]
+        )->where('id', $id)->firstOrfail();
 
         // mengambil total mc
         $totalMcHistories = McHistory::where('task_report_id', $id)
