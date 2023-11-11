@@ -314,7 +314,7 @@
                                 @foreach ($taskReport->kindOfWork as $key => $kindOfWork)
                                     <div class="card mt-5" style="background-color: rgba(242, 242, 242, 0.667)">
                                         <div class="card-header pt-5" id="{{ $key + 5 }}">
-                                            <h1 class="parentSearchable">{{ $key + 1 }}. <span
+                                            <h1 class="parentSearchable"><span
                                                     class="childSearchable">{{ $kindOfWork->name }}</span></h1>
                                             <div class="card-toolbar">
                                                 <button id="removeItemButton" data-id="{{ $kindOfWork->id }}"

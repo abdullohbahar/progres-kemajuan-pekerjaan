@@ -51,20 +51,26 @@ class KindOfWorkController extends Controller
         try {
             DB::beginTransaction();
 
-            // save name to kind of work (macam pekerjaan)
-            $kindOfWork = KindOfWork::create([
-                'task_id' => $request->task_id,
-                'name' => $request->name
-            ]);
+            // check name in kind of work already exist or not
+            $kindOfWorkName = KindOfWork::where("task_id", $request->task_id)->where("name", $request->name);
+
+            if ($kindOfWorkName->count() <= 0) {
+                // save name to kind of work (macam pekerjaan)
+                $kindOfWork = KindOfWork::create([
+                    'task_id' => $request->task_id,
+                    'name' => $request->name
+                ]);
+            } else {
+                $kindOfWork = $kindOfWorkName->first();
+            }
 
             // save sub name and information to kind of work detail (detail macam pekerjaan)
-            foreach ($request->multiple_name as $key => $sub_name) {
-                $taskMasterDataUnit = TaskMasterData::where('name', $sub_name)->first()?->unit ?? '';
+            foreach ($request->sub_name as $key => $sub_name) {
                 KindOfWorkDetail::create([
                     'kind_of_work_id' => $kindOfWork->id,
-                    'name' => $request->multiple_name[$key]['sub_name'],
-                    'information' => $request->multiple_name[$key]['information'],
-                    'mc_unit' => $taskMasterDataUnit,
+                    'name' => $sub_name,
+                    'information' => $request->information[$key],
+                    'mc_unit' => $request->unit[$key],
                 ]);
             }
 
@@ -76,13 +82,15 @@ class KindOfWorkController extends Controller
 
             Bugsnag::notifyException($e);
 
-            return to_route('show.task.report.admin', $request->task_id)->with('success', 'Gagal Menambahkan Macam Pekerjaan');
+            return to_route('show.task.report.admin', $request->task_id)->with('failed', 'Gagal Menambahkan Macam Pekerjaan');
         }
     }
 
     public function edit($id)
     {
-        $kindOfWork = KindOfWork::with('task')->where('id', $id)->firstorfail();
+        $kindOfWork = KindOfWork::with('task', 'kindOfWorkDetails')->where('id', $id)->firstorfail();
+
+        // dd($kindOfWork->task);
 
         $optionDate = Option::where('name', 'date-now')->first()->value;
 
@@ -92,7 +100,7 @@ class KindOfWorkController extends Controller
             $dateNow = strtotime(date('d-m-Y'));
         }
 
-        $expired = $dateNow <= $kindOfWork->task->spk_date;
+        $expired = $dateNow > strtotime($kindOfWork->task->spk_date);
 
         $divisons = DivisionMasterData::all();
         $tasks = TaskMasterData::all();
@@ -117,25 +125,27 @@ class KindOfWorkController extends Controller
 
             // update name to kind of work (macam pekerjaan)
             KindOfWork::where('id', $request->kind_of_work_id)->update([
-                'name' => $request->work_name
+                'name' => $request->name
             ]);
 
             // save sub name and information to kind of work detail (detail macam pekerjaan)
-            foreach ($request->multiple_name as $key => $name) {
+            foreach ($request->sub_name as $key => $subName) {
                 // check is id of kind of work detail null or not
                 // if not null update
                 // else create
-                if ($request->multiple_name[$key]['id']) {
-                    $idKindOfWorkDetail = $request->multiple_name[$key]['id'];
+                if ($request->id[$key]) {
+                    $idKindOfWorkDetail = $request->id[$key];
                     KindOfWorkDetail::where('id', $idKindOfWorkDetail)->update([
-                        'name' => $request->multiple_name[$key]['name'],
-                        'information' => $request->multiple_name[$key]['information'],
+                        'name' => $subName,
+                        'information' => $request->information[$key],
+                        'mc_unit' => $request->unit[$key],
                     ]);
                 } else {
                     KindOfWorkDetail::create([
                         'kind_of_work_id' => $request->kind_of_work_id,
-                        'name' => $request->multiple_name[$key]['name'],
-                        'information' => $request->multiple_name[$key]['information'],
+                        'name' => $subName,
+                        'information' => $request->information[$key],
+                        'mc_unit' => $request->unit[$key],
                     ]);
                 }
             }
@@ -180,7 +190,6 @@ class KindOfWorkController extends Controller
     // update manage work = kind of work detail update
     public function updateManageWork(Request $request, $id)
     {
-
         // get task id
         $task_id = KindOfWorkDetail::with('kindOfWork')->findOrFail($id);
 

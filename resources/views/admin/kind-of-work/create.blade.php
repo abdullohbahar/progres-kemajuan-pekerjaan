@@ -59,16 +59,15 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="card-body" id="multiple_name">
-                                    <div class="row">
+                                <div class="card-body">
+                                    <div class="row justify-content-end">
                                         <div class="col-12">
                                             <div class="form-group mb-3">
                                                 <label class="form-label" for="name">Divisi</label>
-                                                <select class="form-select" name="name" data-control="select2"
-                                                    data-placeholder="Pilih Divisi" required>
-                                                    <option></option>
+                                                <select class="form-select" name="name" id="divisi" required>
+                                                    <option value="">-- Pilih Divisi --</option>
                                                     @foreach ($divisions as $division)
-                                                        <option value="{{ $division->name }}"
+                                                        <option value="{{ $division->name }}" data-id="{{ $division->id }}"
                                                             {{ old('name') == $division->name ? 'selected' : '' }}>
                                                             {{ $division->name }}</option>
                                                     @endforeach
@@ -79,61 +78,60 @@
                                                         {{ $message }}
                                                     </div>
                                                 @enderror
-                                                {{-- <input type="text" name="name" id="name"
-                                                    value="{{ old('name') }}"
-                                                    class="form-control @error('name') is-invalid @enderror"> --}}
                                             </div>
-                                            <div data-repeater-list="multiple_name">
-                                                <div data-repeater-item>
-                                                    <div class="row mt-5 justify-content-end">
-                                                        <div class="col-8">
-                                                            <div class="form-group mb-3">
-                                                                <label class="form-label" for="sub_name">
-                                                                    Pekerjaan</label>
-                                                                <select class="form-select select2-opt" name="sub_name"
-                                                                    data-control="select2"
-                                                                    data-placeholder="Pilih Pekerjaan" required>
-                                                                    <option></option>
-                                                                    @foreach ($tasks as $task)
-                                                                        <option value="{{ $task->name }}"
-                                                                            {{ old('sub_name') == $task->name ? 'selected' : '' }}>
-                                                                            {{ $task->name }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                                {{-- <input type="text" name="sub_name" id="sub_name"
-                                                                    value="{{ old('sub_name') }}"
-                                                                    class="form-control @error('sub_name') is-invalid @enderror"
-                                                                    required> --}}
-                                                                @error('sub_name')
-                                                                    <div id="validationServerUsernameFeedback"
-                                                                        class="invalid-feedback text-capitalize">
-                                                                        {{ $message }}
-                                                                    </div>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-3"></div>
-                                                        <div class="col-8">
-                                                            <div class="form-group mb-3">
-                                                                <label class="form-label"
-                                                                    for="information">Keterangan</label>
-                                                                <textarea name="information" class="form-control @error('information') is-invalid @enderror" id="information"
-                                                                    cols="10" rows="2">{{ old('information') }}</textarea>
-                                                                @error('information')
-                                                                    <div id="validationServerUsernameFeedback"
-                                                                        class="invalid-feedback text-capitalize">
-                                                                        {{ $message }}
-                                                                    </div>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-3">
-                                                            <div class="form-group">
-                                                                <label class="form-label">Hapus</label>
-                                                                <div class="d-grid">
-                                                                    <a href="javascript:;" data-repeater-delete
-                                                                        class="btn btn-danger">Hapus</a>
+                                        </div>
+                                    </div>
+                                    <div id="form-container">
+                                        <div class="row" id="main-form">
+                                            <div class="col-12 dynamic-form">
+                                                <div class="row justify-content-end">
+                                                    <div class="col-8">
+                                                        <div class="form-group mb-3">
+                                                            <label class="form-label" for="sub_name">
+                                                                Pekerjaan</label>
+                                                            <input class="form-control" id="sub_pekerjaan"
+                                                                placeholder="Ketik untuk mencari pekerjaan"
+                                                                list="datalistOptions" name="sub_name[]"
+                                                                value="{{ old('sub_name') }}" autocomplete="new-password"
+                                                                required>
+                                                            <datalist id="datalistOptions">
+                                                                {{-- @foreach ($tasks as $task)
+                                                                    <option value="{{ $task->name }}">
+                                                                @endforeach --}}
+                                                            </datalist>
+                                                            @error('sub_name')
+                                                                <div id="validationServerUsernameFeedback"
+                                                                    class="invalid-feedback text-capitalize">
+                                                                    {{ $message }}
                                                                 </div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <label class="form-label" for="unit">
+                                                            Satuan</label>
+                                                        <input type="text" name="unit[]" class="form-control" required
+                                                            id="unit">
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <div class="form-group mb-3">
+                                                            <label class="form-label" for="information">Keterangan</label>
+                                                            <textarea name="information[]" class="form-control @error('information') is-invalid @enderror" id="information"
+                                                                cols="10" rows="2">{{ old('information') }}</textarea>
+                                                            @error('information')
+                                                                <div id="validationServerUsernameFeedback"
+                                                                    class="invalid-feedback text-capitalize">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Hapus</label>
+                                                            <div class="d-grid">
+                                                                <a href="javascript:;" id="hapus"
+                                                                    class="btn btn-danger">Hapus</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -143,7 +141,7 @@
                                     </div>
                                     <div class="row justify-content-end">
                                         <div class="col-11 d-grid mt-4">
-                                            <a href="javascript:;" data-repeater-create class="btn btn-light-primary">Tambah
+                                            <a href="javascript:;" id="tambah-sub" class="btn btn-light-primary">Tambah
                                                 Sub
                                                 Pekerjaan</a>
                                         </div>
@@ -165,31 +163,104 @@
 @endsection
 
 @push('addons-js')
-    <script src="{{ asset('./assets/plugins/custom/formrepeater/formrepeater.bundle.js?r=' . time()) }}"></script>
+    <script>
+        var responseData; // Declare a variable to store response datas globally
+
+        $(document).ready(function() {
+            var subTaskCount = 1;
+
+            // Function to clone the form elements
+            function cloneForm() {
+                var clonedForm = $("#main-form").clone();
+
+                // Remove the "Tambah Sub Pekerjaan" button from the clone
+                clonedForm.find("#tambah-sub").remove();
+
+                // Clear values in the cloned form
+                clonedForm.find('select[name="name[]"]').val(' '); // Assuming ' ' is the default value
+                clonedForm.find('input[name="sub_name[]"]').val('');
+                clonedForm.find('input[name="unit[]"]').val('');
+                clonedForm.find('textarea[name="information[]"]').val('');
+
+                // Append the cloned form to the container
+                $("#form-container").append(clonedForm);
+
+                subTaskCount++;
+            }
+
+            // Event listener for adding a new subtask
+            $("#tambah-sub").click(function() {
+                cloneForm();
+            });
+
+            // Event listener for removing a cloned form
+            $("body").on("click", "#hapus", function() {
+                if (confirm("Apakah Anda yakin ingin menghapus?")) {
+                    $(this).closest(".dynamic-form").remove();
+                }
+            });
+        });
+    </script>
 
     <script>
-        $('#multiple_name').repeater({
-            initEmpty: false,
+        // Function to fetch and update datalist options
+        function updateDatalistOptions(divisionID) {
+            $.ajax({
+                url: "/get-task-by-division/" + divisionID,
+                method: "GET",
+                dataType: "json",
+                success: function(response) {
+                    var datalistOptions = $("#datalistOptions");
 
-            defaultValues: {
-                'text-input': 'foo'
-            },
+                    console.log(response)
 
-            show: function() {
-                $(this).slideDown();
-                // $('.select2-container').remove();
-                $('.select2-opt').select2({
-                    placeholder: "Placeholder text",
-                    allowClear: true
-                });
-                // $('.select2-container').css('width', '100%');
-            },
+                    // Clear existing options
+                    datalistOptions.empty();
 
-            hide: function(deleteElement) {
-                if (confirm('Apakah Anda yakin ingin menghapus elemen ini?')) {
-                    $(this).slideUp(deleteElement);
+                    // Populate datalist with new options
+                    $.each(response.datas, function(index, task) {
+                        datalistOptions.append($("<option>").attr("value", task.name));
+                    });
+
+                    responseData = response.datas;
+
                 }
-            }
+            });
+        }
+
+        // Event listener for change in division
+        $("body").on("change", "#divisi", function() {
+            var selectedOption = $(this).find(":selected");
+
+            // Get the data-id attribute value
+            var divisionID = selectedOption.data("id");
+
+            // Update datalist options
+            updateDatalistOptions(divisionID);
+        });
+
+        // Event listener for input focus on pekerjaan
+        $("body").on("input", "#sub_pekerjaan", function() {
+            var divisionID = $("#divisi").find(":selected").data("id");
+
+            // Update datalist options
+            updateDatalistOptions(divisionID);
+
+            // Get the selected value from the input field
+            var selectedValue = $(this).val();
+
+            // Find the corresponding task in the response datas
+            var selectedTask = responseData.find(task => task.name === selectedValue);
+
+            // Update the unit input field with the unit of the selected task
+            // $("#unit").val(selectedTask ? selectedTask.unit : "");
+
+            $(this).closest('.row').find('div.col-3 input[name="unit[]"]').val(selectedTask.unit)
+
+            // Handle the selected value as needed
+            console.log("Selected Value:", selectedTask);
+
+            // You can perform additional actions here based on the selected value
         });
     </script>
 @endpush

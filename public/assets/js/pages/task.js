@@ -41,6 +41,11 @@ $("#kt_datatable_dom_positioning").DataTable({
         },
         {
             orderable: true,
+            data: "division",
+            name: "division",
+        },
+        {
+            orderable: true,
             data: "unit",
             name: "unit",
         },

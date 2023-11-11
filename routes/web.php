@@ -21,6 +21,8 @@ use App\Http\Controllers\Admin\SupervisingConsultantController;
 use App\Http\Controllers\Admin\ActingCommitmentMarkerController;
 use App\Http\Controllers\Admin\DivisionMasterDataController;
 use App\Http\Controllers\Admin\TaskMasterDataController;
+use App\Http\Controllers\GetTaskByDivisionController;
+use App\Http\Controllers\GetTaskUnitController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiteSupervisor\DashboardSiteSupervisorController;
 use App\Http\Controllers\SiteSupervisor\TaskReportSiteSupervisorController;
@@ -170,6 +172,8 @@ Route::get('reject-reason/{taskReportID}', [TaskReportAgreementController::class
 Route::post('terminate-contract/{taskReportID}', TerminateContractController::class);
 
 Route::get('surat-sp/{id}', [SuratSpController::class, 'index'])->name('surat.sp');
+
+Route::get('get-task-by-division/{divisionID}', GetTaskByDivisionController::class);
 
 // Route::get('save', function () {
 //     $users = array(
