@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\SupervisingConsultantController;
 use App\Http\Controllers\Admin\ActingCommitmentMarkerController;
 use App\Http\Controllers\Admin\DivisionMasterDataController;
 use App\Http\Controllers\Admin\TaskMasterDataController;
+use App\Http\Controllers\ExportPDFController;
 use App\Http\Controllers\GetTaskByDivisionController;
 use App\Http\Controllers\GetTaskUnitController;
 use App\Http\Controllers\ProfileController;
@@ -152,6 +153,9 @@ Route::put('update-profile/{id}', [ProfileController::class, 'update'])->name('u
 Route::get('count-percentage/{id}', [KindOfWorkController::class, 'countPercentage']);
 
 Route::get('report/{id}', [TaskReportAdminController::class, 'report'])->name('report');
+Route::post('export-report', [ExportPDFController::class, 'exportAllReport'])->name('export.pdf.all.report');
+
+
 Route::get('weekly-report/{id}/{week}', [TaskReportAdminController::class, 'reportWeekly'])->name('weekly.report');
 
 Route::get('get-progress-picture/{id}', [KindOfWorkController::class, 'getProgressPictures'])->name('get.progress.picture');
