@@ -190,6 +190,7 @@
                 clonedForm.find('select[name="name[]"]').val(' '); // Assuming ' ' is the default value
                 clonedForm.find('input[name="sub_name[]"]').val('');
                 clonedForm.find('input[name="unit[]"]').val('');
+                clonedForm.find('input[name="id[]"]').val('');
                 clonedForm.find('textarea[name="information[]"]').val('');
 
                 // Append the cloned form to the container

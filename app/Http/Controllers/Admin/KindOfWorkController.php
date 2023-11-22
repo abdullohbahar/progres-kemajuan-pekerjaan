@@ -118,6 +118,7 @@ class KindOfWorkController extends Controller
 
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         $kindOfWork = KindOfWork::where('id', $request->kind_of_work_id)->firstorfail();
 
         try {
@@ -135,7 +136,7 @@ class KindOfWorkController extends Controller
                 // else create
                 if ($request->id[$key]) {
                     $idKindOfWorkDetail = $request->id[$key];
-                    KindOfWorkDetail::where('id', $idKindOfWorkDetail)->update([
+                    $kind = KindOfWorkDetail::where('id', $idKindOfWorkDetail)->update([
                         'name' => $subName,
                         'information' => $request->information[$key],
                         'mc_unit' => $request->unit[$key],

@@ -5,80 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-
-    <style>
-        body {
-            padding-left: 10px;
-            padding-right: 10px;
-        }
-
-        @media print {
-            body {
-                display: table;
-                table-layout: fixed;
-                padding-top: 10px;
-                padding-bottom: 10px;
-                margin-left: 20px;
-                margin-right: 20px;
-            }
-
-            .page-break {
-                page-break-after: always;
-                page-break-before: always;
-                margin-top: 100px;
-            }
-
-            .print-separate {
-                page-break-inside: avoid;
-                margin-top: 50px;
-            }
-
-            @page {
-                size: 330mm 210mm;
-                /* Mengatur ukuran kertas F4 dengan orientasi landscape */
-                margin: 1cm;
-                /* Atur margin sesuai kebutuhan */
-            }
-
-            .hide-print {
-                display: none !important;
-            }
-        }
-    </style>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
-
-
     <title>PROGRES KEMAJUAN PEKERJAAN</title>
 </head>
 
-<body style="font-size: 12pt">
-    <div class="container mb-5 mt-3 hide-print">
-        <div class="row justify-content-end">
-            <div class="col-12 text-end">
-                {{-- export pdf --}}
-                {{-- <form action="{{ route('export.pdf.all.report') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="id" value="{{ $taskReport->id }}">
-                    <input type="hidden" name="chart" class="chartField">
-                    <button type="submit" class="btn btn-danger btn-sm">Export PDF <i
-                            class="fas fa-file-pdf"></i></button>
-                        </form> --}}
-                <a href="{{ route('export.all.report.excel', $taskReport->id) }}" type="button"
-                    class="btn btn-success btn-sm">Export Excel <i class="fas fa-file-pdf"></i></a>
-                <button type="button" id="exportPDF" class="btn btn-danger btn-sm">Export PDF <i
-                        class="fas fa-file-pdf"></i></button>
-            </div>
-        </div>
-    </div>
-    <div class="container text-center mt-4">
+<body>
+    <div>
         <h4><b>PROGRES KEMAJUAN PEKERJAAN</b></h4>
     </div>
-    <div class="card-body" style="font-size: 14px">
-        <div class="row">
-            <div class="col-sm-12 col-md-7">
-                <table class="table table-borderless" style="width: 100%">
+    <div>
+        <div>
+            <div>
+                <table>
                     <tr>
                         <td style="width: 30%"><b>Nama Kegiatan</b></td>
                         <td class="vertically-centered">: {{ $taskReport->activity_name }}</td>
@@ -149,23 +86,23 @@
         </div>
     </div>
 
-    <table class="table table-bordered" style="width: 80%">
+    <table>
         <tr class="fw-bolder text-center">
-            <td rowspan="3" style="vertical-align: middle" colspan="2">
+            <td rowspan="3" colspan="2">
                 No
             </td>
-            <td rowspan="3" style="vertical-align: middle; width: 20%">
+            <td rowspan="3">
                 Macam Pekerjaan
             </td>
-            <td rowspan="3" style="vertical-align: middle">
+            <td rowspan="3">
                 Satuan
             </td>
-            <td rowspan="3" style="vertical-align: middle">
+            <td rowspan="3">
                 Volume
             </td>
-            <td rowspan="3" style="vertical-align: middle">Harga Satuan (Rp)</td>
-            <td rowspan="3" style="vertical-align: middle">Jumlah Harga (Rp)</td>
-            <td rowspan="3" style="vertical-align: middle">Nilai Pekerjaan</td>
+            <td rowspan="3">Harga Satuan (Rp)</td>
+            <td rowspan="3">Jumlah Harga (Rp)</td>
+            <td rowspan="3">Nilai Pekerjaan</td>
             <td colspan="{{ $schedules->count() }}">
                 Minggu Ke</td>
         </tr>
@@ -173,7 +110,7 @@
             @for ($i = 0; $i < $schedules->count(); $i++)
                 <td>{{ $i + 1 }}</td>
             @endfor
-        </tr class="text-center">
+        </tr>
         <tr>
             @foreach ($schedules as $schedule)
                 <td class="text-center">{{ $schedule->date }}</td>
@@ -337,169 +274,6 @@
             </td>
         </tr>
     </table>
-
-    <center>
-        <div class="row page-break" style="margin-top: 100px">
-            <div class="col-12">
-                <div id="chartContainer" style="width: 100%;"></div>
-            </div>
-        </div>
-    </center>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
-    </script>
-    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
-    <script src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
-
-    {{-- <script>
-        window.onload = function() {
-            var totalTimeSchedule = @json($totalTimeSchedule); // Menyisipkan variabel PHP ke dalam JavaScript
-
-            var max = Math.max.apply(Math, totalTimeSchedule) + 15;
-
-            var options = {
-                animationEnabled: true,
-                axisY: {
-                    title: "Persentase",
-                    maximum: max
-                },
-                data: [{
-                    type: "spline",
-                    name: "Projected Sales 1",
-                    dataPoints: []
-                }, {
-                    type: "spline",
-                    name: "Projected Sales 2",
-                    dataPoints: []
-                }, ]
-            };
-
-            // Menambahkan data dari totalTimeSchedule ke dataPoints
-            for (var i = 0; i < totalTimeSchedule.length; i++) {
-                options.data[0].dataPoints.push({
-                    x: i + 1, // Sesuaikan dengan tanggal yang sesuai
-                    y: totalTimeSchedule[i],
-                    label: "Minggu Ke-" + (i + 1) // Menambahkan teks label di bawah data
-                });
-            }
-
-            for (var i = 0; i < totalTimeSchedule.length; i++) {
-                options.data[1].dataPoints.push({
-                    x: i + 1, // Sesuaikan dengan tanggal yang sesuai
-                    y: totalTimeSchedule[i] + 5,
-                    label: "Minggu Ke-" + (i + 1) // Menambahkan teks label di bawah data
-                });
-            }
-
-            $("#chartContainer").CanvasJSChart(options);
-
-        }
-    </script> --}}
-
-    <script>
-        window.onload = function() {
-            var totalTimeSchedule = @json($totalTimeSchedule); // Menyisipkan variabel PHP ke dalam JavaScript
-            var cumulativeTimeSchedules = @json($cumulativeTimeSchedules); // Menyisipkan variabel PHP ke dalam JavaScript
-            var max = Math.max.apply(Math, totalTimeSchedule) + 15;
-
-            var options = {
-                theme: "light2",
-                maximum: max,
-                axisY: {
-                    title: "Presentase",
-                    minimum: -10
-                },
-                toolTip: {
-                    shared: true
-                },
-                legend: {
-                    cursor: "pointer",
-                    verticalAlign: "bottom",
-                    horizontalAlign: "left",
-                    dockInsidePlotArea: true,
-                    itemclick: toogleDataSeries
-                },
-                data: [{
-                        type: "spline",
-                        showInLegend: true,
-                        name: "Kemajuan Pekerjaan Kumulatif	",
-                        markerType: "square",
-                        color: "#F08080",
-                        dataPoints: []
-                    },
-                    {
-                        type: "spline",
-                        showInLegend: true,
-                        name: "Time Schedule Pekerjaan Kumulatif",
-                        lineDashType: "dash",
-                        dataPoints: []
-                    }
-                ]
-            };
-
-            // Menambahkan data dari totalTimeSchedule ke dataPoints
-            for (var i = 0; i < totalTimeSchedule.length; i++) {
-                options.data[0].dataPoints.push({
-                    x: i + 1, // Sesuaikan dengan tanggal yang sesuai
-                    y: totalTimeSchedule[i],
-                    label: "Minggu Ke-" + (i + 1) // Menambahkan teks label di bawah data
-                });
-            }
-
-            for (var i = 0; i < cumulativeTimeSchedules.length; i++) {
-                options.data[1].dataPoints.push({
-                    x: i + 1, // Sesuaikan dengan tanggal yang sesuai
-                    y: cumulativeTimeSchedules[i],
-                    label: "Minggu Ke-" + (i + 1) // Menambahkan teks label di bawah data
-                });
-            }
-
-            $("#chartContainer").CanvasJSChart(options);
-
-            function toogleDataSeries(e) {
-                if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-                    e.dataSeries.visible = false;
-                } else {
-                    e.dataSeries.visible = true;
-                }
-                e.chart.render();
-            }
-
-        }
-    </script>
-
-    <script>
-        // Fungsi untuk menambahkan "ATAS SENDIRI" ke setiap halaman cetak baru
-        function addHeaderToNewPage() {
-            var newPageHeader = document.createElement('div');
-            newPageHeader.textContent = 'ATAS SENDIRI';
-            newPageHeader.style.position = 'fixed';
-            newPageHeader.style.top = '0';
-            newPageHeader.style.width = '100%';
-            newPageHeader.style.text - align = 'center';
-
-            document.body.appendChild(newPageHeader);
-        }
-
-        // Memantau perubahan halaman cetak
-        window.onbeforeprint = function() {
-            addHeaderToNewPage();
-        }
-    </script>
-
-    <script>
-        // setTimeout(() => {
-        //     var canvas = $("#chartContainer .canvasjs-chart-canvas").get(0);
-        //     var dataURL = canvas.toDataURL();
-
-        //     $(".chartField").val(dataURL);
-        // }, 1000);
-
-        $("#exportPDF").on("click", function() {
-            window.print()
-        })
-    </script>
 </body>
 
 </html>
