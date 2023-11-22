@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\AllReportExport;
 use DataTables;
 use Carbon\Carbon;
 use App\Models\Option;
@@ -17,6 +18,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SupervisingConsultant;
 use App\Models\ActingCommitmentMarker;
 use App\Http\Controllers\SupervisingConsultant\TaskReportSupervisingConsultantController;
+use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 
 class TaskReportAdminController extends Controller
@@ -309,6 +311,13 @@ class TaskReportAdminController extends Controller
         // return $pdf->download("Surat SP $taskReport->task_name.pdf", $data);
 
         return view('admin.task-report.report', $data);
+    }
+
+    public function exportAllReportExcel($id)
+    {
+        $taskReport = TaskReport::with('kindOfWork.kindOfWorkDetails.timeSchedules')->findorfail($id);
+
+        return Excel::download(new AllReportExport($id), $taskReport->task_name . '.xlsx');
     }
 
     public function reportWeekly($id, $week)

@@ -153,8 +153,7 @@ Route::put('update-profile/{id}', [ProfileController::class, 'update'])->name('u
 Route::get('count-percentage/{id}', [KindOfWorkController::class, 'countPercentage']);
 
 Route::get('report/{id}', [TaskReportAdminController::class, 'report'])->name('report');
-Route::post('export-report', [ExportPDFController::class, 'exportAllReport'])->name('export.pdf.all.report');
-
+Route::get('export-all-report-excel/{id}', [TaskReportAdminController::class, 'exportAllReportExcel'])->name('export.all.report.excel');
 
 Route::get('weekly-report/{id}/{week}', [TaskReportAdminController::class, 'reportWeekly'])->name('weekly.report');
 
