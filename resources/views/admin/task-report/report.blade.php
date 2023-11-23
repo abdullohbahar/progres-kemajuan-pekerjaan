@@ -438,6 +438,18 @@
                 ]
             };
 
+            // Membuat Minggu ke 0
+            options.data[0].dataPoints.push({
+                x: 0, // Sesuaikan dengan tanggal yang sesuai
+                y: 0,
+                label: "Minggu Ke-0" // Menambahkan teks label di bawah data
+            });
+            options.data[1].dataPoints.push({
+                x: 0, // Sesuaikan dengan tanggal yang sesuai
+                y: 0,
+                label: "Minggu Ke-0" // Menambahkan teks label di bawah data
+            });
+
             // Menambahkan data dari totalTimeSchedule ke dataPoints
             for (var i = 0; i < totalTimeSchedule.length; i++) {
                 options.data[0].dataPoints.push({
