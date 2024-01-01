@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterSheet;
 
-class AllReportExport implements FromView
+class AllReportExport implements FromView, WithEvents
 {
     protected $id;
 
@@ -74,5 +76,40 @@ class AllReportExport implements FromView
         ];
 
         return view('export.all-report-excel', $data);
+    }
+
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class => function (AfterSheet $event) {
+                // Here, you can define which cells to merge.
+                // For example, merging cells from A1 to D1:
+                $event->sheet->mergeCells('A1:B1');
+                // $event->sheet->mergeCells('A2:D2');
+                // $event->sheet->mergeCells('A3:D3');
+                // $event->sheet->mergeCells('A4:D4');
+                // $event->sheet->mergeCells('A5:D5');
+                // $event->sheet->mergeCells('A6:D6');
+                // $event->sheet->mergeCells('A7:D7');
+
+                foreach (range('A', 'Z') as $column) {
+                    $event->sheet->getColumnDimension($column)->setAutoSize(true);
+                }
+
+                // Get the highest row number (last row)
+                $highestRow = $event->sheet->getDelegate()->getHighestDataRow();
+
+                for ($row = 1; $row < $highestRow; $row++) {
+                    $event->sheet->getDelegate()->getRowDimension($row)->setRowHeight(20);
+                }
+
+                // Set row height for the last row to 50 units
+                for ($row = 1; $row <= $highestRow; $row++) {
+                    if ($row == $highestRow) { // Check if it's the last row
+                        $event->sheet->getDelegate()->getRowDimension($row)->setRowHeight(150);
+                    }
+                }
+            },
+        ];
     }
 }
