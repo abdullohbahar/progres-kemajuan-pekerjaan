@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\AllReportExport;
+use App\Exports\WeeklyReportExport;
 use DataTables;
 use Carbon\Carbon;
 use App\Models\Option;
@@ -319,6 +320,13 @@ class TaskReportAdminController extends Controller
 
         return Excel::download(new AllReportExport($id), $taskReport->task_name . '.xlsx');
     }
+
+    // public function exportWeeklyReportExcel($id, $week)
+    // {
+    //     $taskReport = TaskReport::with('kindOfWork.kindOfWorkDetails.timeSchedules')->findorfail($id);
+
+    //     return Excel::download(new WeeklyReportExport($id, $week), $taskReport->task_name . '.xlsx');
+    // }
 
     public function reportWeekly($id, $week)
     {

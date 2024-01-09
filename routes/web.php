@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\ActingCommitmentMarkerController;
 use App\Http\Controllers\Admin\DivisionMasterDataController;
 use App\Http\Controllers\Admin\TaskMasterDataController;
 use App\Http\Controllers\ExportPDFController;
+use App\Http\Controllers\ExportWeeklyReportExcel;
 use App\Http\Controllers\GetTaskByDivisionController;
 use App\Http\Controllers\GetTaskUnitController;
 use App\Http\Controllers\ProfileController;
@@ -154,6 +155,7 @@ Route::get('count-percentage/{id}', [KindOfWorkController::class, 'countPercenta
 
 Route::get('report/{id}', [TaskReportAdminController::class, 'report'])->name('report');
 Route::get('export-all-report-excel/{id}', [TaskReportAdminController::class, 'exportAllReportExcel'])->name('export.all.report.excel');
+Route::get('export-weekly-report-excel/{id}/{week}', ExportWeeklyReportExcel::class)->name('export.weekly.report.excel');
 
 Route::get('weekly-report/{id}/{week}', [TaskReportAdminController::class, 'reportWeekly'])->name('weekly.report');
 
